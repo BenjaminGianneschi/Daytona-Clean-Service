@@ -16,6 +16,19 @@
   box-shadow: 0 0 40px var(--primary-color);
 }
 
+/* ===== HERO REVERSE ===== */
+.hero-section.reverse {
+  flex-direction: row-reverse;
+  background: linear-gradient(270deg, rgba(18, 18, 18, 0.9) 40%, transparent 100%);
+}
+
+.hero-section.reverse .hero-image {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
 /* ===== HERO SLIDER (CARRUSEL) ===== */
 .hero-slider {
   position: absolute;
@@ -434,8 +447,11 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
-  .hero-section {
-    height: 300px;
+  .hero-section,
+  .hero-section.reverse {
+    flex-direction: column;
+    height: auto;
+    min-height: 300px;
     margin: 30px auto;
   }
 
