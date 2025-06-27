@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promociones y Combos - Daytona Clean Service</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts - Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Animate.css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
+  <link rel="stylesheet" href="css/components/buttons.css" />
+  <link rel="stylesheet" href="css/components/forms.css" />
+  <link rel="stylesheet" href="css/promociones.css" />
+</head>
+
+<script src="js/include-header.js"></script>
+
+<body>
+
+  <div id="header-container"></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="box-shadow: 0 0 40px #ff3b3f; min-height: 60vh;">
+    <div class="hero-slider">
+      <div class="slide active" style="background: url('img/autodeatalle1.jpg') center center/cover no-repeat;"></div>
+      <div class="slide" style="background: url('img/colchonvapor.jpg') center center/cover no-repeat;"></div>
+      <div class="slide" style="background: url('img/asientosucio.jpg') center center/cover no-repeat;"></div>
+      <div class="slide" style="background: url('img/colchonlimpio.jpg') center center/cover no-repeat;"></div>
+    </div>
+    <div class="hero-text">
+      <h1 class="animate__animated animate__fadeInDown">Promociones y Combos Mensuales</h1>
+      <p class="animate__animated animate__fadeInUp fs-5">
+        Ahorrá tiempo y dinero con nuestros planes mensuales de limpieza convencional de vehículos. 
+        Mantené tu flota impecable todo el año con descuentos especiales por volumen.
+      </p>
+      <a href="#planes" class="btn btn-primary btn-lg mt-3 animate__animated animate__fadeInUp">Ver Planes</a>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">¿Por qué elegir nuestros planes mensuales?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fas fa-percentage"></i>
+        </div>
+        <h5 class="text-danger fw-bold mb-3">Descuentos por Volumen</h5>
+        <p class="text-light">Ahorrá hasta un 22% en el precio por lavado contando múltiples vehículos.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fas fa-calendar-check"></i>
+        </div>
+        <h5 class="text-danger fw-bold mb-3">Programación Flexible</h5>
+        <p class="text-light">Coordina los horarios que mejor te convengan para cada vehículo de tu flota.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h5 class="text-danger fw-bold mb-3">Calidad Garantizada</h5>
+        <p class="text-light">Mismo nivel de excelencia en cada servicio, sin importar el plan contratado.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <i class="fas fa-credit-card"></i>
+        </div>
+        <h5 class="text-danger fw-bold mb-3">Pago Mensual</h5>
+        <p class="text-light">Facilita la gestión financiera con un pago único mensual por todos los servicios.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planes de Precios -->
+  <section id="planes" class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Planes Mensuales de Limpieza Convencional</h2>
+    <p class="text-center text-light mb-5 fs-5">Cada plan incluye 2 lavados por vehículo por mes</p>
+    
+    <div class="row g-4 justify-content-center">
+      <!-- Plan 1 Auto -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Individual</h4>
+            <div class="price">$40.000</div>
+            <div class="price-small">por mes</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 1 vehículo</li>
+              <li><i class="fas fa-tint"></i> 2 lavados por mes</li>
+              <li><i class="fas fa-dollar-sign"></i> $20.000 por lavado</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Individual%20de%20%2440.000%20por%20mes" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan 5 Autos -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100 featured">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Familiar</h4>
+            <div class="price">$185.000</div>
+            <div class="price-small">por mes</div>
+            <div class="savings-badge">Ahorrás $15.000</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 5 vehículos</li>
+              <li><i class="fas fa-tint"></i> 2 lavados por mes</li>
+              <li><i class="fas fa-dollar-sign"></i> $18.500 por lavado</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> 7.5% de descuento</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Familiar%20de%20%24185.000%20por%20mes" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan 10 Autos -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Empresarial</h4>
+            <div class="price">$340.000</div>
+            <div class="price-small">por mes</div>
+            <div class="savings-badge">Ahorrás $60.000</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 10 vehículos</li>
+              <li><i class="fas fa-tint"></i> 2 lavados por mes</li>
+              <li><i class="fas fa-dollar-sign"></i> $17.000 por lavado</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> 15% de descuento</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Empresarial%20de%20%24340.000%20por%20mes" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan 20 Autos -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Flota</h4>
+            <div class="price">$620.000</div>
+            <div class="price-small">por mes</div>
+            <div class="savings-badge">Ahorrás $180.000</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 20 vehículos</li>
+              <li><i class="fas fa-tint"></i> 2 lavados por mes</li>
+              <li><i class="fas fa-dollar-sign"></i> $15.500 por lavado</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> 22.5% de descuento</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Flota%20de%20%24620.000%20por%20mes" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabla Comparativa -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Comparación de Precios</h2>
+    <div class="table-responsive">
+      <table class="table comparison-table">
+        <thead>
+          <tr>
+            <th>Cantidad de vehículos</th>
+            <th>Precio sin plan (2 lavados c/u)</th>
+            <th>Precio mensual con plan</th>
+            <th>Precio por lavado</th>
+            <th>Ahorro mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1 auto</strong></td>
+            <td>$40.000</td>
+            <td class="highlight">$40.000</td>
+            <td>$20.000</td>
+            <td>$0</td>
+          </tr>
+          <tr>
+            <td><strong>5 autos</strong></td>
+            <td>$200.000</td>
+            <td class="highlight">$185.000</td>
+            <td>$18.500</td>
+            <td class="text-success">$15.000</td>
+          </tr>
+          <tr>
+            <td><strong>10 autos</strong></td>
+            <td>$400.000</td>
+            <td class="highlight">$340.000</td>
+            <td>$17.000</td>
+            <td class="text-success">$60.000</td>
+          </tr>
+          <tr>
+            <td><strong>20 autos</strong></td>
+            <td>$800.000</td>
+            <td class="highlight">$620.000</td>
+            <td>$15.500</td>
+            <td class="text-success">$180.000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Información Adicional -->
+  <section class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="feature-card p-4 h-100">
+          <h4 class="text-danger fw-bold mb-4"><i class="fas fa-info-circle me-2"></i>¿Qué incluye cada lavado?</h4>
+          <ul class="text-light">
+            <li>Lavado exterior completo</li>
+            <li>Aspirado interior</li>
+            <li>Limpieza de tablero y consola</li>
+            <li>Limpieza de vidrios</li>
+            <li>Secado manual</li>
+            <li>Productos profesionales 3D</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="feature-card p-4 h-100">
+          <h4 class="text-danger fw-bold mb-4"><i class="fas fa-question-circle me-2"></i>Preguntas Frecuentes</h4>
+          <div class="accordion" id="faqAccordion">
+            <div class="accordion-item" style="background: transparent; border: 1px solid #333;">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background: #2a2a2a; color: white;">
+                  ¿Puedo cambiar los vehículos del plan?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-light">
+                  Sí, podés cambiar los vehículos del plan con previo aviso de 48 horas.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" style="background: transparent; border: 1px solid #333;">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background: #2a2a2a; color: white;">
+                  ¿Qué pasa si no uso todos los lavados del mes?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-light">
+                  Los lavados no utilizados se pierden al final del mes. Te recomendamos programar todos los servicios.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" style="background: transparent; border: 1px solid #333;">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: #2a2a2a; color: white;">
+                  ¿Puedo cancelar el plan en cualquier momento?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-light">
+                  Sí, podés cancelar el plan con 30 días de anticipación.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <h2 class="mb-4">¿Listo para ahorrar en la limpieza de tu flota?</h2>
+      <p class="fs-5 mb-4">Contactanos hoy mismo y obtené tu descuento especial por volumen</p>
+      <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20los%20planes%20mensuales%20de%20limpieza" 
+         class="btn btn-light btn-lg me-3" target="_blank">
+        <i class="fab fa-whatsapp me-2"></i>Consultar por WhatsApp
+      </a>
+      <a href="tel:+5493482588383" class="btn btn-outline-light btn-lg">
+        <i class="fas fa-phone me-2"></i>Llamar Ahora
+      </a>
+    </div>
+  </section>
+
+  <!-- PLANES DE MOBILIARIO - OPCIÓN 1: POR TIPO -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Planes de Mobiliario por Tipo</h2>
+    <p class="text-center text-light mb-5 fs-5">Mantenimiento preventivo especializado para cada tipo de mobiliario</p>
+    
+    <div class="row g-4 justify-content-center">
+      <!-- Plan Hogar Completo -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100 featured">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Hogar Completo</h4>
+            <div class="price">$180.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 15%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-couch"></i> 2 sillones</li>
+              <li><i class="fas fa-bed"></i> 1 colchón 2 plazas</li>
+              <li><i class="fas fa-rug"></i> 1 alfombra mediana</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> Productos hipoalergénicos</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Hogar%20Completo%20de%20%24180.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Oficina -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Oficina</h4>
+            <div class="price">$120.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 10%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-chair"></i> 5 sillas de escritorio</li>
+              <li><i class="fas fa-couch"></i> 1 sofá de recepción</li>
+              <li><i class="fas fa-rug"></i> 1 alfombra de oficina</li>
+              <li><i class="fas fa-building"></i> Servicio en oficina</li>
+              <li><i class="fas fa-clock"></i> Horarios laborales</li>
+              <li><i class="fas fa-gift"></i> Productos profesionales</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Oficina%20de%20%24120.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Clínica/Sanatorio -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Clínica/Sanatorio</h4>
+            <div class="price">$200.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 12%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-chair"></i> 8 sillas de espera</li>
+              <li><i class="fas fa-couch"></i> 1 sofá de recepción</li>
+              <li><i class="fas fa-rug"></i> 1 alfombra de entrada</li>
+              <li><i class="fas fa-hospital"></i> Servicio en clínica</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> Productos hipoalergénicos</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Clínica%2FSanatorio%20de%20%24200.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Servicio a Medida -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Servicio a Medida</h4>
+            <div class="price">Consultar</div>
+            <div class="price-small">presupuesto personalizado</div>
+            <div class="savings-badge">FLEXIBLE</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-cog"></i> Combinación personalizada</li>
+              <li><i class="fas fa-couch"></i> Cantidad a tu medida</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios exclusivos</li>
+              <li><i class="fas fa-tools"></i> Productos especializados</li>
+              <li><i class="fas fa-gift"></i> Descuentos especiales</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20un%20presupuesto%20personalizado%20para%20servicio%20de%20mobiliario%20a%20medida" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Solicitar Presupuesto
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES DE MOBILIARIO - OPCIÓN 2: POR FRECUENCIA -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Planes de Mobiliario por Frecuencia</h2>
+    <p class="text-center text-light mb-5 fs-5">Elegí la frecuencia que mejor se adapte a tus necesidades</p>
+    
+    <div class="row g-4 justify-content-center">
+      <!-- Plan Básico -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Básico</h4>
+            <div class="price">$90.000</div>
+            <div class="price-small">por servicio</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-calendar"></i> 1 limpieza cada 6 meses</li>
+              <li><i class="fas fa-couch"></i> Hasta 2 piezas de mobiliario</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-tools"></i> Productos básicos</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Básico%20de%20mobiliario%20de%20%2490.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Premium -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100 featured">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Premium</h4>
+            <div class="price">$150.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">MÁS POPULAR</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-calendar"></i> 1 limpieza cada 4 meses</li>
+              <li><i class="fas fa-couch"></i> Hasta 4 piezas de mobiliario</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-tools"></i> Productos premium</li>
+              <li><i class="fas fa-gift"></i> 8% descuento</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Premium%20de%20mobiliario%20de%20%24150.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan VIP -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan VIP</h4>
+            <div class="price">$220.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 12%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-calendar"></i> 1 limpieza cada 3 meses</li>
+              <li><i class="fas fa-couch"></i> Hasta 6 piezas de mobiliario</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios prioritarios</li>
+              <li><i class="fas fa-tools"></i> Productos premium</li>
+              <li><i class="fas fa-gift"></i> 12% descuento</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20VIP%20de%20mobiliario%20de%20%24220.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Personalizado -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Personalizado</h4>
+            <div class="price">Consultar</div>
+            <div class="price-small">precio a medida</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-cog"></i> Frecuencia personalizada</li>
+              <li><i class="fas fa-couch"></i> Cantidad ilimitada</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios exclusivos</li>
+              <li><i class="fas fa-tools"></i> Productos especializados</li>
+              <li><i class="fas fa-gift"></i> Descuentos especiales</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20un%20Plan%20Personalizado%20de%20mobiliario" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMBOS ESPECIALES - SILLAS DE COMEDOR -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Combos Especiales - Sillas de Comedor</h2>
+    <p class="text-center text-light mb-5 fs-5">Los combos más populares para familias y restaurantes</p>
+    
+    <div class="row g-4 justify-content-center">
+      <!-- Combo Familiar -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Combo Familiar</h4>
+            <div class="price">$50.000</div>
+            <div class="price-small">5 sillas</div>
+            <div class="savings-badge">Ahorrás 17%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-chair"></i> 5 sillas tapizadas</li>
+              <li><i class="fas fa-tint"></i> Limpieza profunda</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Secado incluido</li>
+              <li><i class="fas fa-gift"></i> Productos premium</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20el%20Combo%20Familiar%20de%205%20sillas%20por%20%2450.000" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Combo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combo Restaurante -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100 featured">
+          <div class="pricing-header">
+            <h4 class="mb-2">Combo Restaurante</h4>
+            <div class="price">$90.000</div>
+            <div class="price-small">10 sillas</div>
+            <div class="savings-badge">Ahorrás 25%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-chair"></i> 10 sillas tapizadas</li>
+              <li><i class="fas fa-tint"></i> Limpieza profunda</li>
+              <li><i class="fas fa-utensils"></i> Servicio en restaurante</li>
+              <li><i class="fas fa-clock"></i> Horarios nocturnos</li>
+              <li><i class="fas fa-gift"></i> Productos especializados</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20el%20Combo%20Restaurante%20de%2010%20sillas%20por%20%2490.000" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Combo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combo Eventos -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Combo Eventos</h4>
+            <div class="price">$160.000</div>
+            <div class="price-small">20 sillas</div>
+            <div class="savings-badge">Ahorrás 33%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-chair"></i> 20 sillas tapizadas</li>
+              <li><i class="fas fa-tint"></i> Limpieza profunda</li>
+              <li><i class="fas fa-calendar"></i> Servicio express</li>
+              <li><i class="fas fa-clock"></i> Secado rápido</li>
+              <li><i class="fas fa-gift"></i> Productos premium</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20el%20Combo%20Eventos%20de%2020%20sillas%20por%20%24160.000" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Contratar Combo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combo Personalizado -->
+      <div class="col-lg-3 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Combo Personalizado</h4>
+            <div class="price">Consultar</div>
+            <div class="price-small">cantidad a medida</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-cog"></i> Cantidad personalizada</li>
+              <li><i class="fas fa-tint"></i> Limpieza profunda</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> Descuentos especiales</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20un%20Combo%20Personalizado%20de%20sillas" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Combo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANES COMBINADOS - OPCIÓN 3: HOGAR + VEHÍCULO -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Planes Combinados</h2>
+    <p class="text-center text-light mb-5 fs-5">Ahorrá más contratando múltiples servicios</p>
+    
+    <div class="row g-4 justify-content-center">
+      <!-- Plan Hogar + Vehículo -->
+      <div class="col-lg-4 col-md-6">
+        <div class="pricing-card h-100 featured">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Hogar + Vehículo</h4>
+            <div class="price">$220.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 18%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 1 auto: 2 lavados/mes</li>
+              <li><i class="fas fa-couch"></i> 2 sillones: limpieza completa</li>
+              <li><i class="fas fa-bed"></i> 1 colchón: limpieza profunda</li>
+              <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+              <li><i class="fas fa-clock"></i> Horarios flexibles</li>
+              <li><i class="fas fa-gift"></i> 18% descuento total</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Hogar%20%2B%20Vehículo%20de%20%24220.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Empresarial Completo -->
+      <div class="col-lg-4 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Empresarial Completo</h4>
+            <div class="price">$460.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 20%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 5 vehículos: 2 lavados/mes cada uno</li>
+              <li><i class="fas fa-chair"></i> 10 sillas de oficina</li>
+              <li><i class="fas fa-couch"></i> 2 sofás de recepción</li>
+              <li><i class="fas fa-building"></i> Servicio en empresa</li>
+              <li><i class="fas fa-clock"></i> Horarios laborales</li>
+              <li><i class="fas fa-gift"></i> 20% descuento total</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Empresarial%20Completo%20de%20%24460.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Premium Total -->
+      <div class="col-lg-4 col-md-6">
+        <div class="pricing-card h-100">
+          <div class="pricing-header">
+            <h4 class="mb-2">Plan Premium Total</h4>
+            <div class="price">$690.000</div>
+            <div class="price-small">por servicio</div>
+            <div class="savings-badge">Ahorrás 25%</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="feature-list">
+              <li><i class="fas fa-car"></i> 10 vehículos: 2 lavados/mes cada uno</li>
+              <li><i class="fas fa-couch"></i> 5 sillones: limpieza completa</li>
+              <li><i class="fas fa-bed"></i> 3 colchones: limpieza profunda</li>
+              <li><i class="fas fa-rug"></i> 2 alfombras: limpieza</li>
+              <li><i class="fas fa-home"></i> Servicio prioritario</li>
+              <li><i class="fas fa-gift"></i> 25% descuento total</li>
+            </ul>
+            <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20el%20Plan%20Premium%20Total%20de%20%24690.000%20por%20servicio" 
+               class="btn btn-primary w-100" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>Consultar Plan
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLA COMPARATIVA DE MOBILIARIO -->
+  <section class="container py-5">
+    <h2 class="text-center text-danger mb-5 fw-bold">Comparación de Precios - Mobiliario</h2>
+    <p class="text-center text-light mb-5 fs-5">Ahorrá contratando múltiples piezas de mobiliario</p>
+    
+    <div class="table-responsive">
+      <table class="table comparison-table">
+        <thead>
+          <tr>
+            <th>Servicio</th>
+            <th>Precio unitario</th>
+            <th>Precio x2 piezas</th>
+            <th>Precio x3 piezas</th>
+            <th>Precio x5 piezas</th>
+            <th>Ahorro con 5 piezas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Colchón 1 plaza</strong></td>
+            <td>$90.000</td>
+            <td class="highlight">$171.000</td>
+            <td class="highlight">$243.000</td>
+            <td class="highlight">$382.500</td>
+            <td class="text-success">$67.500</td>
+          </tr>
+          <tr>
+            <td><strong>Colchón 2 plazas</strong></td>
+            <td>$120.000</td>
+            <td class="highlight">$228.000</td>
+            <td class="highlight">$324.000</td>
+            <td class="highlight">$510.000</td>
+            <td class="text-success">$90.000</td>
+          </tr>
+          <tr>
+            <td><strong>Sillón individual</strong></td>
+            <td>$80.000</td>
+            <td class="highlight">$152.000</td>
+            <td class="highlight">$216.000</td>
+            <td class="highlight">$340.000</td>
+            <td class="text-success">$60.000</td>
+          </tr>
+          <tr>
+            <td><strong>Sillón 2 cuerpos</strong></td>
+            <td>$110.000</td>
+            <td class="highlight">$209.000</td>
+            <td class="highlight">$297.000</td>
+            <td class="highlight">$467.500</td>
+            <td class="text-success">$82.500</td>
+          </tr>
+          <tr>
+            <td><strong>Sillón 3 cuerpos en L</strong></td>
+            <td>$150.000</td>
+            <td class="highlight">$285.000</td>
+            <td class="highlight">$405.000</td>
+            <td class="highlight">$637.500</td>
+            <td class="text-success">$112.500</td>
+          </tr>
+          <tr>
+            <td><strong>Sillas tapizadas</strong></td>
+            <td>$12.000</td>
+            <td class="highlight">$22.800</td>
+            <td class="highlight">$32.400</td>
+            <td class="highlight">$51.000</td>
+            <td class="text-success">$9.000</td>
+          </tr>
+          <tr>
+            <td><strong>Respaldo de cama</strong></td>
+            <td>$55.000</td>
+            <td class="highlight">$104.500</td>
+            <td class="highlight">$148.500</td>
+            <td class="highlight">$233.750</td>
+            <td class="text-success">$41.250</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Información adicional sobre descuentos -->
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <div class="feature-card p-4 h-100">
+          <h4 class="text-danger fw-bold mb-4 text-center"><i class="fas fa-percentage me-2"></i>Escala de Descuentos</h4>
+          <ul class="text-light text-center">
+            <li><strong>2 piezas:</strong> 5% de descuento</li>
+            <li><strong>3 piezas:</strong> 10% de descuento</li>
+            <li><strong>5 piezas:</strong> 15% de descuento</li>
+            <li><strong>10+ piezas:</strong> Consultar descuento especial</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="feature-card p-4 h-100">
+          <h4 class="text-danger fw-bold mb-4 text-center"><i class="fas fa-info-circle me-2"></i>Información Importante</h4>
+          <ul class="text-light text-center">
+            <li>Los descuentos aplican a piezas del mismo tipo</li>
+            <li>Se pueden combinar diferentes tipos de mobiliario</li>
+            <li>Servicio a domicilio incluido en todos los precios</li>
+            <li>Productos profesionales e hipoalergénicos</li>
+            <li>Garantía de satisfacción en todos los servicios</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <h2 class="mb-4">¿Listo para ahorrar en la limpieza de tu flota?</h2>
+      <p class="fs-5 mb-4">Contactanos hoy mismo y obtené tu descuento especial por volumen</p>
+      <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20información%20sobre%20los%20planes%20mensuales%20de%20limpieza" 
+         class="btn btn-light btn-lg me-3" target="_blank">
+        <i class="fab fa-whatsapp me-2"></i>Consultar por WhatsApp
+      </a>
+      <a href="tel:+5493482588383" class="btn btn-outline-light btn-lg">
+        <i class="fas fa-phone me-2"></i>Llamar Ahora
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Daytona - Todos los derechos reservados
+      <a href="https://www.instagram.com/daytona_clean_service" target="_blank" title="Instagram Daytona">
+        <i class="fab fa-instagram fa-lg"></i> @daytona_clean_service
+      </a>
+    </p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- WhatsApp Float -->
+  <script src="js/whatsapp-float.js"></script>
+
+  <!-- Hero Slider Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.slide');
+      let currentSlide = 0;
+      
+      // Verificar que hay slides
+      if (slides.length === 0) return;
+      
+      function nextSlide() {
+        // Ocultar slide actual
+        slides[currentSlide].classList.remove('active');
+        
+        // Avanzar al siguiente slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Mostrar nuevo slide
+        slides[currentSlide].classList.add('active');
+      }
+      
+      // Asegurar que el primer slide esté activo
+      slides[0].classList.add('active');
+      
+      // Cambiar slide cada 3 segundos
+      setInterval(nextSlide, 3000);
+    });
+  </script>
+
+</body>
+
+</html> 

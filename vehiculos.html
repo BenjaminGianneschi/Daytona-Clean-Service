@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daytona - Limpieza Interior Profesional de Vehículos</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Google Fonts - Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- Animate.css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/vehiculos.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
+  <link rel="stylesheet" href="css/components/buttons.css" />
+  <link rel="stylesheet" href="css/components/forms.css" />
+
+
+</head>
+
+<script src="js/include-header.js"></script>
+
+<body>
+
+  <div id="header-container"></div>
+
+  <main>
+
+    <!-- Hero Section con Carrusel -->
+    <section class="hero-section" style="box-shadow: 0 0 40px #ff3b3f; min-height: 60vh;">
+      <div class="hero-slider">
+        <div class="slide active" style="background: url('img/autodeatalle.jpg') center center/cover no-repeat;"></div>
+        <div class="slide" style="background: url('img/autodeatalle1.jpg') center center/cover no-repeat;"></div>
+        <div class="slide" style="background: url('img/toyota1.jpg') center center/cover no-repeat;"></div>
+        <div class="slide" style="background: url('img/toyota5.jpg') center center/cover no-repeat;"></div>
+        <div class="slide" style="background: url('img/audi1.jpg') center center/cover no-repeat;"></div>
+        <div class="slide" style="background: url('img/audi2.jpg') center center/cover no-repeat;"></div>
+      </div>
+      <div class="hero-text">
+        <h1 class="animate__animated animate__fadeInDown">Limpieza Profesional de Vehículos</h1>
+        <p class="animate__animated animate__fadeInUp fs-5">
+          Realizamos una limpieza profunda y eficiente para mantener tu vehículo en perfecto estado, utilizando
+          productos de alta calidad y técnicas avanzadas.
+        </p>
+        <a href="#contacto" class="btn btn-primary btn-lg mt-3 animate__animated animate__fadeInUp">Solicitar Servicio</a>
+      </div>
+    </section>
+
+    <!-- POR QUÉ ELEGIRNOS -->
+    <section class="container py-5">
+      <h2 class="text-center text-danger mb-5 fw-bold">¿Por qué elegirnos para tu vehículo?</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-tools fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Equipamiento Especializado</h5>
+            <p class="text-light">Maquinaria profesional para vehículos, hidrolavadoras y productos específicos para cada superficie.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-shield-alt fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Productos de Primera Línea</h5>
+            <p class="text-light">Utilizamos productos especializados para vehículos, respetando pinturas y materiales.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-home fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Servicio a Domicilio</h5>
+            <p class="text-light">Nos trasladamos a tu hogar o empresa, sin necesidad de mover tu vehículo.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-award fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Garantía de Satisfacción</h5>
+            <p class="text-light">Compromiso total con la calidad. Tu vehículo quedará como nuevo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="process-section">
+      <h2 class="text-center text-danger mb-5">¿Cómo realizamos el servicio?</h2>
+      <div class="process-timeline">
+        <div class="text-center">
+          <div class="process-step">1</div>
+          <div class="process-desc">Reserva tu turno y elige horario.</div>
+        </div>
+        <div class="text-center">
+          <div class="process-step">2</div>
+          <div class="process-desc">Inspección inicial para evaluar el vehículo.</div>
+        </div>
+        <div class="text-center">
+          <div class="process-step">3</div>
+          <div class="process-desc">Limpieza profunda con maquinaria y productos especiales.</div>
+        </div>
+        <div class="text-center">
+          <div class="process-step">4</div>
+          <div class="process-desc">Revisión final para asegurar tu satisfacción.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="container py-5">
+      <h2 class="text-center text-danger mb-5 fw-bold">Beneficios Adicionales</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-building fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Beneficios para Empresas</h5>
+            <p class="text-light">Ofrecemos planes especiales para flotas, concesionarias o negocios con necesidades recurrentes. Consultá por convenios a medida.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-users fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Descuentos por Volumen</h5>
+            <p class="text-light">Accedé a precios especiales contratando múltiples servicios o al superar un monto mínimo. Ideal para familias, grupos o empresas.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card text-center p-4">
+            <div class="feature-icon mb-3">
+              <i class="fas fa-gift fa-2x text-danger"></i>
+            </div>
+            <h5 class="text-danger fw-bold mb-3">Promociones y Combos</h5>
+            <p class="text-light">Disfrutá promociones mensuales o adherite a nuestros planes anuales para mantener tu vehículo impecable todo el año.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO SECUNDARIOS -->
+    <section class="hero-section interior">
+      <div class="hero-image"></div>
+      <div class="hero-text">
+        <h1>Limpieza Convencional Profesional</h1>
+        <p>Realizamos una limpieza profunda y eficiente para mantener tu vehículo en perfecto estado, utilizando
+          productos de alta calidad y técnicas avanzadas.</p>
+        <a href="#contacto" class="btn btn-primary">Solicitar Servicio</a>
+      </div>
+    </section>
+
+    <section class="hero-section detallado reverse">
+      <div class="hero-image"></div>
+      <div class="hero-text">
+        <h1>Limpieza Detallada Profesional</h1>
+        <p>Atención minuciosa a cada rincón de tu vehículo para eliminar suciedad, manchas difíciles y olores,
+          garantizando un acabado impecable.</p>
+        <a href="#contacto" class="btn btn-primary">Solicitar Servicio</a>
+      </div>
+    </section>
+
+    <section class="hero-section restauracion">
+      <div class="hero-image"></div>
+      <div class="hero-text">
+        <h1>Restauración Profesional de Motor</h1>
+        <p>Servicio especializado para limpiar y restaurar el motor de tu vehículo, mejorando su rendimiento y
+          prolongando su vida útil con técnicas profesionales.</p>
+        <a href="#contacto" class="btn btn-primary">Solicitar Servicio</a>
+      </div>
+    </section>
+
+    <!-- ZONA DE COBERTURA -->
+    <section class="container py-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4">
+          <h2 class="text-danger fw-bold mb-4">Zona de Cobertura</h2>
+          <p class="text-light fs-5 mb-4">Brindamos nuestros servicios profesionales de limpieza vehicular en Reconquista y localidades aledañas, asegurando la misma calidad en toda nuestra área de influencia.</p>
+          <div class="coverage-list">
+            <div class="coverage-item">
+              <i class="fas fa-map-marker-alt text-danger me-3"></i>
+              <span class="text-light">Reconquista</span>
+            </div>
+            <div class="coverage-item">
+              <i class="fas fa-map-marker-alt text-danger me-3"></i>
+              <span class="text-light">Avellaneda</span>
+            </div>
+            <div class="coverage-item">
+              <i class="fas fa-map-marker-alt text-danger me-3"></i>
+              <span class="text-light">Villa Ocampo</span>
+            </div>
+            <div class="coverage-item">
+              <i class="fas fa-map-marker-alt text-danger me-3"></i>
+              <span class="text-light">Las Toscas</span>
+            </div>
+            <div class="coverage-item">
+              <i class="fas fa-map-marker-alt text-danger me-3"></i>
+              <span class="text-light">Localidades cercanas</span>
+            </div>
+          </div>
+          <p class="text-light mt-4">
+            <i class="fas fa-info-circle text-danger me-2"></i>
+            <strong>¿No estás en la lista?</strong> Consultanos, es posible que podamos llegar a tu zona.
+          </p>
+        </div>
+        <div class="col-lg-6">
+          <div class="coverage-image">
+            <div class="coverage-card p-4">
+              <h4 class="text-danger fw-bold mb-3">
+                <i class="fas fa-route me-2"></i>
+                Radio de Acción
+              </h4>
+              <p class="text-light mb-3">Cubrimos un radio de aproximadamente 50km desde Reconquista, adaptándonos a las necesidades de cada cliente.</p>
+              <div class="coverage-stats">
+                <div class="stat-item">
+                  <div class="stat-number text-danger fw-bold">50km</div>
+                  <div class="stat-label text-light">Radio de cobertura</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number text-danger fw-bold">24h</div>
+                  <div class="stat-label text-light">Respuesta garantizada</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERÍA DE VEHÍCULOS -->
+    <section id="galeria" class="container mt-5">
+      <h2 class="text-center mb-5">Galería de Trabajos</h2>
+      <div class="row g-3 justify-content-center">
+        <div class="col-6 col-md-3"><img src="img/toyota1.jpg" alt="Toyota Antes" class="img-fluid" /></div>
+        <div class="col-6 col-md-3"><img src="img/toyota5.jpg" alt="Toyota Después" class="img-fluid" /></div>
+        <div class="col-6 col-md-3"><img src="img/audi1.jpg" alt="Audi Antes" class="img-fluid" /></div>
+        <div class="col-6 col-md-3"><img src="img/audi2.jpg" alt="Audi Después" class="img-fluid" /></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <h2 class="text-danger mb-4 text-center">Preguntas frecuentes</h2>
+
+      <div class="faq-item">
+        <h3>¿Cuánto tiempo tarda el proceso de limpieza?</h3>
+        <p>El tiempo varía según el tipo de servicio, pero generalmente entre 2 y 3 horas.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Necesito llevar mi vehículo a sus instalaciones?</h3>
+        <p>Ofrecemos servicios a domicilio y en nuestras instalaciones, según tu preferencia.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Qué tipo de productos utilizan para asegurar un acabado profesional?</h3>
+        <p>Utilizamos productos especializados de primera línea, formulados para brindar limpieza profunda y protección
+          duradera, respetando los materiales tratados.</p>
+      </div>
+      <div class="faq-item">
+        <h3>¿Con qué frecuencia se recomienda realizar una limpieza completa del vehículo?</h3>
+        <p>Recomendamos realizarla cada 6 meses para mantener la higiene y apariencia óptimas.</p>
+      </div>
+    </section>
+
+    <section id="contacto" class="container mt-5 mb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="contact-form-container">
+            <div class="text-center mb-5">
+              <h2 class="text-danger fw-bold mb-3">Consultanos</h2>
+              <p class="text-light fs-5">¡Contanos qué necesitás y te respondemos al instante!</p>
+            </div>
+            
+            <form id="whatsapp-form" class="modern-form">
+              <div class="mb-4">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name" placeholder="Tu nombre" required />
+              </div>
+              
+              <div class="mb-4">
+                <label for="service" class="form-label">Servicio</label>
+                <select id="service" class="form-select" required>
+                  <option value="">Elegí una opción</option>
+                  <option value="Limpieza convencional de vehículos">Limpieza convencional de vehículos</option>
+                  <option value="Limpieza detallada de vehículos">Limpieza detallada de vehículos</option>
+                  <option value="Restauración profesional de motor">Restauración profesional de motor</option>
+                  <option value="Limpieza de tapizados vehiculares">Limpieza de tapizados vehiculares</option>
+                  <option value="Plan empresarial para flotas">Plan empresarial para flotas</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              
+              <div class="mb-4">
+                <label for="message" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="message" rows="4" placeholder="Escribí tu consulta..."></textarea>
+              </div>
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
+                  <i class="fab fa-whatsapp me-2"></i>Enviar por WhatsApp
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Daytona - Todos los derechos reservados
+      <a href="https://www.instagram.com/daytona_clean_service" target="_blank" title="Instagram Daytona">
+        <i class="fab fa-instagram fa-lg"></i> @daytona_clean_service
+      </a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="js/faq-toggle.js"></script>
+
+  <script src="js/whatsapp-float.js"></script>
+
+  <script src="js/send-whatsapp.js"></script>
+
+  <!-- Hero Slider Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('.slide');
+      let currentSlide = 0;
+      
+      // Verificar que hay slides
+      if (slides.length === 0) return;
+      
+      function nextSlide() {
+        // Ocultar slide actual
+        slides[currentSlide].classList.remove('active');
+        
+        // Avanzar al siguiente slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Mostrar nuevo slide
+        slides[currentSlide].classList.add('active');
+      }
+      
+      // Asegurar que el primer slide esté activo
+      slides[0].classList.add('active');
+      
+      // Cambiar slide cada 3 segundos
+      setInterval(nextSlide, 3000);
+    });
+  </script>
+
+</body>
+
+</html>
