@@ -5,34 +5,289 @@
 
 /* ===== HERO SECTION ===== */
 #hero.hero-section {
+  position: relative;
+  min-height: 70vh;
   display: flex;
-  max-width: 1200px;
-  margin: 60px auto;
+  align-items: center;
+  justify-content: center;
   border-radius: 20px;
   overflow: hidden;
-  background-color: var(--bg-dark);
+  margin: 60px auto;
+  max-width: 1200px;
+  box-shadow: 0 0 40px rgba(255, 59, 63, 0.5);
 }
 
-#hero .hero-image {
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: var(--shadow-primary);
-  flex: 1;
-  min-height: 300px;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+.hero-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  aspect-ratio: 16/9;
+  z-index: 1;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.slide.active {
+  opacity: 1;
 }
 
 #hero .hero-text {
-  flex: 1;
-  padding: 40px 60px;
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 60px 40px;
+  background: none !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  border-radius: 20px;
+  margin: 20px;
+}
+
+.hero-buttons {
+  margin-top: 30px;
+}
+
+/* ===== SERVICE CARDS ===== */
+.service-card {
+  background: var(--bg-dark);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(255, 59, 63, 0.3);
+  border-color: var(--primary-color);
+}
+
+.service-card.featured {
+  border-color: var(--primary-color);
+  box-shadow: 0 15px 35px rgba(255, 59, 63, 0.4);
+}
+
+.service-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.1);
+}
+
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 59, 63, 0.8) 0%, rgba(255, 107, 107, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card:hover .service-overlay {
+  opacity: 1;
+}
+
+.service-price {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.service-content {
+  padding: 25px;
+}
+
+.service-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-features li {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.service-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonial-card {
+  background: var(--bg-dark);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
+  height: 100%;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 59, 63, 0.3);
+}
+
+.testimonial-card.featured {
+  border-color: var(--primary-color);
+  box-shadow: 0 15px 35px rgba(255, 59, 63, 0.4);
+}
+
+.testimonial-content {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: var(--bg-dark);
+}
+
+.stars {
+  font-size: 1.2rem;
+}
+
+.testimonial-author {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+}
+
+/* ===== BEFORE AFTER CARDS ===== */
+.before-after-card {
+  background: var(--bg-dark);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.before-after-card:hover {
+  transform: translateY(-5px);
+}
+
+.before-after-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.before-image,
+.after-image {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.before-image img,
+.after-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.before-image:hover img,
+.after-image:hover img {
+  transform: scale(1.05);
+}
+
+.before-label,
+.after-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.before-label {
+  background: rgba(220, 53, 69, 0.9);
+}
+
+.after-label {
+  background: rgba(40, 167, 69, 0.9);
+}
+
+.before-after-info {
+  text-align: center;
+}
+
+/* ===== CTA CARD INDEX (EXCLUSIVO INDEX) ===== */
+.cta-card-index {
+  background: linear-gradient(135deg, #00fff0 0%, #007bff 100%);
+  border-radius: 24px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  padding: 90px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .cta-card-index {
+    padding: 50px 10px;
+    max-width: 100%;
+  }
+}
+
+/* ===== CTA SECTION (GENÉRICO PARA PROMOCIONES) ===== */
+.cta-section {
+  width: 100%;
+  min-height: 220px;
+  padding: 60px 0;
+  margin: 40px 0;
+  border-radius: 20px;
+  text-align: center;
+  display: block;
+  background: unset;
+}
+.cta-section .container {
+  max-width: 100%;
+}
+
+.cta-section h2 {
+  color: white;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.cta-section p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin-bottom: 30px;
 }
 
 /* ===== SECCIONES CON IMAGEN Y TEXTO ===== */
@@ -453,6 +708,160 @@
   opacity: 1;
 }
 
+/* ===== TESTIMONIOS CARDS ELEGANTES ===== */
+.testimonial-elegant-card {
+  background: rgba(30, 32, 36, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: #f8f9fa;
+  transition: box-shadow 0.3s, transform 0.3s;
+  position: relative;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.testimonial-elegant-card:hover {
+  box-shadow: 0 8px 32px rgba(255,59,63,0.13);
+  transform: translateY(-6px) scale(1.02);
+}
+.testimonial-quote {
+  font-style: italic;
+  font-size: 1.08rem;
+  color: #e9ecef;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+.testimonial-quote:before {
+  content: '“';
+  font-size: 2.5rem;
+  color: #ff3b3f;
+  position: absolute;
+  left: -18px;
+  top: -10px;
+  opacity: 0.7;
+}
+.testimonial-quote:after {
+  content: '”';
+  font-size: 2.5rem;
+  color: #ff3b3f;
+  position: absolute;
+  right: -18px;
+  bottom: -10px;
+  opacity: 0.7;
+}
+.testimonial-author {
+  font-size: 1.08rem;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.5px;
+}
+.testimonial-type {
+  font-size: 0.95rem;
+  color: #b0b3b8;
+  margin-bottom: 0.2rem;
+}
+@media (max-width: 767px) {
+  .testimonial-elegant-card {
+    min-height: 200px;
+    padding: 20px 10px;
+  }
+}
+
+/* ===== CARDS ANTES Y DESPUÉS FUTURISTAS ===== */
+.before-after-futuristic-card {
+  background: linear-gradient(135deg, #23243a 60%, #2b2d42 100%);
+  border-radius: 22px;
+  box-shadow: 0 0 32px 0 rgba(0,255,255,0.08), 0 2px 24px 0 rgba(255,59,63,0.10);
+  overflow: hidden;
+  border: 1.5px solid rgba(0,255,255,0.10);
+  transition: box-shadow 0.3s, transform 0.3s;
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.before-after-futuristic-card:hover {
+  box-shadow: 0 0 48px 0 rgba(0,255,255,0.18), 0 4px 32px 0 rgba(255,59,63,0.18);
+  transform: translateY(-8px) scale(1.025);
+}
+.before-after-images-futuristic {
+  width: 100%;
+  min-height: 220px;
+  background: #181a23;
+  border-bottom: 1.5px solid rgba(0,255,255,0.10);
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+.before-img-futuristic, .after-img-futuristic {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.before-img-effect, .after-img-effect {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  filter: brightness(0.93) contrast(1.08);
+  transition: filter 0.3s;
+}
+.before-after-futuristic-card:hover .before-img-effect,
+.before-after-futuristic-card:hover .after-img-effect {
+  filter: brightness(1.01) contrast(1.13) saturate(1.08);
+}
+.before-label-futuristic, .after-label-futuristic {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: linear-gradient(90deg, #00fff0 0%, #ff3b3f 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 4px 18px;
+  border-radius: 12px;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.13);
+  z-index: 2;
+  opacity: 0.93;
+  text-transform: uppercase;
+}
+.after-label-futuristic {
+  left: auto;
+  right: 18px;
+  background: linear-gradient(90deg, #ff3b3f 0%, #00fff0 100%);
+}
+.futurist-title {
+  font-family: 'Roboto', 'Montserrat', Arial, sans-serif;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  background: linear-gradient(90deg, #00fff0 0%, #ff3b3f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+@media (max-width: 767px) {
+  .before-after-futuristic-card {
+    min-height: 320px;
+  }
+  .before-img-effect, .after-img-effect {
+    height: 140px;
+  }
+  .before-label-futuristic, .after-label-futuristic {
+    font-size: 0.85rem;
+    padding: 3px 12px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+}
+
 /* ===== RESPONSIVE ESPECÍFICO ===== */
 @media (max-width: 767px) {
   #hero.hero-section {
@@ -500,3 +909,89 @@
     padding: 15px;
   }
 }
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 767px) {
+  #hero.hero-section {
+    min-height: 60vh;
+    margin: 30px auto;
+  }
+
+  #hero .hero-text {
+    padding: 40px 20px;
+    margin: 10px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+  }
+
+  .service-card {
+    margin-bottom: 30px;
+  }
+
+  .service-actions {
+    flex-direction: column;
+  }
+
+  .service-actions .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .before-after-images {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    margin-bottom: 30px;
+  }
+
+  .cta-section {
+    padding: 50px 10px;
+    min-height: 220px;
+    margin: 30px 0;
+  }
+
+  .cta-section .container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .service-content {
+    padding: 20px;
+  }
+
+  .testimonial-card {
+    padding: 20px;
+  }
+
+  .before-after-card {
+    padding: 20px;
+  }
+
+  .before-image img,
+  .after-image img {
+    height: 150px;
+  }
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA CARDS DE SERVICIOS PRINCIPALES ===== */
+#servicios .card {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2) !important;
+  transition: all 0.3s ease;
+}
+
+#servicios .card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 6px 20px rgba(0,0,0,0.3) !important;
+  transform: translateY(-5px);
+}
+
+/* ===== RESPONSIVE ===== */

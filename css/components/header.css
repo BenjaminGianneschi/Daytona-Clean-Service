@@ -19,8 +19,9 @@
 }
 
 .nav-link:hover {
-  color: #ff3b3f !important;
+  color: #fff !important;
   text-decoration: none;
+  opacity: 0.8;
 }
 
 .navbar-toggler {
@@ -47,11 +48,6 @@
 
 .dropdown-item:hover {
   color: white;
-  background-color: transparent;
-}
-
-.dropdown-item:hover {
-  color: white;
   background-color: rgba(255, 59, 63, 0.1); /* barra roja sutil de fondo */
-  border-left: 4px solid #ff3b3f; /* si querés barra a la izquierda */
+  border-left: 4px solid #ff3b3f; /* barra roja a la izquierda */
 }

@@ -85,6 +85,7 @@
   font-weight: 900;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
   text-align: center;
+  color: #ffffff !important;
 }
 
 .hero-text p {
@@ -160,6 +161,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .process-step {
@@ -177,6 +179,7 @@
   color: var(--primary-color);
   font-weight: bold;
   font-size: 1.5rem;
+  margin-bottom: 15px;
 }
 
 .process-step:hover {
@@ -237,7 +240,7 @@
 
 .faq-item h3:hover {
   background: rgba(255, 59, 63, 0.1);
-  color: var(--primary-color);
+  color: var(--text-light);
 }
 
 .faq-item h3::after {
@@ -517,12 +520,48 @@
   box-shadow: var(--shadow-hover);
 }
 
+/* Estilos específicos para las zonas de cobertura */
+.coverage-item span {
+  color: #ffffff !important;
+}
+
+.coverage-item i {
+  color: var(--primary-color) !important;
+}
+
+/* Estilos específicos para el texto de consulta */
+.coverage-item + p {
+  color: #ffffff !important;
+}
+
+.coverage-item + p i {
+  color: var(--primary-color) !important;
+}
+
+/* Estilo más específico para el icono de información */
+.coverage-list + p i.fas.fa-info-circle {
+  color: var(--primary-color) !important;
+}
+
 .coverage-card {
   background: var(--bg-card);
   border-radius: var(--border-radius);
   padding: 30px;
   box-shadow: var(--shadow-primary);
   margin-bottom: 30px;
+}
+
+/* Estilos específicos para el Radio de Acción */
+.coverage-card h4 {
+  color: #ffffff !important;
+}
+
+.coverage-card h4 i {
+  color: var(--primary-color) !important;
+}
+
+.coverage-card p {
+  color: #ffffff !important;
 }
 
 .coverage-stats {

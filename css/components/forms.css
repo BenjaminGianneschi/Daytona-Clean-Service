@@ -99,9 +99,10 @@ select option:hover,
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #ff1a1d 0%, #e60000 100%);
+  background: linear-gradient(135deg, #ff3b3f 0%, #ff1a1d 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 59, 63, 0.4);
+  color: #fff !important;
 }
 
 .btn-primary:active {

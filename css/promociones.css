@@ -58,6 +58,7 @@
   margin-bottom: 1rem;
   font-weight: 900;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
+  color: #ffffff !important;
 }
 
 .hero-text p {
@@ -75,6 +76,46 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+/* Centrado general de secciones */
+.container.py-5 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.container.py-5 h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.container.py-5 p {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* Mejor distribución de las cards */
+.row.g-4 {
+  justify-content: center;
+  align-items: stretch;
+}
+
+.row.g-4 .col-lg-3,
+.row.g-4 .col-md-6 {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.row.g-4 .col-lg-3 .pricing-card,
+.row.g-4 .col-md-6 .pricing-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .pricing-card:hover {
@@ -98,6 +139,231 @@
   font-size: 12px;
   font-weight: bold;
   transform: rotate(45deg);
+}
+
+/* Cards de autos - color azul */
+.pricing-card.auto-card {
+  border: 2px solid #007bff;
+}
+
+.pricing-card.auto-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 123, 255, 0.3);
+}
+
+.pricing-card.auto-card .pricing-header {
+  background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+}
+
+.pricing-card.auto-card .feature-list li i {
+  color: #007bff;
+}
+
+/* Cards de mobiliario - color verde */
+.pricing-card.mobiliario-card {
+  border: 2px solid #28a745;
+}
+
+.pricing-card.mobiliario-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(40, 167, 69, 0.3);
+}
+
+.pricing-card.mobiliario-card .pricing-header {
+  background: linear-gradient(135deg, #1e7e34 0%, #28a745 100%);
+}
+
+.pricing-card.mobiliario-card .feature-list li i {
+  color: #28a745;
+}
+
+/* Cards de sillas - color naranja */
+.pricing-card.sillas-card {
+  border: 2px solid #fd7e14;
+}
+
+.pricing-card.sillas-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(253, 126, 20, 0.3);
+}
+
+.pricing-card.sillas-card .pricing-header {
+  background: linear-gradient(135deg, #e55a00 0%, #fd7e14 100%);
+}
+
+.pricing-card.sillas-card .feature-list li i {
+  color: #fd7e14;
+}
+
+/* Cards combinadas - color púrpura */
+.pricing-card.combinado-card {
+  border: 2px solid #6f42c1;
+}
+
+.pricing-card.combinado-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(111, 66, 193, 0.3);
+}
+
+.pricing-card.combinado-card .pricing-header {
+  background: linear-gradient(135deg, #5a2d91 0%, #6f42c1 100%);
+}
+
+.pricing-card.combinado-card .feature-list li i {
+  color: #6f42c1;
+}
+
+/* Cards de Planes de Mantenimiento - color naranja */
+.pricing-card.promocional-card {
+  border: 2px solid #fd7e14;
+}
+
+.pricing-card.promocional-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(253, 126, 20, 0.3);
+}
+
+.pricing-card.promocional-card .pricing-header {
+  background: linear-gradient(135deg, #e55a00 0%, #fd7e14 100%);
+}
+
+.pricing-card.promocional-card .feature-list li i {
+  color: #fd7e14;
+}
+
+.pricing-card.promocional-card .btn-primary {
+  background: linear-gradient(135deg, #e55a00 0%, #fd7e14 100%);
+  border: 2px solid #fd7e14;
+}
+
+.pricing-card.promocional-card .btn-primary:hover {
+  background: linear-gradient(135deg, #cc4a00 0%, #e55a00 100%);
+  box-shadow: 0 5px 15px rgba(253, 126, 20, 0.4);
+}
+
+/* Cards de Colchones - color verde */
+.pricing-card.tapizados-card {
+  border: 2px solid #28a745;
+}
+
+.pricing-card.tapizados-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(40, 167, 69, 0.3);
+}
+
+.pricing-card.tapizados-card .pricing-header {
+  background: linear-gradient(135deg, #1e7e34 0%, #28a745 100%);
+}
+
+.pricing-card.tapizados-card .feature-list li i {
+  color: #28a745;
+}
+
+.pricing-card.tapizados-card .btn-primary {
+  background: linear-gradient(135deg, #1e7e34 0%, #28a745 100%);
+  border: 2px solid #28a745;
+}
+
+.pricing-card.tapizados-card .btn-primary:hover {
+  background: linear-gradient(135deg, #155724 0%, #1e7e34 100%);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+/* Cards de Sillones - color púrpura */
+.pricing-card.sillones-card {
+  border: 2px solid #6f42c1;
+}
+
+.pricing-card.sillones-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(111, 66, 193, 0.3);
+}
+
+.pricing-card.sillones-card .pricing-header {
+  background: linear-gradient(135deg, #5a2d91 0%, #6f42c1 100%);
+}
+
+.pricing-card.sillones-card .feature-list li i {
+  color: #6f42c1;
+}
+
+.pricing-card.sillones-card .btn-primary {
+  background: linear-gradient(135deg, #5a2d91 0%, #6f42c1 100%);
+  border: 2px solid #6f42c1;
+}
+
+.pricing-card.sillones-card .btn-primary:hover {
+  background: linear-gradient(135deg, #4a1f7a 0%, #5a2d91 100%);
+  box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+}
+
+/* Cards de Sillas Mensuales - color teal */
+.pricing-card.sillas-mensuales-card {
+  border: 2px solid #20c997;
+}
+
+.pricing-card.sillas-mensuales-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(32, 201, 151, 0.3);
+}
+
+.pricing-card.sillas-mensuales-card .pricing-header {
+  background: linear-gradient(135deg, #1a8f7a 0%, #20c997 100%);
+}
+
+.pricing-card.sillas-mensuales-card .feature-list li i {
+  color: #20c997;
+}
+
+.pricing-card.sillas-mensuales-card .btn-primary {
+  background: linear-gradient(135deg, #1a8f7a 0%, #20c997 100%);
+  border: 2px solid #20c997;
+}
+
+.pricing-card.sillas-mensuales-card .btn-primary:hover {
+  background: linear-gradient(135deg, #146c5b 0%, #1a8f7a 100%);
+  box-shadow: 0 5px 15px rgba(32, 201, 151, 0.4);
+}
+
+/* Botones que coinciden con los colores de las cards */
+.pricing-card.auto-card .btn-primary {
+  background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+  border: 2px solid #007bff;
+}
+
+.pricing-card.auto-card .btn-primary:hover {
+  background: linear-gradient(135deg, #004085 0%, #0056b3 100%);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+.pricing-card.mobiliario-card .btn-primary {
+  background: linear-gradient(135deg, #1e7e34 0%, #28a745 100%);
+  border: 2px solid #28a745;
+}
+
+.pricing-card.mobiliario-card .btn-primary:hover {
+  background: linear-gradient(135deg, #155724 0%, #1e7e34 100%);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.pricing-card.sillas-card .btn-primary {
+  background: linear-gradient(135deg, #e55a00 0%, #fd7e14 100%);
+  border: 2px solid #fd7e14;
+}
+
+.pricing-card.sillas-card .btn-primary:hover {
+  background: linear-gradient(135deg, #cc4a00 0%, #e55a00 100%);
+  box-shadow: 0 5px 15px rgba(253, 126, 20, 0.4);
+}
+
+.pricing-card.combinado-card .btn-primary {
+  background: linear-gradient(135deg, #5a2d91 0%, #6f42c1 100%);
+  border: 2px solid #6f42c1;
+}
+
+.pricing-card.combinado-card .btn-primary:hover {
+  background: linear-gradient(135deg, #4a1f7a 0%, #5a2d91 100%);
+  box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
 }
 
 .pricing-header {
@@ -165,10 +431,43 @@
 }
 
 .comparison-table th {
-  background: #ff3b3f;
+  background: #007bff;
   color: white;
   border: none;
   padding: 20px 15px;
+  font-weight: bold;
+}
+
+/* Tabla de Colchones - color verde */
+.comparison-table.colchones-table th {
+  background: linear-gradient(135deg, #1e7e34 0%, #28a745 100%);
+}
+
+.comparison-table.colchones-table .highlight {
+  background: rgba(40, 167, 69, 0.2);
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Tabla de Sillones - color púrpura */
+.comparison-table.sillones-table th {
+  background: linear-gradient(135deg, #5a2d91 0%, #6f42c1 100%);
+}
+
+.comparison-table.sillones-table .highlight {
+  background: rgba(111, 66, 193, 0.2);
+  color: #6f42c1;
+  font-weight: bold;
+}
+
+/* Tabla de Sillas - color teal */
+.comparison-table.sillas-table th {
+  background: linear-gradient(135deg, #1a8f7a 0%, #20c997 100%);
+}
+
+.comparison-table.sillas-table .highlight {
+  background: rgba(32, 201, 151, 0.2);
+  color: #20c997;
   font-weight: bold;
 }
 
@@ -180,15 +479,9 @@
   vertical-align: middle;
 }
 
-.comparison-table .highlight {
-  background: #ff3b3f;
-  color: white;
-  font-weight: bold;
-}
-
 /* ===== CTA SECTION ===== */
 .cta-section {
-  background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
   color: white;
   padding: 60px 0;
   margin-top: 60px;
@@ -228,6 +521,12 @@
 .accordion-item {
   background: transparent;
   border: 1px solid #333;
+  box-shadow: 0 0 15px rgba(255, 59, 63, 0.3);
+  transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 0 25px rgba(255, 59, 63, 0.5);
 }
 
 .accordion-button {
@@ -247,6 +546,36 @@
 .accordion-body {
   background: #1a1a1a;
   color: #ccc;
+}
+
+/* Estilos específicos para los items de información */
+.info-card ul li {
+  color: #ffffff !important;
+  position: relative;
+  padding-left: 20px;
+}
+
+.info-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.info-card ul li::before {
+  content: "•";
+  color: var(--primary-color) !important;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* Estilos específicos para los iconos en las info-cards */
+.info-card ul li i {
+  color: var(--primary-color) !important;
+}
+
+/* Estilos específicos para los iconos de los títulos en las info-cards */
+.info-card h4 i {
+  color: var(--primary-color) !important;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -291,5 +620,23 @@
   
   .price {
     font-size: 2rem;
+  }
+  
+  /* Centrado mejorado en móviles */
+  .container.py-5 .row {
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  .container.py-5 .col-lg-3,
+  .container.py-5 .col-md-6 {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 20px auto;
+  }
+  
+  .pricing-card {
+    margin: 0 auto;
+    width: 100%;
   }
 } 
