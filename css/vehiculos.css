@@ -3,8 +3,10 @@
 /* Importar estilos base */
 @import url('base.css');
 
-/* ===== HERO SECTION ESPECÍFICO ===== */
-#hero.hero-section {
+/* =============================
+   HERO SECTION (vehiculos.html)
+   ============================= */
+.hero-section {
   position: relative;
   min-height: 100vh;
   width: 100vw;
@@ -25,24 +27,36 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  min-height: 400px;
+  overflow: hidden;
 }
 
 .slide {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
-  background-size: cover !important;
-  background-position: center !important;
+  transition: opacity 1s;
+  z-index: 1;
 }
 
 .slide.active {
   opacity: 1;
+  z-index: 2;
 }
+
+.slide.bg-autodeatalle { background: url('../img/autodeatalle.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-autodeatalle1 { background: url('../img/autodeatalle1.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-toyota1 { background: url('../img/toyota1.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-toyota5 { background: url('../img/toyota5.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-audi1 { background: url('../img/audi1.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-audi2 { background: url('../img/audi2.jpg') center center/cover no-repeat; background-color: #000; }
 
 .hero-content {
   position: relative;
@@ -70,6 +84,10 @@
   font-size: 1.1rem;
   margin-bottom: 2rem;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.hero-info {
+  text-shadow: 0 2px 12px #000, 0 1px 0 #fff;
 }
 
 .hero-buttons {
@@ -634,6 +652,7 @@
 
 .coverage-item:hover {
   transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
   border-color: #ff1a1d;
 }
 
@@ -1304,18 +1323,19 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* === SERVICIOS PRINCIPALES CUSTOM === */
+/* =============================
+   SERVICIOS PRINCIPALES (vehiculos.html)
+   ============================= */
 .servicios-grid-custom {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 32px 24px;
-  margin: 0 auto;
-  max-width: 1200px;
+  gap: 2rem;
 }
+
 .servicio-card-custom {
   background: #232323;
-  border-radius: 16px;
+  border-radius: 15px;
   box-shadow: 0 4px 24px #0008;
   width: 380px;
   min-height: 420px;
@@ -1325,93 +1345,165 @@
   overflow: hidden;
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 .servicio-card-custom:hover {
-  box-shadow: 0 8px 32px #ff3b3f99;
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(255,59,63,0.4);
 }
+
 .servicio-card-custom img {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  transition: transform 0.3s;
 }
+
+.servicio-card-custom:hover img {
+  transform: scale(1.05);
+}
+
 .servicio-card-body {
-  flex: 1 1 auto;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  padding: 18px 18px 16px 18px;
-  background: #232323;
+  flex: 1;
 }
+
 .servicio-card-body h5 {
   color: #fff;
-  font-size: 1.18rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  text-align: center;
 }
+
 .servicio-precio {
-  color: #ffd700;
-  font-weight: 700;
+  color: #ff3b3f;
+  font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
-  text-align: center;
 }
-.servicio-card-body p {
-  color: #e0e0e0;
-  font-size: 0.98rem;
-  margin-bottom: 1.2rem;
-  text-align: center;
-}
+
 .servicio-btn {
   margin-top: auto;
   background: #ff3b3f;
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 8px 0;
+  padding: 10px 0;
   font-weight: 600;
+  transition: background 0.2s;
   text-align: center;
   text-decoration: none;
-  transition: background 0.2s;
   display: block;
 }
+
 .servicio-btn:hover {
   background: #b31217;
   color: #fff;
 }
-@media (max-width: 1100px) {
-  .servicios-grid-custom {
-    gap: 28px 16px;
-  }
-  .servicio-card-custom {
-    width: 340px;
-  }
+
+
+
+/* =============================
+   BENEFICIOS (vehiculos.html)
+   ============================= */
+.benefits-section {
+  background: #121212;
 }
-@media (max-width: 900px) {
-  .servicios-grid-custom {
-    gap: 24px 12px;
-  }
-  .servicio-card-custom {
-    width: 90vw;
-    max-width: 400px;
-  }
+
+.benefits-desc {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
 }
-@media (max-width: 600px) {
-  .servicios-grid-custom {
-    flex-direction: column;
-    gap: 18px 0;
-    align-items: center;
-  }
-  .servicio-card-custom {
-    width: 98vw;
-    min-width: 0;
-    max-width: 99vw;
-  }
-  .servicio-card-custom img {
-    height: 110px;
-  }
-  .servicio-card-body {
-    padding: 12px 8px 12px 8px;
-  }
+
+.benefit-card {
+  background: #232323;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 2px solid #ff3b3f;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.benefit-card:hover {
+  box-shadow: 0 15px 35px rgba(255, 59, 63, 0.3);
+  border-color: #ff1a1d;
+}
+
+/* Iconos de beneficios sin fondo ni círculo */
+.benefit-icon {
+  background: none;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff3b3f;
+  font-size: 1.3rem;
+  padding: 0;
+}
+
+.benefit-icon i {
+  color: #ff3b3f;
+  font-size: 1.3rem;
+}
+
+.testimonial-elegant-card {
+  background: #232323;
+  border: 2px solid #ff3b3f;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0008;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.testimonial-elegant-card:hover {
+  box-shadow: 0 0 32px 8px #ff3b3f99, 0 8px 32px #ff3b3f99;
+  border-color: #ff3b3f;
+}
+.testimonial-quote {
+  font-style: italic;
+  color: #e0e0e0;
+  font-size: 1.08rem;
+  margin-bottom: 1.2rem;
+}
+.testimonial-author {
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  align-self: center;
+  margin-bottom: 0.2rem;
+}
+.testimonial-stars {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+  align-self: center;
+}
+
+.testimonial-elegant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.testimonial-elegant-card i.fa-award {
+  align-self: center;
+  margin-bottom: 0.7rem;
+  margin-top: 0.1rem;
+  font-size: 2rem;
+}
+
+.testimonial-footer {
+  margin-top: auto;
+  text-align: center;
 }

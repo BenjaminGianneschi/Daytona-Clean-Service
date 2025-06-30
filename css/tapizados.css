@@ -407,14 +407,56 @@
   padding: 0 20px;
 }
 
-.testimonial-card {
+.testimonial-elegant-card {
   background: #232323;
-  border-radius: var(--border-radius);
-  padding: 30px;
-  box-shadow: var(--shadow-primary);
-  margin-bottom: 30px;
-  position: relative;
   border: 2px solid #ff3b3f;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0008;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.testimonial-elegant-card:hover {
+  box-shadow: 0 0 32px 8px #ff3b3f99, 0 8px 32px #ff3b3f99;
+  border-color: #ff3b3f;
+}
+.testimonial-quote {
+  font-style: italic;
+  color: #e0e0e0;
+  font-size: 1.08rem;
+  margin-bottom: 1.2rem;
+}
+.testimonial-author {
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  align-self: center;
+  margin-bottom: 0.2rem;
+}
+.testimonial-stars {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+  align-self: center;
+}
+
+.testimonial-elegant-card i.fa-award {
+  align-self: center;
+  margin-bottom: 0.7rem;
+  margin-top: 0.1rem;
+  font-size: 2rem;
+}
+
+.testimonial-footer {
+  margin-top: auto;
+  text-align: center;
 }
 
 /* ===== CONTACTO ===== */
@@ -1283,13 +1325,13 @@
 .servicios-grid-custom {
   display: flex;
   flex-wrap: wrap;
+  gap: 2rem;
   justify-content: center;
-  gap: 32px 24px;
-  margin: 0 auto;
-  max-width: 1200px;
 }
+
 .servicio-card-custom {
   background: #232323;
+  border-radius: 15px;
   border-radius: 16px;
   box-shadow: 0 4px 24px #0008;
   width: 380px;
@@ -1389,5 +1431,117 @@
   .servicio-card-body {
     padding: 12px 8px 12px 8px;
   }
+}
+
+/* =============================
+   HERO SECTION (tapizados.html)
+   ============================= */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(255, 59, 63, 0.5);
+}
+
+.hero-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.slide.bg-sillonantesydespues2 { background: url('../img/sillonantesydespues2.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-sillonantesydespues5 { background: url('../img/sillonantesydespues5.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-sillonantesydespues3 { background: url('../img/sillonantesydespues3.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-sillonantesydespues4 { background: url('../img/sillonantesydespues4.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-colchonvapor { background: url('../img/colchonvapor.jpg') center center/cover no-repeat; background-color: #000; }
+.slide.bg-colchonlimpio { background: url('../img/colchonlimpio.jpg') center center/cover no-repeat; background-color: #000; }
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.hero-info {
+  text-shadow: 0 2px 12px #000, 0 1px 0 #fff;
+}
+
+/* =============================
+   BENEFICIOS (tapizados.html)
+   ============================= */
+.benefits-section {
+  background: #121212;
+}
+
+.benefits-desc {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.benefit-card {
+  background: #232323;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 2px solid #ff3b3f;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+.benefit-card:hover {
+  box-shadow: 0 15px 35px rgba(255, 59, 63, 0.3);
+  border-color: #ff1a1d;
+}
+
+/* Iconos de beneficios sin fondo ni círculo */
+.benefit-icon {
+  background: none;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff3b3f;
+  font-size: 1.3rem;
+  padding: 0;
+}
+
+.benefit-icon i {
+  color: #ff3b3f;
+  font-size: 1.3rem;
 }
 
