@@ -62,22 +62,22 @@
 
 /* ===== SERVICE CARDS ===== */
 .service-card {
-  background: var(--bg-dark);
+  background: #232323;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid #ff3b3f;
 }
 
 .service-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(255, 59, 63, 0.3);
-  border-color: var(--primary-color);
+  border-color: #ff1a1d;
 }
 
 .service-card.featured {
-  border-color: var(--primary-color);
+  border-color: #ff3b3f;
   box-shadow: 0 15px 35px rgba(255, 59, 63, 0.4);
 }
 
@@ -147,22 +147,23 @@
 
 /* ===== TESTIMONIALS ===== */
 .testimonial-card {
-  background: var(--bg-dark);
+  background: #232323;
   border-radius: 15px;
   padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid #ff3b3f;
   height: 100%;
 }
 
 .testimonial-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(255, 59, 63, 0.3);
+  border-color: #ff1a1d;
 }
 
 .testimonial-card.featured {
-  border-color: var(--primary-color);
+  border-color: #ff3b3f;
   box-shadow: 0 15px 35px rgba(255, 59, 63, 0.4);
 }
 
@@ -184,15 +185,17 @@
 
 /* ===== BEFORE AFTER CARDS ===== */
 .before-after-card {
-  background: var(--bg-dark);
+  background: #232323;
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease;
+  border: 2px solid #ff3b3f;
 }
 
 .before-after-card:hover {
   transform: translateY(-5px);
+  border-color: #ff1a1d;
 }
 
 .before-after-images {
@@ -533,29 +536,35 @@
 
 /* ===== FEATURE CARDS ===== */
 .feature-card {
-  background: var(--bg-card);
+  background: #232323;
   border-radius: var(--border-radius);
   padding: 30px;
   box-shadow: var(--shadow-primary);
   transition: var(--transition);
   text-align: center;
   margin-bottom: 30px;
+  border: 2px solid #ff3b3f;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-hover);
+  border-color: #ff1a1d;
 }
 
 .feature-icon {
   font-size: 3rem;
   color: var(--primary-color);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   transition: var(--transition);
 }
 
 .feature-card:hover .feature-icon {
   transform: scale(1.1);
+}
+
+.feature-icon i {
+  font-size: 3rem;
 }
 
 /* ===== COVERAGE SECTION ===== */
@@ -567,25 +576,27 @@
 }
 
 .coverage-item {
-  background: var(--bg-card);
+  background: #232323;
   border-radius: var(--border-radius);
   padding: 20px;
   box-shadow: var(--shadow-primary);
   transition: var(--transition);
   text-align: center;
+  border: 2px solid #ff3b3f;
 }
 
 .coverage-item:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
+  border-color: #ff1a1d;
 }
 
 .coverage-card {
-  background: var(--bg-card);
+  background: #232323;
   border-radius: var(--border-radius);
   padding: 30px;
   box-shadow: var(--shadow-primary);
   margin-bottom: 30px;
+  border: 2px solid #ff3b3f;
 }
 
 .coverage-stats {
@@ -626,23 +637,23 @@
 }
 
 .faq-item {
-  background: var(--bg-card);
+  background: #232323;
   border-radius: var(--border-radius);
   margin-bottom: 15px;
   overflow: hidden;
   box-shadow: var(--shadow-primary);
   transition: var(--transition);
-  border: 1px solid rgba(255, 59, 63, 0.1);
+  border: 2px solid #ff3b3f;
 }
 
 .faq-item:hover {
   box-shadow: var(--shadow-hover);
-  border-color: rgba(255, 59, 63, 0.3);
+  border-color: #ff1a1d;
   transform: translateY(-2px);
 }
 
 .faq-item h3 {
-  background: var(--bg-secondary);
+  background: #232323;
   color: var(--text-light);
   padding: 20px;
   margin: 0;
@@ -710,10 +721,10 @@
 
 /* ===== TESTIMONIOS CARDS ELEGANTES ===== */
 .testimonial-elegant-card {
-  background: rgba(30, 32, 36, 0.95);
+  background: #232323;
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 2px solid #ff3b3f;
   color: #f8f9fa;
   transition: box-shadow 0.3s, transform 0.3s;
   position: relative;
@@ -725,6 +736,7 @@
 .testimonial-elegant-card:hover {
   box-shadow: 0 8px 32px rgba(255,59,63,0.13);
   transform: translateY(-6px) scale(1.02);
+  border-color: #ff1a1d;
 }
 .testimonial-quote {
   font-style: italic;
@@ -770,11 +782,11 @@
 
 /* ===== CARDS ANTES Y DESPUÉS FUTURISTAS ===== */
 .before-after-futuristic-card {
-  background: linear-gradient(135deg, #23243a 60%, #2b2d42 100%);
+  background: #232323;
   border-radius: 22px;
   box-shadow: 0 0 32px 0 rgba(0,255,255,0.08), 0 2px 24px 0 rgba(255,59,63,0.10);
   overflow: hidden;
-  border: 1.5px solid rgba(0,255,255,0.10);
+  border: 2px solid #ff3b3f;
   transition: box-shadow 0.3s, transform 0.3s;
   position: relative;
   min-height: 420px;
@@ -785,6 +797,7 @@
 .before-after-futuristic-card:hover {
   box-shadow: 0 0 48px 0 rgba(0,255,255,0.18), 0 4px 32px 0 rgba(255,59,63,0.18);
   transform: translateY(-8px) scale(1.025);
+  border-color: #ff1a1d;
 }
 .before-after-images-futuristic {
   width: 100%;
@@ -862,136 +875,650 @@
   }
 }
 
-/* ===== RESPONSIVE ESPECÍFICO ===== */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 767px) {
-  #hero.hero-section {
-    flex-direction: column;
-    margin: 30px auto;
+  /* Ajustes generales de espaciado */
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
   }
   
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .mb-5 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .mt-5 {
+    margin-top: 2rem !important;
+  }
+  
+  /* Hero Section Responsive */
+  #hero.hero-section {
+    min-height: 400px;
+    margin: 20px auto;
+    border-radius: 15px;
+  }
+
   #hero .hero-text {
     padding: 30px 20px;
+    text-align: center;
   }
   
-  .feature-card {
-    padding: 20px;
+  #hero .hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
   
-  .coverage-stats {
-    grid-template-columns: repeat(2, 1fr);
+  #hero .hero-text p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
   }
   
-  .coverage-item:hover {
+  .hero-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  /* Service Cards Responsive */
+  .service-card {
+    margin-bottom: 20px;
     transform: none;
   }
   
-  #hero .hero-image {
-    min-height: 250px;
-    height: 250px;
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .service-content {
+    padding: 20px 15px;
+  }
+  
+  .service-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  
+  .service-content p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .service-features {
+    font-size: 0.85rem;
+  }
+  
+  .service-features li {
+    margin-bottom: 6px;
+  }
+  
+  .service-actions {
+    margin-top: 15px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .service-actions .btn {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Testimonials Responsive */
+  .testimonial-card {
+    margin-bottom: 20px;
+    padding: 20px 15px;
+  }
+  
+  .testimonial-card .testimonial-quote {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .testimonial-author {
+    font-size: 0.85rem;
+  }
+  
+  /* Before After Cards Responsive */
+  .before-after-images {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .before-image,
+  .after-image {
+    height: 200px;
+  }
+  
+  .before-label,
+  .after-label {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+  
+  .before-after-info {
+    padding: 15px;
+  }
+  
+  .before-after-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .before-after-info p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  
+  /* CTA Sections Responsive */
+  .cta-section {
+    padding: 40px 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+  }
+  
+  .cta-section .container {
+    padding: 0;
+  }
+  
+  .cta-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .cta-section p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+  
+  .cta-section .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  
+  /* CTA Intermedio Responsive */
+  .cta-intermediate {
+    padding: 30px 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+  }
+  
+  .cta-intermediate h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+  
+  .cta-intermediate p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+  }
+  
+  .cta-intermediate .btn {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Secciones con 100vw Responsive */
+  section[style*="100vw"] {
+    padding: 40px 20px !important;
+    margin: 20px 0 !important;
+    border-radius: 15px !important;
+  }
+  
+  section[style*="100vw"] h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  section[style*="100vw"] p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  section[style*="100vw"] .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  
+  /* Servicios Responsive */
+  #servicios .card {
+    margin-bottom: 20px;
+    transform: none;
+  }
+  
+  #servicios .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  #servicios .card-body {
+    padding: 20px 15px;
+  }
+  
+  #servicios .card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  
+  #servicios .card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  #servicios .card .btn {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Formulario de Contacto Responsive */
+  .contact-form-container {
+    padding: 20px 15px;
+    margin: 20px 0;
+  }
+  
+  .contact-form-container h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+  
+  .contact-form-container .btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  
+  /* Badges Responsive */
+  .badge {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+  
+  /* Testimonials Elegantes Responsive */
+  .testimonial-elegant-card {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .testimonial-elegant-card .testimonial-quote {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  /* Before After Futuristas Responsive */
+  .before-after-futuristic-card {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .before-after-futuristic-card .p-4 {
+    padding: 15px !important;
+  }
+  
+  /* Video Responsive */
+  .video-futuristic-wrapper video {
+    height: 200px;
+    border-radius: 10px;
+  }
+  
+  /* Feature Cards Responsive */
+  .feature-card {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .feature-card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .feature-icon {
+    margin-bottom: 15px;
+  }
+  
+  .feature-icon i {
+    font-size: 3rem;
+  }
+  
+  /* Coverage Stats Responsive */
+  .coverage-stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .coverage-item {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .coverage-item:hover {
+    transform: translateY(-3px);
   }
   
   /* FAQ Responsive */
   .faq-section {
     padding: 20px 15px;
   }
-
+  
   .faq-item h3 {
-    padding: 15px;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    padding: 12px 15px;
   }
-
+  
   .faq-item h3::after {
     right: 15px;
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
-
+  
   .faq-item.open p {
-    padding: 15px;
+    padding: 0 15px 15px;
+    font-size: 0.9rem;
+    line-height: 1.4;
   }
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 767px) {
-  #hero.hero-section {
-    min-height: 60vh;
-    margin: 30px auto;
-  }
-
-  #hero .hero-text {
-    padding: 40px 20px;
-    margin: 10px;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .hero-buttons .btn {
-    width: 100%;
-  }
-
-  .service-card {
-    margin-bottom: 30px;
-  }
-
-  .service-actions {
-    flex-direction: column;
-  }
-
-  .service-actions .btn {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .before-after-images {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .testimonial-card {
-    margin-bottom: 30px;
-  }
-
-  .cta-section {
-    padding: 50px 10px;
-    min-height: 220px;
-    margin: 30px 0;
-  }
-
-  .cta-section .container {
-    max-width: 100%;
-  }
-}
-
+/* Responsive adicional para pantallas muy pequeñas */
 @media (max-width: 576px) {
-  .service-content {
-    padding: 20px;
+  #hero .hero-text h1 {
+    font-size: 1.8rem;
   }
-
-  .testimonial-card {
-    padding: 20px;
+  
+  #hero .hero-text p {
+    font-size: 1rem;
   }
-
-  .before-after-card {
-    padding: 20px;
+  
+  .cta-intermediate h2,
+  .cta-section h2,
+  section[style*="100vw"] h2 {
+    font-size: 1.5rem;
   }
-
-  .before-image img,
-  .after-image img {
-    height: 150px;
+  
+  .cta-intermediate p,
+  .cta-section p,
+  section[style*="100vw"] p {
+    font-size: 0.9rem;
   }
-}
-
-/* ===== ESTILOS ESPECÍFICOS PARA CARDS DE SERVICIOS PRINCIPALES ===== */
-#servicios .card {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2) !important;
-  transition: all 0.3s ease;
-}
-
-#servicios .card:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 6px 20px rgba(0,0,0,0.3) !important;
-  transform: translateY(-5px);
+  
+  #servicios .card h3 {
+    font-size: 1.2rem;
+  }
+  
+  #servicios .card p {
+    font-size: 0.85rem;
+  }
+  
+  .testimonial-elegant-card .testimonial-quote {
+    font-size: 0.85rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+  
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 /* ===== RESPONSIVE ===== */
+
+/* ==== CARDS DE SERVICIOS (ESTILO MODERNO) ==== */
+#servicios .service-card {
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 15px;
+  overflow: hidden;
+}
+.service-img-pro {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 55% !important;
+  min-height: 55% !important;
+  max-height: 55% !important;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0 !important;
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+#servicios .service-card .service-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.7rem 1rem 0.7rem 1rem;
+  text-align: center;
+}
+#servicios .service-card h5 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.08rem;
+}
+#servicios .service-card .service-price {
+  margin-bottom: 0.3rem;
+  font-size: 1.1rem;
+}
+#servicios .service-card p {
+  margin-bottom: 0.5rem;
+  font-size: 0.97rem;
+}
+#servicios .service-card .d-flex {
+  margin-bottom: 0.5rem;
+}
+@media (max-width: 767px) {
+  #servicios .service-card {
+    height: 260px;
+    min-height: 260px;
+    max-height: 260px;
+  }
+  .service-img-pro {
+    height: 50%;
+    min-height: 50%;
+    max-height: 50%;
+  }
+}
+
+.row.g-4.mt-4 {
+  margin-top: 2.5rem !important;
+}
+
+/* === SERVICIOS PRINCIPALES CUSTOM === */
+.servicios-grid-custom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px 24px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+.servicio-card-custom {
+  background: #232323;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0008;
+  width: 340px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.servicio-card-custom:hover {
+  box-shadow: 0 8px 32px #ff3b3f99;
+  transform: translateY(-6px) scale(1.02);
+}
+.servicio-card-custom img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.servicio-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 16px 18px;
+  background: #232323;
+}
+.servicio-card-body h5 {
+  color: #fff;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.servicio-precio {
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.servicio-card-body p {
+  color: #e0e0e0;
+  font-size: 0.98rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+.servicio-btn {
+  margin-top: auto;
+  background: #ff3b3f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: block;
+}
+.servicio-btn:hover {
+  background: #b31217;
+  color: #fff;
+}
+@media (max-width: 1100px) {
+  .servicios-grid-custom {
+    gap: 28px 16px;
+  }
+  .servicio-card-custom {
+    width: 300px;
+  }
+}
+@media (max-width: 900px) {
+  .servicios-grid-custom {
+    gap: 24px 12px;
+  }
+  .servicio-card-custom {
+    width: 90vw;
+    max-width: 400px;
+  }
+}
+@media (max-width: 600px) {
+  .servicios-grid-custom {
+    flex-direction: column;
+    gap: 18px 0;
+    align-items: center;
+  }
+  .servicio-card-custom {
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+  }
+  .servicio-card-custom img {
+    height: 110px;
+  }
+  .servicio-card-body {
+    padding: 12px 8px 12px 8px;
+  }
+}
+
+/* === FUNDADOR PRESENTACIÓN === */
+#fundador {
+  background: #18191c;
+  border-radius: 18px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 32px #0006;
+}
+.fundador-img-box {
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(135deg, #ff3b3f 0%, #b31217 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 16px #ff3b3f44;
+  font-size: 5.5rem;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  #fundador {
+    padding: 32px 8px;
+  }
+  .fundador-img-box {
+    width: 120px;
+    height: 120px;
+    font-size: 3.2rem;
+  }
+}
+@media (max-width: 600px) {
+  #fundador {
+    padding: 18px 2px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .fundador-img-box {
+    width: 90px;
+    height: 90px;
+    font-size: 2.1rem;
+  }
+}
+
+.fundador-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff2;
+  box-shadow: 0 2px 16px #0006;
+}
+
+/* Offset para anclas navegadas desde el header fijo */
+[id] {
+  scroll-margin-top: 80px;
+}

@@ -6,8 +6,8 @@
   --primary-hover: #ff1a1d;
   --primary-dark: #e60000;
   --bg-dark: #121212;
-  --bg-card: #1e1e1e;
-  --bg-secondary: #222;
+  --bg-card: #232323;
+  --bg-secondary: #232323;
   --text-light: #eee;
   --text-muted: #ccc;
   --text-placeholder: #aaa;
@@ -150,11 +150,13 @@ section {
   max-width: 400px;
   animation: fadeInUp 0.8s ease forwards;
   opacity: 0;
+  border: 2px solid var(--primary-color);
 }
 
 #servicios .row > div:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-hover);
+  border-color: var(--primary-hover);
 }
 
 #servicios i {
@@ -259,11 +261,13 @@ select:focus,
   padding: 10px;
   box-shadow: var(--shadow-primary);
   transition: var(--transition);
+  border: 2px solid var(--primary-color);
 }
 
 .image-card:hover {
   transform: scale(1.05);
   box-shadow: var(--shadow-hover);
+  border-color: var(--primary-hover);
 }
 
 /* ===== FOOTER ===== */

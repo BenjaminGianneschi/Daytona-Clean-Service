@@ -51,3 +51,60 @@
   background-color: rgba(255, 59, 63, 0.1); /* barra roja sutil de fondo */
   border-left: 4px solid #ff3b3f; /* barra roja a la izquierda */
 }
+
+/* ===== RESPONSIVE HEADER ===== */
+@media (max-width: 767px) {
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .nav-link {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+  }
+  
+  .nav-link.btn {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .dropdown-menu {
+    min-width: 200px;
+    margin-top: 5px;
+  }
+  
+  .dropdown-item {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .navbar-toggler {
+    padding: 8px 10px;
+  }
+  
+  .navbar-toggler-icon {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+  
+  .nav-link.btn {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+  
+  .dropdown-item {
+    font-size: 0.85rem;
+  }
+}

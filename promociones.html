@@ -32,55 +32,126 @@
 
   <div id="header-container"></div>
 
-  <!-- Hero Section -->
-  <section class="hero-section" style="box-shadow: 0 0 40px rgba(255, 59, 63, 0.5); min-height: 60vh;">
-    <div class="hero-slider">
-      <div class="slide active" style="background: url('img/autodeatalle1.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/colchonvapor.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/asientosucio.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/colchonlimpio.jpg') center center/cover no-repeat;"></div>
+  <!-- HERO -->
+  <section id="hero" class="hero-section" style="box-shadow: 0 0 40px rgba(255, 59, 63, 0.5); min-height: 100vh; width: 100vw; margin: 0 !important; padding: 0 !important; max-width: none !important; border-radius: 0 !important; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <div class="hero-slider" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+      <div class="slide active" style="background: url('img/autodeatalle1.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/colchonvapor.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/asientosucio.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/colchonlimpio.jpg') center center/cover no-repeat; background-color: #000;"></div>
     </div>
-    <div class="hero-text">
-      <h1 class="animate__animated animate__fadeInDown">Promociones y Combos Mensuales</h1>
-      <p class="animate__animated animate__fadeInUp fs-5">
-        Ahorrá tiempo y dinero con nuestros planes mensuales de limpieza convencional de vehículos. 
-        Mantené tu flota impecable todo el año con descuentos especiales por volumen.
+    <div class="hero-content" style="position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 20px;">
+      <h1 class="hero-title" style="font-size: 3.5rem; font-weight: bold; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+        Promociones y Combos Especiales
+      </h1>
+      <p class="hero-subtitle" style="font-size: 1.5rem; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+        Ahorrá hasta un 22% con Nuestros Planes Mensuales
       </p>
-      <a href="#planes" class="btn btn-primary btn-lg mt-3 animate__animated animate__fadeInUp">Ver Planes</a>
+      <p class="hero-description" style="font-size: 1.1rem; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+        Mantené tu flota impecable todo el año con descuentos especiales por volumen.<br>
+        Planes flexibles desde 1 hasta 20 vehículos.<br>
+        ¡Pago mensual único y horarios a tu medida!
+      </p>
+      <div class="hero-buttons animate__animated animate__fadeInUp">
+        <a href="#planes" class="btn btn-primary btn-lg me-3">
+          <i class="fas fa-list me-2"></i>Ver Planes
+        </a>
+        <a href="https://wa.me/5493482588383" target="_blank" class="btn btn-outline-light btn-lg">
+          <i class="fab fa-whatsapp me-2"></i>Consultar Precios
+        </a>
+      </div>
+      <div class="mt-3 animate__animated animate__fadeInUp">
+        <small class="text-light" style="text-shadow: 0 2px 12px #000, 0 1px 0 #fff;">
+          <i class="fas fa-percentage me-1"></i>Descuentos por volumen
+          <span class="mx-2">|</span>
+          <i class="fas fa-calendar me-1"></i>Planes mensuales
+          <span class="mx-2">|</span>
+          <i class="fas fa-home me-1"></i>Servicio a domicilio
+        </small>
+      </div>
     </div>
   </section>
 
   <!-- Beneficios -->
-  <section class="container py-5">
-    <h2 class="text-center text-white mb-5 fw-bold">¿Por qué elegir nuestros planes mensuales?</h2>
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fas fa-percentage fa-2x text-info"></i>
-        </div>
-        <h5 class="text-white fw-bold mb-3">Descuentos por Volumen</h5>
-        <p class="text-light">Ahorrá hasta un 22% en el precio por lavado contando múltiples vehículos.</p>
+  <section class="py-5" style="background: #121212;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">¿Por qué elegir nuestros planes mensuales?</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+          Descubrí las ventajas exclusivas que te ofrecen nuestros planes mensuales para mantener tu flota siempre impecable.
+        </p>
       </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fas fa-calendar-check fa-2x text-info"></i>
+      <div class="row g-4">
+        <!-- Ventajas de los Planes -->
+        <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Ventajas de Nuestros Planes</h4>
+            <p class="text-light mb-4">Lo que hace especiales nuestros planes mensuales</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-percentage" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Descuentos por Volumen</strong><br>
+                <span class="text-light small">Ahorrá hasta un 22% en el precio por lavado contando múltiples vehículos en tu plan mensual</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-calendar-check" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Programación Flexible</strong><br>
+                <span class="text-light small">Coordina los horarios que mejor te convengan para cada vehículo de tu flota, adaptándonos a tu agenda</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-shield-alt" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Calidad Garantizada</strong><br>
+                <span class="text-light small">Mismo nivel de excelencia en cada servicio, sin importar el plan contratado. Tu satisfacción es nuestra prioridad</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-credit-card" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Pago Mensual Simplificado</strong><br>
+                <span class="text-light small">Facilita la gestión financiera con un pago único mensual por todos los servicios, sin sorpresas ni costos ocultos</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <h5 class="text-white fw-bold mb-3">Programación Flexible</h5>
-        <p class="text-light">Coordina los horarios que mejor te convengan para cada vehículo de tu flota.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fas fa-shield-alt fa-2x text-info"></i>
+        <!-- Beneficios Adicionales -->
+        <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Beneficios Adicionales</h4>
+            <p class="text-light mb-4">Ventajas exclusivas para nuestros clientes con planes</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-building" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Planes Empresariales</strong><br>
+                <span class="text-light small">Ofrecemos convenios especiales para flotas, concesionarias o negocios con necesidades recurrentes de limpieza</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-users" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Descuentos por Volumen</strong><br>
+                <span class="text-light small">Accedé a precios especiales contratando múltiples servicios o al superar un monto mínimo. Ideal para familias y grupos</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-gift" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Promociones Exclusivas</strong><br>
+                <span class="text-light small">Disfrutá promociones mensuales especiales y adherite a nuestros planes anuales para mantener tu flota impecable todo el año</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-headset" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Atención Prioritaria</strong><br>
+                <span class="text-light small">Clientes con planes mensuales reciben atención preferencial y reprogramación rápida en caso de imprevistos</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <h5 class="text-white fw-bold mb-3">Calidad Garantizada</h5>
-        <p class="text-light">Mismo nivel de excelencia en cada servicio, sin importar el plan contratado.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fas fa-credit-card fa-2x text-info"></i>
-        </div>
-        <h5 class="text-white fw-bold mb-3">Pago Mensual</h5>
-        <p class="text-light">Facilita la gestión financiera con un pago único mensual por todos los servicios.</p>
       </div>
     </div>
   </section>
@@ -323,25 +394,40 @@
     <h2 class="text-center text-white mb-5 fw-bold">Planes de Limpieza de Colchones</h2>
     <p class="text-center text-light mb-5 fs-5">Cada plan incluye 1 limpieza por colchón</p>
     
+    <!-- Botón Toggle para Tamaño de Colchón -->
+    <div class="text-center mb-4">
+      <div class="btn-group" role="group" aria-label="Tamaño de colchón">
+        <input type="radio" class="btn-check" name="colchon-size" id="colchon-1plaza" autocomplete="off">
+        <label class="btn btn-outline-light" for="colchon-1plaza">
+          <i class="fas fa-bed me-2"></i>Colchón 1 Plaza
+        </label>
+        
+        <input type="radio" class="btn-check" name="colchon-size" id="colchon-2plazas" autocomplete="off" checked>
+        <label class="btn btn-outline-light" for="colchon-2plazas">
+          <i class="fas fa-bed me-2"></i>Colchón 2 Plazas
+        </label>
+      </div>
+    </div>
+    
     <div class="row g-4 justify-content-center">
       <!-- Plan 1 Colchón -->
       <div class="col-lg-3 col-md-6">
         <div class="pricing-card h-100 tapizados-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Individual</h4>
-            <div class="price">$120.000</div>
+            <div class="price" data-1plaza="80.000" data-2plazas="120.000">$120.000</div>
             <div class="price-small">por servicio</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-bed"></i> 1 colchón</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $120.000 por colchón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1plaza="80.000" data-2plazas="120.000">$120.000</span> por colchón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Individual%20de%20colchones%20de%20%24120.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto colchon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -353,21 +439,21 @@
         <div class="pricing-card h-100 tapizados-card featured d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Familiar</h4>
-            <div class="price">$306.000</div>
+            <div class="price" data-1plaza="204.000" data-2plazas="306.000">$306.000</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $54.000</div>
+            <div class="savings-badge" data-1plaza="Ahorrás $36.000" data-2plazas="Ahorrás $54.000">Ahorrás $54.000</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-bed"></i> 3 colchones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $102.000 por colchón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1plaza="68.000" data-2plazas="102.000">$102.000</span> por colchón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 15% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Familiar%20de%20colchones%20de%20%24306.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto colchon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -379,21 +465,21 @@
         <div class="pricing-card h-100 tapizados-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Empresarial</h4>
-            <div class="price">$450.000</div>
+            <div class="price" data-1plaza="300.000" data-2plazas="450.000">$450.000</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $150.000</div>
+            <div class="savings-badge" data-1plaza="Ahorrás $100.000" data-2plazas="Ahorrás $150.000">Ahorrás $150.000</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-bed"></i> 5 colchones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $90.000 por colchón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1plaza="60.000" data-2plazas="90.000">$90.000</span> por colchón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 25% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Empresarial%20de%20colchones%20de%20%24450.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto colchon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -405,21 +491,21 @@
         <div class="pricing-card h-100 tapizados-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Flota</h4>
-            <div class="price">$780.000</div>
+            <div class="price" data-1plaza="520.000" data-2plazas="780.000">$780.000</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $420.000</div>
+            <div class="savings-badge" data-1plaza="Ahorrás $280.000" data-2plazas="Ahorrás $420.000">Ahorrás $420.000</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-bed"></i> 10 colchones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $78.000 por colchón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1plaza="52.000" data-2plazas="78.000">$78.000</span> por colchón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 35% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Flota%20de%20colchones%20de%20%24780.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto colchon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -445,31 +531,31 @@
         <tbody>
           <tr>
             <td><strong>1 colchón</strong></td>
-            <td>$120.000</td>
-            <td class="highlight">$120.000</td>
-            <td>$120.000</td>
+            <td class="precio-sin-plan" data-1plaza="$80.000" data-2plazas="$120.000">$120.000</td>
+            <td class="highlight precio-con-plan" data-1plaza="$80.000" data-2plazas="$120.000">$120.000</td>
+            <td class="precio-por-colchon" data-1plaza="$80.000" data-2plazas="$120.000">$120.000</td>
             <td>$0</td>
           </tr>
           <tr>
             <td><strong>3 colchones</strong></td>
-            <td>$360.000</td>
-            <td class="highlight">$306.000</td>
-            <td>$102.000</td>
-            <td class="text-success">$54.000</td>
+            <td class="precio-sin-plan" data-1plaza="$240.000" data-2plazas="$360.000">$360.000</td>
+            <td class="highlight precio-con-plan" data-1plaza="$204.000" data-2plazas="$306.000">$306.000</td>
+            <td class="precio-por-colchon" data-1plaza="$68.000" data-2plazas="$102.000">$102.000</td>
+            <td class="text-success ahorro" data-1plaza="$36.000" data-2plazas="$54.000">$54.000</td>
           </tr>
           <tr>
             <td><strong>5 colchones</strong></td>
-            <td>$600.000</td>
-            <td class="highlight">$450.000</td>
-            <td>$90.000</td>
-            <td class="text-success">$150.000</td>
+            <td class="precio-sin-plan" data-1plaza="$400.000" data-2plazas="$600.000">$600.000</td>
+            <td class="highlight precio-con-plan" data-1plaza="$300.000" data-2plazas="$450.000">$450.000</td>
+            <td class="precio-por-colchon" data-1plaza="$60.000" data-2plazas="$90.000">$90.000</td>
+            <td class="text-success ahorro" data-1plaza="$100.000" data-2plazas="$150.000">$150.000</td>
           </tr>
           <tr>
             <td><strong>10 colchones</strong></td>
-            <td>$1.200.000</td>
-            <td class="highlight">$780.000</td>
-            <td>$78.000</td>
-            <td class="text-success">$420.000</td>
+            <td class="precio-sin-plan" data-1plaza="$800.000" data-2plazas="$1.200.000">$1.200.000</td>
+            <td class="highlight precio-con-plan" data-1plaza="$520.000" data-2plazas="$780.000">$780.000</td>
+            <td class="precio-por-colchon" data-1plaza="$52.000" data-2plazas="$78.000">$78.000</td>
+            <td class="text-success ahorro" data-1plaza="$280.000" data-2plazas="$420.000">$420.000</td>
           </tr>
         </tbody>
       </table>
@@ -556,25 +642,45 @@
     <h2 class="text-center text-white mb-5 fw-bold">Planes de Limpieza de Sillones</h2>
     <p class="text-center text-light mb-5 fs-5">Cada plan incluye 1 limpieza por sillón</p>
     
+    <!-- Botón Toggle para Tamaño de Sillón -->
+    <div class="text-center mb-4">
+      <div class="btn-group" role="group" aria-label="Tamaño de sillón">
+        <input type="radio" class="btn-check" name="sillon-size" id="sillon-1cuerpo" autocomplete="off">
+        <label class="btn btn-outline-light" for="sillon-1cuerpo">
+          <i class="fas fa-couch me-2"></i>1 Cuerpo
+        </label>
+        
+        <input type="radio" class="btn-check" name="sillon-size" id="sillon-2cuerpos" autocomplete="off">
+        <label class="btn btn-outline-light" for="sillon-2cuerpos">
+          <i class="fas fa-couch me-2"></i>2 Cuerpos
+        </label>
+        
+        <input type="radio" class="btn-check" name="sillon-size" id="sillon-3cuerpos" autocomplete="off" checked>
+        <label class="btn btn-outline-light" for="sillon-3cuerpos">
+          <i class="fas fa-couch me-2"></i>3 Cuerpos en L
+        </label>
+      </div>
+    </div>
+    
     <div class="row g-4 justify-content-center">
       <!-- Plan 1 Sillón -->
       <div class="col-lg-3 col-md-6">
         <div class="pricing-card h-100 sillones-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Individual</h4>
-            <div class="price">$150.000</div>
+            <div class="price" data-1cuerpo="100.000" data-2cuerpos="125.000" data-3cuerpos="150.000">$150.000</div>
             <div class="price-small">por servicio</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-couch"></i> 1 sillón</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $150.000 por sillón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1cuerpo="100.000" data-2cuerpos="125.000" data-3cuerpos="150.000">$150.000</span> por sillón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Individual%20de%20sillones%20de%20%24150.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto sillon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -586,21 +692,21 @@
         <div class="pricing-card h-100 sillones-card featured d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Familiar</h4>
-            <div class="price">$405.000</div>
+            <div class="price" data-1cuerpo="270.000" data-2cuerpos="337.500" data-3cuerpos="405.000">$405.000</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $45.000</div>
+            <div class="savings-badge" data-1cuerpo="Ahorrás $30.000" data-2cuerpos="Ahorrás $37.500" data-3cuerpos="Ahorrás $45.000">Ahorrás $45.000</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-couch"></i> 3 sillones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $135.000 por sillón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1cuerpo="90.000" data-2cuerpos="112.500" data-3cuerpos="135.000">$135.000</span> por sillón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 10% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Familiar%20de%20sillones%20de%20%24405.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto sillon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -612,21 +718,21 @@
         <div class="pricing-card h-100 sillones-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Empresarial</h4>
-            <div class="price">$637.500</div>
+            <div class="price" data-1cuerpo="425.000" data-2cuerpos="531.250" data-3cuerpos="637.500">$637.500</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $112.500</div>
+            <div class="savings-badge" data-1cuerpo="Ahorrás $75.000" data-2cuerpos="Ahorrás $93.750" data-3cuerpos="Ahorrás $112.500">Ahorrás $112.500</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-couch"></i> 5 sillones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $127.500 por sillón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1cuerpo="85.000" data-2cuerpos="106.250" data-3cuerpos="127.500">$127.500</span> por sillón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 15% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Empresarial%20de%20sillones%20de%20%24637.500%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto sillon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -638,21 +744,21 @@
         <div class="pricing-card h-100 sillones-card d-flex flex-column">
           <div class="pricing-header">
             <h4 class="mb-2">Plan Flota</h4>
-            <div class="price">$1.050.000</div>
+            <div class="price" data-1cuerpo="700.000" data-2cuerpos="875.000" data-3cuerpos="1.050.000">$1.050.000</div>
             <div class="price-small">por servicio</div>
-            <div class="savings-badge">Ahorrás $450.000</div>
+            <div class="savings-badge" data-1cuerpo="Ahorrás $300.000" data-2cuerpos="Ahorrás $375.000" data-3cuerpos="Ahorrás $450.000">Ahorrás $450.000</div>
           </div>
           <div class="pricing-body d-flex flex-column flex-grow-1">
             <ul class="feature-list flex-grow-1">
               <li><i class="fas fa-couch"></i> 10 sillones</li>
               <li><i class="fas fa-tint"></i> 1 limpieza profunda</li>
-              <li><i class="fas fa-dollar-sign"></i> $105.000 por sillón</li>
+              <li><i class="fas fa-dollar-sign"></i> <span data-1cuerpo="70.000" data-2cuerpos="87.500" data-3cuerpos="105.000">$105.000</span> por sillón</li>
               <li><i class="fas fa-home"></i> Servicio a domicilio</li>
               <li><i class="fas fa-clock"></i> Horarios flexibles</li>
               <li><i class="fas fa-gift"></i> 30% de descuento</li>
             </ul>
             <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20Flota%20de%20sillones%20de%20%241.050.000%20por%20servicio" 
-               class="btn btn-primary w-100 mt-auto" target="_blank">
+               class="btn btn-primary w-100 mt-auto sillon-whatsapp-link" target="_blank">
               <i class="fab fa-whatsapp me-2"></i>Contratar Plan
             </a>
           </div>
@@ -678,31 +784,31 @@
         <tbody>
           <tr>
             <td><strong>1 sillón</strong></td>
-            <td>$150.000</td>
-            <td class="highlight">$150.000</td>
-            <td>$150.000</td>
+            <td class="precio-sin-plan" data-1cuerpo="$100.000" data-2cuerpos="$125.000" data-3cuerpos="$150.000">$150.000</td>
+            <td class="highlight precio-con-plan" data-1cuerpo="$100.000" data-2cuerpos="$125.000" data-3cuerpos="$150.000">$150.000</td>
+            <td class="precio-por-sillon" data-1cuerpo="$100.000" data-2cuerpos="$125.000" data-3cuerpos="$150.000">$150.000</td>
             <td>$0</td>
           </tr>
           <tr>
             <td><strong>3 sillones</strong></td>
-            <td>$450.000</td>
-            <td class="highlight">$405.000</td>
-            <td>$135.000</td>
-            <td class="text-success">$45.000</td>
+            <td class="precio-sin-plan" data-1cuerpo="$300.000" data-2cuerpos="$375.000" data-3cuerpos="$450.000">$450.000</td>
+            <td class="highlight precio-con-plan" data-1cuerpo="$270.000" data-2cuerpos="$337.500" data-3cuerpos="$405.000">$405.000</td>
+            <td class="precio-por-sillon" data-1cuerpo="$90.000" data-2cuerpos="$112.500" data-3cuerpos="$135.000">$135.000</td>
+            <td class="text-success ahorro" data-1cuerpo="$30.000" data-2cuerpos="$37.500" data-3cuerpos="$45.000">$45.000</td>
           </tr>
           <tr>
             <td><strong>5 sillones</strong></td>
-            <td>$750.000</td>
-            <td class="highlight">$637.500</td>
-            <td>$127.500</td>
-            <td class="text-success">$112.500</td>
+            <td class="precio-sin-plan" data-1cuerpo="$500.000" data-2cuerpos="$625.000" data-3cuerpos="$750.000">$750.000</td>
+            <td class="highlight precio-con-plan" data-1cuerpo="$425.000" data-2cuerpos="$531.250" data-3cuerpos="$637.500">$637.500</td>
+            <td class="precio-por-sillon" data-1cuerpo="$85.000" data-2cuerpos="$106.250" data-3cuerpos="$127.500">$127.500</td>
+            <td class="text-success ahorro" data-1cuerpo="$75.000" data-2cuerpos="$93.750" data-3cuerpos="$112.500">$112.500</td>
           </tr>
           <tr>
             <td><strong>10 sillones</strong></td>
-            <td>$1.500.000</td>
-            <td class="highlight">$1.050.000</td>
-            <td>$105.000</td>
-            <td class="text-success">$450.000</td>
+            <td class="precio-sin-plan" data-1cuerpo="$1.000.000" data-2cuerpos="$1.250.000" data-3cuerpos="$1.500.000">$1.500.000</td>
+            <td class="highlight precio-con-plan" data-1cuerpo="$700.000" data-2cuerpos="$875.000" data-3cuerpos="$1.050.000">$1.050.000</td>
+            <td class="precio-por-sillon" data-1cuerpo="$70.000" data-2cuerpos="$87.500" data-3cuerpos="$105.000">$105.000</td>
+            <td class="text-success ahorro" data-1cuerpo="$300.000" data-2cuerpos="$375.000" data-3cuerpos="$450.000">$450.000</td>
           </tr>
         </tbody>
       </table>
@@ -1017,14 +1123,8 @@
     </a>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Daytona - Todos los derechos reservados
-      <a href="https://www.instagram.com/daytona_clean_service" target="_blank" title="Instagram Daytona">
-        <i class="fab fa-instagram fa-lg"></i> @daytona_clean_service
-      </a>
-    </p>
-  </footer>
+  <footer></footer>
+  <script src="js/include-footer.js"></script>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1057,6 +1157,187 @@
       
       // Cambiar slide cada 3 segundos
       setInterval(nextSlide, 3000);
+    });
+  </script>
+
+  <!-- Colchones Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const colchon1Plaza = document.getElementById('colchon-1plaza');
+      const colchon2Plazas = document.getElementById('colchon-2plazas');
+      
+      function updateColchonesPricing(size) {
+        // Actualizar precios en las cards
+        const prices = document.querySelectorAll('.price[data-1plaza]');
+        prices.forEach(price => {
+          const newPrice = price.getAttribute(`data-${size}`);
+          price.textContent = `$${newPrice}`;
+        });
+        
+        // Actualizar precios por colchón en las listas
+        const priceSpans = document.querySelectorAll('.feature-list span[data-1plaza]');
+        priceSpans.forEach(span => {
+          const newPrice = span.getAttribute(`data-${size}`);
+          span.textContent = `$${newPrice}`;
+        });
+        
+        // Actualizar badges de ahorro
+        const savingsBadges = document.querySelectorAll('.savings-badge[data-1plaza]');
+        savingsBadges.forEach(badge => {
+          const newSavings = badge.getAttribute(`data-${size}`);
+          badge.textContent = newSavings;
+        });
+        
+        // Actualizar tabla de comparación
+        const precioSinPlan = document.querySelectorAll('.precio-sin-plan');
+        precioSinPlan.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const precioConPlan = document.querySelectorAll('.precio-con-plan');
+        precioConPlan.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const precioPorColchon = document.querySelectorAll('.precio-por-colchon');
+        precioPorColchon.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const ahorros = document.querySelectorAll('.ahorro');
+        ahorros.forEach(cell => {
+          const newAhorro = cell.getAttribute(`data-${size}`);
+          cell.textContent = newAhorro;
+        });
+        
+        // Actualizar enlaces de WhatsApp
+        const whatsappLinks = document.querySelectorAll('.colchon-whatsapp-link');
+        whatsappLinks.forEach((link, index) => {
+          const plans = [
+            { name: 'Individual', price: size === '1plaza' ? '80.000' : '120.000' },
+            { name: 'Familiar', price: size === '1plaza' ? '204.000' : '306.000' },
+            { name: 'Empresarial', price: size === '1plaza' ? '300.000' : '450.000' },
+            { name: 'Flota', price: size === '1plaza' ? '520.000' : '780.000' }
+          ];
+          
+          const plan = plans[index];
+          const newHref = `https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20${plan.name}%20de%20colchones%20de%20%24${plan.price}%20por%20servicio`;
+          link.href = newHref;
+        });
+      }
+      
+      // Event listeners para los botones
+      colchon1Plaza.addEventListener('change', function() {
+        if (this.checked) {
+          updateColchonesPricing('1plaza');
+        }
+      });
+      
+      colchon2Plazas.addEventListener('change', function() {
+        if (this.checked) {
+          updateColchonesPricing('2plazas');
+        }
+      });
+      
+      // Inicializar con colchón de 2 plazas (por defecto)
+      updateColchonesPricing('2plazas');
+    });
+  </script>
+
+  <!-- Sillones Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sillon1Cuerpo = document.getElementById('sillon-1cuerpo');
+      const sillon2Cuerpos = document.getElementById('sillon-2cuerpos');
+      const sillon3Cuerpos = document.getElementById('sillon-3cuerpos');
+      
+      function updateSillonesPricing(size) {
+        // Actualizar precios en las cards
+        const prices = document.querySelectorAll('.price[data-1cuerpo]');
+        prices.forEach(price => {
+          const newPrice = price.getAttribute(`data-${size}`);
+          price.textContent = `$${newPrice}`;
+        });
+        
+        // Actualizar precios por sillón en las listas
+        const priceSpans = document.querySelectorAll('.feature-list span[data-1cuerpo]');
+        priceSpans.forEach(span => {
+          const newPrice = span.getAttribute(`data-${size}`);
+          span.textContent = `$${newPrice}`;
+        });
+        
+        // Actualizar badges de ahorro
+        const savingsBadges = document.querySelectorAll('.savings-badge[data-1cuerpo]');
+        savingsBadges.forEach(badge => {
+          const newSavings = badge.getAttribute(`data-${size}`);
+          badge.textContent = newSavings;
+        });
+        
+        // Actualizar tabla de comparación
+        const precioSinPlan = document.querySelectorAll('.precio-sin-plan');
+        precioSinPlan.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const precioConPlan = document.querySelectorAll('.precio-con-plan');
+        precioConPlan.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const precioPorSillon = document.querySelectorAll('.precio-por-sillon');
+        precioPorSillon.forEach(cell => {
+          const newPrice = cell.getAttribute(`data-${size}`);
+          cell.textContent = newPrice;
+        });
+        
+        const ahorros = document.querySelectorAll('.ahorro');
+        ahorros.forEach(cell => {
+          const newAhorro = cell.getAttribute(`data-${size}`);
+          cell.textContent = newAhorro;
+        });
+        
+        // Actualizar enlaces de WhatsApp
+        const whatsappLinks = document.querySelectorAll('.sillon-whatsapp-link');
+        whatsappLinks.forEach((link, index) => {
+          const plans = [
+            { name: 'Individual', price: size === '1cuerpo' ? '100.000' : size === '2cuerpos' ? '125.000' : '150.000' },
+            { name: 'Familiar', price: size === '1cuerpo' ? '270.000' : size === '2cuerpos' ? '337.500' : '405.000' },
+            { name: 'Empresarial', price: size === '1cuerpo' ? '425.000' : size === '2cuerpos' ? '531.250' : '637.500' },
+            { name: 'Flota', price: size === '1cuerpo' ? '700.000' : size === '2cuerpos' ? '875.000' : '1.050.000' }
+          ];
+          
+          const plan = plans[index];
+          const newHref = `https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20contratar%20el%20Plan%20${plan.name}%20de%20sillones%20de%20%24${plan.price}%20por%20servicio`;
+          link.href = newHref;
+        });
+      }
+      
+      // Event listeners para los botones
+      sillon1Cuerpo.addEventListener('change', function() {
+        if (this.checked) {
+          updateSillonesPricing('1cuerpo');
+        }
+      });
+      
+      sillon2Cuerpos.addEventListener('change', function() {
+        if (this.checked) {
+          updateSillonesPricing('2cuerpos');
+        }
+      });
+      
+      sillon3Cuerpos.addEventListener('change', function() {
+        if (this.checked) {
+          updateSillonesPricing('3cuerpos');
+        }
+      });
+      
+      // Inicializar con sillón de 3 cuerpos (por defecto)
+      updateSillonesPricing('3cuerpos');
     });
   </script>
 

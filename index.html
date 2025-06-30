@@ -108,19 +108,22 @@
   <div id="header-container"></div>
 
   <!-- HERO -->
-  <section id="hero" class="hero-section" style="box-shadow: 0 0 40px rgba(255, 59, 63, 0.5); min-height: 70vh;">
-    <div class="hero-slider">
-      <div class="slide active" style="background: url('img/daytona1.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/autodeatalle1.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/sillonantesydespues2.jpg') center center/cover no-repeat;"></div>
-      <div class="slide" style="background: url('img/colchonlimpio.jpg') center center/cover no-repeat;"></div>
+  <section id="hero" class="hero-section" style="box-shadow: 0 0 40px rgba(255, 59, 63, 0.5); min-height: 100vh; width: 100vw; margin: 0 !important; padding: 0 !important; max-width: none !important; border-radius: 0 !important; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <div class="hero-slider" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+      <div class="slide active" style="background: url('img/autotapizado2.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/autodeatalle.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/autodeatalle.jpg') center center/cover no-repeat; background-color: #000;"></div>
+      <div class="slide" style="background: url('img/colchonvapor.jpg') center center/cover no-repeat; background-color: #000;"></div>
     </div>
-    <div class="hero-text" style="background: none; text-shadow: 0 2px 12px #000, 0 1px 0 #fff;">
-      <h1 class="animate__animated animate__fadeInDown" style="text-shadow: 0 2px 12px #000, 0 1px 0 #fff;">Transformá tu Auto y Hogar en 3 Horas</h1>
-      <p class="animate__animated animate__fadeInUp fs-5" style="text-shadow: 0 2px 12px #000, 0 1px 0 #fff; color: #fff;">
-        Especialistas certificados en limpieza profunda de vehículos y tapizados. <br>
-        <span class="text-warning fw-bold">Tecnología de vanguardia</span> + <span class="text-info fw-bold">Productos 3D profesionales</span>.<br>
-        <span class="text-success fw-bold">¡Resultados garantizados o te devolvemos tu dinero!</span>
+    <div class="hero-content" style="position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 20px;">
+      <h1 class="hero-title" style="font-size: 3.5rem; font-weight: bold; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+        Daytona Clean Service
+      </h1>
+      <p class="hero-subtitle" style="font-size: 1.5rem; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+        Pensé que necesitaba uno nuevo. Solo necesitaba Daytona.
+      </p>
+      <p class="hero-description" style="font-size: 1.1rem; margin-bottom: 2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+        Limpieza profesional, le devolvemos el alma a tus tapizados.
       </p>
       <div class="hero-buttons animate__animated animate__fadeInUp">
         <a href="#servicios" class="btn btn-primary btn-lg me-3">
@@ -140,263 +143,283 @@
     </div>
   </section>
 
+  <!-- SOBRE NOSOTROS -->
+  <section id="sobre-nosotros" class="py-5" style="background: #121212;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.5rem;">Más de 5 Años de Tradición y Excelencia</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
+          Desde 2019, Daytona Clean Service se ha consolidado como el servicio de limpieza profesional de referencia en Reconquista, combinando tecnología de vanguardia con un servicio excepcional.
+        </p>
+      </div>
+      <div class="row align-items-start">
+        <!-- Historia y estadísticas -->
+        <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+          <h3 class="text-white fw-bold mb-3">Nuestra Historia</h3>
+          <p class="text-light mb-3">
+            Todo comenzó con una simple visión: crear un servicio donde los clientes pudieran confiar en la limpieza profunda de sus vehículos y hogares. Nuestro equipo fundador trajo consigo más de 25 años de experiencia en el arte de la limpieza profesional.
+          </p>
+          <p class="text-light mb-4">
+            Desde entonces, hemos mantenido nuestro compromiso con la excelencia, capacitando constantemente a nuestro equipo y manteniéndonos al día con las últimas tecnologías sin perder nuestra esencia de calidad y confianza.
+          </p>
+          <div class="row text-center">
+            <div class="col-6 mb-4">
+              <div class="bg-dark p-4 rounded-3" style="border: 2px solid #ff3b3f;">
+                <h3 class="fw-bold mb-2" style="font-size: 2.5rem; color: #ff3b3f;">500+</h3>
+                <p class="text-light mb-0">Clientes Satisfechos</p>
+              </div>
+            </div>
+            <div class="col-6 mb-4">
+              <div class="bg-dark p-4 rounded-3" style="border: 2px solid #ff3b3f;">
+                <h3 class="fw-bold mb-2" style="font-size: 2.5rem; color: #ff3b3f;">5+</h3>
+                <p class="text-light mb-0">Años de Experiencia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Filosofía y valores -->
+        <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+          <h3 class="text-white fw-bold mb-3">Nuestra Filosofía</h3>
+          <p class="text-light mb-4">
+            Creemos que cada limpieza es una transformación y cada cliente merece una experiencia única. Nos especializamos en crear un servicio eficiente donde la calidad se nota y el tiempo se optimiza.
+          </p>
+          <div class="row g-3">
+            <div class="col-12 d-flex align-items-center mb-2">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px;"><i class="fas fa-star" style="color: #ff3b3f;"></i></span>
+              <div>
+                <h5 class="text-white fw-bold mb-1">Calidad Premium</h5>
+                <p class="text-light small mb-0">Solo utilizamos productos y equipos de primera calidad</p>
+              </div>
+            </div>
+            <div class="col-12 d-flex align-items-center mb-2">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px;"><i class="fas fa-user-friends" style="color: #fff;"></i></span>
+              <div>
+                <h5 class="text-white fw-bold mb-1">Atención Personalizada</h5>
+                <p class="text-light small mb-0">Cada cliente recibe un servicio adaptado a sus necesidades</p>
+              </div>
+            </div>
+            <div class="col-12 d-flex align-items-center">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px;"><i class="fas fa-cogs" style="color: #ff3b3f;"></i></span>
+              <div>
+                <h5 class="text-white fw-bold mb-1">Tecnología Avanzada</h5>
+                <p class="text-light small mb-0">Combinamos técnicas probadas con equipos de última generación</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICIOS PRINCIPALES -->
   <section id="servicios" class="container py-5">
     <h2 class="text-center text-white mb-5 fw-bold">Nuestros Servicios Principales</h2>
-    <div class="d-flex flex-column gap-5">
-      <!-- Card Vehículos -->
-      <div class="card shadow-lg flex-md-row flex-column align-items-stretch" style="background: #18191c; border-radius: 28px; overflow: hidden; min-height: 320px; max-width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2) !important;">
-        <div class="d-flex align-items-stretch" style="flex: 1 1 50%; min-width: 320px; max-width: 520px;">
-          <img src="img/vapor2.jpeg" alt="Limpieza Interior de Vehículo" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 320px; max-height: 400px; width: 100%;" />
+    <div class="servicios-grid-custom">
+        <!-- Card 1: Limpieza Convencional -->
+      <div class="servicio-card-custom">
+        <img src="img/vapor2.jpeg" alt="Limpieza Convencional">
+        <div class="servicio-card-body">
+          <h5>Limpieza Convencional</h5>
+          <div class="servicio-precio">$15.000</div>
+          <p>Lavado común interior y exterior. Aspirado, limpieza de superficies y vidrios. Ideal para mantenimiento regular.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
         </div>
-        <div class="card-body d-flex flex-column justify-content-center p-5" style="flex: 2 1 60%; min-width: 320px;">
-          <h3 class="fw-bold mb-3 text-white">Limpieza Interior Profesional de Vehículos</h3>
-          <p class="text-light mb-3">
-            <strong>¿Tu auto huele mal o está sucio por dentro?</strong> En solo 2-3 horas lo dejamos como nuevo. Eliminamos <span class="text-warning fw-bold">manchas imposibles</span>, <span class="text-info fw-bold">bacterias</span> y <span class="text-success fw-bold">olores desagradables</span>.
-          </p>
-          <ul class="text-light mb-4" style="list-style: disc inside;">
-            <li><strong>Aspirado profundo:</strong> Removemos polvo y suciedad de alfombras, asientos y rincones.</li>
-            <li><strong>Limpieza de tapizados y plásticos:</strong> Productos específicos para cada superficie.</li>
-            <li><strong>Desinfección y desodorización:</strong> Ambiente fresco y seguro para vos y tu familia.</li>
-            <li><strong>Atención a detalles:</strong> Volante, paneles, cinturones y más.</li>
-          </ul>
-          <a href="#contacto" class="btn btn-danger px-4 py-2 fw-bold align-self-start mt-2" style="border-radius: 20px; box-shadow: 0 2px 12px #ff3b3f55;">Solicitar Servicio</a>
         </div>
-      </div>
-      <!-- Card Tapizados (invertida) -->
-      <div class="card shadow-lg flex-md-row flex-column align-items-stretch flex-md-row-reverse" style="background: #18191c; border-radius: 28px; overflow: hidden; min-height: 400px; max-width: 100%; height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2) !important;">
-        <div class="d-flex align-items-stretch justify-content-center" style="flex: 1 1 50%; min-width: 320px; max-width: 520px; background: #18191c; height: 100%;">
-          <img src="img/autotapizado2.jpg" alt="Limpieza de Tapizados de Hogar" class="img-fluid" style="object-fit: cover; height: 100%; width: 100%; display: block; margin: 0 auto; min-height: 320px;" />
+        <!-- Card 2: Limpieza Detallada -->
+      <div class="servicio-card-custom">
+        <img src="img/autotapizado2.jpg" alt="Limpieza Detallada">
+        <div class="servicio-card-body">
+          <h5>Limpieza Detallada</h5>
+          <div class="servicio-precio">$25.000</div>
+          <p>Limpieza profunda de tapizados, alfombras y techos. Eliminación de manchas, ácaros y olores.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
         </div>
-        <div class="card-body d-flex flex-column justify-content-center p-5" style="flex: 2 1 60%; min-width: 320px;">
-          <h3 class="fw-bold mb-3 text-white">Limpieza Profesional de Tapizados de Hogar</h3>
-          <p class="text-light mb-3">
-            <strong>¿Tus sillones están manchados o huelen mal?</strong> Los transformamos completamente. Eliminamos <span class="text-warning fw-bold">manchas de años</span>, <span class="text-info fw-bold">ácaros</span> y <span class="text-success fw-bold">alérgenos</span> sin dañar los tejidos.
-          </p>
-          <ul class="text-light mb-4" style="list-style: disc inside;">
-            <li><strong>Desinfección con vapor:</strong> Eliminación de ácaros, bacterias y alérgenos sin químicos agresivos.</li>
-            <li><strong>Inyección y extracción profesional:</strong> Limpieza profunda en sillas, sillones, colchones y más.</li>
-            <li><strong>Productos seguros:</strong> Utilizamos la línea 3D, garantizando eficacia y cuidado de los tejidos.</li>
-            <li><strong>Servicio a domicilio:</strong> Nos trasladamos a tu hogar, oficina o institución en Reconquista y alrededores.</li>
-          </ul>
-          <a href="#contacto" class="btn btn-danger px-4 py-2 fw-bold align-self-start mt-2" style="border-radius: 20px; box-shadow: 0 2px 12px #ff3b3f55;">Solicitar Servicio</a>
+        </div>
+        <!-- Card 3: Limpieza de Motor -->
+      <div class="servicio-card-custom">
+        <img src="img/motorauto1.jpg" alt="Limpieza de Motor">
+        <div class="servicio-card-body">
+          <h5>Limpieza de Motor</h5>
+          <div class="servicio-precio">$12.000</div>
+          <p>Desengrasado y limpieza segura del motor. Mejorá el aspecto y funcionamiento de tu vehículo.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
         </div>
       </div>
-      <!-- Card Servicio Nuevo (alternada) -->
-      <div class="card shadow-lg flex-md-row flex-column align-items-stretch" style="background: #18191c; border-radius: 28px; overflow: hidden; min-height: 400px; max-width: 100%; height: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2) !important;">
-        <div class="d-flex align-items-stretch justify-content-center" style="flex: 1 1 50%; min-width: 320px; max-width: 520px; background: #18191c; height: 100%;">
-          <img src="img/sillonantesydespues2.jpg" alt="Nuevo Servicio" class="img-fluid h-100" style="object-fit: contain; height: 100%; width: 100%; display: block; margin: 0 auto; min-height: 320px; background: #18191c;" />
+        <!-- Card 4: Sillones -->
+      <div class="servicio-card-custom">
+        <img src="img/sillonantesydespues2.jpg" alt="Limpieza de Sillones">
+        <div class="servicio-card-body">
+          <h5>Limpieza de Sillones</h5>
+          <div class="servicio-precio">$10.000</div>
+          <p>Eliminación de manchas, ácaros y olores en sillones de todo tipo. Higiene y renovación total.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
         </div>
-        <div class="card-body d-flex flex-column justify-content-center p-5" style="flex: 2 1 60%; min-width: 320px;">
-          <h3 class="fw-bold mb-3 text-white">Limpieza Profesional de Tapizados de Hogar</h3>
-          <p class="text-light mb-3">
-            <strong>¿Tus sillones están manchados o huelen mal?</strong> Los transformamos completamente. Eliminamos <span class="text-warning fw-bold">manchas de años</span>, <span class="text-info fw-bold">ácaros</span> y <span class="text-success fw-bold">alérgenos</span> sin dañar los tejidos.
-          </p>
-          <ul class="text-light mb-4" style="list-style: disc inside;">
-            <li><strong>Desinfección con vapor:</strong> Eliminación de ácaros, bacterias y alérgenos sin químicos agresivos.</li>
-            <li><strong>Inyección y extracción profesional:</strong> Limpieza profunda en sillas, sillones, colchones y más.</li>
-            <li><strong>Productos seguros:</strong> Utilizamos la línea 3D, garantizando eficacia y cuidado de los tejidos.</li>
-            <li><strong>Servicio a domicilio:</strong> Nos trasladamos a tu hogar, oficina o institución en Reconquista y alrededores.</li>
-          </ul>
-          <a href="#contacto" class="btn btn-danger px-4 py-2 fw-bold align-self-start mt-2" style="border-radius: 20px; box-shadow: 0 2px 12px #ff3b3f55;">Solicitar Servicio</a>
+        </div>
+        <!-- Card 5: Colchones -->
+      <div class="servicio-card-custom">
+        <img src="img/colchonlimpio.jpg" alt="Limpieza de Colchones">
+        <div class="servicio-card-body">
+          <h5>Limpieza de Colchones</h5>
+          <div class="servicio-precio">$9.000</div>
+          <p>Limpieza y desinfección profunda de colchones. Eliminación de manchas, ácaros y bacterias.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+        </div>
+        </div>
+        <!-- Card 6: Sillas -->
+      <div class="servicio-card-custom">
+        <img src="img/alfombralimpia.jpg" alt="Limpieza de Sillas">
+        <div class="servicio-card-body">
+          <h5>Limpieza de Sillas</h5>
+          <div class="servicio-precio">$6.000</div>
+          <p>Limpieza profesional de sillas tapizadas y plásticas. Higiene y frescura en tu hogar u oficina.</p>
+          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA INTERMEDIO -->
-  <section class="container py-5">
-    <div class="text-center">
-      <div class="cta-intermediate" style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); border-radius: 24px; padding: 60px 40px; border: 1px solid rgba(255,255,255,0.2);">
-        <h2 class="mb-4" style="color: #fff; font-weight: bold;">¿Te gustó lo que viste?</h2>
-        <p class="fs-5 mb-4" style="color: #f8f9fa;">
-          ¡No esperes más! Contactanos ahora y obtené tu presupuesto personalizado
+  <!-- ¿POR QUÉ ELEGIR NUESTROS PLANES MENSUALES? -->
+  <section class="py-5" style="background: #121212;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">¿Por qué elegir nuestros planes mensuales?</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+          Descubrí las ventajas exclusivas que te ofrecen nuestros planes mensuales para mantener tu flota siempre impecable.
         </p>
-        <div class="mb-4">
-          <span class="badge bg-success fs-6 me-2">Respuesta en 5 minutos</span>
-          <span class="badge bg-info fs-6">Presupuesto sin cargo</span>
-        </div>
-        <a href="#contacto" class="btn btn-warning btn-lg me-3">
-          <i class="fas fa-whatsapp me-2"></i>Pedir Presupuesto
-        </a>
-        <a href="tel:+5493482588383" class="btn btn-outline-light btn-lg">
-          <i class="fas fa-phone me-2"></i>Llamar Ahora
-        </a>
       </div>
+      <div class="row g-4">
+        <!-- Ventajas de los Planes -->
+        <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Ventajas de Nuestros Planes</h4>
+            <p class="text-light mb-4">Lo que hace especiales nuestros planes mensuales</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-percentage" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Descuentos por Volumen</strong><br>
+                <span class="text-light small">Ahorrá hasta un 22% en el precio por lavado contando múltiples vehículos en tu plan mensual</span>
     </div>
-  </section>
-
-  <!-- POR QUÉ ELEGIRNOS -->
-  <section class="container py-5">
-    <h2 class="text-center text-white mb-5 fw-bold">¿Por qué elegirnos?</h2>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-tools fa-2x text-info"></i>
           </div>
-          <h5 class="text-white fw-bold mb-3">Equipamiento Profesional</h5>
-          <p class="text-light">Maquinaria de última generación para inyección y extracción, garantizando resultados superiores.</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-calendar-check" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Programación Flexible</strong><br>
+                <span class="text-light small">Coordina los horarios que mejor te convengan para cada vehículo de tu flota, adaptándonos a tu agenda</span>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-shield-alt fa-2x text-info"></i>
-          </div>
-          <h5 class="text-white fw-bold mb-3">Productos de Primera Línea</h5>
-          <p class="text-light">Utilizamos la línea 3D, productos hipoalergénicos y seguros para toda la familia.</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-shield-alt" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Calidad Garantizada</strong><br>
+                <span class="text-light small">Mismo nivel de excelencia en cada servicio, sin importar el plan contratado. Tu satisfacción es nuestra prioridad</span>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-home fa-2x text-info"></i>
-          </div>
-          <h5 class="text-white fw-bold mb-3">Servicio a Domicilio</h5>
-          <p class="text-light">Nos trasladamos a tu hogar o empresa sin ensuciar tu espacio, con total comodidad.</p>
+            <div class="d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-credit-card" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Pago Mensual Simplificado</strong><br>
+                <span class="text-light small">Facilita la gestión financiera con un pago único mensual por todos los servicios, sin sorpresas ni costos ocultos</span>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-award fa-2x text-info"></i>
           </div>
-          <h5 class="text-white fw-bold mb-3">Garantía de Satisfacción</h5>
-          <p class="text-light">Compromiso total con la calidad. Tu satisfacción es nuestra prioridad absoluta.</p>
         </div>
-      </div>
+        <!-- Beneficios Adicionales -->
+        <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Beneficios Adicionales</h4>
+            <p class="text-light mb-4">Ventajas exclusivas para nuestros clientes con planes</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-building" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Planes Empresariales</strong><br>
+                <span class="text-light small">Ofrecemos convenios especiales para flotas, concesionarias o negocios con necesidades recurrentes de limpieza</span>
     </div>
-  </section>
-
-  <!-- ANTES Y DESPUÉS -->
-  <section class="container py-5">
-    <h2 class="text-center text-white mb-5 fw-bold">Resultados que Hablan por Sí Solos</h2>
-    <p class="text-center text-light mb-5 fs-5">Transformaciones reales de nuestros trabajos</p>
-    <div class="row g-4 justify-content-center">
-      <!-- Card Tapizados -->
-      <div class="col-md-6">
-        <div class="before-after-futuristic-card p-0">
-          <div class="before-after-images-futuristic d-flex">
-            <div class="before-img-futuristic position-relative flex-fill">
-              <img src="img/sillon1.jpg" alt="Antes - Tapizado" class="img-fluid rounded-start before-img-effect">
-              <span class="before-label-futuristic">ANTES</span>
             </div>
-            <div class="after-img-futuristic position-relative flex-fill">
-              <img src="img/sillonantesydespues2.jpg" alt="Después - Tapizado" class="img-fluid rounded-end after-img-effect">
-              <span class="after-label-futuristic">DESPUÉS</span>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-users" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Descuentos por Volumen</strong><br>
+                <span class="text-light small">Accedé a precios especiales contratando múltiples servicios o al superar un monto mínimo. Ideal para familias y grupos</span>
+              </div>
             </div>
-          </div>
-          <div class="p-4 text-center">
-            <h4 class="text-white mb-2 futurist-title">Tapizado de Sillón</h4>
-            <p class="text-light mb-0">Eliminación total de manchas y renovación de color. Higienización profunda y resultado impecable.</p>
-          </div>
-        </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-gift" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Promociones Exclusivas</strong><br>
+                <span class="text-light small">Disfrutá promociones mensuales especiales y adherite a nuestros planes anuales para mantener tu flota impecable todo el año</span>
       </div>
-      <!-- Card Vehículos -->
-      <div class="col-md-6">
-        <div class="before-after-futuristic-card p-0">
-          <div class="before-after-images-futuristic d-flex">
-            <div class="before-img-futuristic position-relative flex-fill">
-              <img src="img/asientosucio.jpg" alt="Antes - Vehículo" class="img-fluid rounded-start before-img-effect">
-              <span class="before-label-futuristic">ANTES</span>
             </div>
-            <div class="after-img-futuristic position-relative flex-fill">
-              <img src="img/autodeatalle1.jpg" alt="Después - Vehículo" class="img-fluid rounded-end after-img-effect">
-              <span class="after-label-futuristic">DESPUÉS</span>
+            <div class="d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-headset" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Atención Prioritaria</strong><br>
+                <span class="text-light small">Clientes con planes mensuales reciben atención preferencial y reprogramación rápida en caso de imprevistos</span>
+              </div>
             </div>
-          </div>
-          <div class="p-4 text-center">
-            <h4 class="text-white mb-2 futurist-title">Interior de Vehículo</h4>
-            <p class="text-light mb-0">Limpieza profunda, desinfección y restauración de tapizados. ¡Como nuevo!</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- VIDEO EN ACCIÓN -->
-  <section class="container py-3 d-flex justify-content-center">
-    <div class="before-after-futuristic-card p-0" style="max-width: 400px; margin: 0 auto;">
-      <div class="video-futuristic-wrapper position-relative">
-        <video controls style="width: 100%; border-radius: 18px 18px 0 0; background: #181a23; max-height: 250px; object-fit: cover;">
-          <source src="videos/limpiezadetapizado.mp4" type="video/mp4" />
-          Tu navegador no admite videos HTML5.
-        </video>
+  <!-- CTA FINAL -->
+  <section
+  style="
+    width: 100vw;
+    min-width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background: linear-gradient(135deg, #ff3b3f 0%, #b31217 100%);
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    z-index: 1;
+  "
+>
+  <div class="text-center mb-4" style="max-width: 900px; margin: 0 auto;">
+    <h2 class="text-white fw-bold mb-3 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">¿Listo para Vivir la Experiencia Daytona?</h2>
+    <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+      Reservá tu turno ahora y descubrí por qué somos líderes en limpieza, tapizados y detallado de vehículos en Reconquista. ¡Tu auto y tu hogar merecen lo mejor!
+    </p>
       </div>
-      <div class="p-3 text-center">
-        <h5 class="text-white mb-2 futurist-title">Limpieza de Tapizados en Acción</h5>
-        <p class="text-light mb-0 small">Mirá cómo trabajamos: tecnología, precisión y resultados reales.</p>
+  <div class="mb-4 text-center">
+    <span class="badge bg-danger fs-6 me-2">¡Solo hasta fin de mes!</span>
+    <span class="badge bg-success fs-6">Presupuesto sin cargo</span>
       </div>
+  <div class="d-flex justify-content-center gap-3">
+    <a href="#formulario-turno" class="btn btn-light btn-lg" style="min-width: 200px;">
+      <i class="fas fa-calendar-check me-2"></i>Reservar Turno
+    </a>
+    <a href="https://wa.me/5493482588383" target="_blank" class="btn btn-dark btn-lg" style="min-width: 200px; background: #25d366; border: none;">
+      <i class="fab fa-whatsapp me-2"></i>WhatsApp
+    </a>
     </div>
   </section>
 
-  <!-- TESTIMONIOS -->
-  <section class="container py-5">
-    <h2 class="text-center text-white mb-5 fw-bold">Lo que dicen nuestros clientes</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="testimonial-elegant-card text-center p-4 h-100">
-          <div class="testimonial-stars mb-2">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-          </div>
-          <div class="testimonial-quote mb-3">"Mi auto tenía manchas de café de hace 2 años que ya había perdido las esperanzas. ¡Los chicos las eliminaron completamente! Quedó como nuevo. Muy profesionales y puntuales."</div>
-          <div class="testimonial-author text-white fw-bold">María González</div>
-          <div class="testimonial-type text-secondary">Cliente de limpieza de vehículos</div>
-          <div class="testimonial-date text-muted small">Hace 2 semanas</div>
+  <!-- PRESENTACIÓN FUNDADOR -->
+  <section class="container py-5" id="fundador">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-12 col-md-4 d-flex justify-content-center mb-4 mb-md-0">
+        <div class="fundador-img-box">
+          <img src="img/daytona1.jpg" alt="Foto de Benjamín Gianneschi" class="fundador-foto">
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="testimonial-elegant-card text-center p-4 h-100">
-          <div class="testimonial-stars mb-2">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-          </div>
-          <div class="testimonial-quote mb-3">"Los sillones de mi living tenían manchas de vino y olores que no se iban. Después del servicio quedaron espectaculares, como si fueran nuevos. Mi hija alérgica ya no estornuda."</div>
-          <div class="testimonial-author text-white fw-bold">Carlos Rodríguez</div>
-          <div class="testimonial-type text-secondary">Cliente de limpieza de tapizados</div>
-          <div class="testimonial-date text-muted small">Hace 1 semana</div>
+      <div class="col-12 col-md-8 text-center text-md-start">
+        <h2 class="fw-bold text-white mb-2">Conocé a tu especialista</h2>
+        <h3 class="fw-bold text-warning mb-1" style="font-size:1.6rem;">Benjamín Gianneschi</h3>
+        <div class="text-light mb-2">Fundador y Especialista en Limpieza</div>
+        <div class="text-light mb-3"><i class="fas fa-award me-2 text-warning"></i>Más de 5 años de experiencia</div>
+        <p class="text-light mb-3" style="max-width: 600px;">Apasionado por la limpieza profesional y el detalle. Atiendo personalmente cada servicio, asegurando resultados impecables y la mejor experiencia para cada cliente. Mi compromiso es tu satisfacción total y la confianza de dejar tu auto o tu hogar en las mejores manos.</p>
+        <div class="mb-2">
+          <span class="text-warning fs-5">★★★★★</span>
+          <span class="text-light ms-2">5.0</span>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="testimonial-elegant-card text-center p-4 h-100">
-          <div class="testimonial-stars mb-2">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-          </div>
-          <div class="testimonial-quote mb-3">"Contraté el plan mensual para mi flota de 5 autos de la empresa. Excelente relación precio-calidad, muy buen servicio y los autos siempre impecables para los clientes."</div>
-          <div class="testimonial-author text-white fw-bold">Ana Martínez</div>
-          <div class="testimonial-type text-secondary">Cliente empresarial</div>
-          <div class="testimonial-date text-muted small">Cliente desde hace 3 meses</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Testimonio adicional -->
-    <div class="row mt-4 justify-content-center">
-      <div class="col-md-6">
-        <div class="testimonial-elegant-card text-center p-4">
-          <div class="testimonial-stars mb-2">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-          </div>
-          <div class="testimonial-quote mb-3">"Mi colchón tenía manchas y olores que no se iban con nada. Después del servicio quedó como nuevo y duermo mucho mejor. El servicio a domicilio es genial, no tuve que mover nada."</div>
-          <div class="testimonial-author text-white fw-bold">Roberto Silva</div>
-          <div class="testimonial-type text-secondary">Cliente de limpieza de colchones</div>
-          <div class="testimonial-date text-muted small">Hace 3 días</div>
+        <div class="mt-3">
+          <a href="#contacto" class="btn btn-primary">Contactar a Benjamín</a>
         </div>
       </div>
     </div>
@@ -425,42 +448,8 @@
     </div>
   </section>
 
-  <!-- BENEFICIOS ADICIONALES -->
-  <section class="container py-5">
-    <h2 class="text-center text-white mb-5 fw-bold">Beneficios Adicionales</h2>
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-building fa-2x text-info"></i>
-          </div>
-          <h5 class="text-white fw-bold mb-3">Beneficios para Empresas</h5>
-          <p class="text-light">Ofrecemos planes especiales para flotas, concesionarias o negocios con necesidades recurrentes. Consultá por convenios a medida.</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-users fa-2x text-info"></i>
-            </div>
-          <h5 class="text-white fw-bold mb-3">Descuentos por Volumen</h5>
-          <p class="text-light">Accedé a precios especiales contratando múltiples servicios o al superar un monto mínimo. Ideal para familias y grupos de amigos.</p>
-            </div>
-            </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-3">
-            <i class="fas fa-gift fa-2x text-info"></i>
-            </div>
-          <h5 class="text-white fw-bold mb-3">Promociones y Combos</h5>
-          <p class="text-light">Disfrutá promociones mensuales o adherite a nuestros planes anuales para mantener tu vehículo y hogar impecables todo el año.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- FAQ -->
-  <section class="container py-5">
+  <section class="faq-section">
     <h2 class="text-white mb-4 text-center">Preguntas frecuentes</h2>
 
     <div class="faq-item">
@@ -481,108 +470,175 @@
     </div>
   </section>
 
-  <!-- CTA FINAL -->
-  <section style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); width: 100vw; padding: 90px 0; margin: auto; text-align: center; border-radius: 24px;">
-    <h2 class="mb-4" style="color: #fff; font-weight: bold;">¿Listo para transformar tu espacio?</h2>
-    <p class="fs-5 mb-4" style="color: #f8f9fa;">
-      <strong>¡Oferta especial por tiempo limitado!</strong><br>
-      <span class="text-warning fw-bold">20% de descuento</span> en tu primer servicio
-    </p>
-    <div class="mb-4">
-      <span class="badge bg-danger fs-6 me-2">¡Solo hasta fin de mes!</span>
-      <span class="badge bg-success fs-6">Presupuesto sin cargo</span>
-    </div>
-    <a href="https://wa.me/5493482588383?text=Hola%20Daytona%2C%20quiero%20el%20descuento%20del%2020%25%20en%20mi%20primer%20servicio" 
-       class="btn btn-light btn-lg me-3" target="_blank">
-      <i class="fab fa-whatsapp me-2"></i>¡Quiero el Descuento!
-    </a>
-    <a href="tel:+5493482588383" class="btn btn-outline-light btn-lg">
-      <i class="fas fa-phone me-2"></i>Llamar Ahora
-    </a>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto" class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="contact-form-container">
+  <!-- UBICACIÓN -->
+  <section id="ubicacion" class="py-5" style="background: #121212;">
+    <div class="container">
           <div class="text-center mb-5">
-            <h2 class="text-white fw-bold mb-3">Consultanos</h2>
-            <p class="text-light fs-5">¡Contanos qué necesitás y te respondemos al instante!</p>
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">Fácil de Encontrar, Fácil de Llegar</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+          Ubicados estratégicamente en el corazón de Reconquista, con fácil acceso en transporte público y estacionamiento disponible.
+        </p>
+      </div>
+      <div class="row g-4">
+        <!-- Ubicación / Mapa -->
+        <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Nuestra Ubicación</h4>
+            <p class="text-light mb-2"><i class="fas fa-map-marker-alt me-2" style="color: #ff3b3f;"></i><strong>Reconquista, Santa Fe, Argentina</strong></p>
             <div class="mb-3">
-              <span class="badge bg-success fs-6 me-2">Respuesta en 5 minutos</span>
-              <span class="badge bg-info fs-6">Presupuesto sin cargo</span>
+              <span class="text-light small">Dirección Completa</span><br>
+              <span class="text-light">Cerca del centro, a metros de Av. San Martín</span>
+            </div>
+            <div class="mb-3">
+              <span class="text-light small">Horarios de Atención</span><br>
+              <span class="text-light">Lunes a Sábado: 8:00 - 20:00<br>Domingos: Cerrado</span>
+            </div>
+            <div class="rounded-3 overflow-hidden mt-3" style="height: 160px; background: #232526;">
+              <!-- Aquí podrías insertar un iframe de Google Maps real -->
+              <img src="img/daytona1.jpg" alt="Ubicación Daytona" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2);">
             </div>
           </div>
-          
-          <form id="whatsapp-form" class="modern-form">
-            <div class="row">
-              <div class="col-md-6 mb-4">
-                <label for="name" class="form-label">Nombre completo *</label>
-                <input type="text" class="form-control" id="name" placeholder="Tu nombre completo" required />
-              </div>
-              <div class="col-md-6 mb-4">
-                <label for="phone" class="form-label">Teléfono *</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Tu número de teléfono" required />
-              </div>
-            </div>
-            
-            <div class="mb-4">
-              <label for="service" class="form-label">¿Qué servicio necesitás? *</label>
-              <select id="service" class="form-select" required>
-                <option value="">Elegí una opción</option>
-                <option value="Limpieza completa de vehículos">🚗 Limpieza completa de vehículos</option>
-                <option value="Limpieza detallada de vehículos">🚙 Limpieza detallada de vehículos</option>
-                <option value="Restauración de motor">🔧 Restauración de motor</option>
-                <option value="Limpieza de tapizados vehiculares">💺 Limpieza de tapizados vehiculares</option>
-                <option value="Limpieza de colchones">🛏️ Limpieza de colchones</option>
-                <option value="Limpieza de sillones">🛋️ Limpieza de sillones</option>
-                <option value="Limpieza de alfombras">🏠 Limpieza de alfombras</option>
-                <option value="Limpieza de tapizados de hogar">🏡 Limpieza de tapizados de hogar</option>
-                <option value="Plan empresarial">🏢 Plan empresarial</option>
-                <option value="Otro">❓ Otro</option>
-              </select>
-            </div>
-            
-            <div class="mb-4">
-              <label for="urgency" class="form-label">¿Cuándo lo necesitás?</label>
-              <select id="urgency" class="form-select">
-                <option value="">Elegí una opción</option>
-                <option value="Lo antes posible">🚨 Lo antes posible</option>
-                <option value="Esta semana">📅 Esta semana</option>
-                <option value="Próxima semana">📆 Próxima semana</option>
-                <option value="Más adelante">⏰ Más adelante</option>
-              </select>
-            </div>
-            
-            <div class="mb-4">
-              <label for="message" class="form-label">Contanos más detalles</label>
-              <textarea class="form-control" id="message" rows="4" placeholder="Describí tu situación, manchas específicas, tamaño del vehículo/mueble, etc..."></textarea>
-            </div>
-            
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
-                <i class="fab fa-whatsapp me-2"></i>Enviar Consulta por WhatsApp
-              </button>
-              <p class="text-light small mt-2">
-                <i class="fas fa-shield-alt me-1"></i>Tu información está segura
-                <span class="mx-2">|</span>
-                <i class="fas fa-clock me-1"></i>Respuesta en 5 minutos
-              </p>
-            </div>
-          </form>
+        </div>
+        <!-- Cómo llegar -->
+        <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">¿Cómo llegar?</h4>
+            <p class="text-light mb-2">Todas las opciones para llegar fácilmente:</p>
+            <ul class="text-light mb-3" style="list-style: none; padding-left: 0;">
+              <li class="mb-2"><i class="fas fa-bus me-2" style="color: #ff3b3f;"></i>Colectivos urbanos e interurbanos (parada a 1 cuadra)</li>
+              <li class="mb-2"><i class="fas fa-car me-2" style="color: #ff3b3f;"></i>Estacionamiento disponible en la cuadra</li>
+              <li class="mb-2"><i class="fas fa-bicycle me-2" style="color: #ff3b3f;"></i>Bicisenda sobre Av. San Martín</li>
+              <li class="mb-2"><i class="fas fa-map-signs me-2" style="color: #ff3b3f;"></i>Referencias: a metros de la Plaza 25 de Mayo</li>
+            </ul>
+            <a href="https://goo.gl/maps/xxxx" target="_blank" class="btn btn-outline-light mt-2" style="border-color: #ff3b3f; color: #ff3b3f;">Ver en Google Maps</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 Daytona - Todos los derechos reservados
-      <a href="https://www.instagram.com/daytona_clean_service" target="_blank" title="Instagram Daytona">
-        <i class="fab fa-instagram fa-lg"></i> @daytona_clean_service
-      </a>
-    </p>
-  </footer>
+   <!-- SECCIÓN PROMOCIONAL DAYTONA -->
+   <section
+   style="
+     width: 100vw;
+     min-width: 100vw;
+     position: relative;
+     left: 50%;
+     right: 50%;
+     margin-left: -50vw;
+     margin-right: -50vw;
+     background: linear-gradient(135deg, #ff3b3f 0%, #b31217 100%);
+     overflow-x: hidden;
+     box-sizing: border-box;
+     padding-top: 3rem;
+     padding-bottom: 3rem;
+     z-index: 1;
+   "
+ >
+   <div class="text-center mb-4" style="max-width: 900px; margin: 0 auto;">
+     <h2 class="text-white fw-bold mb-3 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">¿Listo para Vivir la Experiencia Daytona?</h2>
+     <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+       Reservá tu turno ahora y descubrí por qué somos líderes en limpieza, tapizados y detallado de vehículos en Reconquista. ¡Tu auto y tu hogar merecen lo mejor!
+     </p>
+   </div>
+   <div class="d-flex justify-content-center gap-3">
+     <a href="#formulario-turno" class="btn btn-light btn-lg" style="min-width: 200px;">
+       <i class="fas fa-calendar-check me-2"></i>Reservar Turno
+     </a>
+     <a href="https://wa.me/5493482588383" target="_blank" class="btn btn-dark btn-lg" style="min-width: 200px; background: #25d366; border: none;">
+       <i class="fab fa-whatsapp me-2"></i>WhatsApp
+     </a>
+   </div>
+ </section>
+
+  <!-- CONTACTO FINAL -->
+  <section id="contacto" class="py-5" style="background: #121212;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">Visítanos o Contáctanos</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+          Estamos ubicados en el corazón de la ciudad, listos para atenderte con el mejor servicio y la más alta calidad.
+        </p>
+      </div>
+      <div class="row g-4">
+        <!-- Información de Contacto -->
+        <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">Información de Contacto</h4>
+            <p class="text-light mb-4">Encuéntranos o comunícate con nosotros</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-map-marker-alt" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Dirección</strong><br>
+                <span class="text-light">Reconquista, Santa Fe, Argentina</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-phone-alt" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Teléfono</strong><br>
+                <span class="text-light">+54 9 3482 588383</span><br>
+                <span class="text-success small">WhatsApp disponible</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-clock" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Horarios</strong><br>
+                <span class="text-light">Lunes a Sábado: 8:00 - 20:00<br>Domingos: Cerrado</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <span class="text-white fw-bold">Síguenos</span>
+              <div class="mt-2">
+                <a href="#" class="me-2" style="color: #ff3b3f;"><i class="fab fa-facebook fa-lg"></i></a>
+                <a href="#" class="me-2" style="color: #ff3b3f;"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" style="color: #ff3b3f;"><i class="fab fa-whatsapp fa-lg"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Por qué elegirnos -->
+        <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+          <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+            <h4 class="text-white fw-bold mb-3">¿Por qué elegirnos?</h4>
+            <p class="text-light mb-4">Las razones que nos hacen únicos</p>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-award" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Experiencia Profesional</strong><br>
+                <span class="text-light small">Más de 5 años brindando servicios de calidad premium</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-check-circle" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Productos de Calidad</strong><br>
+                <span class="text-light small">Utilizamos solo productos profesionales y de marcas reconocidas</span>
+              </div>
+            </div>
+            <div class="mb-3 d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-user-friends" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Atención Personalizada</strong><br>
+                <span class="text-light small">Cada cliente recibe un trato único y personalizado</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-start">
+              <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-thumbs-up" style="color: #ff3b3f;"></i></span>
+              <div>
+                <strong class="text-white">Satisfacción Garantizada</strong><br>
+                <span class="text-light small">Tu satisfacción es nuestra prioridad número uno</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer></footer>
+  <script src="js/include-footer.js"></script>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
