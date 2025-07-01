@@ -1370,17 +1370,26 @@
 }
 
 .servicio-card-body h5 {
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  color: #fff !important;
+  font-size: 1.18rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
 }
 
 .servicio-precio {
-  color: #ff3b3f;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
+}
+
+.servicio-card-body p {
+  color: #e0e0e0 !important;
+  font-size: 0.98rem !important;
+  margin-bottom: 1.2rem !important;
+  text-align: center !important;
 }
 
 .servicio-btn {
