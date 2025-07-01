@@ -41,6 +41,7 @@
   transition: opacity 1s ease-in-out;
   background-size: cover !important;
   background-position: center !important;
+  filter: brightness(0.4) !important;
 }
 
 .slide.active {
@@ -1496,7 +1497,7 @@
 }
 
 .hero-info {
-  text-shadow: 0 2px 12px #000, 0 1px 0 #fff;
+  text-shadow: none !important;
 }
 
 /* =============================

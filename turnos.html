@@ -77,9 +77,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/components/header.css" />
-  <link rel="stylesheet" href="css/components/buttons.css" />
-  <link rel="stylesheet" href="css/components/forms.css" />
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
   <style>
@@ -459,13 +456,248 @@
             <select class="form-select servicio-dropdown" id="servicio-select" required>
               <option value="" data-icon="">Selecciona un servicio</option>
               <option value="Limpieza de Vehículo" data-duracion="90" data-precio="15000" data-icon="fa-car">Limpieza de Vehículo</option>
+              <option value="Limpieza de Tapizado de Vehículo" data-duracion="120" data-precio="20000" data-icon="fa-car-side">Limpieza de Tapizado de Vehículo</option>
               <option value="Limpieza de Motor" data-duracion="45" data-precio="12000" data-icon="fa-gears">Limpieza de Motor</option>
-              <option value="Limpieza de Colchones" data-duracion="60" data-precio="12000" data-icon="fa-bed">Limpieza de Colchones</option>
               <option value="Limpieza de Sillones" data-duracion="80" data-precio="18000" data-icon="fa-couch">Limpieza de Sillones</option>
-              <option value="Limpieza de Sillas" data-duracion="40" data-precio="7000" data-icon="fa-chair">Limpieza de Sillas</option>
+              <option value="Limpieza de Sillas" data-duracion="60" data-precio="12000" data-icon="fa-chair">Limpieza de Sillas</option>
+              <option value="Limpieza de Colchones" data-duracion="90" data-precio="15000" data-icon="fa-bed">Limpieza de Colchones</option>
+              <option value="Limpieza de Alfombras" data-duracion="120" data-precio="20000" data-icon="fa-rug">Limpieza de Alfombras</option>
             </select>
           </div>
-          <div id="servicio-detalle" style="display:none;" class="mb-3 p-3 rounded bg-dark text-light"></div>
+
+          <!-- Botones de tipo de sillón (aparecen solo cuando se selecciona Limpieza de Sillones) -->
+          <div id="sillon-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de sillón:</strong></div>
+            <div class="btn-group" role="group" id="sillon-tipos">
+              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-1cuerpo" value="1 cuerpo" autocomplete="off">
+              <label class="btn btn-outline-primary" for="sillon-1cuerpo">
+                <i class="fas fa-couch me-1"></i>1 Cuerpo
+              </label>
+              
+              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-2cuerpos" value="2 cuerpos" autocomplete="off">
+              <label class="btn btn-outline-primary" for="sillon-2cuerpos">
+                <i class="fas fa-couch me-1"></i>2 Cuerpos
+              </label>
+              
+              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-3cuerpos" value="3 cuerpos" autocomplete="off">
+              <label class="btn btn-outline-primary" for="sillon-3cuerpos">
+                <i class="fas fa-couch me-1"></i>3 Cuerpos
+              </label>
+              
+              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-esquinero" value="esquinero" autocomplete="off">
+              <label class="btn btn-outline-primary" for="sillon-esquinero">
+                <i class="fas fa-couch me-1"></i>Esquinero
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de tipo de silla (aparecen solo cuando se selecciona Limpieza de Sillas) -->
+          <div id="silla-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de silla:</strong></div>
+            <div class="btn-group" role="group" id="silla-tipos">
+              <input type="radio" class="btn-check" name="silla-tipo" id="silla-simple" value="simple" autocomplete="off">
+              <label class="btn btn-outline-primary" for="silla-simple">
+                <i class="fas fa-chair me-1"></i>Simple
+              </label>
+              
+              <input type="radio" class="btn-check" name="silla-tipo" id="silla-gamer" value="gamer" autocomplete="off">
+              <label class="btn btn-outline-primary" for="silla-gamer">
+                <i class="fas fa-chair me-1"></i>Gamer
+              </label>
+              
+              <input type="radio" class="btn-check" name="silla-tipo" id="silla-oficina" value="oficina" autocomplete="off">
+              <label class="btn btn-outline-primary" for="silla-oficina">
+                <i class="fas fa-chair me-1"></i>Oficina
+              </label>
+              
+              <input type="radio" class="btn-check" name="silla-tipo" id="silla-comedor" value="comedor" autocomplete="off">
+              <label class="btn btn-outline-primary" for="silla-comedor">
+                <i class="fas fa-chair me-1"></i>Comedor
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de tipo de colchón (aparecen solo cuando se selecciona Limpieza de Colchones) -->
+          <div id="colchon-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de colchón:</strong></div>
+            <div class="btn-group" role="group" id="colchon-tipos">
+              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-1plaza" value="1 plaza" autocomplete="off">
+              <label class="btn btn-outline-primary" for="colchon-1plaza">
+                <i class="fas fa-bed me-1"></i>1 Plaza
+              </label>
+              
+              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-2plazas" value="2 plazas" autocomplete="off">
+              <label class="btn btn-outline-primary" for="colchon-2plazas">
+                <i class="fas fa-bed me-1"></i>2 Plazas
+              </label>
+              
+              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-queen" value="queen" autocomplete="off">
+              <label class="btn btn-outline-primary" for="colchon-queen">
+                <i class="fas fa-bed me-1"></i>Queen
+              </label>
+              
+              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-king" value="king" autocomplete="off">
+              <label class="btn btn-outline-primary" for="colchon-king">
+                <i class="fas fa-bed me-1"></i>King
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de tipo de vehículo (aparecen solo cuando se selecciona Limpieza de Vehículo) -->
+          <div id="vehiculo-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de vehículo:</strong></div>
+            <div class="btn-group" role="group" id="vehiculo-tipos">
+              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-auto" value="auto" autocomplete="off">
+              <label class="btn btn-outline-primary" for="vehiculo-auto">
+                <i class="fas fa-car me-1"></i>Auto
+              </label>
+              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-camioneta" value="camioneta" autocomplete="off">
+              <label class="btn btn-outline-primary" for="vehiculo-camioneta">
+                <i class="fas fa-truck me-1"></i>Camioneta
+              </label>
+              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-suv" value="suv" autocomplete="off">
+              <label class="btn btn-outline-primary" for="vehiculo-suv">
+                <i class="fas fa-car-side me-1"></i>SUV
+              </label>
+              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-pickup" value="pickup" autocomplete="off">
+              <label class="btn btn-outline-primary" for="vehiculo-pickup">
+                <i class="fas fa-truck-pickup me-1"></i>Pickup
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de tipo de tapizado de vehículo (aparecen solo cuando se selecciona Limpieza de Tapizado de Vehículo) -->
+          <div id="tapizadovehiculo-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de vehículo para tapizado:</strong></div>
+            <div class="btn-group" role="group" id="tapizadovehiculo-tipos">
+              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-auto" value="auto" autocomplete="off">
+              <label class="btn btn-outline-primary" for="tapizadovehiculo-auto">
+                <i class="fas fa-car me-1"></i>Auto
+              </label>
+              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-camioneta" value="camioneta" autocomplete="off">
+              <label class="btn btn-outline-primary" for="tapizadovehiculo-camioneta">
+                <i class="fas fa-truck me-1"></i>Camioneta
+              </label>
+              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-suv" value="suv" autocomplete="off">
+              <label class="btn btn-outline-primary" for="tapizadovehiculo-suv">
+                <i class="fas fa-car-side me-1"></i>SUV
+              </label>
+              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-pickup" value="pickup" autocomplete="off">
+              <label class="btn btn-outline-primary" for="tapizadovehiculo-pickup">
+                <i class="fas fa-truck-pickup me-1"></i>Pickup
+              </label>
+            </div>
+          </div>
+          <div id="tapizadovehiculos-seleccionados" class="mb-3"></div>
+          <div id="tapizadovehiculos-total" class="fw-bold mt-3"></div>
+
+          <!-- Botones de tipo de motor (aparecen solo cuando se selecciona Limpieza de Motor) -->
+          <div id="motor-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de limpieza de motor:</strong></div>
+            <div class="btn-group" role="group" id="motor-tipos">
+              <input type="radio" class="btn-check" name="motor-tipo" id="motor-basica" value="basica" autocomplete="off">
+              <label class="btn btn-outline-primary" for="motor-basica">
+                <i class="fas fa-gears me-1"></i>Básica
+              </label>
+              
+              <input type="radio" class="btn-check" name="motor-tipo" id="motor-completa" value="completa" autocomplete="off">
+              <label class="btn btn-outline-primary" for="motor-completa">
+                <i class="fas fa-gears me-1"></i>Completa
+              </label>
+              
+              <input type="radio" class="btn-check" name="motor-tipo" id="motor-detallada" value="detallada" autocomplete="off">
+              <label class="btn btn-outline-primary" for="motor-detallada">
+                <i class="fas fa-gears me-1"></i>Detallada
+              </label>
+            </div>
+          </div>
+
+          <!-- Botones de tipo de alfombra (aparecen solo cuando se selecciona Limpieza de Alfombras) -->
+          <div id="alfombra-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de alfombra:</strong></div>
+            <div class="btn-group" role="group" id="alfombra-tipos">
+              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-chica" value="chica" autocomplete="off">
+              <label class="btn btn-outline-primary" for="alfombra-chica">
+                <i class="fas fa-rug me-1"></i>Chica (2x3m)
+              </label>
+              
+              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-mediana" value="mediana" autocomplete="off">
+              <label class="btn btn-outline-primary" for="alfombra-mediana">
+                <i class="fas fa-rug me-1"></i>Mediana (3x4m)
+              </label>
+              
+              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-grande" value="grande" autocomplete="off">
+              <label class="btn btn-outline-primary" for="alfombra-grande">
+                <i class="fas fa-rug me-1"></i>Grande (4x5m)
+              </label>
+              
+              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-persa" value="persa" autocomplete="off">
+              <label class="btn btn-outline-primary" for="alfombra-persa">
+                <i class="fas fa-rug me-1"></i>Persa
+              </label>
+            </div>
+          </div>
+
+          <!-- Detalle del servicio seleccionado (solo para servicios que no son sillones) -->
+          <div id="servicio-detalle" class="mb-3" style="display:none;">
+            <!-- El contenido se genera dinámicamente -->
+          </div>
+
+          <!-- Cards de sillones seleccionados -->
+          <div id="sillones-seleccionados" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+
+          <!-- Cards de sillas seleccionadas -->
+          <div id="sillas-seleccionadas" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+
+          <!-- Cards de colchones seleccionados -->
+          <div id="colchones-seleccionados" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+
+          <!-- Cards de vehículos seleccionados -->
+          <div id="vehiculos-seleccionados" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+
+          <!-- Cards de motores seleccionados -->
+          <div id="motores-seleccionados" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+
+          <!-- Cards de alfombras seleccionadas -->
+          <div id="alfombras-seleccionadas" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
+          
+          <div id="sillones-total" class="fw-bold mt-3"></div>
+          <div id="sillas-total" class="fw-bold mt-3"></div>
+          <div id="colchones-total" class="fw-bold mt-3"></div>
+          <div id="vehiculos-total" class="fw-bold mt-3"></div>
+          <div id="motores-total" class="fw-bold mt-3"></div>
+          <div id="alfombras-total" class="fw-bold mt-3"></div>
+          
+          <!-- Resumen final de todos los servicios -->
+          <div id="resumen-final" class="mt-4" style="display:none;">
+                      <div class="card bg-dark text-white border border-danger">
+            <div class="card-header bg-danger text-white">
+              <h5 class="mb-0"><i class="fas fa-list me-2"></i>Resumen de Servicios</h5>
+            </div>
+            <div class="card-body">
+              <div id="lista-servicios">
+                <!-- Los servicios se generan dinámicamente -->
+              </div>
+              <hr class="border-danger">
+              <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0 text-white">Total General:</h4>
+                <h4 class="mb-0 text-white" id="total-general">$0</h4>
+              </div>
+            </div>
+          </div>
+          </div>
         </div>
         <!-- Paso 2: Seleccionar Profesional -->
         <div id="step-2" style="display:none;">
@@ -559,6 +791,857 @@
   </footer>
   <script src="js/include-footer.js"></script>
   <script>
+  // Variables globales para servicios
+  let sillonesAgregados = [];
+  let sillasAgregadas = [];
+  let colchonesAgregados = [];
+  let vehiculosAgregados = [];
+  let tapizadoVehiculosAgregados = [];
+  let motoresAgregados = [];
+  let alfombrasAgregadas = [];
+
+  // Funciones globales para sillones
+  function cambiarCantidad(id, cambio) {
+    console.log('cambiarCantidad llamado con:', id, cambio);
+    console.log('sillonesAgregados ANTES:', JSON.stringify(sillonesAgregados));
+    // Convertir el ID a número para que coincida con el tipo de dato
+    const idNum = parseFloat(id);
+    const sillon = sillonesAgregados.find(s => s.id === idNum);
+    console.log('sillon encontrado:', sillon);
+    if (sillon) {
+      sillon.cantidad += cambio;
+      console.log('nueva cantidad:', sillon.cantidad);
+      if (sillon.cantidad <= 0) {
+        eliminarSillon(idNum);
+      } else {
+        console.log('sillonesAgregados DESPUÉS:', JSON.stringify(sillonesAgregados));
+        renderSillonesCards();
+        actualizarTotalSillones();
+      }
+    }
+  }
+
+  function eliminarSillon(id) {
+    console.log('eliminarSillon llamado con:', id);
+    // Convertir el ID a número para que coincida con el tipo de dato
+    const idNum = parseFloat(id);
+    sillonesAgregados = sillonesAgregados.filter(s => s.id !== idNum);
+    renderSillonesCards();
+    actualizarTotalSillones();
+  }
+
+  // Funciones globales para sillas
+  function cambiarCantidadSilla(id, cambio) {
+    const idNum = parseFloat(id);
+    const silla = sillasAgregadas.find(s => s.id === idNum);
+    if (silla) {
+      silla.cantidad += cambio;
+      if (silla.cantidad <= 0) {
+        eliminarSilla(idNum);
+      } else {
+        renderSillasCards();
+        actualizarTotalSillas();
+      }
+    }
+  }
+
+  function eliminarSilla(id) {
+    const idNum = parseFloat(id);
+    sillasAgregadas = sillasAgregadas.filter(s => s.id !== idNum);
+    renderSillasCards();
+    actualizarTotalSillas();
+  }
+
+  // Funciones globales para colchones
+  function cambiarCantidadColchon(id, cambio) {
+    const idNum = parseFloat(id);
+    const colchon = colchonesAgregados.find(c => c.id === idNum);
+    if (colchon) {
+      colchon.cantidad += cambio;
+      if (colchon.cantidad <= 0) {
+        eliminarColchon(idNum);
+      } else {
+        renderColchonesCards();
+        actualizarTotalColchones();
+      }
+    }
+  }
+
+  function eliminarColchon(id) {
+    const idNum = parseFloat(id);
+    colchonesAgregados = colchonesAgregados.filter(c => c.id !== idNum);
+    renderColchonesCards();
+    actualizarTotalColchones();
+  }
+
+  // Funciones globales para vehículos
+  function cambiarCantidadVehiculo(id, cambio) {
+    const idNum = parseFloat(id);
+    const vehiculo = vehiculosAgregados.find(v => v.id === idNum);
+    if (vehiculo) {
+      vehiculo.cantidad += cambio;
+      if (vehiculo.cantidad <= 0) {
+        eliminarVehiculo(idNum);
+      } else {
+        renderVehiculosCards();
+        actualizarTotalVehiculos();
+      }
+    }
+  }
+
+  function eliminarVehiculo(id) {
+    const idNum = parseFloat(id);
+    vehiculosAgregados = vehiculosAgregados.filter(v => v.id !== idNum);
+    renderVehiculosCards();
+    actualizarTotalVehiculos();
+  }
+
+  // Funciones globales para tapizado de vehículos
+  function cambiarCantidadTapizadoVehiculo(id, cambio) {
+    const idNum = parseFloat(id);
+    const tapizadoVehiculo = tapizadoVehiculosAgregados.find(tv => tv.id === idNum);
+    if (tapizadoVehiculo) {
+      tapizadoVehiculo.cantidad += cambio;
+      if (tapizadoVehiculo.cantidad <= 0) {
+        eliminarTapizadoVehiculo(idNum);
+      } else {
+        renderTapizadoVehiculosCards();
+        actualizarTotalTapizadoVehiculos();
+      }
+    }
+  }
+
+  function eliminarTapizadoVehiculo(id) {
+    const idNum = parseFloat(id);
+    tapizadoVehiculosAgregados = tapizadoVehiculosAgregados.filter(tv => tv.id !== idNum);
+    renderTapizadoVehiculosCards();
+    actualizarTotalTapizadoVehiculos();
+  }
+
+  // Funciones globales para motores
+  function cambiarCantidadMotor(id, cambio) {
+    const idNum = parseFloat(id);
+    const motor = motoresAgregados.find(m => m.id === idNum);
+    if (motor) {
+      motor.cantidad += cambio;
+      if (motor.cantidad <= 0) {
+        eliminarMotor(idNum);
+      } else {
+        renderMotoresCards();
+        actualizarTotalMotores();
+      }
+    }
+  }
+
+  function eliminarMotor(id) {
+    const idNum = parseFloat(id);
+    motoresAgregados = motoresAgregados.filter(m => m.id !== idNum);
+    renderMotoresCards();
+    actualizarTotalMotores();
+  }
+
+  // Funciones globales para alfombras
+  function cambiarCantidadAlfombra(id, cambio) {
+    const idNum = parseFloat(id);
+    const alfombra = alfombrasAgregadas.find(a => a.id === idNum);
+    if (alfombra) {
+      alfombra.cantidad += cambio;
+      if (alfombra.cantidad <= 0) {
+        eliminarAlfombra(idNum);
+      } else {
+        renderAlfombrasCards();
+        actualizarTotalAlfombras();
+      }
+    }
+  }
+
+  function eliminarAlfombra(id) {
+    const idNum = parseFloat(id);
+    alfombrasAgregadas = alfombrasAgregadas.filter(a => a.id !== idNum);
+    renderAlfombrasCards();
+    actualizarTotalAlfombras();
+  }
+
+  // Funciones de renderizado para sillones
+  function renderSillonesCards() {
+    console.log('renderSillonesCards llamado');
+    console.log('sillonesAgregados:', sillonesAgregados);
+    const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
+    console.log('Elemento sillones-seleccionados:', sillonesSeleccionados);
+    sillonesSeleccionados.innerHTML = '';
+    
+    sillonesAgregados.forEach(sillon => {
+      console.log('Renderizando sillon:', sillon);
+      const precios = {
+        '1 cuerpo': 9000,
+        '2 cuerpos': 12000,
+        '3 cuerpos': 15000,
+        'esquinero': 18000
+      };
+      const precioUnitario = precios[sillon.tipo];
+      const precioTotal = precioUnitario * sillon.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-couch me-2"></i><strong>${sillon.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">80 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSillon('${sillon.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${sillon.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      sillonesSeleccionados.appendChild(card);
+      console.log('Card agregada al DOM');
+    });
+  }
+
+  function actualizarTotalSillones() {
+    console.log('actualizarTotalSillones llamado');
+    const totalSpan = document.getElementById('sillones-total');
+    if (sillonesAgregados.length > 0) {
+      const precios = {
+        '1 cuerpo': 9000,
+        '2 cuerpos': 12000,
+        '3 cuerpos': 15000,
+        'esquinero': 18000
+      };
+      let total = 0;
+      sillonesAgregados.forEach(sillon => {
+        total += precios[sillon.tipo] * sillon.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-couch me-1"></i>Total Sillones: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para sillas
+  function renderSillasCards() {
+    const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
+    sillasSeleccionadas.innerHTML = '';
+    
+    sillasAgregadas.forEach(silla => {
+      const precios = {
+        'simple': 7000,
+        'gamer': 10000,
+        'oficina': 8000,
+        'comedor': 6000
+      };
+      const precioUnitario = precios[silla.tipo];
+      const precioTotal = precioUnitario * silla.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-chair me-2"></i><strong>${silla.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">60 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSilla('${silla.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${silla.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      sillasSeleccionadas.appendChild(card);
+    });
+  }
+
+  function actualizarTotalSillas() {
+    const totalSpan = document.getElementById('sillas-total');
+    if (sillasAgregadas.length > 0) {
+      const precios = {
+        'simple': 7000,
+        'gamer': 10000,
+        'oficina': 8000,
+        'comedor': 6000
+      };
+      let total = 0;
+      sillasAgregadas.forEach(silla => {
+        total += precios[silla.tipo] * silla.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-chair me-1"></i>Total Sillas: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para colchones
+  function renderColchonesCards() {
+    const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
+    colchonesSeleccionados.innerHTML = '';
+    
+    colchonesAgregados.forEach(colchon => {
+      const precios = {
+        '1 plaza': 12000,
+        '2 plazas': 15000,
+        'queen': 18000,
+        'king': 22000
+      };
+      const precioUnitario = precios[colchon.tipo];
+      const precioTotal = precioUnitario * colchon.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-bed me-2"></i><strong>${colchon.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">90 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarColchon('${colchon.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${colchon.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      colchonesSeleccionados.appendChild(card);
+    });
+  }
+
+  function actualizarTotalColchones() {
+    const totalSpan = document.getElementById('colchones-total');
+    if (colchonesAgregados.length > 0) {
+      const precios = {
+        '1 plaza': 12000,
+        '2 plazas': 15000,
+        'queen': 18000,
+        'king': 22000
+      };
+      let total = 0;
+      colchonesAgregados.forEach(colchon => {
+        total += precios[colchon.tipo] * colchon.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-bed me-1"></i>Total Colchones: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para vehículos
+  function renderVehiculosCards() {
+    const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
+    vehiculosSeleccionados.innerHTML = '';
+    
+    vehiculosAgregados.forEach(vehiculo => {
+      const precios = {
+        'auto': 15000,
+        'camioneta': 18000,
+        'suv': 20000,
+        'pickup': 22000
+      };
+      const precioUnitario = precios[vehiculo.tipo];
+      const precioTotal = precioUnitario * vehiculo.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-car me-2"></i><strong>${vehiculo.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">90 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarVehiculo('${vehiculo.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${vehiculo.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      vehiculosSeleccionados.appendChild(card);
+    });
+  }
+
+  function actualizarTotalVehiculos() {
+    const totalSpan = document.getElementById('vehiculos-total');
+    if (vehiculosAgregados.length > 0) {
+      const precios = {
+        'auto': 15000,
+        'camioneta': 18000,
+        'suv': 20000,
+        'pickup': 22000
+      };
+      let total = 0;
+      vehiculosAgregados.forEach(vehiculo => {
+        total += precios[vehiculo.tipo] * vehiculo.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-car me-1"></i>Total Vehículos: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para motores
+  function renderMotoresCards() {
+    const motoresSeleccionados = document.getElementById('motores-seleccionados');
+    motoresSeleccionados.innerHTML = '';
+    
+    motoresAgregados.forEach(motor => {
+      const precios = {
+        'basica': 12000,
+        'completa': 15000,
+        'detallada': 18000
+      };
+      const precioUnitario = precios[motor.tipo];
+      const precioTotal = precioUnitario * motor.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-gears me-2"></i><strong>${motor.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">45 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarMotor('${motor.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${motor.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      motoresSeleccionados.appendChild(card);
+    });
+  }
+
+  function actualizarTotalMotores() {
+    const totalSpan = document.getElementById('motores-total');
+    if (motoresAgregados.length > 0) {
+      const precios = {
+        'basica': 12000,
+        'completa': 15000,
+        'detallada': 18000
+      };
+      let total = 0;
+      motoresAgregados.forEach(motor => {
+        total += precios[motor.tipo] * motor.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-gears me-1"></i>Total Motores: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para alfombras
+  function renderAlfombrasCards() {
+    const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+    alfombrasSeleccionadas.innerHTML = '';
+    
+    alfombrasAgregadas.forEach(alfombra => {
+      const precios = {
+        'chica': 20000,
+        'mediana': 25000,
+        'grande': 30000,
+        'persa': 35000
+      };
+      const precioUnitario = precios[alfombra.tipo];
+      const precioTotal = precioUnitario * alfombra.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-rug me-2"></i><strong>${alfombra.tipo}</strong>
+              <span class="badge bg-dark text-warning ms-2">120 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarAlfombra('${alfombra.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${alfombra.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      alfombrasSeleccionadas.appendChild(card);
+    });
+  }
+
+  function actualizarTotalAlfombras() {
+    const totalSpan = document.getElementById('alfombras-total');
+    if (alfombrasAgregadas.length > 0) {
+      const precios = {
+        'chica': 20000,
+        'mediana': 25000,
+        'grande': 30000,
+        'persa': 35000
+      };
+      let total = 0;
+      alfombrasAgregadas.forEach(alfombra => {
+        total += precios[alfombra.tipo] * alfombra.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-rug me-1"></i>Total Alfombras: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Funciones de renderizado para tapizado de vehículos
+  function renderTapizadoVehiculosCards() {
+    const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
+    tapizadovehiculosSeleccionados.innerHTML = '';
+    
+    tapizadoVehiculosAgregados.forEach(tv => {
+      const precios = {
+        'auto': 20000,
+        'camioneta': 24000,
+        'suv': 28000,
+        'pickup': 30000
+      };
+      const precioUnitario = precios[tv.tipo];
+      const precioTotal = precioUnitario * tv.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-car-side me-2"></i><strong>${tv.tipo}</strong>
+              <span class="badge bg-dark text-warning ms-2">120 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarTapizadoVehiculo('${tv.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${tv.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      tapizadovehiculosSeleccionados.appendChild(card);
+    });
+  }
+
+  function actualizarTotalTapizadoVehiculos() {
+    const totalSpan = document.getElementById('tapizadovehiculos-total');
+    if (tapizadoVehiculosAgregados.length > 0) {
+      const precios = {
+        'auto': 20000,
+        'camioneta': 24000,
+        'suv': 28000,
+        'pickup': 30000
+      };
+      let total = 0;
+      tapizadoVehiculosAgregados.forEach(tv => {
+        total += precios[tv.tipo] * tv.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-car-side me-1"></i>Total Tapizado Vehículo: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
+  // Función para actualizar el resumen final
+  function actualizarResumenFinal() {
+    const resumenFinal = document.getElementById('resumen-final');
+    const listaServicios = document.getElementById('lista-servicios');
+    const totalGeneral = document.getElementById('total-general');
+    
+    // Recolectar todos los servicios
+    let todosLosServicios = [];
+    let totalGeneralCalculado = 0;
+    
+    // Agregar sillones
+    if (sillonesAgregados.length > 0) {
+      const preciosSillones = {
+        '1 cuerpo': 9000,
+        '2 cuerpos': 12000,
+        '3 cuerpos': 15000,
+        'esquinero': 18000
+      };
+      sillonesAgregados.forEach(sillon => {
+        const precio = preciosSillones[sillon.tipo];
+        const subtotal = precio * sillon.cantidad;
+        todosLosServicios.push({
+          nombre: `Sillón ${sillon.tipo}`,
+          cantidad: sillon.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-couch'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar sillas
+    if (sillasAgregadas.length > 0) {
+      const preciosSillas = {
+        'simple': 7000,
+        'gamer': 10000,
+        'oficina': 8000,
+        'comedor': 6000
+      };
+      sillasAgregadas.forEach(silla => {
+        const precio = preciosSillas[silla.tipo];
+        const subtotal = precio * silla.cantidad;
+        todosLosServicios.push({
+          nombre: `Silla ${silla.tipo}`,
+          cantidad: silla.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-chair'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar colchones
+    if (colchonesAgregados.length > 0) {
+      const preciosColchones = {
+        '1 plaza': 12000,
+        '2 plazas': 15000,
+        'queen': 18000,
+        'king': 22000
+      };
+      colchonesAgregados.forEach(colchon => {
+        const precio = preciosColchones[colchon.tipo];
+        const subtotal = precio * colchon.cantidad;
+        todosLosServicios.push({
+          nombre: `Colchón ${colchon.tipo}`,
+          cantidad: colchon.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-bed'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar vehículos
+    if (vehiculosAgregados.length > 0) {
+      const preciosVehiculos = {
+        'auto': 15000,
+        'camioneta': 18000,
+        'suv': 20000,
+        'pickup': 22000
+      };
+      vehiculosAgregados.forEach(vehiculo => {
+        const precio = preciosVehiculos[vehiculo.tipo];
+        const subtotal = precio * vehiculo.cantidad;
+        todosLosServicios.push({
+          nombre: `Vehículo ${vehiculo.tipo}`,
+          cantidad: vehiculo.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-car'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar motores
+    if (motoresAgregados.length > 0) {
+      const preciosMotores = {
+        'basica': 12000,
+        'completa': 15000,
+        'detallada': 18000
+      };
+      motoresAgregados.forEach(motor => {
+        const precio = preciosMotores[motor.tipo];
+        const subtotal = precio * motor.cantidad;
+        todosLosServicios.push({
+          nombre: `Motor ${motor.tipo}`,
+          cantidad: motor.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-gears'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar alfombras
+    if (alfombrasAgregadas.length > 0) {
+      const preciosAlfombras = {
+        'chica': 20000,
+        'mediana': 25000,
+        'grande': 30000,
+        'persa': 35000
+      };
+      alfombrasAgregadas.forEach(alfombra => {
+        const precio = preciosAlfombras[alfombra.tipo];
+        const subtotal = precio * alfombra.cantidad;
+        todosLosServicios.push({
+          nombre: `Alfombra ${alfombra.tipo}`,
+          cantidad: alfombra.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-rug'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Agregar tapizado de vehículos
+    if (tapizadoVehiculosAgregados.length > 0) {
+      const preciosTapizadoVehiculos = {
+        'auto': 20000,
+        'camioneta': 24000,
+        'suv': 28000,
+        'pickup': 30000
+      };
+      tapizadoVehiculosAgregados.forEach(tv => {
+        const precio = preciosTapizadoVehiculos[tv.tipo];
+        const subtotal = precio * tv.cantidad;
+        todosLosServicios.push({
+          nombre: `Tapizado Vehículo ${tv.tipo}`,
+          cantidad: tv.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-car-side'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
+    
+    // Mostrar u ocultar el resumen
+    if (todosLosServicios.length > 0) {
+      resumenFinal.style.display = 'block';
+      
+      // Generar la lista de servicios
+      listaServicios.innerHTML = '';
+      todosLosServicios.forEach(servicio => {
+        const item = document.createElement('div');
+        item.className = 'd-flex justify-content-between align-items-center mb-2';
+        item.innerHTML = `
+          <div class="d-flex align-items-center">
+            <i class="fas ${servicio.icon} me-2 text-white"></i>
+            <span class="text-white">${servicio.nombre} x${servicio.cantidad}</span>
+          </div>
+          <div class="text-end">
+            <div class="text-white small">$${servicio.precio.toLocaleString('es-AR')} c/u</div>
+            <div class="fw-bold text-white">$${servicio.subtotal.toLocaleString('es-AR')}</div>
+          </div>
+        `;
+        listaServicios.appendChild(item);
+      });
+      
+      // Actualizar total general
+      totalGeneral.textContent = `$${totalGeneralCalculado.toLocaleString('es-AR')}`;
+    } else {
+      resumenFinal.style.display = 'none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
     // Wizard navigation logic
     let step = 1;
     let turno = {
@@ -599,6 +1682,12 @@
         precio: 15000,
         desc: 'Interior y exterior, aspirado, vidrios, superficies.'
       },
+      'Limpieza de Tapizado de Vehículo': {
+        icon: 'fa-car-side',
+        duracion: 120,
+        precio: 20000,
+        desc: 'Limpieza profunda de asientos, tapizados y alfombras del vehículo.'
+      },
       'Limpieza de Motor': {
         icon: 'fa-gears',
         duracion: 45,
@@ -626,21 +1715,103 @@
     };
     const selectServicio = document.getElementById('servicio-select');
     const detalleServicio = document.getElementById('servicio-detalle');
+    const sillonesOpciones = document.getElementById('sillones-opciones');
+
     selectServicio.addEventListener('change', function() {
       const val = this.value;
+      const sillonTiposContainer = document.getElementById('sillon-tipos-container');
+      const sillaTiposContainer = document.getElementById('silla-tipos-container');
+      const colchonTiposContainer = document.getElementById('colchon-tipos-container');
+      const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
+      const motorTiposContainer = document.getElementById('motor-tipos-container');
+      const alfombraTiposContainer = document.getElementById('alfombra-tipos-container');
+      const servicioDetalle = document.getElementById('servicio-detalle');
+      const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
+      const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
+      const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
+      const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
+      const motoresSeleccionados = document.getElementById('motores-seleccionados');
+      const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+      const totalSpan = document.getElementById('sillones-total');
+      const totalSillasSpan = document.getElementById('sillas-total');
+      const totalColchonesSpan = document.getElementById('colchones-total');
+      const totalVehiculosSpan = document.getElementById('vehiculos-total');
+      const totalMotoresSpan = document.getElementById('motores-total');
+      const totalAlfombrasSpan = document.getElementById('alfombras-total');
+      const tapizadovehiculoTiposContainer = document.getElementById('tapizadovehiculo-tipos-container');
+      const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
+      const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
+      
+      // Ocultar todo por defecto
+      sillonTiposContainer.style.display = 'none';
+      sillaTiposContainer.style.display = 'none';
+      colchonTiposContainer.style.display = 'none';
+      vehiculoTiposContainer.style.display = 'none';
+      tapizadovehiculoTiposContainer.style.display = 'none';
+      motorTiposContainer.style.display = 'none';
+      alfombraTiposContainer.style.display = 'none';
+      servicioDetalle.style.display = 'none';
+      sillonesSeleccionados.innerHTML = '';
+      sillasSeleccionadas.innerHTML = '';
+      colchonesSeleccionados.innerHTML = '';
+      vehiculosSeleccionados.innerHTML = '';
+      tapizadovehiculosSeleccionados.innerHTML = '';
+      motoresSeleccionados.innerHTML = '';
+      alfombrasSeleccionadas.innerHTML = '';
+      totalSpan.innerHTML = '';
+      totalSillasSpan.innerHTML = '';
+      totalColchonesSpan.innerHTML = '';
+      totalVehiculosSpan.innerHTML = '';
+      totalTapizadoVehiculosSpan.innerHTML = '';
+      totalMotoresSpan.innerHTML = '';
+      totalAlfombrasSpan.innerHTML = '';
+      document.getElementById('resumen-final').style.display = 'none';
+      
+      // Mostrar detalles del servicio (solo para servicios que no son sillones, sillas o colchones)
       if (servicios[val]) {
         const s = servicios[val];
-        detalleServicio.innerHTML = `<i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-warning'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-muted small'>${s.desc}</span>`;
-        detalleServicio.style.display = '';
+        
+        // Si es Limpieza de Sillones, mostrar botones de tipo
+        if (val === 'Limpieza de Sillones') {
+          sillonTiposContainer.style.display = 'block';
+          renderSillonesCards();
+          actualizarTotalSillones();
+        } else if (val === 'Limpieza de Sillas') {
+          sillaTiposContainer.style.display = 'block';
+          renderSillasCards();
+          actualizarTotalSillas();
+        } else if (val === 'Limpieza de Colchones') {
+          colchonTiposContainer.style.display = 'block';
+          renderColchonesCards();
+          actualizarTotalColchones();
+        } else if (val === 'Limpieza de Vehículo') {
+          vehiculoTiposContainer.style.display = 'block';
+          renderVehiculosCards();
+          actualizarTotalVehiculos();
+        } else if (val === 'Limpieza de Tapizado de Vehículo') {
+          tapizadovehiculoTiposContainer.style.display = 'block';
+          renderTapizadoVehiculosCards();
+          actualizarTotalTapizadoVehiculos();
+        } else if (val === 'Limpieza de Motor') {
+          motorTiposContainer.style.display = 'block';
+          renderMotoresCards();
+          actualizarTotalMotores();
+        } else if (val === 'Limpieza de Alfombras') {
+          alfombraTiposContainer.style.display = 'block';
+          renderAlfombrasCards();
+          actualizarTotalAlfombras();
+        } else {
+          // Para otros servicios, mostrar la card normal
+          servicioDetalle.innerHTML = `<div class="p-3 rounded bg-dark text-white"><i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-danger'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-white small'>${s.desc}</span></div>`;
+          servicioDetalle.style.display = 'block';
+        }
+        
         turno.servicio = val;
         turno.duracion = s.duracion;
         turno.precio = s.precio;
         document.getElementById('btn-siguiente-fijo').disabled = false;
       } else {
-        detalleServicio.style.display = 'none';
-        turno.servicio = null;
-        turno.duracion = null;
-        turno.precio = null;
+        servicioDetalle.style.display = 'none';
         document.getElementById('btn-siguiente-fijo').disabled = true;
       }
     });
@@ -719,6 +1890,229 @@
     // Inicializar botonera fija al cargar
     actualizarBotoneraFija();
     ocultarBotonesOriginales();
+    // Lógica para mostrar opciones de sillones con botones de tipo y controles de cantidad
+    // Event listeners para los botones de tipo de sillón
+    const sillonTipos = document.querySelectorAll('input[name="sillon-tipo"]');
+    const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
+    const totalSpan = document.getElementById('sillones-total');
+
+    // Cuando se selecciona un tipo de sillón
+    sillonTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = sillonesAgregados.find(s => s.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          sillonesAgregados.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderSillonesCards();
+        actualizarTotalSillones();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de silla
+    const sillaTipos = document.querySelectorAll('input[name="silla-tipo"]');
+    const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
+    const totalSillasSpan = document.getElementById('sillas-total');
+
+    // Cuando se selecciona un tipo de silla
+    sillaTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = sillasAgregadas.find(s => s.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          sillasAgregadas.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderSillasCards();
+        actualizarTotalSillas();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de colchón
+    const colchonTipos = document.querySelectorAll('input[name="colchon-tipo"]');
+    const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
+    const totalColchonesSpan = document.getElementById('colchones-total');
+
+    // Cuando se selecciona un tipo de colchón
+    colchonTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = colchonesAgregados.find(c => c.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          colchonesAgregados.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderColchonesCards();
+        actualizarTotalColchones();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de vehículo
+    const vehiculoTipos = document.querySelectorAll('input[name="vehiculo-tipo"]');
+    const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
+    const totalVehiculosSpan = document.getElementById('vehiculos-total');
+
+    // Cuando se selecciona un tipo de vehículo
+    vehiculoTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = vehiculosAgregados.find(v => v.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          vehiculosAgregados.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderVehiculosCards();
+        actualizarTotalVehiculos();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de motor
+    const motorTipos = document.querySelectorAll('input[name="motor-tipo"]');
+    const motoresSeleccionados = document.getElementById('motores-seleccionados');
+    const totalMotoresSpan = document.getElementById('motores-total');
+
+    // Cuando se selecciona un tipo de motor
+    motorTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = motoresAgregados.find(m => m.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          motoresAgregados.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderMotoresCards();
+        actualizarTotalMotores();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de alfombra
+    const alfombraTipos = document.querySelectorAll('input[name="alfombra-tipo"]');
+    const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+    const totalAlfombrasSpan = document.getElementById('alfombras-total');
+
+    // Cuando se selecciona un tipo de alfombra
+    alfombraTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        
+        // Verificar si ya existe este tipo
+        const existe = alfombrasAgregadas.find(a => a.tipo === tipoSeleccionado);
+        if (existe) {
+          // Si ya existe, aumentar cantidad
+          existe.cantidad++;
+        } else {
+          // Si no existe, agregar nuevo
+          alfombrasAgregadas.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        
+        renderAlfombrasCards();
+        actualizarTotalAlfombras();
+        
+        // Desmarcar el radio button para poder seleccionar otro tipo
+        this.checked = false;
+      });
+    });
+
+    // Event listeners para los botones de tipo de tapizado de vehículo
+    const tapizadovehiculoTipos = document.querySelectorAll('input[name="tapizadovehiculo-tipo"]');
+    const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
+    const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
+
+    // Cuando se selecciona un tipo de tapizado de vehículo
+    tapizadovehiculoTipos.forEach(radio => {
+      radio.addEventListener('change', function() {
+        const tipoSeleccionado = this.value;
+        // Verificar si ya existe este tipo
+        const existe = tapizadoVehiculosAgregados.find(tv => tv.tipo === tipoSeleccionado);
+        if (existe) {
+          existe.cantidad++;
+        } else {
+          tapizadoVehiculosAgregados.push({
+            tipo: tipoSeleccionado,
+            cantidad: 1,
+            id: Date.now() + Math.random()
+          });
+        }
+        renderTapizadoVehiculosCards();
+        actualizarTotalTapizadoVehiculos();
+        this.checked = false;
+      });
+    });
+
+
+  });
+
+
   </script>
 </body>
 </html> 

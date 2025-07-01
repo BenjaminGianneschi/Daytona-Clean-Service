@@ -44,6 +44,7 @@
   opacity: 0;
   transition: opacity 1s;
   z-index: 1;
+  filter: brightness(0.4) !important;
 }
 
 .slide.active {
@@ -87,7 +88,7 @@
 }
 
 .hero-info {
-  text-shadow: 0 2px 12px #000, 0 1px 0 #fff;
+  /* text-shadow: 0 2px 12px #000, 0 1px 0 #fff; */
 }
 
 .hero-buttons {
@@ -95,14 +96,8 @@
 }
 
 .hero-buttons .btn {
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 25px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 0.9rem;
+  padding: 10px 20px;
 }
 
 /* ===== HERO SECTIONS SECUNDARIOS ===== */

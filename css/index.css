@@ -36,6 +36,7 @@
   transition: opacity 1s ease-in-out;
   background-size: cover !important;
   background-position: center !important;
+  filter: brightness(0.4) !important;
 }
 
 .slide.active {

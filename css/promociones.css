@@ -38,6 +38,7 @@
   transition: opacity 1s ease-in-out;
   background-size: cover !important;
   background-position: center !important;
+  filter: brightness(0.4) !important;
 }
 
 .slide.active {
@@ -74,6 +75,11 @@
 
 .hero-buttons {
   margin-top: 30px;
+}
+
+.hero-buttons .btn {
+  font-size: 0.9rem;
+  padding: 10px 20px;
 }
 
 /* ===== PRICING CARDS ===== */
