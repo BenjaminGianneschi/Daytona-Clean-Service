@@ -1357,21 +1357,22 @@
 
 /* === SERVICIOS PRINCIPALES CUSTOM === */
 .servicios-grid-custom {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
 }
 .servicio-card-custom {
-  background: #232323;
-  border-radius: 15px;
-  box-shadow: 0 4px 24px #0008;
-  width: 380px;
-  min-height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  overflow: hidden;
-  transition: box-shadow 0.2s, transform 0.2s;
+  background: #232323 !important;
+  border-radius: 15px !important;
+  box-shadow: 0 4px 24px #0008 !important;
+  width: 350px !important;
+  min-height: 420px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s, transform 0.2s !important;
 }
 .servicio-card-custom:hover {
   box-shadow: 0 8px 32px #ff3b3f99;
@@ -1457,7 +1458,7 @@
     max-width: 99vw;
   }
   .servicio-card-custom img {
-    height: 110px;
+    height: 220px !important;
   }
   .servicio-card-body {
     padding: 12px 8px 12px 8px;
