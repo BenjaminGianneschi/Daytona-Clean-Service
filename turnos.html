@@ -271,7 +271,6 @@
     .turnero-contenedor-moderno {
       background: #232323;
       border-radius: 18px;
-      box-shadow: 0 8px 32px #00000044;
       padding: 32px 24px 80px 24px;
       margin: 0 auto 32px auto;
       position: relative;
@@ -282,10 +281,11 @@
       min-height: 320px;
     }
     .turnero-botones-fijos {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      /* position: absolute; */
+      position: static;
+      left: unset;
+      right: unset;
+      bottom: unset;
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -296,6 +296,7 @@
       border-bottom-right-radius: 18px;
       z-index: 10;
       min-height: 70px;
+      margin-top: 32px;
     }
     .turnero-botones-fijos .btn,
     .turnero-botones-fijos .step-btn {
@@ -425,17 +426,21 @@
           </div>
           <div class="wizard-step-modern" id="step-indicator-2">
             <div class="wizard-icon-circle"><i class="fas fa-user"></i></div>
-            <span>Profesional</span>
+            <span>Agente</span>
           </div>
           <div class="wizard-step-modern" id="step-indicator-3">
             <div class="wizard-icon-circle"><i class="fas fa-calendar-alt"></i></div>
-            <span>Fecha y Hora</span>
+            <span>Turno</span>
           </div>
           <div class="wizard-step-modern" id="step-indicator-4">
             <div class="wizard-icon-circle"><i class="fas fa-user-edit"></i></div>
             <span>Datos</span>
           </div>
           <div class="wizard-step-modern" id="step-indicator-5">
+            <div class="wizard-icon-circle"><i class="fas fa-map-marker-alt"></i></div>
+            <span>Ubicación</span>
+          </div>
+          <div class="wizard-step-modern" id="step-indicator-6">
             <div class="wizard-icon-circle"><i class="fas fa-check-circle"></i></div>
             <span>Confirmar</span>
           </div>
@@ -444,7 +449,7 @@
       <!-- Fin Wizard Steps -->
       <div class="wizard-bar"></div>
       <!-- Wizard Content -->
-      <div id="wizard-content" class="wizard-content-moderno">
+      <div id="wizard-content">
         <!-- Paso 1: Seleccionar Servicio -->
         <div id="step-1">
           <h3 class="mb-3">Seleccionar Servicio</h3>
@@ -452,12 +457,12 @@
             <label for="servicio-select" class="form-label">Servicio *</label>
             <select class="form-select servicio-dropdown" id="servicio-select" required>
               <option value="" data-icon="">Selecciona un servicio</option>
-              <option value="Limpieza de Vehículo" data-duracion="90" data-precio="15000" data-icon="fa-car">Limpieza de Vehículo</option>
+              <option value="Limpieza de Vehículo" data-duracion="180" data-precio="15000" data-icon="fa-car">Limpieza de Vehículo</option>
               <option value="Limpieza de Tapizado de Vehículo" data-duracion="120" data-precio="20000" data-icon="fa-car-side">Limpieza de Tapizado de Vehículo</option>
               <option value="Limpieza de Motor" data-duracion="45" data-precio="12000" data-icon="fa-gears">Limpieza de Motor</option>
               <option value="Limpieza de Sillones" data-duracion="80" data-precio="18000" data-icon="fa-couch">Limpieza de Sillones</option>
-              <option value="Limpieza de Sillas" data-duracion="60" data-precio="12000" data-icon="fa-chair">Limpieza de Sillas</option>
-              <option value="Limpieza de Colchones" data-duracion="90" data-precio="15000" data-icon="fa-bed">Limpieza de Colchones</option>
+              <option value="Limpieza de Sillas" data-duracion="40" data-precio="7000" data-icon="fa-chair">Limpieza de Sillas</option>
+              <option value="Limpieza de Colchones" data-duracion="60" data-precio="12000" data-icon="fa-bed">Limpieza de Colchones</option>
               <option value="Limpieza de Alfombras" data-duracion="120" data-precio="20000" data-icon="fa-rug">Limpieza de Alfombras</option>
             </select>
           </div>
@@ -678,23 +683,7 @@
           <div id="alfombras-total" class="fw-bold mt-3"></div>
           
           <!-- Resumen final de todos los servicios -->
-          <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;">
-                      <div class="card bg-dark text-white border border-danger">
-            <div class="card-header bg-danger text-white">
-              <h5 class="mb-0"><i class="fas fa-list me-2"></i>Resumen de Servicios</h5>
-            </div>
-            <div class="card-body">
-              <div id="lista-servicios">
-                <!-- Los servicios se generan dinámicamente -->
-              </div>
-              <hr class="border-danger">
-              <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 text-white">Total General:</h4>
-                <h4 class="mb-0 text-white" id="total-general">$0</h4>
-              </div>
-            </div>
-          </div>
-          </div>
+          <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;"></div>
         </div>
         <!-- Paso 2: Seleccionar Profesional -->
         <div id="step-2" style="display:none;">
@@ -748,20 +737,21 @@
                 <input type="text" class="form-control" id="apellido" required />
               </div>
             </div>
-            <div class="mb-3">
-              <label for="telefono" class="form-label">Teléfono *</label>
-              <input type="tel" class="form-control" id="telefono" required placeholder="Ej: 3492 123456" />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email (opcional)</label>
-              <input type="email" class="form-control" id="email" />
-            </div>
           </form>
         </div>
-        <!-- Paso 5: Confirmar -->
+        
+        <!-- Paso 5: Ubicación del Servicio -->
         <div id="step-5" style="display:none;">
+          <h3 class="mb-3">Ubicación del Servicio</h3>
+          <div id="ubicacion-container">
+            <!-- Los campos se mostrarán dinámicamente según el tipo de servicio -->
+          </div>
+        </div>
+        <!-- Paso 6: Confirmar -->
+        <div id="step-6" style="display:none;">
           <h3 class="mb-3">Confirmar Turno</h3>
           <div class="resumen-turno" id="resumen-turno"></div>
+          <div id="resumen-final" class="mt-4" style="display:block; margin-bottom: 1.5rem;"></div>
         </div>
         <!-- Mensaje de éxito -->
         <div id="turno-exito" style="display:none;">
@@ -787,6 +777,8 @@
     </p>
   </footer>
   <script src="js/include-footer.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
   // Variables globales para servicios
   let sillonesAgregados = [];
@@ -1011,26 +1003,18 @@
       sillonesSeleccionados.appendChild(card);
       console.log('Card agregada al DOM');
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (sillonesAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalSillones() {
-    console.log('actualizarTotalSillones llamado');
     const totalSpan = document.getElementById('sillones-total');
-    if (sillonesAgregados.length > 0) {
-      const precios = {
-        '1 cuerpo': 9000,
-        '2 cuerpos': 12000,
-        '3 cuerpos': 15000,
-        'esquinero': 18000
-      };
-      let total = 0;
-      sillonesAgregados.forEach(sillon => {
-        total += precios[sillon.tipo] * sillon.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-couch me-1"></i>Total Sillones: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1081,25 +1065,18 @@
       `;
       sillasSeleccionadas.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (sillasAgregadas.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalSillas() {
     const totalSpan = document.getElementById('sillas-total');
-    if (sillasAgregadas.length > 0) {
-      const precios = {
-        'simple': 7000,
-        'gamer': 10000,
-        'oficina': 8000,
-        'comedor': 6000
-      };
-      let total = 0;
-      sillasAgregadas.forEach(silla => {
-        total += precios[silla.tipo] * silla.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-chair me-1"></i>Total Sillas: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1150,25 +1127,18 @@
       `;
       colchonesSeleccionados.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (colchonesAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalColchones() {
     const totalSpan = document.getElementById('colchones-total');
-    if (colchonesAgregados.length > 0) {
-      const precios = {
-        '1 plaza': 12000,
-        '2 plazas': 15000,
-        'queen': 18000,
-        'king': 22000
-      };
-      let total = 0;
-      colchonesAgregados.forEach(colchon => {
-        total += precios[colchon.tipo] * colchon.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-bed me-1"></i>Total Colchones: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1219,25 +1189,18 @@
       `;
       vehiculosSeleccionados.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (vehiculosAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalVehiculos() {
     const totalSpan = document.getElementById('vehiculos-total');
-    if (vehiculosAgregados.length > 0) {
-      const precios = {
-        'auto': 15000,
-        'camioneta': 18000,
-        'suv': 20000,
-        'pickup': 22000
-      };
-      let total = 0;
-      vehiculosAgregados.forEach(vehiculo => {
-        total += precios[vehiculo.tipo] * vehiculo.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-car me-1"></i>Total Vehículos: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1287,24 +1250,18 @@
       `;
       motoresSeleccionados.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (motoresAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalMotores() {
     const totalSpan = document.getElementById('motores-total');
-    if (motoresAgregados.length > 0) {
-      const precios = {
-        'basica': 12000,
-        'completa': 15000,
-        'detallada': 18000
-      };
-      let total = 0;
-      motoresAgregados.forEach(motor => {
-        total += precios[motor.tipo] * motor.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-gears me-1"></i>Total Motores: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1355,6 +1312,13 @@
       `;
       alfombrasSeleccionadas.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (alfombrasAgregadas.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalAlfombras() {
@@ -1424,25 +1388,18 @@
       `;
       tapizadovehiculosSeleccionados.appendChild(card);
     });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (tapizadoVehiculosAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
   }
 
   function actualizarTotalTapizadoVehiculos() {
     const totalSpan = document.getElementById('tapizadovehiculos-total');
-    if (tapizadoVehiculosAgregados.length > 0) {
-      const precios = {
-        'auto': 20000,
-        'camioneta': 24000,
-        'suv': 28000,
-        'pickup': 30000
-      };
-      let total = 0;
-      tapizadoVehiculosAgregados.forEach(tv => {
-        total += precios[tv.tipo] * tv.cantidad;
-      });
-      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-car-side me-1"></i>Total Tapizado Vehículo: $${total.toLocaleString('es-AR')}</div>`;
-    } else {
-      totalSpan.innerHTML = '';
-    }
+    totalSpan.innerHTML = '';
     actualizarResumenFinal();
   }
 
@@ -1651,12 +1608,19 @@
       nombre: null,
       apellido: null,
       telefono: null,
-      email: null
+      email: null,
+      ubicacion: null,
+      tipoServicio: null,
+      retiroEntrega: null,
+      direccionRetiro: null,
+      direccionEntrega: null,
+      direccionDomicilio: null,
+      detallesUbicacion: null
     };
     function updateWizardBar(step) {
-      const percent = ((step - 1) / 4) * 100;
+      const percent = ((step - 1) / 5) * 100;
       document.getElementById('wizard-bar-fill').style.width = percent + '%';
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const el = document.getElementById('step-indicator-' + i);
         el.classList.remove('active', 'completed');
         if (i < step) el.classList.add('completed');
@@ -1664,10 +1628,15 @@
       }
     }
     function showStep(n) {
-      for (let i = 1; i <= 5; i++) {
-        document.getElementById('step-' + i).style.display = (i === n) ? '' : 'none';
+      for (let i = 1; i <= 6; i++) {
+        const stepDiv = document.getElementById('step-' + i);
+        if (stepDiv) stepDiv.style.display = (i === n) ? '' : 'none';
       }
       updateWizardBar(n);
+      // Mostrar el resumen solo en el paso Confirmar
+      if (n === 6) {
+        mostrarResumenTurno();
+      }
     }
     // Inicializar barra al cargar
     updateWizardBar(step);
@@ -1675,441 +1644,1057 @@
     const servicios = {
       'Limpieza de Vehículo': {
         icon: 'fa-car',
-        duracion: 90,
+        duracion: 180,
         precio: 15000,
-        desc: 'Interior y exterior, aspirado, vidrios, superficies.'
+        desc: 'Interior y exterior, aspirado, vidrios, superficies. Servicio en taller o a domicilio.',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true
       },
       'Limpieza de Tapizado de Vehículo': {
         icon: 'fa-car-side',
         duracion: 120,
         precio: 20000,
-        desc: 'Limpieza profunda de asientos, tapizados y alfombras del vehículo.'
+        desc: 'Limpieza profunda de asientos, tapizados y alfombras del vehículo. Servicio en taller o a domicilio.',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true
       },
       'Limpieza de Motor': {
         icon: 'fa-gears',
         duracion: 45,
         precio: 12000,
-        desc: 'Desengrasado y limpieza segura.'
+        desc: 'Desengrasado y limpieza segura. Servicio en taller o a domicilio.',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true
       },
       'Limpieza de Colchones': {
         icon: 'fa-bed',
         duracion: 60,
         precio: 12000,
-        desc: 'Limpieza profunda y desinfección de colchones, elimina ácaros y manchas.'
+        desc: 'Limpieza profunda y desinfección de colchones, elimina ácaros y manchas. Servicio a domicilio.',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false
       },
       'Limpieza de Sillones': {
         icon: 'fa-couch',
         duracion: 80,
         precio: 18000,
-        desc: 'Limpieza y desmanchado de sillones de tela, cuero o ecocuero.'
+        desc: 'Limpieza y desmanchado de sillones de tela, cuero o ecocuero. Servicio a domicilio.',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false
       },
       'Limpieza de Sillas': {
         icon: 'fa-chair',
         duracion: 40,
         precio: 7000,
-        desc: 'Limpieza y desinfección de sillas tapizadas, ideal para hogar y oficina.'
+        desc: 'Limpieza y desinfección de sillas tapizadas, ideal para hogar y oficina. Servicio a domicilio.',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false
       }
     };
     const selectServicio = document.getElementById('servicio-select');
     const detalleServicio = document.getElementById('servicio-detalle');
     const sillonesOpciones = document.getElementById('sillones-opciones');
+    
+    // Función para mostrar campos de ubicación según el tipo de servicio
+    function mostrarCamposUbicacion() {
+      const ubicacionContainer = document.getElementById('ubicacion-container');
+      const servicioSeleccionado = turno.servicio;
+      const servicio = servicios[servicioSeleccionado];
+      
+      if (!servicio) return;
+      
+      let html = '';
+      
+      if (servicio.tipo === 'vehiculo') {
+        // Solo mostrar la opción de retiro y entrega
+        html = `
+          <div class="mb-4">
+            <label class="form-label">¿Necesitás retiro y entrega del vehículo?</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="retiro-entrega" id="si-retiro" value="si">
+              <label class="form-check-label" for="si-retiro">Sí, necesito retiro y entrega</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="retiro-entrega" id="no-retiro" value="no" checked>
+              <label class="form-check-label" for="no-retiro">No, lo llevo y retiro yo mismo</label>
+            </div>
+          </div>
+          <div class="mb-3" id="direccion-retiro" style="display:none;">
+            <label for="direccion-retiro-input" class="form-label">Dirección de retiro *</label>
+            <textarea class="form-control" id="direccion-retiro-input" rows="2" placeholder="Ingresa la dirección completa donde retirar el vehículo"></textarea>
+          </div>
+          <div class="mb-3" id="direccion-entrega" style="display:none;">
+            <label for="direccion-entrega-input" class="form-label">Dirección de entrega *</label>
+            <textarea class="form-control" id="direccion-entrega-input" rows="2" placeholder="Ingresa la dirección completa donde entregar el vehículo"></textarea>
+          </div>
+        `;
+      } else if (servicio.tipo === 'domicilio') {
+        // Para servicios a domicilio (sillones, colchones, sillas)
+        html = `
+          <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+            <i class="fas fa-info-circle me-2"></i>
+            Este servicio se realiza a domicilio. Por favor, proporciona la dirección donde se realizará el trabajo.
+          </div>
+          <div class="mb-3">
+            <label for="direccion-domicilio-input" class="form-label">Dirección donde se realizará el servicio</label>
+            <textarea class="form-control" id="direccion-domicilio-input" rows="2" placeholder="Ingresa la dirección completa" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="detalles-ubicacion" class="form-label">Detalles adicionales (opcional)</label>
+            <textarea class="form-control" id="detalles-ubicacion" rows="2" placeholder="Piso, departamento, referencias, horarios de acceso, etc."></textarea>
+          </div>
+        `;
+      }
+      
+      ubicacionContainer.innerHTML = html;
+      
+      // Event listeners para retiro y entrega
+      const radioSiRetiro = document.getElementById('si-retiro');
+      const radioNoRetiro = document.getElementById('no-retiro');
+      const direccionRetiro = document.getElementById('direccion-retiro');
+      const direccionEntrega = document.getElementById('direccion-entrega');
+      
+      if (radioSiRetiro && radioNoRetiro) {
+        radioSiRetiro.addEventListener('change', function() {
+          direccionRetiro.style.display = 'block';
+          direccionEntrega.style.display = 'block';
+        });
+        radioNoRetiro.addEventListener('change', function() {
+          direccionRetiro.style.display = 'none';
+          direccionEntrega.style.display = 'none';
+        });
+      }
+    }
+    
+    // Función para mostrar el resumen completo del turno
+    function mostrarResumenTurno() {
+      const resumenTurno = document.getElementById('resumen-turno');
+      const servicio = servicios[turno.servicio];
+      
+      let html = `
+        <div style="background:#232323;border-radius:10px;overflow:hidden;">
+          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
+            <i class='fas fa-list-ul'></i> Resumen de Servicios
+          </div>
+          <div style="padding:18px 18px 10px 18px;">
+      `;
+      
+      // Servicios seleccionados
+      let hayServicios = false;
+      let totalGeneral = 0;
+      
+      // Vehículos
+      if (vehiculosAgregados.length > 0) {
+        hayServicios = true;
+        const preciosVehiculos = {
+          'auto': 15000,
+          'camioneta': 18000,
+          'suv': 20000,
+          'pickup': 22000
+        };
+        vehiculosAgregados.forEach(vehiculo => {
+          const precio = preciosVehiculos[vehiculo.tipo];
+          const subtotal = precio * vehiculo.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-car'></i>
+                <span>Vehículo ${vehiculo.tipo} x${vehiculo.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Sillones
+      if (sillonesAgregados.length > 0) {
+        hayServicios = true;
+        const preciosSillones = {
+          '1 cuerpo': 9000,
+          '2 cuerpos': 12000,
+          '3 cuerpos': 15000,
+          'esquinero': 18000
+        };
+        sillonesAgregados.forEach(sillon => {
+          const precio = preciosSillones[sillon.tipo];
+          const subtotal = precio * sillon.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-couch'></i>
+                <span>Sillón ${sillon.tipo} x${sillon.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Sillas
+      if (sillasAgregadas.length > 0) {
+        hayServicios = true;
+        const preciosSillas = {
+          'simple': 7000,
+          'gamer': 10000,
+          'oficina': 8000,
+          'comedor': 6000
+        };
+        sillasAgregadas.forEach(silla => {
+          const precio = preciosSillas[silla.tipo];
+          const subtotal = precio * silla.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-chair'></i>
+                <span>Silla ${silla.tipo} x${silla.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Colchones
+      if (colchonesAgregados.length > 0) {
+        hayServicios = true;
+        const preciosColchones = {
+          '1 plaza': 12000,
+          '2 plazas': 15000,
+          'queen': 18000,
+          'king': 22000
+        };
+        colchonesAgregados.forEach(colchon => {
+          const precio = preciosColchones[colchon.tipo];
+          const subtotal = precio * colchon.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-bed'></i>
+                <span>Colchón ${colchon.tipo} x${colchon.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Motores
+      if (motoresAgregados.length > 0) {
+        hayServicios = true;
+        const preciosMotores = {
+          'basica': 12000,
+          'completa': 15000,
+          'detallada': 18000
+        };
+        motoresAgregados.forEach(motor => {
+          const precio = preciosMotores[motor.tipo];
+          const subtotal = precio * motor.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-gears'></i>
+                <span>Motor ${motor.tipo} x${motor.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Alfombras
+      if (alfombrasAgregadas.length > 0) {
+        hayServicios = true;
+        const preciosAlfombras = {
+          'chica': 20000,
+          'mediana': 25000,
+          'grande': 30000,
+          'persa': 35000
+        };
+        alfombrasAgregadas.forEach(alfombra => {
+          const precio = preciosAlfombras[alfombra.tipo];
+          const subtotal = precio * alfombra.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-rug'></i>
+                <span>Alfombra ${alfombra.tipo} x${alfombra.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+      // Tapizado de vehículos
+      if (tapizadoVehiculosAgregados.length > 0) {
+        hayServicios = true;
+        const preciosTapizadoVehiculos = {
+          'auto': 20000,
+          'camioneta': 24000,
+          'suv': 28000,
+          'pickup': 30000
+        };
+        tapizadoVehiculosAgregados.forEach(tv => {
+          const precio = preciosTapizadoVehiculos[tv.tipo];
+          const subtotal = precio * tv.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-car-side'></i>
+                <span>Tapizado ${tv.tipo} x${tv.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      if (!hayServicios) {
+        html += `<div style='color:#ccc;'>No se seleccionaron servicios.</div>`;
+      }
+
+      // Línea separadora
+      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
+
+      // Total general
+      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total General:</span> <span style='color:#fff;'>$${totalGeneral.toLocaleString('es-AR')}</span></div>`;
+
+      html += `</div></div>`;
+
+      resumenTurno.innerHTML = html;
+    }
 
     selectServicio.addEventListener('change', function() {
-      const val = this.value;
-      const sillonTiposContainer = document.getElementById('sillon-tipos-container');
-      const sillaTiposContainer = document.getElementById('silla-tipos-container');
-      const colchonTiposContainer = document.getElementById('colchon-tipos-container');
-      const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
-      const motorTiposContainer = document.getElementById('motor-tipos-container');
-      const alfombraTiposContainer = document.getElementById('alfombra-tipos-container');
-      const servicioDetalle = document.getElementById('servicio-detalle');
-      const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
-      const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
-      const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
-      const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
-      const motoresSeleccionados = document.getElementById('motores-seleccionados');
-      const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
-      const totalSpan = document.getElementById('sillones-total');
-      const totalSillasSpan = document.getElementById('sillas-total');
-      const totalColchonesSpan = document.getElementById('colchones-total');
-      const totalVehiculosSpan = document.getElementById('vehiculos-total');
-      const totalMotoresSpan = document.getElementById('motores-total');
-      const totalAlfombrasSpan = document.getElementById('alfombras-total');
-      const tapizadovehiculoTiposContainer = document.getElementById('tapizadovehiculo-tipos-container');
-      const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
-      const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
-      
-      // Ocultar todo por defecto
-      sillonTiposContainer.style.display = 'none';
-      sillaTiposContainer.style.display = 'none';
-      colchonTiposContainer.style.display = 'none';
-      vehiculoTiposContainer.style.display = 'none';
-      tapizadovehiculoTiposContainer.style.display = 'none';
-      motorTiposContainer.style.display = 'none';
-      alfombraTiposContainer.style.display = 'none';
-      servicioDetalle.style.display = 'none';
-      sillonesSeleccionados.innerHTML = '';
-      sillasSeleccionadas.innerHTML = '';
-      colchonesSeleccionados.innerHTML = '';
-      vehiculosSeleccionados.innerHTML = '';
-      tapizadovehiculosSeleccionados.innerHTML = '';
-      motoresSeleccionados.innerHTML = '';
-      alfombrasSeleccionadas.innerHTML = '';
-      totalSpan.innerHTML = '';
-      totalSillasSpan.innerHTML = '';
-      totalColchonesSpan.innerHTML = '';
-      totalVehiculosSpan.innerHTML = '';
-      totalTapizadoVehiculosSpan.innerHTML = '';
-      totalMotoresSpan.innerHTML = '';
-      totalAlfombrasSpan.innerHTML = '';
-      document.getElementById('resumen-final').style.display = 'none';
-      
-      // Mostrar detalles del servicio (solo para servicios que no son sillones, sillas o colchones)
-      if (servicios[val]) {
-        const s = servicios[val];
-        
-        // Si es Limpieza de Sillones, mostrar botones de tipo
-        if (val === 'Limpieza de Sillones') {
-          sillonTiposContainer.style.display = 'block';
-          renderSillonesCards();
-          actualizarTotalSillones();
-        } else if (val === 'Limpieza de Sillas') {
-          sillaTiposContainer.style.display = 'block';
-          renderSillasCards();
-          actualizarTotalSillas();
-        } else if (val === 'Limpieza de Colchones') {
-          colchonTiposContainer.style.display = 'block';
-          renderColchonesCards();
-          actualizarTotalColchones();
-        } else if (val === 'Limpieza de Vehículo') {
-          vehiculoTiposContainer.style.display = 'block';
-          renderVehiculosCards();
-          actualizarTotalVehiculos();
-        } else if (val === 'Limpieza de Tapizado de Vehículo') {
-          tapizadovehiculoTiposContainer.style.display = 'block';
-          renderTapizadoVehiculosCards();
-          actualizarTotalTapizadoVehiculos();
-        } else if (val === 'Limpieza de Motor') {
-          motorTiposContainer.style.display = 'block';
-          renderMotoresCards();
-          actualizarTotalMotores();
-        } else if (val === 'Limpieza de Alfombras') {
-          alfombraTiposContainer.style.display = 'block';
-          renderAlfombrasCards();
-          actualizarTotalAlfombras();
-        } else {
-          // Para otros servicios, mostrar la card normal
-          servicioDetalle.innerHTML = `<div class="p-3 rounded bg-dark text-white"><i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-danger'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-white small'>${s.desc}</span></div>`;
-          servicioDetalle.style.display = 'block';
-        }
-        
-        turno.servicio = val;
-        turno.duracion = s.duracion;
-        turno.precio = s.precio;
-        document.getElementById('btn-siguiente-fijo').disabled = false;
-      } else {
-        servicioDetalle.style.display = 'none';
-        document.getElementById('btn-siguiente-fijo').disabled = true;
-      }
-    });
-    // Al cargar, deshabilitar siguiente si no hay servicio
-    document.getElementById('btn-siguiente-fijo').disabled = true;
-    // Paso 2: Seleccionar Profesional
-    document.getElementById('btn-siguiente-fijo').onclick = function() {
-      if (step === 1 && turno.servicio) {
-        step = 2;
-        showStep(step);
-      } else if (step === 2) {
-        step = 3;
-        showStep(step);
-      } else if (step === 3) {
-        step = 4;
-        showStep(step);
-      } else if (step === 4) {
-        step = 5;
-        showStep(step);
-      }
-    };
-    document.getElementById('btn-confirmar-fijo').onclick = function() {
-      // Confirmar turno y abrir WhatsApp
-      let mensaje = `¡Hola! Quiero reservar un turno en Daytona Clean Service:%0A` +
-        `*Servicio:* ${turno.servicio}%0A` +
-        `*Profesional:* ${turno.profesional}%0A` +
-        `*Fecha:* ${turno.fecha}%0A` +
-        `*Hora:* ${turno.hora}%0A` +
-        `*Duración:* ${turno.duracion} min%0A` +
-        `*Precio:* $${turno.precio}%0A` +
-        `*Nombre:* ${turno.nombre} ${turno.apellido}%0A` +
-        `*Teléfono:* ${turno.telefono}%0A` +
-        (turno.email ? `*Email:* ${turno.email}%0A` : '');
-      window.open(`https://wa.me/5493482588383?text=${mensaje}`, '_blank');
-      // Mostrar mensaje de éxito
-      document.getElementById('wizard-content').style.display = 'none';
-      document.getElementById('turno-exito').style.display = '';
-    };
-    // Lógica para mostrar/ocultar y mover los botones fijos según el paso
-    function actualizarBotoneraFija() {
-      const anterior = document.getElementById('btn-anterior-fijo');
-      const siguiente = document.getElementById('btn-siguiente-fijo');
-      const confirmar = document.getElementById('btn-confirmar-fijo');
-      anterior.style.display = (step > 1 && step < 6) ? '' : 'none';
-      siguiente.style.display = (step >= 1 && step < 5) ? '' : 'none';
-      confirmar.style.display = (step === 5) ? '' : 'none';
-    }
-    // Ocultar los botones originales de cada paso
-    function ocultarBotonesOriginales() {
-      const ids = [
-        'to-step-2', 'to-step-3', 'back-to-1', 'back-to-2', 'back-to-3', 'back-to-4',
-        'confirmar-turno'
-      ];
-      ids.forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.style.display = 'none';
-      });
-    }
-    // Eventos para los botones fijos
-    document.getElementById('btn-anterior-fijo').onclick = function() {
-      if (step === 2) step = 1;
-      else if (step === 3) step = 2;
-      else if (step === 4) step = 3;
-      else if (step === 5) step = 4;
-      showStep(step);
-      actualizarBotoneraFija();
-      ocultarBotonesOriginales();
-    };
-    // Al mostrar cada paso, actualizar la botonera fija y ocultar los botones originales
-    const oldShowStep = showStep;
-    showStep = function(n) {
-      oldShowStep(n);
-      actualizarBotoneraFija();
-      ocultarBotonesOriginales();
-    };
-    // Inicializar botonera fija al cargar
-    actualizarBotoneraFija();
-    ocultarBotonesOriginales();
-    // Lógica para mostrar opciones de sillones con botones de tipo y controles de cantidad
-    // Event listeners para los botones de tipo de sillón
-    const sillonTipos = document.querySelectorAll('input[name="sillon-tipo"]');
-    const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
-    const totalSpan = document.getElementById('sillones-total');
+     const val = this.value;
+     const sillonTiposContainer = document.getElementById('sillon-tipos-container');
+     const sillaTiposContainer = document.getElementById('silla-tipos-container');
+     const colchonTiposContainer = document.getElementById('colchon-tipos-container');
+     const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
+     const motorTiposContainer = document.getElementById('motor-tipos-container');
+     const alfombraTiposContainer = document.getElementById('alfombra-tipos-container');
+     const servicioDetalle = document.getElementById('servicio-detalle');
+     const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
+     const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
+     const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
+     const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
+     const motoresSeleccionados = document.getElementById('motores-seleccionados');
+     const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+     const totalSpan = document.getElementById('sillones-total');
+     const totalSillasSpan = document.getElementById('sillas-total');
+     const totalColchonesSpan = document.getElementById('colchones-total');
+     const totalVehiculosSpan = document.getElementById('vehiculos-total');
+     const totalMotoresSpan = document.getElementById('motores-total');
+     const totalAlfombrasSpan = document.getElementById('alfombras-total');
+     const tapizadovehiculoTiposContainer = document.getElementById('tapizadovehiculo-tipos-container');
+     const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
+     const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
+     
+     // Ocultar todo por defecto
+     sillonTiposContainer.style.display = 'none';
+     sillaTiposContainer.style.display = 'none';
+     colchonTiposContainer.style.display = 'none';
+     vehiculoTiposContainer.style.display = 'none';
+     tapizadovehiculoTiposContainer.style.display = 'none';
+     motorTiposContainer.style.display = 'none';
+     alfombraTiposContainer.style.display = 'none';
+     servicioDetalle.style.display = 'none';
+     sillonesSeleccionados.innerHTML = '';
+     sillasSeleccionadas.innerHTML = '';
+     colchonesSeleccionados.innerHTML = '';
+     vehiculosSeleccionados.innerHTML = '';
+     tapizadovehiculosSeleccionados.innerHTML = '';
+     motoresSeleccionados.innerHTML = '';
+     alfombrasSeleccionadas.innerHTML = '';
+     totalSpan.innerHTML = '';
+     totalSillasSpan.innerHTML = '';
+     totalColchonesSpan.innerHTML = '';
+     totalVehiculosSpan.innerHTML = '';
+     totalTapizadoVehiculosSpan.innerHTML = '';
+     totalMotoresSpan.innerHTML = '';
+     totalAlfombrasSpan.innerHTML = '';
+     document.getElementById('resumen-final').style.display = 'none';
+     
+     // Mostrar detalles del servicio (solo para servicios que no son sillones, sillas o colchones)
+     if (servicios[val]) {
+       const s = servicios[val];
+       
+       // Si es Limpieza de Sillones, mostrar botones de tipo
+       if (val === 'Limpieza de Sillones') {
+         sillonTiposContainer.style.display = 'block';
+         renderSillonesCards();
+         actualizarTotalSillones();
+       } else if (val === 'Limpieza de Sillas') {
+         sillaTiposContainer.style.display = 'block';
+         renderSillasCards();
+         actualizarTotalSillas();
+       } else if (val === 'Limpieza de Colchones') {
+         colchonTiposContainer.style.display = 'block';
+         renderColchonesCards();
+         actualizarTotalColchones();
+       } else if (val === 'Limpieza de Vehículo') {
+         vehiculoTiposContainer.style.display = 'block';
+         renderVehiculosCards();
+         actualizarTotalVehiculos();
+       } else if (val === 'Limpieza de Tapizado de Vehículo') {
+         tapizadovehiculoTiposContainer.style.display = 'block';
+         renderTapizadoVehiculosCards();
+         actualizarTotalTapizadoVehiculos();
+       } else if (val === 'Limpieza de Motor') {
+         motorTiposContainer.style.display = 'block';
+         renderMotoresCards();
+         actualizarTotalMotores();
+       } else if (val === 'Limpieza de Alfombras') {
+         alfombraTiposContainer.style.display = 'block';
+         renderAlfombrasCards();
+         actualizarTotalAlfombras();
+       } else {
+         // Para otros servicios, mostrar la card normal
+         servicioDetalle.innerHTML = `<div class="p-3 rounded bg-dark text-white"><i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-danger'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-white small'>${s.desc}</span></div>`;
+         servicioDetalle.style.display = 'block';
+       }
+       
+       turno.servicio = val;
+       turno.duracion = s.duracion;
+       turno.precio = s.precio;
+       document.getElementById('btn-siguiente-fijo').disabled = false;
+     } else {
+       servicioDetalle.style.display = 'none';
+       document.getElementById('btn-siguiente-fijo').disabled = true;
+     }
+   });
+   // Al cargar, deshabilitar siguiente si no hay servicio
+   document.getElementById('btn-siguiente-fijo').disabled = true;
+   // Paso 2: Seleccionar Profesional
+   document.getElementById('btn-siguiente-fijo').onclick = function() {
+     if (step === 1 && turno.servicio) {
+       step = 2;
+       showStep(step);
+     } else if (step === 2) {
+       step = 3;
+       showStep(step);
+     } else if (step === 3) {
+       // Guardar fecha y hora
+       const fechaInput = document.getElementById('fecha');
+       const horaInput = document.getElementById('hora');
+       turno.fecha = fechaInput.value;
+       turno.hora = horaInput.value;
+       if (!turno.fecha || !turno.hora) {
+         alert('Por favor, selecciona la fecha y la hora del turno.');
+         return;
+       }
+       step = 4;
+       showStep(step);
+     } else if (step === 4) {
+       // Capturar datos personales
+       turno.nombre = document.getElementById('nombre').value;
+       turno.apellido = document.getElementById('apellido').value;
+       if (!turno.nombre || !turno.apellido) {
+         alert('Por favor, completa todos los campos obligatorios.');
+         return;
+       }
+       step = 5;
+       showStep(step);
+       mostrarCamposUbicacion();
+     } else if (step === 5) {
+       // Capturar datos de ubicación
+       const servicio = servicios[turno.servicio];
+       if (servicio.tipo === 'vehiculo') {
+         const tipoServicio = document.querySelector('input[name="tipo-servicio"]:checked');
+         if (tipoServicio) {
+           turno.tipoServicio = tipoServicio.value;
+           if (tipoServicio.value === 'taller') {
+             const retiroEntrega = document.querySelector('input[name="retiro-entrega"]:checked');
+             if (retiroEntrega) {
+               turno.retiroEntrega = retiroEntrega.value;
+               if (retiroEntrega.value === 'si') {
+                 turno.direccionRetiro = document.getElementById('direccion-retiro-input')?.value;
+                 turno.direccionEntrega = document.getElementById('direccion-entrega-input')?.value;
+                 if (!turno.direccionRetiro || !turno.direccionEntrega) {
+                   alert('Por favor, completa las direcciones de retiro y entrega.');
+                   return;
+                 }
+               }
+             }
+           } else {
+             turno.direccionDomicilio = document.getElementById('direccion-domicilio-input')?.value;
+             turno.detallesUbicacion = document.getElementById('detalles-ubicacion')?.value;
+             if (!turno.direccionDomicilio) {
+               alert('Por favor, ingresa la dirección donde se realizará el servicio.');
+               return;
+             }
+           }
+         }
+       } else if (servicio.tipo === 'domicilio') {
+         turno.direccionDomicilio = document.getElementById('direccion-domicilio-input')?.value;
+         turno.detallesUbicacion = document.getElementById('detalles-ubicacion')?.value;
+         if (!turno.direccionDomicilio) {
+           alert('Por favor, ingresa la dirección donde se realizará el servicio.');
+           return;
+         }
+       }
+       step = 6;
+       showStep(step);
+       mostrarResumenTurno();
+     }
+   };
+   document.getElementById('btn-confirmar-fijo').onclick = function() {
+     // Confirmar turno y abrir WhatsApp
+     let mensaje = `¡Hola! Quiero reservar un turno en Daytona Clean Service:%0A` +
+       `Servicio: ${turno.servicio}%0A`;
+     
+     // Agregar servicios de sillones
+     if (sillonesAgregados.length > 0) {
+       mensaje += `Sillones:%0A`;
+       const preciosSillones = {
+         '1 cuerpo': 9000,
+         '2 cuerpos': 12000,
+         '3 cuerpos': 15000,
+         'esquinero': 18000
+       };
+       sillonesAgregados.forEach(sillon => {
+         const precio = preciosSillones[sillon.tipo];
+         const subtotal = precio * sillon.cantidad;
+         mensaje += `  - ${sillon.tipo} x${sillon.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de sillas
+     if (sillasAgregadas.length > 0) {
+       mensaje += `Sillas:%0A`;
+       const preciosSillas = {
+         'simple': 7000,
+         'gamer': 10000,
+         'oficina': 8000,
+         'comedor': 6000
+       };
+       sillasAgregadas.forEach(silla => {
+         const precio = preciosSillas[silla.tipo];
+         const subtotal = precio * silla.cantidad;
+         mensaje += `  - ${silla.tipo} x${silla.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de colchones
+     if (colchonesAgregados.length > 0) {
+       mensaje += `Colchones:%0A`;
+       const preciosColchones = {
+         '1 plaza': 12000,
+         '2 plazas': 15000,
+         'queen': 18000,
+         'king': 22000
+       };
+       colchonesAgregados.forEach(colchon => {
+         const precio = preciosColchones[colchon.tipo];
+         const subtotal = precio * colchon.cantidad;
+         mensaje += `  - ${colchon.tipo} x${colchon.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de vehículos
+     if (vehiculosAgregados.length > 0) {
+       mensaje += `Vehículos:%0A`;
+       const preciosVehiculos = {
+         'auto': 15000,
+         'camioneta': 18000,
+         'suv': 20000,
+         'pickup': 22000
+       };
+       vehiculosAgregados.forEach(vehiculo => {
+         const precio = preciosVehiculos[vehiculo.tipo];
+         const subtotal = precio * vehiculo.cantidad;
+         mensaje += `  - ${vehiculo.tipo} x${vehiculo.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de motores
+     if (motoresAgregados.length > 0) {
+       mensaje += `Motores:%0A`;
+       const preciosMotores = {
+         'basica': 12000,
+         'completa': 15000,
+         'detallada': 18000
+       };
+       motoresAgregados.forEach(motor => {
+         const precio = preciosMotores[motor.tipo];
+         const subtotal = precio * motor.cantidad;
+         mensaje += `  - ${motor.tipo} x${motor.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de alfombras
+     if (alfombrasAgregadas.length > 0) {
+       mensaje += `Alfombras:%0A`;
+       const preciosAlfombras = {
+         'chica': 20000,
+         'mediana': 25000,
+         'grande': 30000,
+         'persa': 35000
+       };
+       alfombrasAgregadas.forEach(alfombra => {
+         const precio = preciosAlfombras[alfombra.tipo];
+         const subtotal = precio * alfombra.cantidad;
+         mensaje += `  - ${alfombra.tipo} x${alfombra.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Agregar servicios de tapizado de vehículos
+     if (tapizadoVehiculosAgregados.length > 0) {
+       mensaje += `Tapizado Vehículos:%0A`;
+       const preciosTapizadoVehiculos = {
+         'auto': 20000,
+         'camioneta': 24000,
+         'suv': 28000,
+         'pickup': 30000
+       };
+       tapizadoVehiculosAgregados.forEach(tv => {
+         const precio = preciosTapizadoVehiculos[tv.tipo];
+         const subtotal = precio * tv.cantidad;
+         mensaje += `  - ${tv.tipo} x${tv.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
+     
+     // Calcular total general
+     let totalGeneral = 0;
+     
+     // Sumar sillones
+     if (sillonesAgregados.length > 0) {
+       const preciosSillones = {
+         '1 cuerpo': 9000,
+         '2 cuerpos': 12000,
+         '3 cuerpos': 15000,
+         'esquinero': 18000
+       };
+       sillonesAgregados.forEach(sillon => {
+         totalGeneral += preciosSillones[sillon.tipo] * sillon.cantidad;
+       });
+     }
+     
+     // Sumar sillas
+     if (sillasAgregadas.length > 0) {
+       const preciosSillas = {
+         'simple': 7000,
+         'gamer': 10000,
+         'oficina': 8000,
+         'comedor': 6000
+       };
+       sillasAgregadas.forEach(silla => {
+         totalGeneral += preciosSillas[silla.tipo] * silla.cantidad;
+       });
+     }
+     
+     // Sumar colchones
+     if (colchonesAgregados.length > 0) {
+       const preciosColchones = {
+         '1 plaza': 12000,
+         '2 plazas': 15000,
+         'queen': 18000,
+         'king': 22000
+       };
+       colchonesAgregados.forEach(colchon => {
+         totalGeneral += preciosColchones[colchon.tipo] * colchon.cantidad;
+       });
+     }
+     
+     // Sumar vehículos
+     if (vehiculosAgregados.length > 0) {
+       const preciosVehiculos = {
+         'auto': 15000,
+         'camioneta': 18000,
+         'suv': 20000,
+         'pickup': 22000
+       };
+       vehiculosAgregados.forEach(vehiculo => {
+         totalGeneral += preciosVehiculos[vehiculo.tipo] * vehiculo.cantidad;
+       });
+     }
+     
+     // Sumar motores
+     if (motoresAgregados.length > 0) {
+       const preciosMotores = {
+         'basica': 12000,
+         'completa': 15000,
+         'detallada': 18000
+       };
+       motoresAgregados.forEach(motor => {
+         totalGeneral += preciosMotores[motor.tipo] * motor.cantidad;
+       });
+     }
+     
+     // Sumar alfombras
+     if (alfombrasAgregadas.length > 0) {
+       const preciosAlfombras = {
+         'chica': 20000,
+         'mediana': 25000,
+         'grande': 30000,
+         'persa': 35000
+       };
+       alfombrasAgregadas.forEach(alfombra => {
+         totalGeneral += preciosAlfombras[alfombra.tipo] * alfombra.cantidad;
+       });
+     }
+     
+     // Sumar tapizado de vehículos
+     if (tapizadoVehiculosAgregados.length > 0) {
+       const preciosTapizadoVehiculos = {
+         'auto': 20000,
+         'camioneta': 24000,
+         'suv': 28000,
+         'pickup': 30000
+       };
+       tapizadoVehiculosAgregados.forEach(tv => {
+         totalGeneral += preciosTapizadoVehiculos[tv.tipo] * tv.cantidad;
+       });
+     }
+     
+     // Agregar total si hay servicios específicos
+     if (totalGeneral > 0) {
+       html += `<div class="mt-3 p-3 bg-dark rounded"><h6 class="text-danger mb-0"><strong>Total Estimado: $${totalGeneral.toLocaleString('es-AR')}</strong></h6></div>`;
+     }
+     
+     html += `
+           </div>
+           <div class="col-md-6">
+             <h5>Detalles del Turno</h5>
+             <p><strong>Profesional:</strong> ${turno.profesional}</p>
+             <p><strong>Fecha:</strong> ${turno.fecha}</p>
+             <p><strong>Hora:</strong> ${turno.hora}</p>
+             <p><strong>Duración:</strong> ${turno.duracion} min</p>
+           </div>
+         </div>
+         
+         <div class="row mt-3">
+           <div class="col-md-6">
+             <h5>Datos Personales</h5>
+             <p><strong>Nombre:</strong> ${turno.nombre} ${turno.apellido}</p>
+             <p><strong>Teléfono:</strong> ${turno.telefono}</p>
+             ${turno.email ? `<p><strong>Email:</strong> ${turno.email}</p>` : ''}
+           </div>
+           <div class="col-md-6">
+             <h5>Ubicación del Servicio</h5>
+     `;
+     
+     if (servicio.tipo === 'vehiculo') {
+       if (turno.tipoServicio === 'taller') {
+         html += `<p><strong>Tipo:</strong> En Taller</p>`;
+         if (turno.retiroEntrega === 'si') {
+           html += `<p><strong>Retiro y Entrega:</strong> Sí</p>`;
+           if (turno.direccionRetiro) html += `<p><strong>Retiro:</strong> ${turno.direccionRetiro}</p>`;
+           if (turno.direccionEntrega) html += `<p><strong>Entrega:</strong> ${turno.direccionEntrega}</p>`;
+         } else {
+           html += `<p><strong>Retiro y Entrega:</strong> No</p>`;
+         }
+       } else {
+         html += `<p><strong>Tipo:</strong> A Domicilio</p>`;
+         if (turno.direccionDomicilio) html += `<p><strong>Dirección:</strong> ${turno.direccionDomicilio}</p>`;
+       }
+     } else if (servicio.tipo === 'domicilio') {
+       html += `<p><strong>Tipo:</strong> A Domicilio</p>`;
+       if (turno.direccionDomicilio) html += `<p><strong>Dirección:</strong> ${turno.direccionDomicilio}</p>`;
+       if (turno.detallesUbicacion) html += `<p><strong>Detalles:</strong> ${turno.detallesUbicacion}</p>`;
+     }
+     
+     html += `
+           </div>
+         </div>
+       </div>
+     `;
+     
+     resumenTurno.innerHTML = html;
+   }
 
-    // Cuando se selecciona un tipo de sillón
-    sillonTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = sillonesAgregados.find(s => s.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          sillonesAgregados.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderSillonesCards();
-        actualizarTotalSillones();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Lógica para mostrar/ocultar y mover los botones fijos según el paso
+   function actualizarBotoneraFija() {
+     const anterior = document.getElementById('btn-anterior-fijo');
+     const siguiente = document.getElementById('btn-siguiente-fijo');
+     const confirmar = document.getElementById('btn-confirmar-fijo');
+     anterior.style.display = (step > 1 && step < 7) ? '' : 'none';
+     siguiente.style.display = (step >= 1 && step < 6) ? '' : 'none';
+     confirmar.style.display = (step === 6) ? '' : 'none';
+   }
+   // Ocultar los botones originales de cada paso
+   function ocultarBotonesOriginales() {
+     const ids = [
+       'to-step-2', 'to-step-3', 'back-to-1', 'back-to-2', 'back-to-3', 'back-to-4',
+       'confirmar-turno'
+     ];
+     ids.forEach(id => {
+       const btn = document.getElementById(id);
+       if (btn) btn.style.display = 'none';
+     });
+   }
+   // Eventos para los botones fijos
+   document.getElementById('btn-anterior-fijo').onclick = function() {
+     if (step === 2) step = 1;
+     else if (step === 3) step = 2;
+     else if (step === 4) step = 3;
+     else if (step === 5) step = 4;
+     else if (step === 6) step = 5;
+     showStep(step);
+     actualizarBotoneraFija();
+     ocultarBotonesOriginales();
+   };
+   // Al mostrar cada paso, actualizar la botonera fija y ocultar los botones originales
+   const oldShowStep = showStep;
+   showStep = function(n) {
+     oldShowStep(n);
+     actualizarBotoneraFija();
+     ocultarBotonesOriginales();
+   };
+   // Inicializar botonera fija al cargar
+   actualizarBotoneraFija();
+   ocultarBotonesOriginales();
+   // Lógica para mostrar opciones de sillones con botones de tipo y controles de cantidad
+   // Event listeners para los botones de tipo de sillón
+   const sillonTipos = document.querySelectorAll('input[name="sillon-tipo"]');
+   const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
+   const totalSpan = document.getElementById('sillones-total');
 
-    // Event listeners para los botones de tipo de silla
-    const sillaTipos = document.querySelectorAll('input[name="silla-tipo"]');
-    const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
-    const totalSillasSpan = document.getElementById('sillas-total');
+   // Cuando se selecciona un tipo de sillón
+   sillonTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = sillonesAgregados.find(s => s.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         sillonesAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderSillonesCards();
+       actualizarTotalSillones();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de silla
-    sillaTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = sillasAgregadas.find(s => s.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          sillasAgregadas.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderSillasCards();
-        actualizarTotalSillas();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de silla
+   const sillaTipos = document.querySelectorAll('input[name="silla-tipo"]');
+   const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
+   const totalSillasSpan = document.getElementById('sillas-total');
 
-    // Event listeners para los botones de tipo de colchón
-    const colchonTipos = document.querySelectorAll('input[name="colchon-tipo"]');
-    const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
-    const totalColchonesSpan = document.getElementById('colchones-total');
+   // Cuando se selecciona un tipo de silla
+   sillaTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = sillasAgregadas.find(s => s.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         sillasAgregadas.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderSillasCards();
+       actualizarTotalSillas();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de colchón
-    colchonTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = colchonesAgregados.find(c => c.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          colchonesAgregados.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderColchonesCards();
-        actualizarTotalColchones();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de colchón
+   const colchonTipos = document.querySelectorAll('input[name="colchon-tipo"]');
+   const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
+   const totalColchonesSpan = document.getElementById('colchones-total');
 
-    // Event listeners para los botones de tipo de vehículo
-    const vehiculoTipos = document.querySelectorAll('input[name="vehiculo-tipo"]');
-    const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
-    const totalVehiculosSpan = document.getElementById('vehiculos-total');
+   // Cuando se selecciona un tipo de colchón
+   colchonTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = colchonesAgregados.find(c => c.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         colchonesAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderColchonesCards();
+       actualizarTotalColchones();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de vehículo
-    vehiculoTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = vehiculosAgregados.find(v => v.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          vehiculosAgregados.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderVehiculosCards();
-        actualizarTotalVehiculos();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de vehículo
+   const vehiculoTipos = document.querySelectorAll('input[name="vehiculo-tipo"]');
+   const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
+   const totalVehiculosSpan = document.getElementById('vehiculos-total');
 
-    // Event listeners para los botones de tipo de motor
-    const motorTipos = document.querySelectorAll('input[name="motor-tipo"]');
-    const motoresSeleccionados = document.getElementById('motores-seleccionados');
-    const totalMotoresSpan = document.getElementById('motores-total');
+   // Cuando se selecciona un tipo de vehículo
+   vehiculoTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = vehiculosAgregados.find(v => v.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         vehiculosAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderVehiculosCards();
+       actualizarTotalVehiculos();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de motor
-    motorTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = motoresAgregados.find(m => m.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          motoresAgregados.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderMotoresCards();
-        actualizarTotalMotores();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de motor
+   const motorTipos = document.querySelectorAll('input[name="motor-tipo"]');
+   const motoresSeleccionados = document.getElementById('motores-seleccionados');
+   const totalMotoresSpan = document.getElementById('motores-total');
 
-    // Event listeners para los botones de tipo de alfombra
-    const alfombraTipos = document.querySelectorAll('input[name="alfombra-tipo"]');
-    const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
-    const totalAlfombrasSpan = document.getElementById('alfombras-total');
+   // Cuando se selecciona un tipo de motor
+   motorTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = motoresAgregados.find(m => m.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         motoresAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderMotoresCards();
+       actualizarTotalMotores();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de alfombra
-    alfombraTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        
-        // Verificar si ya existe este tipo
-        const existe = alfombrasAgregadas.find(a => a.tipo === tipoSeleccionado);
-        if (existe) {
-          // Si ya existe, aumentar cantidad
-          existe.cantidad++;
-        } else {
-          // Si no existe, agregar nuevo
-          alfombrasAgregadas.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        
-        renderAlfombrasCards();
-        actualizarTotalAlfombras();
-        
-        // Desmarcar el radio button para poder seleccionar otro tipo
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de alfombra
+   const alfombraTipos = document.querySelectorAll('input[name="alfombra-tipo"]');
+   const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+   const totalAlfombrasSpan = document.getElementById('alfombras-total');
 
-    // Event listeners para los botones de tipo de tapizado de vehículo
-    const tapizadovehiculoTipos = document.querySelectorAll('input[name="tapizadovehiculo-tipo"]');
-    const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
-    const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
+   // Cuando se selecciona un tipo de alfombra
+   alfombraTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = alfombrasAgregadas.find(a => a.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         alfombrasAgregadas.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderAlfombrasCards();
+       actualizarTotalAlfombras();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
 
-    // Cuando se selecciona un tipo de tapizado de vehículo
-    tapizadovehiculoTipos.forEach(radio => {
-      radio.addEventListener('change', function() {
-        const tipoSeleccionado = this.value;
-        // Verificar si ya existe este tipo
-        const existe = tapizadoVehiculosAgregados.find(tv => tv.tipo === tipoSeleccionado);
-        if (existe) {
-          existe.cantidad++;
-        } else {
-          tapizadoVehiculosAgregados.push({
-            tipo: tipoSeleccionado,
-            cantidad: 1,
-            id: Date.now() + Math.random()
-          });
-        }
-        renderTapizadoVehiculosCards();
-        actualizarTotalTapizadoVehiculos();
-        this.checked = false;
-      });
-    });
+   // Event listeners para los botones de tipo de tapizado de vehículo
+   const tapizadovehiculoTipos = document.querySelectorAll('input[name="tapizadovehiculo-tipo"]');
+   const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
+   const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
+
+   // Cuando se selecciona un tipo de tapizado de vehículo
+   tapizadovehiculoTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       // Verificar si ya existe este tipo
+       const existe = tapizadoVehiculosAgregados.find(tv => tv.tipo === tipoSeleccionado);
+       if (existe) {
+         existe.cantidad++;
+       } else {
+         tapizadoVehiculosAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       renderTapizadoVehiculosCards();
+       actualizarTotalTapizadoVehiculos();
+       this.checked = false;
+     });
+   });
 
 
-  });
+});
 
 
-  </script>
+</script>
 </body>
 </html> 

@@ -665,7 +665,7 @@
 }
 
 .faq-item {
-  background: #232323;
+  background: rgba(33, 37, 41, 1);
   border-radius: var(--border-radius);
   margin-bottom: 15px;
   overflow: hidden;
@@ -675,13 +675,11 @@
 }
 
 .faq-item:hover {
-  box-shadow: var(--shadow-hover);
-  border-color: #ff1a1d;
-  transform: translateY(-2px);
+  /* Efectos hover removidos */
 }
 
 .faq-item h3 {
-  background: #232323;
+  background: rgba(33, 37, 41, 1);
   color: var(--text-light);
   padding: 20px;
   margin: 0;
@@ -694,8 +692,7 @@
 }
 
 .faq-item h3:hover {
-  background: rgba(255, 59, 63, 0.1);
-  color: var(--text-light);
+  /* Efectos hover removidos */
 }
 
 .faq-item h3::after {
@@ -718,8 +715,7 @@
 }
 
 .faq-item h3:hover::after {
-  background: rgba(255, 59, 63, 0.2);
-  transform: translateY(-50%) scale(1.1);
+  /* Efectos hover removidos */
 }
 
 .faq-item.open h3::after {
@@ -1331,10 +1327,9 @@
 }
 
 .servicio-card-custom {
-  background: #232323 !important;
+  background: rgba(33, 37, 41, 1) !important;
   border-radius: 15px !important;
   border-radius: 16px !important;
-  box-shadow: 0 4px 24px #0008 !important;
   width: 350px !important;
   min-height: 420px !important;
   display: flex !important;
@@ -1359,7 +1354,7 @@
   display: flex;
   flex-direction: column;
   padding: 18px 18px 16px 18px;
-  background: #232323;
+  background: rgba(33, 37, 41, 1);
 }
 .servicio-card-body h5 {
   color: #fff;

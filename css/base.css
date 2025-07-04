@@ -5,7 +5,7 @@
   --primary-color: #ff3b3f;
   --primary-hover: #ff1a1d;
   --primary-dark: #e60000;
-  --bg-dark: #121212;
+  --bg-dark: #1a1a1a;
   --bg-card: #232323;
   --bg-secondary: #232323;
   --text-light: #eee;
@@ -272,7 +272,7 @@ select:focus,
 
 /* ===== FOOTER ===== */
 footer {
-  background-color: var(--bg-card);
+  background: linear-gradient(to bottom, #232323 0%, rgba(35, 35, 35, 0.95) 50%, rgba(35, 35, 35, 0.9) 100%) !important;
   color: var(--text-light);
   text-align: center;
   padding: 20px;
