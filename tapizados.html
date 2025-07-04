@@ -113,7 +113,7 @@
       </div>
       <div class="hero-content">
         <h1 class="hero-title">
-          Limpieza Profesional de Tapizados
+          Limpieza de Tapizados
         </h1>
         <p class="hero-subtitle">
           Transformá tus Espacios en 2-3 Horas
@@ -123,7 +123,13 @@
           Tecnología de vapor + Productos 3D profesionales.<br>
           ¡Resultados garantizados o te devolvemos tu dinero!
         </p>
-        <div class="hero-buttons animate__animated animate__fadeInUp">
+        <div class="hero-buttons animate__animated animate__fadeInUp" style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+          margin-top: 30px;
+        ">
           <a href="#contacto" class="btn btn-primary btn-lg me-3">
             <i class="fas fa-star me-2"></i>Solicitar Servicio
           </a>
@@ -401,27 +407,87 @@
     <section id="contacto" class="container mt-5 mb-5">
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <form id="whatsapp-form" class="modern-form contact-form-container text-center mb-5" style="background: rgba(33, 37, 41, 1) !important;">
-            <h2 class="text-white fw-bold mb-3">Consultanos</h2>
-            <p class="text-light fs-5">¡Contanos qué necesitás y te respondemos al instante!</p>
-            <div class="mb-3">
-              <span class="badge bg-success fs-6 me-2">Respuesta en 5 minutos</span>
-              <span class="badge bg-info fs-6">Presupuesto sin cargo</span>
-            </div>
+          <form id="whatsapp-form" class="modern-form contact-form-container text-center mb-5" style="
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d) !important;
+            border-radius: 30px !important;
+            padding: 40px !important;
+            box-shadow: 
+              0 0 30px rgba(255, 59, 63, 0.4),
+              0 0 60px rgba(255, 59, 63, 0.2),
+              0 0 90px rgba(255, 59, 63, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            border: 3px solid rgba(255, 59, 63, 0.3) !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative !important;
+            overflow: hidden !important;
+          ">
+            <div style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, #ff3b3f, transparent);
+              animation: shimmer 2s infinite;
+            "></div>
+            <h2 class="text-white fw-bold mb-3" style="
+              font-size: 2.5rem;
+            ">Consultanos</h2>
+            <p class="text-light fs-5" style="
+              font-weight: 700;
+              letter-spacing: 0.5px;
+            ">¡Contanos qué necesitás y te respondemos al instante!</p>
+
             <div class="row">
               <div class="col-md-6 mb-4">
-                <label for="name" class="form-label">Nombre completo</label>
-                <input type="text" class="form-control" id="name" placeholder="Tu nombre completo" required />
+                <label for="name" class="form-label" style="
+                  color: #fff !important;
+                  font-weight: 600 !important;
+                  font-size: 1.1rem !important;
+                ">Nombre completo</label>
+                <input type="text" class="form-control" id="name" placeholder="Tu nombre completo" required style="
+                  background: #2a2a2a !important;
+                  border: 1px solid #555 !important;
+                  border-radius: 8px !important;
+                  color: #fff !important;
+                  padding: 12px 16px !important;
+                  font-size: 1rem !important;
+                  transition: all 0.3s ease !important;
+                " />
               </div>
               <div class="col-md-6 mb-4">
-                <label for="phone" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="phone" placeholder="Tu número de teléfono" required />
+                <label for="phone" class="form-label" style="
+                  color: #fff !important;
+                  font-weight: 600 !important;
+                  font-size: 1.1rem !important;
+                ">Teléfono</label>
+                <input type="tel" class="form-control" id="phone" placeholder="Tu número de teléfono" required style="
+                  background: #2a2a2a !important;
+                  border: 1px solid #555 !important;
+                  border-radius: 8px !important;
+                  color: #fff !important;
+                  padding: 12px 16px !important;
+                  font-size: 1rem !important;
+                  transition: all 0.3s ease !important;
+                " />
               </div>
             </div>
             
             <div class="mb-4">
-              <label for="service" class="form-label">¿Qué servicio necesitás?</label>
-              <select id="service" class="form-select" required>
+              <label for="service" class="form-label" style="
+                color: #fff !important;
+                font-weight: 600 !important;
+                font-size: 1.1rem !important;
+              ">¿Qué servicio necesitás?</label>
+              <select id="service" class="form-select" required style="
+                background: #2a2a2a !important;
+                border: 1px solid #555 !important;
+                border-radius: 8px !important;
+                color: #fff !important;
+                padding: 12px 16px !important;
+                font-size: 1rem !important;
+                transition: all 0.3s ease !important;
+              ">
                 <option value="">Elegí una opción</option>
                 <option value="Limpieza de colchones">🛏️ Limpieza de colchones</option>
                 <option value="Limpieza de sillones">🛋️ Limpieza de sillones</option>
@@ -435,8 +501,20 @@
             </div>
             
             <div class="mb-4">
-              <label for="urgency" class="form-label">¿Cuándo lo necesitás?</label>
-              <select id="urgency" class="form-select">
+              <label for="urgency" class="form-label" style="
+                color: #fff !important;
+                font-weight: 600 !important;
+                font-size: 1.1rem !important;
+              ">¿Cuándo lo necesitás?</label>
+              <select id="urgency" class="form-select" style="
+                background: #2a2a2a !important;
+                border: 1px solid #555 !important;
+                border-radius: 8px !important;
+                color: #fff !important;
+                padding: 12px 16px !important;
+                font-size: 1rem !important;
+                transition: all 0.3s ease !important;
+              ">
                 <option value="">Elegí una opción</option>
                 <option value="Lo antes posible">🚨 Lo antes posible</option>
                 <option value="Esta semana">📅 Esta semana</option>
@@ -446,18 +524,42 @@
             </div>
             
             <div class="mb-4">
-              <label for="message" class="form-label">Contanos más detalles</label>
-              <textarea class="form-control" id="message" rows="4" placeholder="Describí tu situación, manchas específicas, tipo de tapizado, etc..."></textarea>
+              <label for="message" class="form-label" style="
+                color: #fff !important;
+                font-weight: 600 !important;
+                font-size: 1.1rem !important;
+              ">Contanos más detalles</label>
+              <textarea class="form-control" id="message" rows="4" placeholder="Describí tu situación, manchas específicas, tipo de tapizado, etc..." style="
+                background: #2a2a2a !important;
+                border: 1px solid #555 !important;
+                border-radius: 8px !important;
+                color: #fff !important;
+                padding: 12px 16px !important;
+                font-size: 1rem !important;
+                transition: all 0.3s ease !important;
+                resize: vertical !important;
+              "></textarea>
             </div>
             
             <div class="text-center">
-              <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
+              <button type="submit" class="btn btn-primary btn-lg px-5 py-3" style="
+                background: #ff3b3f !important;
+                border: none !important;
+                border-radius: 8px !important;
+                padding: 12px 24px !important;
+                font-weight: 600 !important;
+                font-size: 1rem !important;
+                transition: all 0.3s ease !important;
+              ">
                 <i class="fab fa-whatsapp me-2"></i>Enviar Consulta por WhatsApp
               </button>
-              <p class="text-light small mt-2">
-                <i class="fas fa-shield-alt me-1"></i>Tu información está segura
+              <p class="text-light small mt-4" style="
+                font-weight: 300 !important;
+                letter-spacing: 0.3px !important;
+              ">
+                <i class="fas fa-shield-alt me-1" style="color: #28a745;"></i>Tu información está segura
                 <span class="mx-2">|</span>
-                <i class="fas fa-clock me-1"></i>Respuesta en 5 minutos
+                <i class="fas fa-clock me-1" style="color: #ffc107;"></i>Respuesta en 5 minutos
               </p>
             </div>
           </form>
@@ -555,6 +657,60 @@
       setInterval(nextSlide, 3000);
     });
   </script>
+
+  <!-- Animaciones CSS para el formulario -->
+  <style>
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    /* Efectos hover para campos del formulario */
+    .form-control:focus,
+    .form-select:focus,
+    textarea:focus {
+      border-color: #ff3b3f !important;
+      outline: none !important;
+    }
+    
+    /* Efecto hover para el botón */
+    .btn-primary:hover {
+      background: #ff1a1d !important;
+      transform: translateY(-1px) !important;
+    }
+    
+    /* Efecto hover para el formulario completo */
+    .contact-form-container:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: 
+        0 0 40px rgba(255, 59, 63, 0.5),
+        0 0 80px rgba(255, 59, 63, 0.3),
+        0 0 120px rgba(255, 59, 63, 0.1) !important;
+    }
+    
+    /* Efectos hover para botones del hero */
+    .hero-buttons .btn-primary:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 12px 35px rgba(255, 59, 63, 0.4) !important;
+      background: linear-gradient(45deg, #ff6b6b, #ff3b3f) !important;
+    }
+    
+    .hero-buttons .btn-outline-light:hover {
+      transform: translateY(-3px) !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: rgba(255, 255, 255, 1) !important;
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    @media (min-width: 768px) {
+      .hero-buttons {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+      }
+    }
+  </style>
 
 </body>
 
