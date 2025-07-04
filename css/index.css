@@ -885,9 +885,16 @@
   
   /* Hero Section Responsive */
   #hero.hero-section {
-    min-height: 400px;
-    margin: 20px auto;
-    border-radius: 15px;
+    margin-top: 0 !important;
+    padding-top: 60px !important; /* altura del header fijo */
+    width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+    box-sizing: border-box;
+    overflow-x: hidden !important;
+  }
+  html, body {
+    overflow-x: hidden !important;
   }
 
   #hero .hero-text {
