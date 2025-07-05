@@ -152,6 +152,23 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
+    
+    /* Estilos específicos para el botón de Google Maps */
+    .btn-outline-light {
+      background-color: transparent !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-outline-light:hover,
+    .btn-outline-light:focus,
+    .btn-outline-light:active {
+      background-color: transparent !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 10px rgba(255, 59, 63, 0.5);
+    }
   </style>
 
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -586,7 +603,7 @@
                 referrerpolicy="no-referrer-when-downgrade">
               </iframe>
             </div>
-            <a href="https://maps.google.com/?q=Ituzaingo+1455,+Reconquista,+Santa+Fe,+Argentina" target="_blank" class="btn btn-outline-light mt-3" style="border-color: #ff3b3f; color: #ffffff;">
+            <a href="https://maps.google.com/?q=Ituzaingo+1455,+Reconquista,+Santa+Fe,+Argentina" target="_blank" class="btn btn-outline-light mt-3" style="border-color: #ff3b3f; color: #ffffff; background-color: transparent !important;">
               <i class="fas fa-map-marker-alt me-2"></i>Ver en Google Maps
             </a>
           </div>
