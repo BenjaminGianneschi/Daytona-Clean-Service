@@ -73,13 +73,12 @@
   text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
-.hero-buttons {
+.hero-buttons.animate__animated.animate__fadeInUp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
   margin-top: 30px;
-}
-
-.hero-buttons .btn {
-  font-size: 0.9rem;
-  padding: 10px 20px;
 }
 
 /* ===== HERO SECTIONS SECUNDARIOS ===== */
@@ -430,6 +429,9 @@
   font-size: 1.08rem;
   margin-bottom: 1.2rem;
 }
+.testimonial-quote:before, .testimonial-quote:after {
+  display: none !important;
+}
 .testimonial-author {
   color: #ffd700;
   font-weight: 700;
@@ -666,30 +668,18 @@
   border-radius: var(--border-radius);
   margin-bottom: 15px;
   overflow: hidden;
-  box-shadow: var(--shadow-primary);
-  transition: var(--transition);
   border: 2px solid #ff3b3f;
+  box-shadow: 0 0 16px 2px rgba(255, 59, 63, 0.5);
+  transition: var(--transition);
 }
 
 .faq-item:hover {
   /* Efectos hover removidos */
 }
 
-.faq-item h3 {
-  background: rgba(33, 37, 41, 1);
-  color: var(--text-light);
-  padding: 20px;
-  margin: 0;
-  cursor: pointer;
-  position: relative;
-  transition: var(--transition);
-  font-size: 1.1rem;
-  font-weight: 600;
-  user-select: none;
-}
-
+.faq-item h3,
 .faq-item h3:hover {
-  /* Efectos hover removidos */
+  color: #fff !important;
 }
 
 .faq-item h3::after {
@@ -722,22 +712,9 @@
   color: white;
 }
 
-.faq-item p {
-  padding: 0 20px;
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  color: var(--text-muted);
-  margin: 0;
-  line-height: 1.6;
-  opacity: 0;
-}
-
+.faq-item p,
 .faq-item.open p {
-  padding: 20px;
-  max-height: 200px;
-  margin-bottom: 10px;
-  opacity: 1;
+  color: #fff !important;
 }
 
 /* ===== GALERÍA DE TAPIZADOS ===== */
@@ -1203,5 +1180,29 @@
 .benefit-icon i {
   color: #ff3b3f;
   font-size: 1.3rem;
+}
+
+.servicios-grid-custom .servicio-card-custom img[alt="Limpieza de Puff"] {
+  object-fit: cover !important;
+  object-position: center bottom !important;
+}
+
+.servicios-grid-custom .servicio-card-custom img[alt="Limpieza Profesional de Alfombras"] {
+  object-position: center 65% !important;
+}
+
+@media (max-width: 991px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+  .hero-buttons .btn {
+    width: 260px !important;
+    max-width: 90vw !important;
+    text-align: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
 }
 

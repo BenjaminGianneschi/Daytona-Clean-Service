@@ -79,6 +79,7 @@
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
   <style>
     body {
       background: #181818;
@@ -464,6 +465,7 @@
               <option value="Limpieza de Sillas" data-duracion="40" data-precio="7000" data-icon="fa-chair">Limpieza de Sillas</option>
               <option value="Limpieza de Colchones" data-duracion="60" data-precio="12000" data-icon="fa-bed">Limpieza de Colchones</option>
               <option value="Limpieza de Alfombras" data-duracion="120" data-precio="20000" data-icon="fa-rug">Limpieza de Alfombras</option>
+              <option value="Limpieza de Puff" data-duracion="60" data-precio="10500" data-icon="fa-couch">Limpieza de Puff</option>
             </select>
           </div>
 
@@ -553,10 +555,6 @@
               <label class="btn btn-outline-primary" for="vehiculo-auto">
                 <i class="fas fa-car me-1"></i>Auto
               </label>
-              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-camioneta" value="camioneta" autocomplete="off">
-              <label class="btn btn-outline-primary" for="vehiculo-camioneta">
-                <i class="fas fa-truck me-1"></i>Camioneta
-              </label>
               <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-suv" value="suv" autocomplete="off">
               <label class="btn btn-outline-primary" for="vehiculo-suv">
                 <i class="fas fa-car-side me-1"></i>SUV
@@ -575,10 +573,6 @@
               <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-auto" value="auto" autocomplete="off">
               <label class="btn btn-outline-primary" for="tapizadovehiculo-auto">
                 <i class="fas fa-car me-1"></i>Auto
-              </label>
-              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-camioneta" value="camioneta" autocomplete="off">
-              <label class="btn btn-outline-primary" for="tapizadovehiculo-camioneta">
-                <i class="fas fa-truck me-1"></i>Camioneta
               </label>
               <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-suv" value="suv" autocomplete="off">
               <label class="btn btn-outline-primary" for="tapizadovehiculo-suv">
@@ -640,6 +634,27 @@
             </div>
           </div>
 
+          <!-- Botones de tipo de puff (aparecen solo cuando se selecciona Limpieza de Puff) -->
+          <div id="puff-tipos-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de puff:</strong></div>
+            <div class="btn-group" role="group" id="puff-tipos">
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-simple" value="simple" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-simple">
+                <i class="fas fa-couch me-1"></i>Simple
+              </label>
+              
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-grande" value="grande" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-grande">
+                <i class="fas fa-couch me-1"></i>Grande
+              </label>
+              
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-especial" value="especial" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-especial">
+                <i class="fas fa-couch me-1"></i>Especial
+              </label>
+            </div>
+          </div>
+
           <!-- Detalle del servicio seleccionado (solo para servicios que no son sillones) -->
           <div id="servicio-detalle" class="mb-3" style="display:none;">
             <!-- El contenido se genera dinámicamente -->
@@ -674,6 +689,11 @@
           <div id="alfombras-seleccionadas" class="mb-3">
             <!-- Las cards se generan dinámicamente -->
           </div>
+
+          <!-- Cards de puffs seleccionados -->
+          <div id="puffs-seleccionados" class="mb-3">
+            <!-- Las cards se generan dinámicamente -->
+          </div>
           
           <div id="sillones-total" class="fw-bold mt-3"></div>
           <div id="sillas-total" class="fw-bold mt-3"></div>
@@ -681,6 +701,7 @@
           <div id="vehiculos-total" class="fw-bold mt-3"></div>
           <div id="motores-total" class="fw-bold mt-3"></div>
           <div id="alfombras-total" class="fw-bold mt-3"></div>
+          <div id="puffs-total" class="fw-bold mt-3"></div>
           
           <!-- Resumen final de todos los servicios -->
           <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;"></div>
@@ -788,6 +809,7 @@
   let tapizadoVehiculosAgregados = [];
   let motoresAgregados = [];
   let alfombrasAgregadas = [];
+  let puffsAgregados = [];
 
   // Funciones globales para sillones
   function cambiarCantidad(id, cambio) {
@@ -949,6 +971,28 @@
     alfombrasAgregadas = alfombrasAgregadas.filter(a => a.id !== idNum);
     renderAlfombrasCards();
     actualizarTotalAlfombras();
+  }
+
+  // Funciones globales para puffs
+  function cambiarCantidadPuff(id, cambio) {
+    const idNum = parseFloat(id);
+    const puff = puffsAgregados.find(p => p.id === idNum);
+    if (puff) {
+      puff.cantidad += cambio;
+      if (puff.cantidad <= 0) {
+        eliminarPuff(idNum);
+      } else {
+        renderPuffsCards();
+        actualizarTotalPuffs();
+      }
+    }
+  }
+
+  function eliminarPuff(id) {
+    const idNum = parseFloat(id);
+    puffsAgregados = puffsAgregados.filter(p => p.id !== idNum);
+    renderPuffsCards();
+    actualizarTotalPuffs();
   }
 
   // Funciones de renderizado para sillones
@@ -1149,10 +1193,9 @@
     
     vehiculosAgregados.forEach(vehiculo => {
       const precios = {
-        'auto': 15000,
-        'camioneta': 18000,
-        'suv': 20000,
-        'pickup': 22000
+        'auto': 20000,
+        'suv': 27000,
+        'pickup': 25000
       };
       const precioUnitario = precios[vehiculo.tipo];
       const precioTotal = precioUnitario * vehiculo.cantidad;
@@ -1341,6 +1384,80 @@
     actualizarResumenFinal();
   }
 
+  // Funciones de renderizado para puffs
+  function renderPuffsCards() {
+    const puffsSeleccionados = document.getElementById('puffs-seleccionados');
+    puffsSeleccionados.innerHTML = '';
+    
+    puffsAgregados.forEach(puff => {
+      const precios = {
+        'simple': 10500,
+        'grande': 15000,
+        'especial': 20000
+      };
+      const precioUnitario = precios[puff.tipo];
+      const precioTotal = precioUnitario * puff.cantidad;
+      
+      const card = document.createElement('div');
+      card.className = 'mb-3';
+      card.innerHTML = `
+        <div class="p-3 rounded bg-dark text-light position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class="fas fa-couch me-2"></i><strong>${puff.tipo}</strong>
+              <span class="badge bg-dark text-white ms-2">60 min</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarPuff('${puff.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.id}', -1)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="mx-3 fw-bold">${puff.cantidad}</span>
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.id}', 1)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div class="text-white mt-2">
+            <strong>Subtotal: $${precioTotal.toLocaleString('es-AR')}</strong>
+          </div>
+        </div>
+      `;
+      puffsSeleccionados.appendChild(card);
+    });
+    // Habilitar/deshabilitar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (puffsAgregados.length > 0) {
+      btnSiguiente.disabled = false;
+    } else {
+      btnSiguiente.disabled = true;
+    }
+  }
+
+  function actualizarTotalPuffs() {
+    const totalSpan = document.getElementById('puffs-total');
+    if (puffsAgregados.length > 0) {
+      const precios = {
+        'simple': 10500,
+        'grande': 15000,
+        'especial': 20000
+      };
+      let total = 0;
+      puffsAgregados.forEach(puff => {
+        total += precios[puff.tipo] * puff.cantidad;
+      });
+      totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-couch me-1"></i>Total Puffs: $${total.toLocaleString('es-AR')}</div>`;
+    } else {
+      totalSpan.innerHTML = '';
+    }
+    actualizarResumenFinal();
+  }
+
   // Funciones de renderizado para tapizado de vehículos
   function renderTapizadoVehiculosCards() {
     const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
@@ -1348,10 +1465,9 @@
     
     tapizadoVehiculosAgregados.forEach(tv => {
       const precios = {
-        'auto': 20000,
-        'camioneta': 24000,
-        'suv': 28000,
-        'pickup': 30000
+        'auto': 100000,
+        'suv': 115000,
+        'pickup': 125000
       };
       const precioUnitario = precios[tv.tipo];
       const precioTotal = precioUnitario * tv.cantidad;
@@ -1479,14 +1595,13 @@
       });
     }
     
-    // Agregar vehículos
-    if (vehiculosAgregados.length > 0) {
-      const preciosVehiculos = {
-        'auto': 15000,
-        'camioneta': 18000,
-        'suv': 20000,
-        'pickup': 22000
-      };
+          // Agregar vehículos
+      if (vehiculosAgregados.length > 0) {
+        const preciosVehiculos = {
+          'auto': 20000,
+          'suv': 27000,
+          'pickup': 25000
+        };
       vehiculosAgregados.forEach(vehiculo => {
         const precio = preciosVehiculos[vehiculo.tipo];
         const subtotal = precio * vehiculo.cantidad;
@@ -1543,14 +1658,34 @@
         totalGeneralCalculado += subtotal;
       });
     }
+
+    // Agregar puffs
+    if (puffsAgregados.length > 0) {
+      const preciosPuffs = {
+        'simple': 10500,
+        'grande': 15000,
+        'especial': 20000
+      };
+      puffsAgregados.forEach(puff => {
+        const precio = preciosPuffs[puff.tipo];
+        const subtotal = precio * puff.cantidad;
+        todosLosServicios.push({
+          nombre: `Puff ${puff.tipo}`,
+          cantidad: puff.cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          icon: 'fa-couch'
+        });
+        totalGeneralCalculado += subtotal;
+      });
+    }
     
     // Agregar tapizado de vehículos
     if (tapizadoVehiculosAgregados.length > 0) {
       const preciosTapizadoVehiculos = {
-        'auto': 20000,
-        'camioneta': 24000,
-        'suv': 28000,
-        'pickup': 30000
+        'auto': 100000,
+        'suv': 115000,
+        'pickup': 125000
       };
       tapizadoVehiculosAgregados.forEach(tv => {
         const precio = preciosTapizadoVehiculos[tv.tipo];
@@ -1695,6 +1830,24 @@
         tipo: 'domicilio',
         domicilio: true,
         taller: false
+      },
+      'Limpieza de Alfombras': {
+        icon: 'fa-rug',
+        duracion: 120,
+        precio: 20000,
+        desc: 'Limpieza profunda de alfombras con equipos de inyección y extracción profesional. Servicio a domicilio.',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false
+      },
+      'Limpieza de Puff': {
+        icon: 'fa-couch',
+        duracion: 60,
+        precio: 10500,
+        desc: 'Limpieza y desinfección profunda de puffs tapizados. Eliminamos manchas, suciedad y ácaros. Servicio a domicilio.',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false
       }
     };
     const selectServicio = document.getElementById('servicio-select');
@@ -1793,10 +1946,9 @@
       if (vehiculosAgregados.length > 0) {
         hayServicios = true;
         const preciosVehiculos = {
-          'auto': 15000,
-          'camioneta': 18000,
-          'suv': 20000,
-          'pickup': 22000
+          'auto': 20000,
+          'suv': 27000,
+          'pickup': 25000
         };
         vehiculosAgregados.forEach(vehiculo => {
           const precio = preciosVehiculos[vehiculo.tipo];
@@ -1950,14 +2102,40 @@
           `;
         });
       }
+
+      // Puffs
+      if (puffsAgregados.length > 0) {
+        hayServicios = true;
+        const preciosPuffs = {
+          'simple': 10500,
+          'grande': 15000,
+          'especial': 20000
+        };
+        puffsAgregados.forEach(puff => {
+          const precio = preciosPuffs[puff.tipo];
+          const subtotal = precio * puff.cantidad;
+          totalGeneral += subtotal;
+          html += `
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <i class='fas fa-couch'></i>
+                <span>Puff ${puff.tipo} x${puff.cantidad}</span>
+              </div>
+              <div style="text-align:right;min-width:110px;">
+                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
+                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
       // Tapizado de vehículos
       if (tapizadoVehiculosAgregados.length > 0) {
         hayServicios = true;
         const preciosTapizadoVehiculos = {
-          'auto': 20000,
-          'camioneta': 24000,
-          'suv': 28000,
-          'pickup': 30000
+          'auto': 100000,
+          'suv': 115000,
+          'pickup': 125000
         };
         tapizadoVehiculosAgregados.forEach(tv => {
           const precio = preciosTapizadoVehiculos[tv.tipo];
@@ -2001,6 +2179,7 @@
      const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
      const motorTiposContainer = document.getElementById('motor-tipos-container');
      const alfombraTiposContainer = document.getElementById('alfombra-tipos-container');
+     const puffTiposContainer = document.getElementById('puff-tipos-container');
      const servicioDetalle = document.getElementById('servicio-detalle');
      const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
      const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
@@ -2008,12 +2187,14 @@
      const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
      const motoresSeleccionados = document.getElementById('motores-seleccionados');
      const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
+     const puffsSeleccionados = document.getElementById('puffs-seleccionados');
      const totalSpan = document.getElementById('sillones-total');
      const totalSillasSpan = document.getElementById('sillas-total');
      const totalColchonesSpan = document.getElementById('colchones-total');
      const totalVehiculosSpan = document.getElementById('vehiculos-total');
      const totalMotoresSpan = document.getElementById('motores-total');
      const totalAlfombrasSpan = document.getElementById('alfombras-total');
+     const totalPuffsSpan = document.getElementById('puffs-total');
      const tapizadovehiculoTiposContainer = document.getElementById('tapizadovehiculo-tipos-container');
      const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
      const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
@@ -2026,6 +2207,7 @@
      tapizadovehiculoTiposContainer.style.display = 'none';
      motorTiposContainer.style.display = 'none';
      alfombraTiposContainer.style.display = 'none';
+     puffTiposContainer.style.display = 'none';
      servicioDetalle.style.display = 'none';
      sillonesSeleccionados.innerHTML = '';
      sillasSeleccionadas.innerHTML = '';
@@ -2034,6 +2216,7 @@
      tapizadovehiculosSeleccionados.innerHTML = '';
      motoresSeleccionados.innerHTML = '';
      alfombrasSeleccionadas.innerHTML = '';
+     puffsSeleccionados.innerHTML = '';
      totalSpan.innerHTML = '';
      totalSillasSpan.innerHTML = '';
      totalColchonesSpan.innerHTML = '';
@@ -2041,6 +2224,7 @@
      totalTapizadoVehiculosSpan.innerHTML = '';
      totalMotoresSpan.innerHTML = '';
      totalAlfombrasSpan.innerHTML = '';
+     totalPuffsSpan.innerHTML = '';
      document.getElementById('resumen-final').style.display = 'none';
      
      // Mostrar detalles del servicio (solo para servicios que no son sillones, sillas o colchones)
@@ -2076,6 +2260,10 @@
          alfombraTiposContainer.style.display = 'block';
          renderAlfombrasCards();
          actualizarTotalAlfombras();
+       } else if (val === 'Limpieza de Puff') {
+         puffTiposContainer.style.display = 'block';
+         renderPuffsCards();
+         actualizarTotalPuffs();
        } else {
          // Para otros servicios, mostrar la card normal
          servicioDetalle.innerHTML = `<div class="p-3 rounded bg-dark text-white"><i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-danger'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-white small'>${s.desc}</span></div>`;
@@ -2223,10 +2411,9 @@
      if (vehiculosAgregados.length > 0) {
        mensaje += `Vehículos:%0A`;
        const preciosVehiculos = {
-         'auto': 15000,
-         'camioneta': 18000,
-         'suv': 20000,
-         'pickup': 22000
+         'auto': 20000,
+         'suv': 27000,
+         'pickup': 25000
        };
        vehiculosAgregados.forEach(vehiculo => {
          const precio = preciosVehiculos[vehiculo.tipo];
@@ -2265,15 +2452,29 @@
          mensaje += `  - ${alfombra.tipo} x${alfombra.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
        });
      }
+
+     // Agregar servicios de puffs
+     if (puffsAgregados.length > 0) {
+       mensaje += `Puffs:%0A`;
+       const preciosPuffs = {
+         'simple': 10500,
+         'grande': 15000,
+         'especial': 20000
+       };
+       puffsAgregados.forEach(puff => {
+         const precio = preciosPuffs[puff.tipo];
+         const subtotal = precio * puff.cantidad;
+         mensaje += `  - ${puff.tipo} x${puff.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
+       });
+     }
      
      // Agregar servicios de tapizado de vehículos
      if (tapizadoVehiculosAgregados.length > 0) {
        mensaje += `Tapizado Vehículos:%0A`;
        const preciosTapizadoVehiculos = {
-         'auto': 20000,
-         'camioneta': 24000,
-         'suv': 28000,
-         'pickup': 30000
+         'auto': 100000,
+         'suv': 115000,
+         'pickup': 125000
        };
        tapizadoVehiculosAgregados.forEach(tv => {
          const precio = preciosTapizadoVehiculos[tv.tipo];
@@ -2327,10 +2528,9 @@
      // Sumar vehículos
      if (vehiculosAgregados.length > 0) {
        const preciosVehiculos = {
-         'auto': 15000,
-         'camioneta': 18000,
-         'suv': 20000,
-         'pickup': 22000
+         'auto': 20000,
+         'suv': 27000,
+         'pickup': 25000
        };
        vehiculosAgregados.forEach(vehiculo => {
          totalGeneral += preciosVehiculos[vehiculo.tipo] * vehiculo.cantidad;
@@ -2349,26 +2549,49 @@
        });
      }
      
-     // Sumar alfombras
-     if (alfombrasAgregadas.length > 0) {
-       const preciosAlfombras = {
-         'chica': 20000,
-         'mediana': 25000,
-         'grande': 30000,
-         'persa': 35000
+           // Sumar alfombras
+      if (alfombrasAgregadas.length > 0) {
+        const preciosAlfombras = {
+          'chica': 20000,
+          'mediana': 25000,
+          'grande': 30000,
+          'persa': 35000
+        };
+        alfombrasAgregadas.forEach(alfombra => {
+          totalGeneral += preciosAlfombras[alfombra.tipo] * alfombra.cantidad;
+        });
+      }
+
+      // Sumar puffs
+      if (puffsAgregados.length > 0) {
+        const preciosPuffs = {
+          'simple': 10500,
+          'grande': 15000,
+          'especial': 20000
+        };
+        puffsAgregados.forEach(puff => {
+          totalGeneral += preciosPuffs[puff.tipo] * puff.cantidad;
+        });
+      }
+
+     // Sumar puffs
+     if (puffsAgregados.length > 0) {
+       const preciosPuffs = {
+         'simple': 10500,
+         'grande': 15000,
+         'especial': 20000
        };
-       alfombrasAgregadas.forEach(alfombra => {
-         totalGeneral += preciosAlfombras[alfombra.tipo] * alfombra.cantidad;
+       puffsAgregados.forEach(puff => {
+         totalGeneral += preciosPuffs[puff.tipo] * puff.cantidad;
        });
      }
      
      // Sumar tapizado de vehículos
      if (tapizadoVehiculosAgregados.length > 0) {
        const preciosTapizadoVehiculos = {
-         'auto': 20000,
-         'camioneta': 24000,
-         'suv': 28000,
-         'pickup': 30000
+         'auto': 100000,
+         'suv': 115000,
+         'pickup': 125000
        };
        tapizadoVehiculosAgregados.forEach(tv => {
          totalGeneral += preciosTapizadoVehiculos[tv.tipo] * tv.cantidad;
@@ -2659,6 +2882,38 @@
        
        renderAlfombrasCards();
        actualizarTotalAlfombras();
+       
+       // Desmarcar el radio button para poder seleccionar otro tipo
+       this.checked = false;
+     });
+   });
+
+   // Event listeners para los botones de tipo de puff
+   const puffTipos = document.querySelectorAll('input[name="puff-tipo"]');
+   const puffsSeleccionados = document.getElementById('puffs-seleccionados');
+   const totalPuffsSpan = document.getElementById('puffs-total');
+
+   // Cuando se selecciona un tipo de puff
+   puffTipos.forEach(radio => {
+     radio.addEventListener('change', function() {
+       const tipoSeleccionado = this.value;
+       
+       // Verificar si ya existe este tipo
+       const existe = puffsAgregados.find(p => p.tipo === tipoSeleccionado);
+       if (existe) {
+         // Si ya existe, aumentar cantidad
+         existe.cantidad++;
+       } else {
+         // Si no existe, agregar nuevo
+         puffsAgregados.push({
+           tipo: tipoSeleccionado,
+           cantidad: 1,
+           id: Date.now() + Math.random()
+         });
+       }
+       
+       renderPuffsCards();
+       actualizarTotalPuffs();
        
        // Desmarcar el radio button para poder seleccionar otro tipo
        this.checked = false;

@@ -402,12 +402,13 @@
   color: white;
 }
 
-.faq-item p {
+.faq-item p,
+.faq-item.open p {
   padding: 0 20px;
   max-height: 0;
   overflow: hidden;
   transition: all 0.3s ease;
-  color: var(--text-muted);
+  color: #fff !important;
   margin: 0;
   line-height: 1.6;
   opacity: 0;
@@ -1209,5 +1210,20 @@
 @media (max-width: 600px) {
   .servicio-card-custom img {
     height: 220px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .hero-buttons {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+  .hero-buttons .btn {
+    width: 260px !important;
+    max-width: 90vw !important;
+    text-align: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
   }
 }
