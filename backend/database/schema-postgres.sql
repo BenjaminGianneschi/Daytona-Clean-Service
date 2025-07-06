@@ -157,23 +157,31 @@ DECLARE
     slot_end TIME;
     conflicting_appointments INTEGER;
     base_date DATE := '2000-01-01';
+    start_ts TIMESTAMP;
+    end_ts TIMESTAMP;
+    slot_end_ts TIMESTAMP;
 BEGIN
     current_time := work_start;
-    
-    WHILE (base_date + current_time::time) + (p_duration || ' minutes')::INTERVAL <= (base_date + work_end::time) LOOP
-        slot_end := ((base_date + current_time::time) + (p_duration || ' minutes')::INTERVAL)::time;
-        
+    start_ts := base_date::timestamp + current_time::interval;
+    end_ts := base_date::timestamp + work_end::interval;
+
+    WHILE (start_ts + (p_duration || ' minutes')::INTERVAL) <= end_ts LOOP
+        slot_end_ts := start_ts + (p_duration || ' minutes')::INTERVAL;
+        slot_end := slot_end_ts::time;
+
         -- Verificar si hay turnos que se superponen
         SELECT COUNT(*) INTO conflicting_appointments
         FROM appointments
         WHERE appointment_date = p_date
         AND appointment_time < slot_end
-        AND ((base_date + appointment_time::time) + (duration || ' minutes')::INTERVAL) > (base_date + current_time::time)
+        AND (base_date::timestamp + appointment_time::interval + (duration || ' minutes')::INTERVAL) > start_ts
         AND status IN ('pending', 'confirmed');
-        
+
         RETURN QUERY SELECT current_time, conflicting_appointments = 0;
-        
-        current_time := ((base_date + current_time::time) + (slot_interval || ' minutes')::INTERVAL)::time;
+
+        -- Avanzar al siguiente slot
+        start_ts := start_ts + (slot_interval || ' minutes')::INTERVAL;
+        current_time := start_ts::time;
     END LOOP;
 END;
 $$ LANGUAGE plpgsql; 
