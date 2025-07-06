@@ -1,7 +1,26 @@
 // Script para manejar el formulario de login
+console.log('🔐 Script de login cargando...');
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔐 DOM cargado, inicializando login...');
+    
     const loginForm = document.getElementById('loginForm');
     const alertContainer = document.getElementById('alert-container');
+    
+    console.log('📋 Elementos encontrados:', {
+        loginForm: loginForm ? '✅' : '❌',
+        alertContainer: alertContainer ? '✅' : '❌'
+    });
+
+    if (!loginForm) {
+        console.error('❌ No se encontró el formulario de login');
+        return;
+    }
+
+    if (!alertContainer) {
+        console.error('❌ No se encontró el contenedor de alertas');
+        return;
+    }
 
     // Función para mostrar alertas
     function showAlert(message, type = 'danger') {
@@ -34,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Manejar envío del formulario
     loginForm.addEventListener('submit', async function(e) {
+        console.log('🔘 Botón de login clickeado');
         e.preventDefault();
         
         clearAlerts();
@@ -67,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('🔐 Intentando iniciar sesión...');
             
             // Llamar a la API de login
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            const response = await fetch(`${getApiUrl()}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,5 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('email').setAttribute('autocomplete', 'email');
     document.getElementById('password').setAttribute('autocomplete', 'current-password');
     
+    // Verificar que la función getApiUrl esté disponible
+    if (typeof getApiUrl !== 'function') {
+        console.error('❌ getApiUrl no está disponible');
+        return;
+    }
+    
     console.log('🔐 Script de login cargado correctamente');
+    console.log('📡 API URL:', getApiUrl());
 }); 
