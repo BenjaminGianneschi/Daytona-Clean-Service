@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: daytona-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: daytona-db
+          property: host
+      - key: DB_USER
+        fromDatabase:
+          name: daytona-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: daytona-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: daytona-db
+          property: database
+      - key: DB_PORT
+        fromDatabase:
+          name: daytona-db
+          property: port
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: REMINDER_TIME
+        value: 09:00
+      - key: REMINDER_TIMEZONE
+        value: America/Argentina/Buenos_Aires
+      - key: WORK_START_HOUR
+        value: 8
+      - key: WORK_END_HOUR
+        value: 18
+      - key: WORK_DAYS
+        value: 1,2,3,4,5,6
+      - key: TURN_DURATION
+        value: 120
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: LOG_LEVEL
+        value: info
+      - key: ALLOWED_ORIGINS
+        value: https://daytona.com.ar,https://www.daytona.com.ar
+
+databases:
+  - name: daytona-db
+    databaseName: daytona_turnos
+    user: daytona_user
+    plan: free 
