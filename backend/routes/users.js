@@ -46,16 +46,16 @@ router.post('/register', async (req, res) => {
     const saltRounds = 12;
     const passwordHash = await bcrypt.hash(password, saltRounds);
     
-    // Crear usuario
+    // Crear usuario - usando 'password' en lugar de 'password_hash'
     const result = await query(
-      'INSERT INTO users (name, email, phone, password_hash, created_at) VALUES ($1, $2, $3, $4, NOW())',
+      'INSERT INTO users (name, email, phone, password, created_at) VALUES ($1, $2, $3, $4, NOW()) RETURNING id',
       [name, email, phone, passwordHash]
     );
     
     res.json({
       success: true,
       message: 'Usuario registrado exitosamente',
-      userId: result.insertId
+      userId: result[0].id
     });
     
   } catch (error) {
@@ -72,9 +72,9 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     
-    // Buscar usuario por email
+    // Buscar usuario por email - usando 'password' en lugar de 'password_hash'
     const users = await query(
-      'SELECT id, name, email, phone, password_hash FROM users WHERE email = ?',
+      'SELECT id, name, email, phone, password FROM users WHERE email = $1',
       [email]
     );
     
@@ -88,7 +88,7 @@ router.post('/login', async (req, res) => {
     const user = users[0];
     
     // Verificar contraseña
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!passwordMatch) {
       return res.status(401).json({ 
@@ -135,18 +135,14 @@ router.get('/appointments', async (req, res) => {
       SELECT 
         a.id,
         a.appointment_date,
-        a.start_time,
+        a.appointment_time as start_time,
         a.status,
-        a.total_amount,
+        a.total_price as total_amount,
         a.notes,
-        a.address,
-        GROUP_CONCAT(s.service_name SEPARATOR ', ') as services
+        a.service_type as services
       FROM appointments a
-      LEFT JOIN appointment_services aps ON a.id = aps.appointment_id
-      LEFT JOIN services s ON aps.service_id = s.id
-      WHERE a.client_phone = (SELECT phone FROM users WHERE id = ?)
-      GROUP BY a.id
-      ORDER BY a.appointment_date DESC, a.start_time DESC
+      WHERE a.user_id = $1
+      ORDER BY a.appointment_date DESC, a.appointment_time DESC
     `, [req.session.userId]);
     
     res.json({
@@ -179,8 +175,7 @@ router.post('/appointments/:id/cancel', async (req, res) => {
     const appointment = await query(`
       SELECT a.id, a.status 
       FROM appointments a
-      JOIN users u ON a.client_phone = u.phone
-      WHERE a.id = ? AND u.id = ?
+      WHERE a.id = $1 AND a.user_id = $2
     `, [appointmentId, req.session.userId]);
     
     if (appointment.length === 0) {
@@ -199,7 +194,7 @@ router.post('/appointments/:id/cancel', async (req, res) => {
     
     // Cancelar turno
     await query(
-      'UPDATE appointments SET status = ? WHERE id = ?',
+      'UPDATE appointments SET status = $1, updated_at = NOW() WHERE id = $2',
       ['cancelled', appointmentId]
     );
     
@@ -217,23 +212,7 @@ router.post('/appointments/:id/cancel', async (req, res) => {
   }
 });
 
-// Logout
-router.post('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Error al cerrar sesión' 
-      });
-    }
-    res.json({ 
-      success: true, 
-      message: 'Sesión cerrada exitosamente' 
-    });
-  });
-});
-
-// Verificar si el usuario está autenticado
+// Obtener perfil del usuario
 router.get('/me', async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -244,7 +223,7 @@ router.get('/me', async (req, res) => {
     }
     
     const users = await query(
-      'SELECT id, name, email, phone FROM users WHERE id = ?',
+      'SELECT id, name, email, phone, created_at FROM users WHERE id = $1',
       [req.session.userId]
     );
     
@@ -261,12 +240,157 @@ router.get('/me', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('Error obteniendo usuario:', error);
+    console.error('Error obteniendo perfil:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Error interno del servidor' 
     });
   }
+});
+
+// Actualizar perfil del usuario
+router.put('/me', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario no autenticado' 
+      });
+    }
+    
+    const { name, phone } = req.body;
+    
+    // Validar datos
+    if (!name || !phone) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Nombre y teléfono son requeridos' 
+      });
+    }
+    
+    // Verificar si el teléfono ya existe en otro usuario
+    const existingPhone = await query(
+      'SELECT id FROM users WHERE phone = $1 AND id != $2',
+      [phone, req.session.userId]
+    );
+    
+    if (existingPhone.length > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'El teléfono ya está registrado por otro usuario' 
+      });
+    }
+    
+    // Actualizar usuario
+    await query(
+      'UPDATE users SET name = $1, phone = $2, updated_at = NOW() WHERE id = $3',
+      [name, phone, req.session.userId]
+    );
+    
+    res.json({
+      success: true,
+      message: 'Perfil actualizado exitosamente'
+    });
+    
+  } catch (error) {
+    console.error('Error actualizando perfil:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+});
+
+// Cambiar contraseña
+router.put('/change-password', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario no autenticado' 
+      });
+    }
+    
+    const { currentPassword, newPassword } = req.body;
+    
+    // Validar datos
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Contraseña actual y nueva contraseña son requeridas' 
+      });
+    }
+    
+    if (newPassword.length < 6) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'La nueva contraseña debe tener al menos 6 caracteres' 
+      });
+    }
+    
+    // Obtener contraseña actual - usando 'password' en lugar de 'password_hash'
+    const users = await query(
+      'SELECT password FROM users WHERE id = $1',
+      [req.session.userId]
+    );
+    
+    if (users.length === 0) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Usuario no encontrado' 
+      });
+    }
+    
+    // Verificar contraseña actual
+    const passwordMatch = await bcrypt.compare(currentPassword, users[0].password);
+    
+    if (!passwordMatch) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'La contraseña actual es incorrecta' 
+      });
+    }
+    
+    // Hash de la nueva contraseña
+    const saltRounds = 12;
+    const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
+    
+    // Actualizar contraseña - usando 'password' en lugar de 'password_hash'
+    await query(
+      'UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2',
+      [newPasswordHash, req.session.userId]
+    );
+    
+    res.json({
+      success: true,
+      message: 'Contraseña cambiada exitosamente'
+    });
+    
+  } catch (error) {
+    console.error('Error cambiando contraseña:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+});
+
+// Logout
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error en logout:', err);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Error al cerrar sesión' 
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Sesión cerrada exitosamente'
+    });
+  });
 });
 
 module.exports = router; 
