@@ -32,9 +32,16 @@ app.use(helmet({
 app.use(cors({
   origin: [
     'https://www.daytonacleanservice.com',
-    'https://daytonacleanservice.com'
+    'https://daytonacleanservice.com',
+    'https://daytona-clean-service.onrender.com',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001'
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // Rate limiting
@@ -67,6 +74,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware de logging
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
   next();
 });
 
@@ -75,17 +84,23 @@ app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 
-// Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API)
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Ruta no encontrada'
-  });
-});
-
 // Servir archivos estáticos después de las rutas de la API
 app.use('/admin', express.static(path.join(__dirname, '../admin')));
 app.use(express.static(path.join(__dirname, '..')));
+
+// Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API y archivos estáticos)
+app.use('*', (req, res) => {
+  // Si la ruta comienza con /api, devolver JSON
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({
+      success: false,
+      message: 'Ruta de API no encontrada'
+    });
+  }
+  
+  // Para otras rutas, servir el archivo index.html (SPA)
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 // Ruta de prueba
 app.get('/', (req, res) => {
