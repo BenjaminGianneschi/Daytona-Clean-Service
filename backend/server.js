@@ -8,6 +8,7 @@ require('dotenv').config({ path: './config.env' });
 
 // Importar configuración de base de datos
 const { testConnection } = require('./config/database');
+const { fixDatabase } = require('./scripts/fix-database');
 
 // Importar rutas
 const authRoutes = require('./routes/auth');
@@ -160,6 +161,10 @@ async function startServer() {
       console.error('❌ No se pudo conectar a la base de datos. Verifique la configuración.');
       process.exit(1);
     }
+
+    // Verificar y corregir estructura de la base de datos
+    console.log('🔧 Verificando estructura de la base de datos...');
+    await fixDatabase();
 
     // Iniciar servidor
     app.listen(PORT, () => {

@@ -9,6 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup-db": "node scripts/setup-render.js",
     "setup-manual": "node scripts/manual-setup.js",
+    "fix-db": "node scripts/fix-database.js",
+    "check-db": "node scripts/check-render-db.js",
+    "diagnose": "node scripts/diagnose-render.js",
     "postinstall": "npm run setup-db || echo 'Database setup failed, continuing deployment...'"
   },
   "keywords": [
