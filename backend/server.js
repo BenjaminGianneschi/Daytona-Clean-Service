@@ -28,47 +28,17 @@ app.use(helmet({
   contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
 }));
 
-// Configuración de CORS más específica
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Permitir requests sin origin (como mobile apps o Postman)
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'https://www.daytonacleanservice.com',
-      'https://daytonacleanservice.com',
-      'https://daytona-clean-service.onrender.com',
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001'
-    ];
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+// Configuración de CORS simplificada y permisiva
+app.use(cors({
+  origin: true, // Permitir todos los origins temporalmente
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept']
+}));
 
-app.use(cors(corsOptions));
-
-// Middleware adicional para manejar preflight OPTIONS
-app.options('*', cors(corsOptions));
-
-// Middleware adicional para CORS headers
+// Middleware adicional para CORS headers (backup)
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -144,6 +114,16 @@ app.get('/', (req, res) => {
     success: true,
     message: 'API de Daytona Clean Service - Sistema de Turnos',
     version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Ruta de prueba específica para CORS
+app.get('/api/test-cors', (req, res) => {
+  res.json({
+    success: true,
+    message: 'CORS funcionando correctamente',
+    origin: req.headers.origin,
     timestamp: new Date().toISOString()
   });
 });

@@ -8,6 +8,12 @@ async function testApiConnectivity() {
     const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
     console.log('📍 URL de la API:', apiUrl);
     
+    // Probar endpoint de CORS
+    console.log('🔧 Probando endpoint de CORS...');
+    const corsResponse = await fetch(`${apiUrl}/test-cors`);
+    const corsData = await corsResponse.json();
+    console.log('✅ Respuesta de CORS:', corsData);
+    
     // Probar endpoint de salud
     console.log('🏥 Probando endpoint de salud...');
     const healthResponse = await fetch(`${apiUrl}/health`);
