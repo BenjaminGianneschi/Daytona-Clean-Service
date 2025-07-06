@@ -27,7 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     try {
-      const response = await fetch('/api/users/register', {
+      // Usar el servicio de API configurado
+      const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+      
+      const response = await fetch(`${apiUrl}/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,6 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
           password 
         })
       });
+
+      // Verificar si la respuesta es JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Respuesta del servidor no es JSON válido');
+      }
 
       const data = await response.json();
 
@@ -54,7 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     } catch (error) {
       console.error('Error en registro:', error);
-      showAlert('Error de conexión. Inténtalo nuevamente.', 'danger');
+      if (error.message.includes('JSON')) {
+        showAlert('Error en la respuesta del servidor. Verifica la conexión.', 'danger');
+      } else {
+        showAlert('Error de conexión. Inténtalo nuevamente.', 'danger');
+      }
     }
   });
 
@@ -70,7 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   async function checkAuthStatus() {
     try {
-      const response = await fetch('/api/users/me', {
+      const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+      const response = await fetch(`${apiUrl}/users/me`, {
         credentials: 'include'
       });
 
