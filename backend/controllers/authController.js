@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { query } = require('../config/database');
 
 // Login de administrador
-const login = async (req, res) => {
+const adminLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -68,7 +68,79 @@ const login = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error en login:', error);
+    console.error('Error en login de administrador:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error interno del servidor'
+    });
+  }
+};
+
+// Login de usuario regular
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validar campos requeridos
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email y contraseña son requeridos'
+      });
+    }
+
+    // Buscar usuario por email
+    const users = await query(
+      'SELECT * FROM users WHERE email = ?',
+      [email]
+    );
+
+    if (users.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'Email o contraseña incorrectos'
+      });
+    }
+
+    const user = users[0];
+
+    // Verificar contraseña
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    
+    if (!isValidPassword) {
+      return res.status(401).json({
+        success: false,
+        message: 'Email o contraseña incorrectos'
+      });
+    }
+
+    // Generar token JWT
+    const token = jwt.sign(
+      { 
+        userId: user.id, 
+        email: user.email,
+        role: user.role || 'user'
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+    );
+
+    // Retornar respuesta exitosa
+    res.json({
+      success: true,
+      message: 'Login exitoso',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role || 'user'
+      }
+    });
+
+  } catch (error) {
+    console.error('Error en login de usuario:', error);
     res.status(500).json({
       success: false,
       message: 'Error interno del servidor'
@@ -251,6 +323,7 @@ const createAdmin = async (req, res) => {
 
 module.exports = {
   login,
+  adminLogin,
   verifyToken,
   changePassword,
   createAdmin
