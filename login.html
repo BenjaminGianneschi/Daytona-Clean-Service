@@ -156,7 +156,7 @@
     <div id="alert-container"></div>
     
     <!-- Formulario de Login -->
-    <form id="loginForm">
+    <form id="loginForm" onsubmit="return false;">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" required placeholder="tu@email.com" />
@@ -167,7 +167,7 @@
         <input type="password" class="form-control" id="password" required placeholder="Tu contraseña" />
       </div>
       
-      <button type="submit" class="btn btn-login">
+      <button type="button" class="btn btn-login" onclick="handleLogin()">
         <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
       </button>
     </form>
