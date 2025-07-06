@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: JSON.stringify({ 
           name: `${name} ${lastname}`,
           email, 
@@ -84,9 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
   async function checkAuthStatus() {
     try {
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
-      const response = await fetch(`${apiUrl}/users/me`, {
-        credentials: 'include'
-      });
+      const response = await fetch(`${apiUrl}/users/me`);
 
       if (response.ok) {
         // Ya está logueado, redirigir

@@ -28,26 +28,20 @@ app.use(helmet({
   contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
 }));
 
-// Configuración de CORS simplificada y permisiva
-app.use(cors({
-  origin: true, // Permitir todos los origins temporalmente
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept']
-}));
-
-// Middleware adicional para CORS headers (backup)
+// Configuración de CORS ultra permisiva
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  // Permitir todos los origins
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Credentials', 'false'); // Cambiar a false para permitir *
   
+  // Manejar preflight OPTIONS
   if (req.method === 'OPTIONS') {
-    res.sendStatus(204);
-  } else {
-    next();
+    return res.status(204).end();
   }
+  
+  next();
 });
 
 // Rate limiting
