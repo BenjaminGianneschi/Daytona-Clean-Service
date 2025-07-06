@@ -156,14 +156,13 @@ DECLARE
     current_time TIME;
     slot_end TIME;
     conflicting_appointments INTEGER;
-    base_date DATE := '2000-01-01';
     start_ts TIMESTAMP;
     end_ts TIMESTAMP;
     slot_end_ts TIMESTAMP;
 BEGIN
     current_time := work_start;
-    start_ts := base_date::timestamp + current_time::interval;
-    end_ts := base_date::timestamp + work_end::interval;
+    start_ts := make_timestamp(2000,1,1,EXTRACT(HOUR FROM current_time),EXTRACT(MINUTE FROM current_time),0);
+    end_ts := make_timestamp(2000,1,1,EXTRACT(HOUR FROM work_end),EXTRACT(MINUTE FROM work_end),0);
 
     WHILE (start_ts + (p_duration || ' minutes')::INTERVAL) <= end_ts LOOP
         slot_end_ts := start_ts + (p_duration || ' minutes')::INTERVAL;
@@ -174,7 +173,7 @@ BEGIN
         FROM appointments
         WHERE appointment_date = p_date
         AND appointment_time < slot_end
-        AND (base_date::timestamp + appointment_time::interval + (duration || ' minutes')::INTERVAL) > start_ts
+        AND (make_timestamp(2000,1,1,EXTRACT(HOUR FROM appointment_time),EXTRACT(MINUTE FROM appointment_time),0) + (duration || ' minutes')::INTERVAL) > start_ts
         AND status IN ('pending', 'confirmed');
 
         RETURN QUERY SELECT current_time, conflicting_appointments = 0;
