@@ -23,26 +23,22 @@ const PORT = process.env.PORT || 3001;
 // Configuración para proxy (necesario para Render)
 app.set('trust proxy', 1);
 
+// Middleware CORS ultra permisivo
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
+  // No pongas credentials: true si usas '*'
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 // Configuración de seguridad
 app.use(helmet({
   contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
 }));
-
-// Configuración de CORS ultra permisiva
-app.use((req, res, next) => {
-  // Permitir todos los origins
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
-  res.header('Access-Control-Allow-Credentials', 'false'); // Cambiar a false para permitir *
-  
-  // Manejar preflight OPTIONS
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
-  
-  next();
-});
 
 // Rate limiting
 const limiter = rateLimit({
