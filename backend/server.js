@@ -27,9 +27,10 @@ app.use(helmet({
 
 // Configuración de CORS
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://daytona.com.ar', 'https://www.daytona.com.ar']
-    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5000', 'http://127.0.0.1:5500'],
+  origin: [
+    'https://www.daytonacleanservice.com',
+    'https://daytonacleanservice.com'
+  ],
   credentials: true
 }));
 
