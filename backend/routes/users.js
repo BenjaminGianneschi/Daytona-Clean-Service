@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
     
     // Crear usuario
     const result = await query(
-      'INSERT INTO users (name, email, phone, password_hash, created_at) VALUES (?, ?, ?, ?, NOW())',
+      'INSERT INTO users (name, email, phone, password_hash, created_at) VALUES ($1, $2, $3, $4, NOW())',
       [name, email, phone, passwordHash]
     );
     
