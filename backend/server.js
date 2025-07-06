@@ -20,6 +20,9 @@ const reminderCron = require('./scripts/reminderCron');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Configuración para proxy (necesario para Render)
+app.set('trust proxy', 1);
+
 // Configuración de seguridad
 app.use(helmet({
   contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
