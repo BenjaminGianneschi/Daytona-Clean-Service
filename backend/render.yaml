@@ -14,6 +14,26 @@ services:
         generateValue: true
       - key: SESSION_SECRET
         generateValue: true
+      - key: WHATSAPP_ENABLED
+        value: true
+      - key: WHATSAPP_PHONE_NUMBER
+        value: "5493482588383"
+      - key: WORK_START_HOUR
+        value: "8"
+      - key: WORK_END_HOUR
+        value: "18"
+      - key: WORK_DAYS
+        value: "1,2,3,4,5,6"
+      - key: TURN_DURATION
+        value: "120"
+      - key: REMINDER_TIME
+        value: "09:00"
+      - key: REMINDER_TIMEZONE
+        value: "America/Argentina/Buenos_Aires"
+      - key: LOG_LEVEL
+        value: "info"
+      - key: ALLOWED_ORIGINS
+        value: "https://daytona.com.ar,https://www.daytona.com.ar"
       - key: DB_HOST
         fromDatabase:
           name: daytona-db
@@ -35,30 +55,15 @@ services:
           name: daytona-db
           property: port
       - key: JWT_EXPIRES_IN
-        value: 24h
-      - key: REMINDER_TIME
-        value: 09:00
-      - key: REMINDER_TIMEZONE
-        value: America/Argentina/Buenos_Aires
-      - key: WORK_START_HOUR
-        value: 8
-      - key: WORK_END_HOUR
-        value: 18
-      - key: WORK_DAYS
-        value: 1,2,3,4,5,6
-      - key: TURN_DURATION
-        value: 120
+        value: "24h"
       - key: RATE_LIMIT_WINDOW_MS
-        value: 900000
+        value: "900000"
       - key: RATE_LIMIT_MAX_REQUESTS
-        value: 100
-      - key: LOG_LEVEL
-        value: info
-      - key: ALLOWED_ORIGINS
-        value: https://daytona.com.ar,https://www.daytona.com.ar
+        value: "100"
+    healthCheckPath: /api/health
 
 databases:
   - name: daytona-db
-    databaseName: daytona_turnos
+    databaseName: daytona_db
     user: daytona_user
     plan: free 

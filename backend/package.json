@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup-db": "node scripts/setup-render.js",
-    "postinstall": "npm run setup-db"
+    "setup-manual": "node scripts/manual-setup.js",
+    "postinstall": "npm run setup-db || echo 'Database setup failed, continuing deployment...'"
   },
   "keywords": [
     "turnos",

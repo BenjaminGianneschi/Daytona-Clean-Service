@@ -153,15 +153,15 @@ DECLARE
     work_start TIME := '08:00';
     work_end TIME := '18:00';
     slot_interval INTEGER := 30; -- intervalos de 30 minutos
-    current_time TIME;
+    current_slot_time TIME;
     slot_end TIME;
     conflicting_appointments INTEGER;
     start_ts TIMESTAMP;
     end_ts TIMESTAMP;
     slot_end_ts TIMESTAMP;
 BEGIN
-    current_time := work_start;
-    start_ts := make_timestamp(2000,1,1,EXTRACT(HOUR FROM current_time),EXTRACT(MINUTE FROM current_time),0);
+    current_slot_time := work_start;
+    start_ts := make_timestamp(2000,1,1,EXTRACT(HOUR FROM current_slot_time),EXTRACT(MINUTE FROM current_slot_time),0);
     end_ts := make_timestamp(2000,1,1,EXTRACT(HOUR FROM work_end),EXTRACT(MINUTE FROM work_end),0);
 
     WHILE (start_ts + (p_duration || ' minutes')::INTERVAL) <= end_ts LOOP
@@ -176,11 +176,11 @@ BEGIN
         AND (make_timestamp(2000,1,1,EXTRACT(HOUR FROM appointment_time),EXTRACT(MINUTE FROM appointment_time),0) + (duration || ' minutes')::INTERVAL) > start_ts
         AND status IN ('pending', 'confirmed');
 
-        RETURN QUERY SELECT current_time, conflicting_appointments = 0;
+        RETURN QUERY SELECT current_slot_time, conflicting_appointments = 0;
 
         -- Avanzar al siguiente slot
         start_ts := start_ts + (slot_interval || ' minutes')::INTERVAL;
-        current_time := start_ts::time;
+        current_slot_time := start_ts::time;
     END LOOP;
 END;
 $$ LANGUAGE plpgsql; 
