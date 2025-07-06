@@ -488,10 +488,7 @@
                 <i class="fas fa-couch me-1"></i>3 Cuerpos
               </label>
               
-              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-esquinero" value="esquinero" autocomplete="off">
-              <label class="btn btn-outline-primary" for="sillon-esquinero">
-                <i class="fas fa-couch me-1"></i>Esquinero
-              </label>
+
             </div>
           </div>
 
@@ -535,15 +532,7 @@
                 <i class="fas fa-bed me-1"></i>2 Plazas
               </label>
               
-              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-queen" value="queen" autocomplete="off">
-              <label class="btn btn-outline-primary" for="colchon-queen">
-                <i class="fas fa-bed me-1"></i>Queen
-              </label>
-              
-              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-king" value="king" autocomplete="off">
-              <label class="btn btn-outline-primary" for="colchon-king">
-                <i class="fas fa-bed me-1"></i>King
-              </label>
+
             </div>
           </div>
 
@@ -722,27 +711,106 @@
         <!-- Paso 3: Seleccionar Fecha y Hora -->
         <div id="step-3" style="display:none;">
           <h3 class="mb-3">Seleccionar Fecha y Hora</h3>
-          <form id="fecha-hora-form">
-            <div class="mb-3">
-              <label for="fecha" class="form-label">Fecha *</label>
-              <input type="date" class="form-control" id="fecha" min="" required />
+          
+          <!-- Información sobre turnos separados -->
+          <div id="info-turnos-separados" class="alert alert-info mb-4" style="display:none; background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Turnos Separados:</strong> Has seleccionado servicios de diferentes categorías. 
+            Los servicios de vehículos y tapizados se realizarán en turnos separados para optimizar el tiempo y la calidad del servicio.
+          </div>
+          
+          <!-- Turno para Vehículos -->
+          <div id="turno-vehiculos" style="display:none;">
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-car me-2 text-danger"></i>
+                Turno para Servicios de Vehículos
+              </h5>
+              <div id="servicios-vehiculos-resumen" class="mb-3"></div>
+              <form id="fecha-hora-vehiculos-form">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="fecha-vehiculos" class="form-label">Fecha *</label>
+                    <input type="date" class="form-control" id="fecha-vehiculos" min="" required />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="hora-vehiculos" class="form-label">Hora *</label>
+                    <select class="form-select" id="hora-vehiculos" required>
+                      <option value="">Selecciona una hora</option>
+                      <option>09:00</option>
+                      <option>10:00</option>
+                      <option>11:00</option>
+                      <option>12:00</option>
+                      <option>13:00</option>
+                      <option>14:00</option>
+                      <option>15:00</option>
+                      <option>16:00</option>
+                      <option>17:00</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="mb-3">
-              <label for="hora" class="form-label">Hora *</label>
-              <select class="form-select" id="hora" required>
-                <option value="">Selecciona una hora</option>
-                <option>09:00</option>
-                <option>10:00</option>
-                <option>11:00</option>
-                <option>12:00</option>
-                <option>13:00</option>
-                <option>14:00</option>
-                <option>15:00</option>
-                <option>16:00</option>
-                <option>17:00</option>
-              </select>
+          </div>
+          
+          <!-- Turno para Tapizados -->
+          <div id="turno-tapizados" style="display:none;">
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-couch me-2 text-danger"></i>
+                Turno para Servicios de Tapizados
+              </h5>
+              <div id="servicios-tapizados-resumen" class="mb-3"></div>
+              <form id="fecha-hora-tapizados-form">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="fecha-tapizados" class="form-label">Fecha *</label>
+                    <input type="date" class="form-control" id="fecha-tapizados" min="" required />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="hora-tapizados" class="form-label">Hora *</label>
+                    <select class="form-select" id="hora-tapizados" required>
+                      <option value="">Selecciona una hora</option>
+                      <option>09:00</option>
+                      <option>10:00</option>
+                      <option>11:00</option>
+                      <option>12:00</option>
+                      <option>13:00</option>
+                      <option>14:00</option>
+                      <option>15:00</option>
+                      <option>16:00</option>
+                      <option>17:00</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
+          
+          <!-- Turno único (cuando solo hay una categoría) -->
+          <div id="turno-unico" style="display:none;">
+            <form id="fecha-hora-form">
+              <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha *</label>
+                <input type="date" class="form-control" id="fecha" min="" required />
+              </div>
+              <div class="mb-3">
+                <label for="hora" class="form-label">Hora *</label>
+                <select class="form-select" id="hora" required>
+                  <option value="">Selecciona una hora</option>
+                  <option>09:00</option>
+                  <option>10:00</option>
+                  <option>11:00</option>
+                  <option>12:00</option>
+                  <option>13:00</option>
+                  <option>14:00</option>
+                  <option>15:00</option>
+                  <option>16:00</option>
+                  <option>17:00</option>
+                </select>
+              </div>
+            </form>
+          </div>
         </div>
         <!-- Paso 4: Datos Personales -->
         <div id="step-4" style="display:none;">
@@ -764,14 +832,68 @@
         <!-- Paso 5: Ubicación del Servicio -->
         <div id="step-5" style="display:none;">
           <h3 class="mb-3">Ubicación del Servicio</h3>
-          <div id="ubicacion-container">
-            <!-- Los campos se mostrarán dinámicamente según el tipo de servicio -->
+          
+          <!-- Ubicación para Vehículos -->
+          <div id="ubicacion-vehiculos" style="display:none;">
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-car me-2 text-danger"></i>
+                Ubicación para Servicios de Vehículos
+              </h5>
+              <div id="ubicacion-vehiculos-container">
+                <!-- Los campos se mostrarán dinámicamente -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Ubicación para Tapizados -->
+          <div id="ubicacion-tapizados" style="display:none;">
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-couch me-2 text-danger"></i>
+                Ubicación para Servicios de Tapizados
+              </h5>
+              <div id="ubicacion-tapizados-container">
+                <!-- Los campos se mostrarán dinámicamente -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Ubicación única (cuando solo hay una categoría) -->
+          <div id="ubicacion-unica" style="display:none;">
+            <div id="ubicacion-container">
+              <!-- Los campos se mostrarán dinámicamente según el tipo de servicio -->
+            </div>
           </div>
         </div>
         <!-- Paso 6: Confirmar -->
         <div id="step-6" style="display:none;">
-          <h3 class="mb-3">Confirmar Turno</h3>
-          <div class="resumen-turno" id="resumen-turno"></div>
+          <h3 class="mb-3">Confirmar Turnos</h3>
+          
+          <!-- Resumen de turnos separados -->
+          <div id="resumen-turnos-separados" style="display:none;">
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-car me-2 text-danger"></i>
+                Turno para Servicios de Vehículos
+              </h5>
+              <div id="resumen-turno-vehiculos"></div>
+            </div>
+            
+            <div class="card-turno mb-4">
+              <h5 class="mb-3">
+                <i class="fas fa-couch me-2 text-danger"></i>
+                Turno para Servicios de Tapizados
+              </h5>
+              <div id="resumen-turno-tapizados"></div>
+            </div>
+          </div>
+          
+          <!-- Resumen de turno único -->
+          <div id="resumen-turno-unico" style="display:none;">
+            <div class="resumen-turno" id="resumen-turno"></div>
+          </div>
+          
           <div id="resumen-final" class="mt-4" style="display:block; margin-bottom: 1.5rem;"></div>
         </div>
         <!-- Mensaje de éxito -->
@@ -810,6 +932,194 @@
   let motoresAgregados = [];
   let alfombrasAgregadas = [];
   let puffsAgregados = [];
+
+  // Variables para manejar turnos separados
+  let turnosSeparados = {
+    vehiculos: {
+      servicios: [],
+      fecha: null,
+      hora: null,
+      direccion: null,
+      detalles: null
+    },
+    tapizados: {
+      servicios: [],
+      fecha: null,
+      hora: null,
+      direccion: null,
+      detalles: null
+    }
+  };
+
+  // Función para categorizar servicios
+  function categorizarServicios() {
+    const serviciosVehiculos = [];
+    const serviciosTapizados = [];
+    
+    // Categorizar vehículos
+    vehiculosAgregados.forEach(vehiculo => {
+      serviciosVehiculos.push({
+        tipo: 'vehiculo',
+        nombre: `Vehículo ${vehiculo.tipo}`,
+        cantidad: vehiculo.cantidad,
+        precio: getPrecioVehiculo(vehiculo.tipo),
+        duracion: 180
+      });
+    });
+    
+    // Categorizar tapizado de vehículos
+    tapizadoVehiculosAgregados.forEach(tv => {
+      serviciosVehiculos.push({
+        tipo: 'tapizado_vehiculo',
+        nombre: `Tapizado Vehículo ${tv.tipo}`,
+        cantidad: tv.cantidad,
+        precio: getPrecioTapizadoVehiculo(tv.tipo),
+        duracion: 120
+      });
+    });
+    
+    // Categorizar motores
+    motoresAgregados.forEach(motor => {
+      serviciosVehiculos.push({
+        tipo: 'motor',
+        nombre: `Motor ${motor.tipo}`,
+        cantidad: motor.cantidad,
+        precio: getPrecioMotor(motor.tipo),
+        duracion: 45
+      });
+    });
+    
+    // Categorizar sillones
+    sillonesAgregados.forEach(sillon => {
+      serviciosTapizados.push({
+        tipo: 'sillon',
+        nombre: `Sillón ${sillon.tipo}`,
+        cantidad: sillon.cantidad,
+        precio: getPrecioSillon(sillon.tipo),
+        duracion: 80
+      });
+    });
+    
+    // Categorizar sillas
+    sillasAgregadas.forEach(silla => {
+      serviciosTapizados.push({
+        tipo: 'silla',
+        nombre: `Silla ${silla.tipo}`,
+        cantidad: silla.cantidad,
+        precio: getPrecioSilla(silla.tipo),
+        duracion: 40
+      });
+    });
+    
+    // Categorizar colchones
+    colchonesAgregados.forEach(colchon => {
+      serviciosTapizados.push({
+        tipo: 'colchon',
+        nombre: `Colchón ${colchon.tipo}`,
+        cantidad: colchon.cantidad,
+        precio: getPrecioColchon(colchon.tipo),
+        duracion: 60
+      });
+    });
+    
+    // Categorizar alfombras
+    alfombrasAgregadas.forEach(alfombra => {
+      serviciosTapizados.push({
+        tipo: 'alfombra',
+        nombre: `Alfombra ${alfombra.tipo}`,
+        cantidad: alfombra.cantidad,
+        precio: getPrecioAlfombra(alfombra.tipo),
+        duracion: 120
+      });
+    });
+    
+    // Categorizar puffs
+    puffsAgregados.forEach(puff => {
+      serviciosTapizados.push({
+        tipo: 'puff',
+        nombre: `Puff ${puff.tipo}`,
+        cantidad: puff.cantidad,
+        precio: getPrecioPuff(puff.tipo),
+        duracion: 60
+      });
+    });
+    
+    turnosSeparados.vehiculos.servicios = serviciosVehiculos;
+    turnosSeparados.tapizados.servicios = serviciosTapizados;
+    
+    return {
+      hayVehiculos: serviciosVehiculos.length > 0,
+      hayTapizados: serviciosTapizados.length > 0,
+      necesitaTurnosSeparados: serviciosVehiculos.length > 0 && serviciosTapizados.length > 0
+    };
+  }
+
+  // Funciones helper para obtener precios
+  function getPrecioVehiculo(tipo) {
+    const precios = { 'auto': 20000, 'suv': 27000, 'pickup': 25000 };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioTapizadoVehiculo(tipo) {
+    const precios = { 'auto': 100000, 'suv': 115000, 'pickup': 125000 };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioMotor(tipo) {
+    const precios = { 'basica': 12000, 'completa': 15000, 'detallada': 18000 };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioSillon(tipo) {
+    // Precios actualizados según tabla de promociones
+    const precios = { 
+      '1 cuerpo': 65000, 
+      '2 cuerpos': 125000, 
+      '3 cuerpos': 150000
+    };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioSilla(tipo) {
+    // Precios actualizados según tabla de promociones (precio base por silla)
+    const precios = { 
+      'simple': 12500, 
+      'gamer': 12500, 
+      'oficina': 12500, 
+      'comedor': 12500 
+    };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioColchon(tipo) {
+    // Precios actualizados según tabla de promociones
+    const precios = { 
+      '1 plaza': 80000, 
+      '2 plazas': 120000
+    };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioAlfombra(tipo) {
+    // Precios base para alfombras (no encontrados en promociones, mantener valores actuales)
+    const precios = { 
+      'chica': 20000, 
+      'mediana': 25000, 
+      'grande': 30000, 
+      'persa': 35000 
+    };
+    return precios[tipo] || 0;
+  }
+
+  function getPrecioPuff(tipo) {
+    // Precios base para puffs (no encontrados en promociones, mantener valores actuales)
+    const precios = { 
+      'simple': 10500, 
+      'grande': 15000, 
+      'especial': 20000 
+    };
+    return precios[tipo] || 0;
+  }
 
   // Funciones globales para sillones
   function cambiarCantidad(id, cambio) {
@@ -1006,10 +1316,9 @@
     sillonesAgregados.forEach(sillon => {
       console.log('Renderizando sillon:', sillon);
       const precios = {
-        '1 cuerpo': 9000,
-        '2 cuerpos': 12000,
-        '3 cuerpos': 15000,
-        'esquinero': 18000
+        '1 cuerpo': 65000,
+        '2 cuerpos': 125000,
+        '3 cuerpos': 150000
       };
       const precioUnitario = precios[sillon.tipo];
       const precioTotal = precioUnitario * sillon.cantidad;
@@ -1060,6 +1369,7 @@
     const totalSpan = document.getElementById('sillones-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para sillas
@@ -1069,10 +1379,10 @@
     
     sillasAgregadas.forEach(silla => {
       const precios = {
-        'simple': 7000,
-        'gamer': 10000,
-        'oficina': 8000,
-        'comedor': 6000
+        'simple': 12500,
+        'gamer': 12500,
+        'oficina': 12500,
+        'comedor': 12500
       };
       const precioUnitario = precios[silla.tipo];
       const precioTotal = precioUnitario * silla.cantidad;
@@ -1122,6 +1432,7 @@
     const totalSpan = document.getElementById('sillas-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para colchones
@@ -1131,10 +1442,8 @@
     
     colchonesAgregados.forEach(colchon => {
       const precios = {
-        '1 plaza': 12000,
-        '2 plazas': 15000,
-        'queen': 18000,
-        'king': 22000
+        '1 plaza': 80000,
+        '2 plazas': 120000
       };
       const precioUnitario = precios[colchon.tipo];
       const precioTotal = precioUnitario * colchon.cantidad;
@@ -1184,6 +1493,7 @@
     const totalSpan = document.getElementById('colchones-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para vehículos
@@ -1245,6 +1555,7 @@
     const totalSpan = document.getElementById('vehiculos-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para motores
@@ -1306,6 +1617,7 @@
     const totalSpan = document.getElementById('motores-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para alfombras
@@ -1382,6 +1694,7 @@
       totalSpan.innerHTML = '';
     }
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para puffs
@@ -1456,6 +1769,7 @@
       totalSpan.innerHTML = '';
     }
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Funciones de renderizado para tapizado de vehículos
@@ -1517,6 +1831,7 @@
     const totalSpan = document.getElementById('tapizadovehiculos-total');
     totalSpan.innerHTML = '';
     actualizarResumenFinal();
+    categorizarServicios(); // Actualizar categorización
   }
 
   // Función para actualizar el resumen final
@@ -1532,10 +1847,9 @@
     // Agregar sillones
     if (sillonesAgregados.length > 0) {
       const preciosSillones = {
-        '1 cuerpo': 9000,
-        '2 cuerpos': 12000,
-        '3 cuerpos': 15000,
-        'esquinero': 18000
+        '1 cuerpo': 65000,
+        '2 cuerpos': 125000,
+        '3 cuerpos': 150000
       };
       sillonesAgregados.forEach(sillon => {
         const precio = preciosSillones[sillon.tipo];
@@ -1554,10 +1868,10 @@
     // Agregar sillas
     if (sillasAgregadas.length > 0) {
       const preciosSillas = {
-        'simple': 7000,
-        'gamer': 10000,
-        'oficina': 8000,
-        'comedor': 6000
+        'simple': 12500,
+        'gamer': 12500,
+        'oficina': 12500,
+        'comedor': 12500
       };
       sillasAgregadas.forEach(silla => {
         const precio = preciosSillas[silla.tipo];
@@ -1576,10 +1890,8 @@
     // Agregar colchones
     if (colchonesAgregados.length > 0) {
       const preciosColchones = {
-        '1 plaza': 12000,
-        '2 plazas': 15000,
-        'queen': 18000,
-        'king': 22000
+        '1 plaza': 80000,
+        '2 plazas': 120000
       };
       colchonesAgregados.forEach(colchon => {
         const precio = preciosColchones[colchon.tipo];
@@ -1768,10 +2080,101 @@
         if (stepDiv) stepDiv.style.display = (i === n) ? '' : 'none';
       }
       updateWizardBar(n);
-      // Mostrar el resumen solo en el paso Confirmar
-      if (n === 6) {
-        mostrarResumenTurno();
+      
+      // Lógica específica para cada paso
+      if (n === 3) {
+        mostrarTurnosSeparados();
+      } else if (n === 5) {
+        mostrarCamposUbicacion();
+      } else if (n === 6) {
+        mostrarResumenTurnosSeparados();
       }
+    }
+    
+    function mostrarTurnosSeparados() {
+      const categorias = categorizarServicios();
+      
+      // Ocultar todos los contenedores
+      document.getElementById('turno-vehiculos').style.display = 'none';
+      document.getElementById('turno-tapizados').style.display = 'none';
+      document.getElementById('turno-unico').style.display = 'none';
+      document.getElementById('info-turnos-separados').style.display = 'none';
+      
+      if (categorias.necesitaTurnosSeparados) {
+        // Mostrar turnos separados
+        document.getElementById('info-turnos-separados').style.display = 'block';
+        document.getElementById('turno-vehiculos').style.display = 'block';
+        document.getElementById('turno-tapizados').style.display = 'block';
+        
+        // Mostrar resumen de servicios
+        mostrarResumenServiciosVehiculos();
+        mostrarResumenServiciosTapizados();
+      } else if (categorias.hayVehiculos) {
+        // Solo servicios de vehículos
+        document.getElementById('turno-vehiculos').style.display = 'block';
+        mostrarResumenServiciosVehiculos();
+      } else if (categorias.hayTapizados) {
+        // Solo servicios de tapizados
+        document.getElementById('turno-tapizados').style.display = 'block';
+        mostrarResumenServiciosTapizados();
+      } else {
+        // Turno único (fallback)
+        document.getElementById('turno-unico').style.display = 'block';
+      }
+    }
+    
+    function mostrarResumenServiciosVehiculos() {
+      const container = document.getElementById('servicios-vehiculos-resumen');
+      const servicios = turnosSeparados.vehiculos.servicios;
+      
+      if (servicios.length === 0) {
+        container.innerHTML = '<div class="text-muted">No hay servicios de vehículos seleccionados.</div>';
+        return;
+      }
+      
+      let html = '<div class="mb-3"><strong>Servicios seleccionados:</strong></div>';
+      let total = 0;
+      
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        total += subtotal;
+        html += `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span>${servicio.nombre} x${servicio.cantidad}</span>
+            <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
+          </div>
+        `;
+      });
+      
+      html += `<hr><div class="d-flex justify-content-between align-items-center"><strong>Total:</strong> <strong class="text-danger">$${total.toLocaleString('es-AR')}</strong></div>`;
+      container.innerHTML = html;
+    }
+    
+    function mostrarResumenServiciosTapizados() {
+      const container = document.getElementById('servicios-tapizados-resumen');
+      const servicios = turnosSeparados.tapizados.servicios;
+      
+      if (servicios.length === 0) {
+        container.innerHTML = '<div class="text-muted">No hay servicios de tapizados seleccionados.</div>';
+        return;
+      }
+      
+      let html = '<div class="mb-3"><strong>Servicios seleccionados:</strong></div>';
+      let total = 0;
+      
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        total += subtotal;
+        html += `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span>${servicio.nombre} x${servicio.cantidad}</span>
+            <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
+          </div>
+        `;
+      });
+      
+      html += `<hr><div class="d-flex justify-content-between align-items-center"><strong>Total:</strong> <strong class="text-danger">$${total.toLocaleString('es-AR')}</strong></div>`;
+      container.innerHTML = html;
     }
     // Inicializar barra al cargar
     updateWizardBar(step);
@@ -1856,62 +2259,64 @@
     
     // Función para mostrar campos de ubicación según el tipo de servicio
     function mostrarCamposUbicacion() {
-      const ubicacionContainer = document.getElementById('ubicacion-container');
-      const servicioSeleccionado = turno.servicio;
-      const servicio = servicios[servicioSeleccionado];
+      const categorias = categorizarServicios();
       
-      if (!servicio) return;
+      // Ocultar todos los contenedores
+      document.getElementById('ubicacion-vehiculos').style.display = 'none';
+      document.getElementById('ubicacion-tapizados').style.display = 'none';
+      document.getElementById('ubicacion-unica').style.display = 'none';
       
-      let html = '';
-      
-      if (servicio.tipo === 'vehiculo') {
-        // Solo mostrar la opción de retiro y entrega
-        html = `
-          <div class="mb-4">
-            <label class="form-label">¿Necesitás retiro y entrega del vehículo?</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="retiro-entrega" id="si-retiro" value="si">
-              <label class="form-check-label" for="si-retiro">Sí, necesito retiro y entrega</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="retiro-entrega" id="no-retiro" value="no" checked>
-              <label class="form-check-label" for="no-retiro">No, lo llevo y retiro yo mismo</label>
-            </div>
-          </div>
-          <div class="mb-3" id="direccion-retiro" style="display:none;">
-            <label for="direccion-retiro-input" class="form-label">Dirección de retiro *</label>
-            <textarea class="form-control" id="direccion-retiro-input" rows="2" placeholder="Ingresa la dirección completa donde retirar el vehículo"></textarea>
-          </div>
-          <div class="mb-3" id="direccion-entrega" style="display:none;">
-            <label for="direccion-entrega-input" class="form-label">Dirección de entrega *</label>
-            <textarea class="form-control" id="direccion-entrega-input" rows="2" placeholder="Ingresa la dirección completa donde entregar el vehículo"></textarea>
-          </div>
-        `;
-      } else if (servicio.tipo === 'domicilio') {
-        // Para servicios a domicilio (sillones, colchones, sillas)
-        html = `
-          <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
-            <i class="fas fa-info-circle me-2"></i>
-            Este servicio se realiza a domicilio. Por favor, proporciona la dirección donde se realizará el trabajo.
-          </div>
-          <div class="mb-3">
-            <label for="direccion-domicilio-input" class="form-label">Dirección donde se realizará el servicio</label>
-            <textarea class="form-control" id="direccion-domicilio-input" rows="2" placeholder="Ingresa la dirección completa" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="detalles-ubicacion" class="form-label">Detalles adicionales (opcional)</label>
-            <textarea class="form-control" id="detalles-ubicacion" rows="2" placeholder="Piso, departamento, referencias, horarios de acceso, etc."></textarea>
-          </div>
-        `;
+      if (categorias.necesitaTurnosSeparados) {
+        // Mostrar ubicaciones separadas
+        mostrarUbicacionVehiculos();
+        mostrarUbicacionTapizados();
+        document.getElementById('ubicacion-vehiculos').style.display = 'block';
+        document.getElementById('ubicacion-tapizados').style.display = 'block';
+      } else if (categorias.hayVehiculos) {
+        // Solo servicios de vehículos
+        mostrarUbicacionVehiculos();
+        document.getElementById('ubicacion-vehiculos').style.display = 'block';
+      } else if (categorias.hayTapizados) {
+        // Solo servicios de tapizados
+        mostrarUbicacionTapizados();
+        document.getElementById('ubicacion-tapizados').style.display = 'block';
+      } else {
+        // Ubicación única (fallback)
+        document.getElementById('ubicacion-unica').style.display = 'block';
+        const ubicacionContainer = document.getElementById('ubicacion-container');
+        ubicacionContainer.innerHTML = '<div class="alert alert-warning">No se seleccionaron servicios.</div>';
       }
+    }
+    
+    function mostrarUbicacionVehiculos() {
+      const container = document.getElementById('ubicacion-vehiculos-container');
+      container.innerHTML = `
+        <div class="mb-4">
+          <label class="form-label">¿Necesitás retiro y entrega del vehículo?</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="retiro-entrega-vehiculos" id="si-retiro-vehiculos" value="si">
+            <label class="form-check-label" for="si-retiro-vehiculos">Sí, necesito retiro y entrega</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="retiro-entrega-vehiculos" id="no-retiro-vehiculos" value="no" checked>
+            <label class="form-check-label" for="no-retiro-vehiculos">No, lo llevo y retiro yo mismo</label>
+          </div>
+        </div>
+        <div class="mb-3" id="direccion-retiro-vehiculos" style="display:none;">
+          <label for="direccion-retiro-input-vehiculos" class="form-label">Dirección de retiro *</label>
+          <textarea class="form-control" id="direccion-retiro-input-vehiculos" rows="2" placeholder="Ingresa la dirección completa donde retirar el vehículo"></textarea>
+        </div>
+        <div class="mb-3" id="direccion-entrega-vehiculos" style="display:none;">
+          <label for="direccion-entrega-input-vehiculos" class="form-label">Dirección de entrega *</label>
+          <textarea class="form-control" id="direccion-entrega-input-vehiculos" rows="2" placeholder="Ingresa la dirección completa donde entregar el vehículo"></textarea>
+        </div>
+      `;
       
-      ubicacionContainer.innerHTML = html;
-      
-      // Event listeners para retiro y entrega
-      const radioSiRetiro = document.getElementById('si-retiro');
-      const radioNoRetiro = document.getElementById('no-retiro');
-      const direccionRetiro = document.getElementById('direccion-retiro');
-      const direccionEntrega = document.getElementById('direccion-entrega');
+      // Event listeners para retiro y entrega de vehículos
+      const radioSiRetiro = document.getElementById('si-retiro-vehiculos');
+      const radioNoRetiro = document.getElementById('no-retiro-vehiculos');
+      const direccionRetiro = document.getElementById('direccion-retiro-vehiculos');
+      const direccionEntrega = document.getElementById('direccion-entrega-vehiculos');
       
       if (radioSiRetiro && radioNoRetiro) {
         radioSiRetiro.addEventListener('change', function() {
@@ -1925,10 +2330,138 @@
       }
     }
     
-    // Función para mostrar el resumen completo del turno
-    function mostrarResumenTurno() {
+    function mostrarUbicacionTapizados() {
+      const container = document.getElementById('ubicacion-tapizados-container');
+      container.innerHTML = `
+        <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+          <i class="fas fa-info-circle me-2"></i>
+          Este servicio se realiza a domicilio. Por favor, proporciona la dirección donde se realizará el trabajo.
+        </div>
+        <div class="mb-3">
+          <label for="direccion-domicilio-input-tapizados" class="form-label">Dirección donde se realizará el servicio</label>
+          <textarea class="form-control" id="direccion-domicilio-input-tapizados" rows="2" placeholder="Ingresa la dirección completa" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="detalles-ubicacion-tapizados" class="form-label">Detalles adicionales (opcional)</label>
+          <textarea class="form-control" id="detalles-ubicacion-tapizados" rows="2" placeholder="Piso, departamento, referencias, horarios de acceso, etc."></textarea>
+        </div>
+      `;
+    }
+    
+    // Función para mostrar el resumen de turnos separados
+    function mostrarResumenTurnosSeparados() {
+      const categorias = categorizarServicios();
+      
+      // Ocultar todos los contenedores de resumen
+      document.getElementById('resumen-turnos-separados').style.display = 'none';
+      document.getElementById('resumen-turno-unico').style.display = 'none';
+      
+      if (categorias.necesitaTurnosSeparados) {
+        // Mostrar resumen de turnos separados
+        document.getElementById('resumen-turnos-separados').style.display = 'block';
+        mostrarResumenTurnoVehiculos();
+        mostrarResumenTurnoTapizados();
+      } else {
+        // Mostrar resumen único
+        document.getElementById('resumen-turno-unico').style.display = 'block';
+        mostrarResumenTurnoUnico();
+      }
+    }
+    
+    function mostrarResumenTurnoVehiculos() {
+      const container = document.getElementById('resumen-turno-vehiculos');
+      const servicios = turnosSeparados.vehiculos.servicios;
+      
+      let html = `
+        <div style="background:#232323;border-radius:10px;overflow:hidden;">
+          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
+            <i class='fas fa-car'></i> Servicios de Vehículos
+          </div>
+          <div style="padding:18px 18px 10px 18px;">
+      `;
+      
+      let total = 0;
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        total += subtotal;
+        html += `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
+              <span>${servicio.nombre} x${servicio.cantidad}</span>
+            </div>
+            <div style="text-align:right;min-width:110px;">
+              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
+              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Información del turno
+      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
+      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${total.toLocaleString('es-AR')}</span></div>`;
+      html += `<div style='margin-top:10px;'><strong>Fecha:</strong> ${turnosSeparados.vehiculos.fecha} - <strong>Hora:</strong> ${turnosSeparados.vehiculos.hora}</div>`;
+      
+      if (turnosSeparados.vehiculos.direccion) {
+        if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+          html += `<div style='margin-top:5px;'><strong>Retiro:</strong> ${turnosSeparados.vehiculos.direccion.retiro}</div>`;
+          html += `<div style='margin-top:5px;'><strong>Entrega:</strong> ${turnosSeparados.vehiculos.direccion.entrega}</div>`;
+        } else {
+          html += `<div style='margin-top:5px;'><strong>Dirección:</strong> ${turnosSeparados.vehiculos.direccion}</div>`;
+        }
+      }
+      
+      html += `</div></div>`;
+      container.innerHTML = html;
+    }
+    
+    function mostrarResumenTurnoTapizados() {
+      const container = document.getElementById('resumen-turno-tapizados');
+      const servicios = turnosSeparados.tapizados.servicios;
+      
+      let html = `
+        <div style="background:#232323;border-radius:10px;overflow:hidden;">
+          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
+            <i class='fas fa-couch'></i> Servicios de Tapizados
+          </div>
+          <div style="padding:18px 18px 10px 18px;">
+      `;
+      
+      let total = 0;
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        total += subtotal;
+        html += `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
+              <span>${servicio.nombre} x${servicio.cantidad}</span>
+            </div>
+            <div style="text-align:right;min-width:110px;">
+              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
+              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Información del turno
+      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
+      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${total.toLocaleString('es-AR')}</span></div>`;
+      html += `<div style='margin-top:10px;'><strong>Fecha:</strong> ${turnosSeparados.tapizados.fecha} - <strong>Hora:</strong> ${turnosSeparados.tapizados.hora}</div>`;
+      html += `<div style='margin-top:5px;'><strong>Dirección:</strong> ${turnosSeparados.tapizados.direccion}</div>`;
+      if (turnosSeparados.tapizados.detalles) {
+        html += `<div style='margin-top:5px;'><strong>Detalles:</strong> ${turnosSeparados.tapizados.detalles}</div>`;
+      }
+      
+      html += `</div></div>`;
+      container.innerHTML = html;
+    }
+    
+    function mostrarResumenTurnoUnico() {
       const resumenTurno = document.getElementById('resumen-turno');
-      const servicio = servicios[turno.servicio];
+      const categorias = categorizarServicios();
       
       let html = `
         <div style="background:#232323;border-radius:10px;overflow:hidden;">
@@ -1938,227 +2471,31 @@
           <div style="padding:18px 18px 10px 18px;">
       `;
       
-      // Servicios seleccionados
-      let hayServicios = false;
       let totalGeneral = 0;
+      let servicios = [];
       
-      // Vehículos
-      if (vehiculosAgregados.length > 0) {
-        hayServicios = true;
-        const preciosVehiculos = {
-          'auto': 20000,
-          'suv': 27000,
-          'pickup': 25000
-        };
-        vehiculosAgregados.forEach(vehiculo => {
-          const precio = preciosVehiculos[vehiculo.tipo];
-          const subtotal = precio * vehiculo.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-car'></i>
-                <span>Vehículo ${vehiculo.tipo} x${vehiculo.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
+      if (categorias.hayVehiculos) {
+        servicios = turnosSeparados.vehiculos.servicios;
+      } else if (categorias.hayTapizados) {
+        servicios = turnosSeparados.tapizados.servicios;
+      }
+      
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        totalGeneral += subtotal;
+        html += `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
+              <span>${servicio.nombre} x${servicio.cantidad}</span>
             </div>
-          `;
-        });
-      }
-      // Sillones
-      if (sillonesAgregados.length > 0) {
-        hayServicios = true;
-        const preciosSillones = {
-          '1 cuerpo': 9000,
-          '2 cuerpos': 12000,
-          '3 cuerpos': 15000,
-          'esquinero': 18000
-        };
-        sillonesAgregados.forEach(sillon => {
-          const precio = preciosSillones[sillon.tipo];
-          const subtotal = precio * sillon.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-couch'></i>
-                <span>Sillón ${sillon.tipo} x${sillon.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
+            <div style="text-align:right;min-width:110px;">
+              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
+              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
             </div>
-          `;
-        });
-      }
-      // Sillas
-      if (sillasAgregadas.length > 0) {
-        hayServicios = true;
-        const preciosSillas = {
-          'simple': 7000,
-          'gamer': 10000,
-          'oficina': 8000,
-          'comedor': 6000
-        };
-        sillasAgregadas.forEach(silla => {
-          const precio = preciosSillas[silla.tipo];
-          const subtotal = precio * silla.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-chair'></i>
-                <span>Silla ${silla.tipo} x${silla.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-      // Colchones
-      if (colchonesAgregados.length > 0) {
-        hayServicios = true;
-        const preciosColchones = {
-          '1 plaza': 12000,
-          '2 plazas': 15000,
-          'queen': 18000,
-          'king': 22000
-        };
-        colchonesAgregados.forEach(colchon => {
-          const precio = preciosColchones[colchon.tipo];
-          const subtotal = precio * colchon.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-bed'></i>
-                <span>Colchón ${colchon.tipo} x${colchon.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-      // Motores
-      if (motoresAgregados.length > 0) {
-        hayServicios = true;
-        const preciosMotores = {
-          'basica': 12000,
-          'completa': 15000,
-          'detallada': 18000
-        };
-        motoresAgregados.forEach(motor => {
-          const precio = preciosMotores[motor.tipo];
-          const subtotal = precio * motor.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-gears'></i>
-                <span>Motor ${motor.tipo} x${motor.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-      // Alfombras
-      if (alfombrasAgregadas.length > 0) {
-        hayServicios = true;
-        const preciosAlfombras = {
-          'chica': 20000,
-          'mediana': 25000,
-          'grande': 30000,
-          'persa': 35000
-        };
-        alfombrasAgregadas.forEach(alfombra => {
-          const precio = preciosAlfombras[alfombra.tipo];
-          const subtotal = precio * alfombra.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-rug'></i>
-                <span>Alfombra ${alfombra.tipo} x${alfombra.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      // Puffs
-      if (puffsAgregados.length > 0) {
-        hayServicios = true;
-        const preciosPuffs = {
-          'simple': 10500,
-          'grande': 15000,
-          'especial': 20000
-        };
-        puffsAgregados.forEach(puff => {
-          const precio = preciosPuffs[puff.tipo];
-          const subtotal = precio * puff.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-couch'></i>
-                <span>Puff ${puff.tipo} x${puff.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-      // Tapizado de vehículos
-      if (tapizadoVehiculosAgregados.length > 0) {
-        hayServicios = true;
-        const preciosTapizadoVehiculos = {
-          'auto': 100000,
-          'suv': 115000,
-          'pickup': 125000
-        };
-        tapizadoVehiculosAgregados.forEach(tv => {
-          const precio = preciosTapizadoVehiculos[tv.tipo];
-          const subtotal = precio * tv.cantidad;
-          totalGeneral += subtotal;
-          html += `
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <i class='fas fa-car-side'></i>
-                <span>Tapizado ${tv.tipo} x${tv.cantidad}</span>
-              </div>
-              <div style="text-align:right;min-width:110px;">
-                <span style='font-size:0.95em;color:#ccc;'>$${precio.toLocaleString('es-AR')} c/u</span><br>
-                <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-              </div>
-            </div>
-          `;
-        });
-      }
-
-      if (!hayServicios) {
-        html += `<div style='color:#ccc;'>No se seleccionaron servicios.</div>`;
-      }
+          </div>
+        `;
+      });
 
       // Línea separadora
       html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
@@ -2169,6 +2506,20 @@
       html += `</div></div>`;
 
       resumenTurno.innerHTML = html;
+    }
+    
+    function getIconForService(tipo) {
+      const icons = {
+        'vehiculo': 'car',
+        'tapizado_vehiculo': 'car-side',
+        'motor': 'gears',
+        'sillon': 'couch',
+        'silla': 'chair',
+        'colchon': 'bed',
+        'alfombra': 'rug',
+        'puff': 'couch'
+      };
+      return icons[tipo] || 'cog';
     }
 
     selectServicio.addEventListener('change', function() {
@@ -2283,22 +2634,69 @@
    document.getElementById('btn-siguiente-fijo').disabled = true;
    // Paso 2: Seleccionar Profesional
    document.getElementById('btn-siguiente-fijo').onclick = function() {
-     if (step === 1 && turno.servicio) {
+     if (step === 1) {
+       // Verificar que hay servicios seleccionados
+       const categorias = categorizarServicios();
+       if (!categorias.hayVehiculos && !categorias.hayTapizados) {
+         alert('Por favor, selecciona al menos un servicio.');
+         return;
+       }
        step = 2;
        showStep(step);
      } else if (step === 2) {
        step = 3;
        showStep(step);
      } else if (step === 3) {
-       // Guardar fecha y hora
-       const fechaInput = document.getElementById('fecha');
-       const horaInput = document.getElementById('hora');
-       turno.fecha = fechaInput.value;
-       turno.hora = horaInput.value;
-       if (!turno.fecha || !turno.hora) {
-         alert('Por favor, selecciona la fecha y la hora del turno.');
-         return;
+       // Guardar fechas y horas según el tipo de turno
+       const categorias = categorizarServicios();
+       
+       if (categorias.necesitaTurnosSeparados) {
+         // Validar turnos separados
+         const fechaVehiculos = document.getElementById('fecha-vehiculos').value;
+         const horaVehiculos = document.getElementById('hora-vehiculos').value;
+         const fechaTapizados = document.getElementById('fecha-tapizados').value;
+         const horaTapizados = document.getElementById('hora-tapizados').value;
+         
+         if (!fechaVehiculos || !horaVehiculos || !fechaTapizados || !horaTapizados) {
+           alert('Por favor, completa las fechas y horas para ambos turnos.');
+           return;
+         }
+         
+         // Guardar datos de vehículos
+         turnosSeparados.vehiculos.fecha = fechaVehiculos;
+         turnosSeparados.vehiculos.hora = horaVehiculos;
+         
+         // Guardar datos de tapizados
+         turnosSeparados.tapizados.fecha = fechaTapizados;
+         turnosSeparados.tapizados.hora = horaTapizados;
+         
+       } else if (categorias.hayVehiculos) {
+         // Solo servicios de vehículos
+         const fechaVehiculos = document.getElementById('fecha-vehiculos').value;
+         const horaVehiculos = document.getElementById('hora-vehiculos').value;
+         
+         if (!fechaVehiculos || !horaVehiculos) {
+           alert('Por favor, selecciona la fecha y hora del turno.');
+           return;
+         }
+         
+         turnosSeparados.vehiculos.fecha = fechaVehiculos;
+         turnosSeparados.vehiculos.hora = horaVehiculos;
+         
+       } else if (categorias.hayTapizados) {
+         // Solo servicios de tapizados
+         const fechaTapizados = document.getElementById('fecha-tapizados').value;
+         const horaTapizados = document.getElementById('hora-tapizados').value;
+         
+         if (!fechaTapizados || !horaTapizados) {
+           alert('Por favor, selecciona la fecha y hora del turno.');
+           return;
+         }
+         
+         turnosSeparados.tapizados.fecha = fechaTapizados;
+         turnosSeparados.tapizados.hora = horaTapizados;
        }
+       
        step = 4;
        showStep(step);
      } else if (step === 4) {
@@ -2311,347 +2709,178 @@
        }
        step = 5;
        showStep(step);
-       mostrarCamposUbicacion();
      } else if (step === 5) {
-       // Capturar datos de ubicación
-       const servicio = servicios[turno.servicio];
-       if (servicio.tipo === 'vehiculo') {
-         const tipoServicio = document.querySelector('input[name="tipo-servicio"]:checked');
-         if (tipoServicio) {
-           turno.tipoServicio = tipoServicio.value;
-           if (tipoServicio.value === 'taller') {
-             const retiroEntrega = document.querySelector('input[name="retiro-entrega"]:checked');
-             if (retiroEntrega) {
-               turno.retiroEntrega = retiroEntrega.value;
-               if (retiroEntrega.value === 'si') {
-                 turno.direccionRetiro = document.getElementById('direccion-retiro-input')?.value;
-                 turno.direccionEntrega = document.getElementById('direccion-entrega-input')?.value;
-                 if (!turno.direccionRetiro || !turno.direccionEntrega) {
-                   alert('Por favor, completa las direcciones de retiro y entrega.');
-                   return;
-                 }
-               }
-             }
-           } else {
-             turno.direccionDomicilio = document.getElementById('direccion-domicilio-input')?.value;
-             turno.detallesUbicacion = document.getElementById('detalles-ubicacion')?.value;
-             if (!turno.direccionDomicilio) {
-               alert('Por favor, ingresa la dirección donde se realizará el servicio.');
-               return;
-             }
-           }
+       // Capturar datos de ubicación según el tipo de turno
+       const categorias = categorizarServicios();
+       
+       if (categorias.necesitaTurnosSeparados) {
+         // Validar ubicaciones separadas
+         const direccionTapizados = document.getElementById('direccion-domicilio-input-tapizados')?.value;
+         
+         if (!direccionTapizados) {
+           alert('Por favor, ingresa la dirección para los servicios de tapizados.');
+           return;
          }
-       } else if (servicio.tipo === 'domicilio') {
-         turno.direccionDomicilio = document.getElementById('direccion-domicilio-input')?.value;
-         turno.detallesUbicacion = document.getElementById('detalles-ubicacion')?.value;
-         if (!turno.direccionDomicilio) {
+         
+         turnosSeparados.tapizados.direccion = direccionTapizados;
+         turnosSeparados.tapizados.detalles = document.getElementById('detalles-ubicacion-tapizados')?.value;
+         
+         // Para vehículos, verificar retiro y entrega
+         const retiroEntrega = document.querySelector('input[name="retiro-entrega-vehiculos"]:checked');
+         if (retiroEntrega && retiroEntrega.value === 'si') {
+           const direccionRetiro = document.getElementById('direccion-retiro-input-vehiculos')?.value;
+           const direccionEntrega = document.getElementById('direccion-entrega-input-vehiculos')?.value;
+           
+           if (!direccionRetiro || !direccionEntrega) {
+             alert('Por favor, completa las direcciones de retiro y entrega para vehículos.');
+             return;
+           }
+           
+           turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
+         }
+         
+       } else if (categorias.hayVehiculos) {
+         // Solo servicios de vehículos
+         const retiroEntrega = document.querySelector('input[name="retiro-entrega-vehiculos"]:checked');
+         if (retiroEntrega && retiroEntrega.value === 'si') {
+           const direccionRetiro = document.getElementById('direccion-retiro-input-vehiculos')?.value;
+           const direccionEntrega = document.getElementById('direccion-entrega-input-vehiculos')?.value;
+           
+           if (!direccionRetiro || !direccionEntrega) {
+             alert('Por favor, completa las direcciones de retiro y entrega.');
+             return;
+           }
+           
+           turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
+         }
+         
+       } else if (categorias.hayTapizados) {
+         // Solo servicios de tapizados
+         const direccionTapizados = document.getElementById('direccion-domicilio-input-tapizados')?.value;
+         
+         if (!direccionTapizados) {
            alert('Por favor, ingresa la dirección donde se realizará el servicio.');
            return;
          }
+         
+         turnosSeparados.tapizados.direccion = direccionTapizados;
+         turnosSeparados.tapizados.detalles = document.getElementById('detalles-ubicacion-tapizados')?.value;
        }
+       
        step = 6;
        showStep(step);
-       mostrarResumenTurno();
      }
    };
    document.getElementById('btn-confirmar-fijo').onclick = function() {
      // Confirmar turno y abrir WhatsApp
-     let mensaje = `¡Hola! Quiero reservar un turno en Daytona Clean Service:%0A` +
-       `Servicio: ${turno.servicio}%0A`;
+     const categorias = categorizarServicios();
+     let mensaje = `¡Hola! Quiero reservar turno(s) en Daytona Clean Service:%0A%0A`;
+     mensaje += `Cliente: ${turno.nombre} ${turno.apellido}%0A%0A`;
      
-     // Agregar servicios de sillones
-     if (sillonesAgregados.length > 0) {
-       mensaje += `Sillones:%0A`;
-       const preciosSillones = {
-         '1 cuerpo': 9000,
-         '2 cuerpos': 12000,
-         '3 cuerpos': 15000,
-         'esquinero': 18000
-       };
-       sillonesAgregados.forEach(sillon => {
-         const precio = preciosSillones[sillon.tipo];
-         const subtotal = precio * sillon.cantidad;
-         mensaje += `  - ${sillon.tipo} x${sillon.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de sillas
-     if (sillasAgregadas.length > 0) {
-       mensaje += `Sillas:%0A`;
-       const preciosSillas = {
-         'simple': 7000,
-         'gamer': 10000,
-         'oficina': 8000,
-         'comedor': 6000
-       };
-       sillasAgregadas.forEach(silla => {
-         const precio = preciosSillas[silla.tipo];
-         const subtotal = precio * silla.cantidad;
-         mensaje += `  - ${silla.tipo} x${silla.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de colchones
-     if (colchonesAgregados.length > 0) {
-       mensaje += `Colchones:%0A`;
-       const preciosColchones = {
-         '1 plaza': 12000,
-         '2 plazas': 15000,
-         'queen': 18000,
-         'king': 22000
-       };
-       colchonesAgregados.forEach(colchon => {
-         const precio = preciosColchones[colchon.tipo];
-         const subtotal = precio * colchon.cantidad;
-         mensaje += `  - ${colchon.tipo} x${colchon.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de vehículos
-     if (vehiculosAgregados.length > 0) {
-       mensaje += `Vehículos:%0A`;
-       const preciosVehiculos = {
-         'auto': 20000,
-         'suv': 27000,
-         'pickup': 25000
-       };
-       vehiculosAgregados.forEach(vehiculo => {
-         const precio = preciosVehiculos[vehiculo.tipo];
-         const subtotal = precio * vehiculo.cantidad;
-         mensaje += `  - ${vehiculo.tipo} x${vehiculo.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de motores
-     if (motoresAgregados.length > 0) {
-       mensaje += `Motores:%0A`;
-       const preciosMotores = {
-         'basica': 12000,
-         'completa': 15000,
-         'detallada': 18000
-       };
-       motoresAgregados.forEach(motor => {
-         const precio = preciosMotores[motor.tipo];
-         const subtotal = precio * motor.cantidad;
-         mensaje += `  - ${motor.tipo} x${motor.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de alfombras
-     if (alfombrasAgregadas.length > 0) {
-       mensaje += `Alfombras:%0A`;
-       const preciosAlfombras = {
-         'chica': 20000,
-         'mediana': 25000,
-         'grande': 30000,
-         'persa': 35000
-       };
-       alfombrasAgregadas.forEach(alfombra => {
-         const precio = preciosAlfombras[alfombra.tipo];
-         const subtotal = precio * alfombra.cantidad;
-         mensaje += `  - ${alfombra.tipo} x${alfombra.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-
-     // Agregar servicios de puffs
-     if (puffsAgregados.length > 0) {
-       mensaje += `Puffs:%0A`;
-       const preciosPuffs = {
-         'simple': 10500,
-         'grande': 15000,
-         'especial': 20000
-       };
-       puffsAgregados.forEach(puff => {
-         const precio = preciosPuffs[puff.tipo];
-         const subtotal = precio * puff.cantidad;
-         mensaje += `  - ${puff.tipo} x${puff.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Agregar servicios de tapizado de vehículos
-     if (tapizadoVehiculosAgregados.length > 0) {
-       mensaje += `Tapizado Vehículos:%0A`;
-       const preciosTapizadoVehiculos = {
-         'auto': 100000,
-         'suv': 115000,
-         'pickup': 125000
-       };
-       tapizadoVehiculosAgregados.forEach(tv => {
-         const precio = preciosTapizadoVehiculos[tv.tipo];
-         const subtotal = precio * tv.cantidad;
-         mensaje += `  - ${tv.tipo} x${tv.cantidad} ($${subtotal.toLocaleString('es-AR')})%0A`;
-       });
-     }
-     
-     // Calcular total general
-     let totalGeneral = 0;
-     
-     // Sumar sillones
-     if (sillonesAgregados.length > 0) {
-       const preciosSillones = {
-         '1 cuerpo': 9000,
-         '2 cuerpos': 12000,
-         '3 cuerpos': 15000,
-         'esquinero': 18000
-       };
-       sillonesAgregados.forEach(sillon => {
-         totalGeneral += preciosSillones[sillon.tipo] * sillon.cantidad;
-       });
-     }
-     
-     // Sumar sillas
-     if (sillasAgregadas.length > 0) {
-       const preciosSillas = {
-         'simple': 7000,
-         'gamer': 10000,
-         'oficina': 8000,
-         'comedor': 6000
-       };
-       sillasAgregadas.forEach(silla => {
-         totalGeneral += preciosSillas[silla.tipo] * silla.cantidad;
-       });
-     }
-     
-     // Sumar colchones
-     if (colchonesAgregados.length > 0) {
-       const preciosColchones = {
-         '1 plaza': 12000,
-         '2 plazas': 15000,
-         'queen': 18000,
-         'king': 22000
-       };
-       colchonesAgregados.forEach(colchon => {
-         totalGeneral += preciosColchones[colchon.tipo] * colchon.cantidad;
-       });
-     }
-     
-     // Sumar vehículos
-     if (vehiculosAgregados.length > 0) {
-       const preciosVehiculos = {
-         'auto': 20000,
-         'suv': 27000,
-         'pickup': 25000
-       };
-       vehiculosAgregados.forEach(vehiculo => {
-         totalGeneral += preciosVehiculos[vehiculo.tipo] * vehiculo.cantidad;
-       });
-     }
-     
-     // Sumar motores
-     if (motoresAgregados.length > 0) {
-       const preciosMotores = {
-         'basica': 12000,
-         'completa': 15000,
-         'detallada': 18000
-       };
-       motoresAgregados.forEach(motor => {
-         totalGeneral += preciosMotores[motor.tipo] * motor.cantidad;
-       });
-     }
-     
-           // Sumar alfombras
-      if (alfombrasAgregadas.length > 0) {
-        const preciosAlfombras = {
-          'chica': 20000,
-          'mediana': 25000,
-          'grande': 30000,
-          'persa': 35000
-        };
-        alfombrasAgregadas.forEach(alfombra => {
-          totalGeneral += preciosAlfombras[alfombra.tipo] * alfombra.cantidad;
-        });
-      }
-
-      // Sumar puffs
-      if (puffsAgregados.length > 0) {
-        const preciosPuffs = {
-          'simple': 10500,
-          'grande': 15000,
-          'especial': 20000
-        };
-        puffsAgregados.forEach(puff => {
-          totalGeneral += preciosPuffs[puff.tipo] * puff.cantidad;
-        });
-      }
-
-     // Sumar puffs
-     if (puffsAgregados.length > 0) {
-       const preciosPuffs = {
-         'simple': 10500,
-         'grande': 15000,
-         'especial': 20000
-       };
-       puffsAgregados.forEach(puff => {
-         totalGeneral += preciosPuffs[puff.tipo] * puff.cantidad;
-       });
-     }
-     
-     // Sumar tapizado de vehículos
-     if (tapizadoVehiculosAgregados.length > 0) {
-       const preciosTapizadoVehiculos = {
-         'auto': 100000,
-         'suv': 115000,
-         'pickup': 125000
-       };
-       tapizadoVehiculosAgregados.forEach(tv => {
-         totalGeneral += preciosTapizadoVehiculos[tv.tipo] * tv.cantidad;
-       });
-     }
-     
-     // Agregar total si hay servicios específicos
-     if (totalGeneral > 0) {
-       html += `<div class="mt-3 p-3 bg-dark rounded"><h6 class="text-danger mb-0"><strong>Total Estimado: $${totalGeneral.toLocaleString('es-AR')}</strong></h6></div>`;
-     }
-     
-     html += `
-           </div>
-           <div class="col-md-6">
-             <h5>Detalles del Turno</h5>
-             <p><strong>Profesional:</strong> ${turno.profesional}</p>
-             <p><strong>Fecha:</strong> ${turno.fecha}</p>
-             <p><strong>Hora:</strong> ${turno.hora}</p>
-             <p><strong>Duración:</strong> ${turno.duracion} min</p>
-           </div>
-         </div>
+     if (categorias.necesitaTurnosSeparados) {
+       // Turnos separados
+       mensaje += `📅 TURNOS SEPARADOS:%0A%0A`;
+       
+       // Turno de vehículos
+       if (turnosSeparados.vehiculos.servicios.length > 0) {
+         mensaje += `🚗 TURNO VEHÍCULOS:%0A`;
+         mensaje += `Fecha: ${turnosSeparados.vehiculos.fecha} - Hora: ${turnosSeparados.vehiculos.hora}%0A`;
+         mensaje += `Servicios:%0A`;
          
-         <div class="row mt-3">
-           <div class="col-md-6">
-             <h5>Datos Personales</h5>
-             <p><strong>Nombre:</strong> ${turno.nombre} ${turno.apellido}</p>
-             <p><strong>Teléfono:</strong> ${turno.telefono}</p>
-             ${turno.email ? `<p><strong>Email:</strong> ${turno.email}</p>` : ''}
-           </div>
-           <div class="col-md-6">
-             <h5>Ubicación del Servicio</h5>
-     `;
-     
-     if (servicio.tipo === 'vehiculo') {
-       if (turno.tipoServicio === 'taller') {
-         html += `<p><strong>Tipo:</strong> En Taller</p>`;
-         if (turno.retiroEntrega === 'si') {
-           html += `<p><strong>Retiro y Entrega:</strong> Sí</p>`;
-           if (turno.direccionRetiro) html += `<p><strong>Retiro:</strong> ${turno.direccionRetiro}</p>`;
-           if (turno.direccionEntrega) html += `<p><strong>Entrega:</strong> ${turno.direccionEntrega}</p>`;
-         } else {
-           html += `<p><strong>Retiro y Entrega:</strong> No</p>`;
+         let totalVehiculos = 0;
+         turnosSeparados.vehiculos.servicios.forEach(servicio => {
+           const subtotal = servicio.precio * servicio.cantidad;
+           totalVehiculos += subtotal;
+           mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
+         });
+         mensaje += `Total Vehículos: $${totalVehiculos.toLocaleString('es-AR')}%0A%0A`;
+         
+         if (turnosSeparados.vehiculos.direccion) {
+           if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+             mensaje += `📍 Retiro: ${turnosSeparados.vehiculos.direccion.retiro}%0A`;
+             mensaje += `📍 Entrega: ${turnosSeparados.vehiculos.direccion.entrega}%0A%0A`;
+           }
          }
-       } else {
-         html += `<p><strong>Tipo:</strong> A Domicilio</p>`;
-         if (turno.direccionDomicilio) html += `<p><strong>Dirección:</strong> ${turno.direccionDomicilio}</p>`;
        }
-     } else if (servicio.tipo === 'domicilio') {
-       html += `<p><strong>Tipo:</strong> A Domicilio</p>`;
-       if (turno.direccionDomicilio) html += `<p><strong>Dirección:</strong> ${turno.direccionDomicilio}</p>`;
-       if (turno.detallesUbicacion) html += `<p><strong>Detalles:</strong> ${turno.detallesUbicacion}</p>`;
+       
+       // Turno de tapizados
+       if (turnosSeparados.tapizados.servicios.length > 0) {
+         mensaje += `🛋️ TURNO TAPIZADOS:%0A`;
+         mensaje += `Fecha: ${turnosSeparados.tapizados.fecha} - Hora: ${turnosSeparados.tapizados.hora}%0A`;
+         mensaje += `Servicios:%0A`;
+         
+         let totalTapizados = 0;
+         turnosSeparados.tapizados.servicios.forEach(servicio => {
+           const subtotal = servicio.precio * servicio.cantidad;
+           totalTapizados += subtotal;
+           mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
+         });
+         mensaje += `Total Tapizados: $${totalTapizados.toLocaleString('es-AR')}%0A%0A`;
+         
+         mensaje += `📍 Dirección: ${turnosSeparados.tapizados.direccion}%0A`;
+         if (turnosSeparados.tapizados.detalles) {
+           mensaje += `📝 Detalles: ${turnosSeparados.tapizados.detalles}%0A%0A`;
+         }
+       }
+       
+       // Total general
+       const totalGeneral = (turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)) +
+                           (turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0));
+       mensaje += `💰 TOTAL GENERAL: $${totalGeneral.toLocaleString('es-AR')}%0A%0A`;
+       
+     } else {
+       // Turno único
+       mensaje += `📅 TURNO ÚNICO:%0A`;
+       
+       let servicios = [];
+       let fecha = '';
+       let hora = '';
+       let direccion = '';
+       
+       if (categorias.hayVehiculos) {
+         servicios = turnosSeparados.vehiculos.servicios;
+         fecha = turnosSeparados.vehiculos.fecha;
+         hora = turnosSeparados.vehiculos.hora;
+         if (turnosSeparados.vehiculos.direccion) {
+           if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+             direccion = `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`;
+           } else {
+             direccion = turnosSeparados.vehiculos.direccion;
+           }
+         }
+       } else if (categorias.hayTapizados) {
+         servicios = turnosSeparados.tapizados.servicios;
+         fecha = turnosSeparados.tapizados.fecha;
+         hora = turnosSeparados.tapizados.hora;
+         direccion = turnosSeparados.tapizados.direccion;
+       }
+       
+       mensaje += `Fecha: ${fecha} - Hora: ${hora}%0A`;
+       mensaje += `Servicios:%0A`;
+       
+       let total = 0;
+       servicios.forEach(servicio => {
+         const subtotal = servicio.precio * servicio.cantidad;
+         total += subtotal;
+         mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
+       });
+       
+       mensaje += `💰 Total: $${total.toLocaleString('es-AR')}%0A%0A`;
+       
+       if (direccion) {
+         mensaje += `📍 Dirección: ${direccion}%0A%0A`;
+       }
      }
      
-     html += `
-           </div>
-         </div>
-       </div>
-     `;
+     mensaje += `Gracias! 🙏`;
      
-     resumenTurno.innerHTML = html;
+     // Abrir WhatsApp
+     window.open(`https://wa.me/5493482588383?text=${mensaje}`, '_blank');
+     
+     // Mostrar mensaje de éxito
+     document.getElementById('wizard-content').style.display = 'none';
+     document.getElementById('turno-exito').style.display = 'block';
+     document.getElementById('btn-confirmar-fijo').style.display = 'none';
    }
 
    // Lógica para mostrar/ocultar y mover los botones fijos según el paso
