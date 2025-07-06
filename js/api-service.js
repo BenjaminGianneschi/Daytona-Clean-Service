@@ -1,7 +1,8 @@
 // Servicio de API para comunicarse con el backend
 class ApiService {
   constructor() {
-    this.baseURL = 'http://localhost:3000/api';
+    // Usar la configuración centralizada
+    this.baseURL = window.getApiUrl ? window.getApiUrl() : 'https://daytona-backend.onrender.com/api';
     this.token = localStorage.getItem('adminToken');
   }
 
