@@ -91,7 +91,7 @@ const login = async (req, res) => {
 
     // Buscar usuario por email
     const users = await query(
-      'SELECT * FROM users WHERE email = ?',
+      'SELECT * FROM users WHERE email = $1',
       [email]
     );
 
