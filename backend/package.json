@@ -12,6 +12,7 @@
     "fix-db": "node scripts/fix-database.js",
     "check-db": "node scripts/check-render-db.js",
     "diagnose": "node scripts/diagnose-render.js",
+    "test-login": "node scripts/test-login-route.js",
     "postinstall": "npm run setup-db || echo 'Database setup failed, continuing deployment...'"
   },
   "keywords": [
