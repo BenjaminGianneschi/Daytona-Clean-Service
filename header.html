@@ -1,12 +1,14 @@
 <header>
   <nav class="navbar navbar-expand-lg" style="background-color: #1e1e1e;">
-    <div class="container">
-      <a class="navbar-brand" href="index.html" style="color: #ff3b3f; font-weight: 700;">Daytona Clean Service</a>
+    <div class="container" style="padding-left: 0;">
+      <a class="navbar-brand" href="index.html" style="color: #ff3b3f; font-weight: 700; font-size: 1.3rem; margin-right: 0; padding-left: 0; margin-left: 0;">
+        Daytona Clean Service
+      </a>
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#ff3b3f; font-size: 1.3rem;"></i></span>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
+        <ul class="navbar-nav ms-auto align-items-lg-center" style="gap: 8px;">
           <li class="nav-item">
             <a class="nav-link" href="index.html#sobre-nosotros" style="color: #fff;">Sobre Nosotros</a>
           </li>
@@ -30,9 +32,21 @@
           <li class="nav-item">
             <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
           </li>
-          <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-            <a class="btn" href="turnos.html" style="background: #ff3b3f; color: #fff; font-weight: 600; border-radius: 6px; padding: 7px 20px;">
-              Agendar Turno
+          <!-- Separador visual -->
+          <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html" style="color: #fff;">
+              <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="register.html" style="color: #fff;">
+              <i class="fas fa-user-plus me-1"></i>Registrarse
+            </a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; border-radius: 8px; padding: 8px 18px; border: none; transition: all 0.3s ease;">
+              <i class="fas fa-calendar-plus me-1"></i>Agendar Turno
             </a>
           </li>
         </ul>
@@ -40,3 +54,32 @@
     </div>
   </nav>
 </header>
+
+<style>
+/* Efectos hover para los enlaces */
+.navbar-nav .nav-link:hover {
+  color: #ff3b3f !important;
+  background-color: rgba(255, 59, 63, 0.1);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover para el botón CTA */
+.navbar-nav .btn:hover {
+  background: linear-gradient(45deg, #b31217, #ff3b3f) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 59, 63, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .navbar-nav {
+    gap: 5px !important;
+    margin-top: 15px;
+  }
+  
+  .nav-item {
+    margin-bottom: 3px;
+  }
+}
+</style>

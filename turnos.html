@@ -76,7 +76,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -181,6 +183,10 @@
       }
       .card-turno, .resumen-turno {
         padding: 12px 8px;
+      }
+      .container.py-5 {
+        margin-top: 70px !important;
+        padding-top: 20px !important;
       }
     }
     .wizard-progress-container {
@@ -367,54 +373,25 @@
   </style>
 </head>
 <body>
-  <!-- HEADER INICIO -->
-  <header>
-    <nav class="navbar navbar-expand-lg" style="background-color: #1e1e1e;">
-      <div class="container">
-        <a class="navbar-brand" href="index.html" style="color: #ff3b3f; font-weight: 700;">Daytona Clean Service</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-          <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#ff3b3f; font-size: 1.3rem;"></i></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="navbar-nav ms-auto align-items-lg-center">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#sobre-nosotros" style="color: #fff;">Sobre Nosotros</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="serviciosDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false" style="color: #fff;">
-                Servicios
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="serviciosDropdown"
-                style="background-color: #222; border: none; min-width: 180px;">
-                <li><a class="dropdown-item" href="vehiculos.html">Vehículos</a></li>
-                <li><a class="dropdown-item" href="tapizados.html">Tapizados</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#ubicacion" style="color: #fff;">Ubicación</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#contacto" style="color: #fff;">Contacto</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
-            </li>
-            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-              <a class="btn" href="turnos.html" style="background: #ff3b3f; color: #fff; font-weight: 600; border-radius: 6px; padding: 7px 20px;">
-                Agendar Turno
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <!-- HEADER FIN -->
-  <div class="container py-5" style="max-width: 600px;">
+  <!-- HEADER -->
+  <div id="header-container"></div>
+  <div class="container py-5" style="max-width: 600px; margin-top: 80px;">
     <div class="turnero-contenedor-moderno">
       <h1 class="fw-bold text-center mb-2" style="color: #fff;">Agenda tu Turno</h1>
       <p class="text-center mb-4" style="color: #fff;">Reserva tu cita de forma rápida y sencilla. Te confirmaremos por WhatsApp y te enviaremos recordatorios automáticos.</p>
+      
+      <!-- Beneficios de tener una cuenta -->
+      <div class="benefits-turnos" style="background: rgba(255, 59, 63, 0.1); border: 1px solid rgba(255, 59, 63, 0.3); border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+        <h6 style="color: #ff3b3f; margin-bottom: 10px; font-weight: 600;">
+          <i class="fas fa-star me-2"></i>Beneficios de tener una cuenta:
+        </h6>
+        <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+          <li style="margin-bottom: 5px;">Ver historial de todos tus turnos</li>
+          <li style="margin-bottom: 5px;">Cancelar o modificar turnos fácilmente</li>
+          <li style="margin-bottom: 5px;">Recibir ofertas especiales</li>
+          <li style="margin-bottom: 5px;">Acceso rápido a agendar nuevos servicios</li>
+        </ul>
+      </div>
       <!-- Wizard Steps -->
       <div class="wizard-progress-container mb-4">
         <div class="wizard-bar-bg">
@@ -826,6 +803,18 @@
                 <input type="text" class="form-control" id="apellido" required />
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="telefono" class="form-label">Teléfono *</label>
+                <input type="tel" class="form-control" id="telefono" placeholder="+54 9 3482 123456" required />
+                <small class="text-muted">Para confirmar tu turno por WhatsApp</small>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="tu@email.com" />
+                <small class="text-muted">Opcional - Para enviarte recordatorios</small>
+              </div>
+            </div>
           </form>
         </div>
         
@@ -919,6 +908,48 @@
       </a>
     </p>
   </footer>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="confirmacionModalLabel">
+            <i class="fas fa-check-circle me-2"></i>¡Turno Confirmado!
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="confirmacionMensaje"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Error -->
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="errorModalLabel">
+            <i class="fas fa-exclamation-triangle me-2"></i>Error
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMensaje"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-service.js"></script>
   <script src="js/include-footer.js"></script>
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -3175,10 +3206,364 @@
      });
    });
 
+  // ===== INTEGRACIÓN CON BACKEND =====
 
-});
+  // Función para obtener disponibilidad de horarios
+  async function obtenerDisponibilidad(fecha) {
+    try {
+      const response = await apiService.getAvailability(fecha);
+      
+      if (response.success) {
+        return response.data;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error obteniendo disponibilidad:', error);
+      throw error;
+    }
+  }
+
+  // Función para crear turno en el backend
+  async function crearTurnoEnBackend(datosTurno) {
+    try {
+      const response = await apiService.createAppointment(datosTurno);
+      
+      if (response.success) {
+        return response.data;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error creando turno:', error);
+      throw error;
+    }
+  }
+
+  // Función para actualizar el paso 3 con disponibilidad real
+  async function actualizarDisponibilidadPaso3() {
+    const categorizacion = categorizarServicios();
+    const paso3 = document.getElementById('paso-3');
+    
+    if (categorizacion.necesitaTurnosSeparados) {
+      // Mostrar dos secciones para turnos separados
+      paso3.innerHTML = `
+        <div class="row">
+          <div class="col-md-6">
+            <h4><i class="fas fa-car me-2"></i>Turno para Vehículos</h4>
+            <div class="mb-3">
+              <label class="form-label">Fecha:</label>
+              <input type="date" id="fecha-vehiculos" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Hora:</label>
+              <select id="hora-vehiculos" class="form-control" required>
+                <option value="">Selecciona una fecha primero</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h4><i class="fas fa-couch me-2"></i>Turno para Tapizados</h4>
+            <div class="mb-3">
+              <label class="form-label">Fecha:</label>
+              <input type="date" id="fecha-tapizados" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Hora:</label>
+              <select id="hora-tapizados" class="form-control" required>
+                <option value="">Selecciona una fecha primero</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Event listeners para fechas
+      document.getElementById('fecha-vehiculos').addEventListener('change', async function() {
+        await cargarHorariosDisponibles(this.value, 'hora-vehiculos');
+      });
+      
+      document.getElementById('fecha-tapizados').addEventListener('change', async function() {
+        await cargarHorariosDisponibles(this.value, 'hora-tapizados');
+      });
+      
+    } else {
+      // Mostrar una sola sección
+      const categoria = categorizacion.hayVehiculos ? 'vehiculos' : 'tapizados';
+      const icono = categorizacion.hayVehiculos ? 'fas fa-car' : 'fas fa-couch';
+      const titulo = categorizacion.hayVehiculos ? 'Turno para Vehículos' : 'Turno para Tapizados';
+      
+      paso3.innerHTML = `
+        <h4><i class="${icono} me-2"></i>${titulo}</h4>
+        <div class="mb-3">
+          <label class="form-label">Fecha:</label>
+          <input type="date" id="fecha-${categoria}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Hora:</label>
+          <select id="hora-${categoria}" class="form-control" required>
+            <option value="">Selecciona una fecha primero</option>
+          </select>
+        </div>
+      `;
+      
+      // Event listener para fecha
+      document.getElementById(`fecha-${categoria}`).addEventListener('change', async function() {
+        await cargarHorariosDisponibles(this.value, `hora-${categoria}`);
+      });
+    }
+  }
+
+  // Función para cargar horarios disponibles
+  async function cargarHorariosDisponibles(fecha, selectId) {
+    const select = document.getElementById(selectId);
+    select.innerHTML = '<option value="">Cargando horarios...</option>';
+    
+    try {
+      const disponibilidad = await obtenerDisponibilidad(fecha);
+      
+      if (!disponibilidad.isWorkingDay) {
+        select.innerHTML = '<option value="">No hay horarios disponibles</option>';
+        return;
+      }
+      
+      if (disponibilidad.isBlocked) {
+        select.innerHTML = `<option value="">Día bloqueado: ${disponibilidad.reason}</option>`;
+        return;
+      }
+      
+      const opciones = disponibilidad.availableSlots
+        .filter(slot => slot.available)
+        .map(slot => `<option value="${slot.startTime}">${slot.startTime} - ${slot.endTime}</option>`)
+        .join('');
+      
+      select.innerHTML = opciones || '<option value="">No hay horarios disponibles</option>';
+      
+    } catch (error) {
+      select.innerHTML = '<option value="">Error cargando horarios</option>';
+      console.error('Error cargando horarios:', error);
+    }
+  }
+
+  // Función para confirmar turno con backend
+  async function confirmarTurnoConBackend() {
+    const categorizacion = categorizarServicios();
+    
+    try {
+      if (categorizacion.necesitaTurnosSeparados) {
+        // Crear dos turnos separados
+        const turnoVehiculos = await crearTurnoEnBackend({
+          clientName: document.getElementById('nombre').value,
+          clientPhone: document.getElementById('telefono').value,
+          clientEmail: document.getElementById('email').value,
+          appointmentDate: document.getElementById('fecha-vehiculos').value,
+          startTime: document.getElementById('hora-vehiculos').value,
+          services: turnosSeparados.vehiculos.servicios.map(servicio => ({
+            id: obtenerIdServicio(servicio.nombre),
+            quantity: servicio.cantidad,
+            price: servicio.precio,
+            totalPrice: servicio.precio * servicio.cantidad,
+            duration: servicio.duracion
+          })),
+          totalAmount: calcularTotalVehiculos(),
+          notes: document.getElementById('detalles-vehiculos')?.value || '',
+          serviceLocation: {
+            address: document.getElementById('direccion-vehiculos')?.value || '',
+            city: 'Reconquista',
+            notes: document.getElementById('detalles-vehiculos')?.value || ''
+          }
+        });
+
+        const turnoTapizados = await crearTurnoEnBackend({
+          clientName: document.getElementById('nombre').value,
+          clientPhone: document.getElementById('telefono').value,
+          clientEmail: document.getElementById('email').value,
+          appointmentDate: document.getElementById('fecha-tapizados').value,
+          startTime: document.getElementById('hora-tapizados').value,
+          services: turnosSeparados.tapizados.servicios.map(servicio => ({
+            id: obtenerIdServicio(servicio.nombre),
+            quantity: servicio.cantidad,
+            price: servicio.precio,
+            totalPrice: servicio.precio * servicio.cantidad,
+            duration: servicio.duracion
+          })),
+          totalAmount: calcularTotalTapizados(),
+          notes: document.getElementById('detalles-tapizados')?.value || '',
+          serviceLocation: {
+            address: document.getElementById('direccion-tapizados')?.value || '',
+            city: 'Reconquista',
+            notes: document.getElementById('detalles-tapizados')?.value || ''
+          }
+        });
+
+        // Generar mensaje de confirmación
+        const mensaje = generarMensajeConfirmacionSeparado(turnoVehiculos, turnoTapizados);
+        enviarWhatsApp(mensaje);
+        
+        mostrarConfirmacion('¡Turnos confirmados! Se han creado dos turnos separados.');
+        
+      } else {
+        // Crear un solo turno
+        const categoria = categorizacion.hayVehiculos ? 'vehiculos' : 'tapizados';
+        const servicios = categorizacion.hayVehiculos ? turnosSeparados.vehiculos.servicios : turnosSeparados.tapizados.servicios;
+        const total = categorizacion.hayVehiculos ? calcularTotalVehiculos() : calcularTotalTapizados();
+        
+        const turno = await crearTurnoEnBackend({
+          clientName: document.getElementById('nombre').value,
+          clientPhone: document.getElementById('telefono').value,
+          clientEmail: document.getElementById('email').value,
+          appointmentDate: document.getElementById(`fecha-${categoria}`).value,
+          startTime: document.getElementById(`hora-${categoria}`).value,
+          services: servicios.map(servicio => ({
+            id: obtenerIdServicio(servicio.nombre),
+            quantity: servicio.cantidad,
+            price: servicio.precio,
+            totalPrice: servicio.precio * servicio.cantidad,
+            duration: servicio.duracion
+          })),
+          totalAmount: total,
+          notes: document.getElementById(`detalles-${categoria}`)?.value || '',
+          serviceLocation: {
+            address: document.getElementById(`direccion-${categoria}`)?.value || '',
+            city: 'Reconquista',
+            notes: document.getElementById(`detalles-${categoria}`)?.value || ''
+          }
+        });
+
+        // Generar mensaje de confirmación
+        const mensaje = generarMensajeConfirmacion(turno);
+        enviarWhatsApp(mensaje);
+        
+        mostrarConfirmacion('¡Turno confirmado! Se ha creado exitosamente.');
+      }
+      
+    } catch (error) {
+      console.error('Error confirmando turno:', error);
+      mostrarError('Error al confirmar el turno. Por favor, inténtalo nuevamente.');
+    }
+  }
+
+  // Función para obtener ID del servicio por nombre
+  function obtenerIdServicio(nombre) {
+    const mapeoServicios = {
+      'Lavado de Auto': 1,
+      'Lavado de SUV': 2,
+      'Lavado de Pickup': 3,
+      'Limpieza de Motor Básica': 4,
+      'Limpieza de Motor Completa': 5,
+      'Limpieza de Motor Detallada': 6,
+      'Tapizado de Auto': 7,
+      'Tapizado de SUV': 8,
+      'Tapizado de Pickup': 9,
+      'Sillón 1 Cuerpo': 10,
+      'Sillón 2 Cuerpos': 11,
+      'Sillón 3 Cuerpos': 12,
+      'Silla Simple': 13,
+      'Silla Gamer': 14,
+      'Silla Oficina': 15,
+      'Silla Comedor': 16,
+      'Colchón 1 Plaza': 17,
+      'Colchón 2 Plazas': 18,
+      'Alfombra Chica': 19,
+      'Alfombra Mediana': 20,
+      'Alfombra Grande': 21,
+      'Alfombra Persa': 22,
+      'Puff Simple': 23,
+      'Puff Grande': 24,
+      'Puff Especial': 25
+    };
+    
+    return mapeoServicios[nombre] || 1;
+  }
+
+  // Función para mostrar confirmación
+  function mostrarConfirmacion(mensaje) {
+    const modal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
+    document.getElementById('confirmacionMensaje').textContent = mensaje;
+    modal.show();
+  }
+
+  // Función para mostrar error
+  function mostrarError(mensaje) {
+    const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+    document.getElementById('errorMensaje').textContent = mensaje;
+    modal.show();
+  }
+
+  // Función para generar mensaje de confirmación
+  function generarMensajeConfirmacion(turno) {
+    const servicios = turno.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
+    return `¡Hola! Tu turno ha sido confirmado:
+
+📅 Fecha: ${turno.appointment_date}
+⏰ Hora: ${turno.start_time}
+👤 Cliente: ${turno.client_name}
+📞 Teléfono: ${turno.client_phone}
+📍 Dirección: ${turno.address || 'A confirmar'}
+🛠️ Servicios: ${servicios}
+💰 Total: $${turno.total_amount}
+
+¡Gracias por elegir Daytona Clean Service! 🚗✨`;
+  }
+
+  // Función para generar mensaje de confirmación separado
+  function generarMensajeConfirmacionSeparado(turnoVehiculos, turnoTapizados) {
+    const serviciosVehiculos = turnoVehiculos.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
+    const serviciosTapizados = turnoTapizados.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
+    
+    return `¡Hola! Tus turnos han sido confirmados:
+
+🚗 TURNO VEHÍCULOS:
+📅 Fecha: ${turnoVehiculos.appointment_date}
+⏰ Hora: ${turnoVehiculos.start_time}
+🛠️ Servicios: ${serviciosVehiculos}
+💰 Total: $${turnoVehiculos.total_amount}
+
+🛋️ TURNO TAPIZADOS:
+📅 Fecha: ${turnoTapizados.appointment_date}
+⏰ Hora: ${turnoTapizados.start_time}
+🛠️ Servicios: ${serviciosTapizados}
+💰 Total: $${turnoTapizados.total_amount}
+
+👤 Cliente: ${turnoVehiculos.client_name}
+📞 Teléfono: ${turnoVehiculos.client_phone}
+
+¡Gracias por elegir Daytona Clean Service! 🚗✨`;
+  }
+
+
+
+  // Actualizar la función del botón siguiente para usar el backend
+  document.addEventListener('DOMContentLoaded', function() {
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (btnSiguiente) {
+      btnSiguiente.addEventListener('click', async function() {
+        const pasoActual = obtenerPasoActual();
+        
+        if (pasoActual === 2) {
+          // Al pasar al paso 3, actualizar disponibilidad
+          await actualizarDisponibilidadPaso3();
+        }
+        
+        siguientePaso();
+      });
+    }
+
+    // Actualizar la función del botón confirmar
+    const btnConfirmar = document.getElementById('btn-confirmar');
+    if (btnConfirmar) {
+      btnConfirmar.addEventListener('click', async function() {
+        await confirmarTurnoConBackend();
+      });
+    }
+  });
+
+  });
 
 
 </script>
+  <script src="js/api-service.js"></script>
+  <script src="js/include-header.js"></script>
+  <script src="js/include-footer.js"></script>
 </body>
 </html> 

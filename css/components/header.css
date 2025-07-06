@@ -11,11 +11,19 @@
   color: #fff !important;
   font-weight: 700;
   font-size: 1.8rem;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 .nav-link {
   color: #fff !important;
   transition: color 0.3s;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.5rem 0.75rem !important;
 }
 
 .nav-link:hover {
@@ -106,5 +114,12 @@
   
   .dropdown-item {
     font-size: 0.85rem;
+  }
+}
+
+/* ===== PANTALLAS GRANDES - MÁXIMO ANCHO ===== */
+@media (min-width: 1200px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 98%;
   }
 }

@@ -1,0 +1,171 @@
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const session = require('express-session');
+const path = require('path');
+require('dotenv').config({ path: './config.env' });
+
+// Importar configuración de base de datos
+const { testConnection } = require('./config/database');
+
+// Importar rutas
+const authRoutes = require('./routes/auth');
+const appointmentRoutes = require('./routes/appointments');
+const userRoutes = require('./routes/users');
+
+// Importar servicios
+const reminderCron = require('./scripts/reminderCron');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Configuración de seguridad
+app.use(helmet({
+  contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
+}));
+
+// Configuración de CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://daytona.com.ar', 'https://www.daytona.com.ar']
+    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5000', 'http://127.0.0.1:5500'],
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // máximo 100 requests por ventana
+  message: {
+    success: false,
+    message: 'Demasiadas solicitudes desde esta IP, intente nuevamente en 15 minutos'
+  }
+});
+app.use('/api/', limiter);
+
+// Configuración de sesiones
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'daytona-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+  }
+}));
+
+// Middleware para parsear JSON
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Middleware de logging
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
+
+// Servir archivos estáticos del panel de administración
+app.use('/admin', express.static(path.join(__dirname, '../admin')));
+
+// Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, '..')));
+
+// Ruta de prueba
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API de Daytona Clean Service - Sistema de Turnos',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Ruta de estado de la API
+app.get('/api/health', async (req, res) => {
+  try {
+    const dbStatus = await testConnection();
+    res.json({
+      success: true,
+      message: 'API funcionando correctamente',
+      database: dbStatus ? 'connected' : 'disconnected',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error en el servidor',
+      database: 'error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Rutas de la API
+app.use('/api/auth', authRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/users', userRoutes);
+
+// Middleware para manejar rutas no encontradas
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Ruta no encontrada'
+  });
+});
+
+// Middleware para manejar errores
+app.use((error, req, res, next) => {
+  console.error('Error no manejado:', error);
+  
+  res.status(500).json({
+    success: false,
+    message: process.env.NODE_ENV === 'production' 
+      ? 'Error interno del servidor' 
+      : error.message
+  });
+});
+
+// Función para iniciar el servidor
+async function startServer() {
+  try {
+    // Probar conexión a la base de datos
+    const dbConnected = await testConnection();
+    
+    if (!dbConnected) {
+      console.error('❌ No se pudo conectar a la base de datos. Verifique la configuración.');
+      process.exit(1);
+    }
+
+    // Iniciar servidor
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor iniciado en puerto ${PORT}`);
+      console.log(`📊 Modo: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🔗 URL: http://localhost:${PORT}`);
+      console.log(`📋 API Health: http://localhost:${PORT}/api/health`);
+    });
+
+    // Iniciar cron job de recordatorios
+    reminderCron.start();
+    console.log('⏰ Cron job de recordatorios iniciado');
+
+  } catch (error) {
+    console.error('❌ Error iniciando el servidor:', error);
+    process.exit(1);
+  }
+}
+
+// Manejar señales de terminación
+process.on('SIGTERM', () => {
+  console.log('🛑 Recibida señal SIGTERM, cerrando servidor...');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 Recibida señal SIGINT, cerrando servidor...');
+  process.exit(0);
+});
+
+// Iniciar servidor
+startServer(); 
