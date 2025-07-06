@@ -375,7 +375,7 @@
           return;
         }
 
-        const response = await fetch(`${getApiUrl()}/auth/verify`, {
+        const response = await fetch(`${getApiUrl()}/auth/verify-user`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -415,7 +415,7 @@
           throw new Error('No hay token de autenticación');
         }
 
-        const response = await fetch(`${getApiUrl()}/auth/verify`, {
+        const response = await fetch(`${getApiUrl()}/auth/verify-user`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { query } = require('../config/database');
 
-// Middleware para verificar token JWT
+// Middleware para verificar token JWT (administradores)
 const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
@@ -54,6 +54,59 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
+// Middleware para verificar token JWT (usuarios regulares)
+const authenticateUserToken = async (req, res, next) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token de acceso requerido' 
+      });
+    }
+
+    // Verificar token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Verificar que el usuario existe en la tabla users
+    const user = await query(
+      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+      [decoded.userId]
+    );
+
+    if (user.length === 0) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario no encontrado' 
+      });
+    }
+
+    req.user = user[0];
+    next();
+  } catch (error) {
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token inválido' 
+      });
+    }
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token expirado' 
+      });
+    }
+    
+    console.error('Error en autenticación de usuario:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+};
+
 // Middleware para verificar roles específicos
 const requireRole = (roles) => {
   return (req, res, next) => {
@@ -83,6 +136,7 @@ const requireAdmin = requireRole(['admin', 'super_admin']);
 
 module.exports = {
   authenticateToken,
+  authenticateUserToken,
   requireRole,
   requireSuperAdmin,
   requireAdmin
