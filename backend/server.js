@@ -67,10 +67,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Servir archivos estáticos del panel de administración
-app.use('/admin', express.static(path.join(__dirname, '../admin')));
+// Rutas de la API
+app.use('/api/auth', authRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/users', userRoutes);
 
-// Servir archivos estáticos del frontend
+// Servir archivos estáticos después de las rutas de la API
+app.use('/admin', express.static(path.join(__dirname, '../admin')));
 app.use(express.static(path.join(__dirname, '..')));
 
 // Ruta de prueba
@@ -102,11 +105,6 @@ app.get('/api/health', async (req, res) => {
     });
   }
 });
-
-// Rutas de la API
-app.use('/api/auth', authRoutes);
-app.use('/api/appointments', appointmentRoutes);
-app.use('/api/users', userRoutes);
 
 // Middleware para manejar rutas no encontradas
 app.use('*', (req, res) => {
