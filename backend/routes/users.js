@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
     
     // Verificar si el email ya existe
     const existingUser = await query(
-      'SELECT id FROM users WHERE email = ?',
+      'SELECT id FROM users WHERE email = $1',
       [email]
     );
     
@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
     
     // Verificar si el teléfono ya existe
     const existingPhone = await query(
-      'SELECT id FROM users WHERE phone = ?',
+      'SELECT id FROM users WHERE phone = $1',
       [phone]
     );
     
