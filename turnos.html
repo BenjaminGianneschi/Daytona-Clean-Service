@@ -3348,111 +3348,115 @@
 
   // Función para confirmar turno con backend
   async function confirmarTurnoConBackend() {
-    const categorizacion = categorizarServicios();
-    try {
-      let turno, turnoVehiculos, turnoTapizados;
-      if (categorizacion.necesitaTurnosSeparados) {
-        // Crear dos turnos separados
-        turnoVehiculos = await crearTurnoEnBackend({
-          clientName: document.getElementById('nombre').value,
-          clientPhone: document.getElementById('telefono').value,
-          clientEmail: document.getElementById('email').value,
-          appointmentDate: document.getElementById('fecha-vehiculos').value,
-          startTime: document.getElementById('hora-vehiculos').value,
-          services: turnosSeparados.vehiculos.servicios.map(servicio => ({
-            id: obtenerIdServicio(servicio.nombre),
-            quantity: servicio.cantidad,
-            price: servicio.precio,
-            totalPrice: servicio.precio * servicio.cantidad,
-            duration: servicio.duracion
-          })),
-          totalAmount: calcularTotalVehiculos(),
-          notes: document.getElementById('detalles-vehiculos')?.value || '',
-          serviceLocation: {
-            address: document.getElementById('direccion-vehiculos')?.value || '',
-            city: 'Reconquista',
-            notes: document.getElementById('detalles-vehiculos')?.value || ''
-          }
+    // Confirmar turno y abrir WhatsApp
+    const categorias = categorizarServicios();
+    let mensaje = `¡Hola! Quiero reservar turno(s) en Daytona Clean Service:%0A%0A`;
+    mensaje += `Cliente: ${turno.nombre} ${turno.apellido}%0A%0A`;
+    
+    if (categorias.necesitaTurnosSeparados) {
+      // Turnos separados
+      mensaje += `📅 TURNOS SEPARADOS:%0A%0A`;
+      
+      // Turno de vehículos
+      if (turnosSeparados.vehiculos.servicios.length > 0) {
+        mensaje += `🚗 TURNO VEHÍCULOS:%0A`;
+        mensaje += `Fecha: ${turnosSeparados.vehiculos.fecha} - Hora: ${turnosSeparados.vehiculos.hora}%0A`;
+        mensaje += `Servicios:%0A`;
+        
+        let totalVehiculos = 0;
+        turnosSeparados.vehiculos.servicios.forEach(servicio => {
+          const subtotal = servicio.precio * servicio.cantidad;
+          totalVehiculos += subtotal;
+          mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
         });
-
-        turnoTapizados = await crearTurnoEnBackend({
-          clientName: document.getElementById('nombre').value,
-          clientPhone: document.getElementById('telefono').value,
-          clientEmail: document.getElementById('email').value,
-          appointmentDate: document.getElementById('fecha-tapizados').value,
-          startTime: document.getElementById('hora-tapizados').value,
-          services: turnosSeparados.tapizados.servicios.map(servicio => ({
-            id: obtenerIdServicio(servicio.nombre),
-            quantity: servicio.cantidad,
-            price: servicio.precio,
-            totalPrice: servicio.precio * servicio.cantidad,
-            duration: servicio.duracion
-          })),
-          totalAmount: calcularTotalTapizados(),
-          notes: document.getElementById('detalles-tapizados')?.value || '',
-          serviceLocation: {
-            address: document.getElementById('direccion-tapizados')?.value || '',
-            city: 'Reconquista',
-            notes: document.getElementById('detalles-tapizados')?.value || ''
+        mensaje += `Total Vehículos: $${totalVehiculos.toLocaleString('es-AR')}%0A%0A`;
+        
+        if (turnosSeparados.vehiculos.direccion) {
+          if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+            mensaje += `📍 Retiro: ${turnosSeparados.vehiculos.direccion.retiro}%0A`;
+            mensaje += `📍 Entrega: ${turnosSeparados.vehiculos.direccion.entrega}%0A%0A`;
           }
-        });
-
-        // Mostrar mensaje de éxito en la web
-        mostrarConfirmacion('¡Turnos confirmados!');
-
-        // WhatsApp (opcional)
-        const mensaje = '¡Turno confirmado con éxito! Te enviaremos un recordatorio automático antes del día del turno.';
-        enviarWhatsApp(mensaje);
-
-        // Redirigir a Mi Cuenta después de unos segundos
-        setTimeout(() => {
-          window.location.href = 'mi-cuenta.html';
-        }, 2500);
-
-      } else {
-        // Crear un solo turno
-        const categoria = categorizacion.hayVehiculos ? 'vehiculos' : 'tapizados';
-        const servicios = categorizacion.hayVehiculos ? turnosSeparados.vehiculos.servicios : turnosSeparados.tapizados.servicios;
-        const total = categorizacion.hayVehiculos ? calcularTotalVehiculos() : calcularTotalTapizados();
-
-        turno = await crearTurnoEnBackend({
-          clientName: document.getElementById('nombre').value,
-          clientPhone: document.getElementById('telefono').value,
-          clientEmail: document.getElementById('email').value,
-          appointmentDate: document.getElementById(`fecha-${categoria}`).value,
-          startTime: document.getElementById(`hora-${categoria}`).value,
-          services: servicios.map(servicio => ({
-            id: obtenerIdServicio(servicio.nombre),
-            quantity: servicio.cantidad,
-            price: servicio.precio,
-            totalPrice: servicio.precio * servicio.cantidad,
-            duration: servicio.duracion
-          })),
-          totalAmount: total,
-          notes: document.getElementById(`detalles-${categoria}`)?.value || '',
-          serviceLocation: {
-            address: document.getElementById(`direccion-${categoria}`)?.value || '',
-            city: 'Reconquista',
-            notes: document.getElementById(`detalles-${categoria}`)?.value || ''
-          }
-        });
-
-        // Mostrar mensaje de éxito en la web
-        mostrarConfirmacion('¡Turno confirmado!');
-
-        // WhatsApp (opcional)
-        const mensaje = '¡Turno confirmado con éxito! Te enviaremos un recordatorio automático antes del día del turno.';
-        enviarWhatsApp(mensaje);
-
-        // Redirigir a Mi Cuenta después de unos segundos
-        setTimeout(() => {
-          window.location.href = 'mi-cuenta.html';
-        }, 2500);
+        }
       }
-    } catch (error) {
-      console.error('Error confirmando turno:', error);
-      mostrarError('Error al confirmar el turno. Por favor, inténtalo nuevamente.');
+      
+      // Turno de tapizados
+      if (turnosSeparados.tapizados.servicios.length > 0) {
+        mensaje += `🛋️ TURNO TAPIZADOS:%0A`;
+        mensaje += `Fecha: ${turnosSeparados.tapizados.fecha} - Hora: ${turnosSeparados.tapizados.hora}%0A`;
+        mensaje += `Servicios:%0A`;
+        
+        let totalTapizados = 0;
+        turnosSeparados.tapizados.servicios.forEach(servicio => {
+          const subtotal = servicio.precio * servicio.cantidad;
+          totalTapizados += subtotal;
+          mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
+        });
+        mensaje += `Total Tapizados: $${totalTapizados.toLocaleString('es-AR')}%0A%0A`;
+        
+        mensaje += `📍 Dirección: ${turnosSeparados.tapizados.direccion}%0A`;
+        if (turnosSeparados.tapizados.detalles) {
+          mensaje += `📝 Detalles: ${turnosSeparados.tapizados.detalles}%0A%0A`;
+        }
+      }
+      
+      // Total general
+      const totalGeneral = (turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)) +
+                          (turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0));
+      mensaje += `💰 TOTAL GENERAL: $${totalGeneral.toLocaleString('es-AR')}%0A%0A`;
+      
+    } else {
+      // Turno único
+      mensaje += `📅 TURNO ÚNICO:%0A`;
+      
+      let servicios = [];
+      let fecha = '';
+      let hora = '';
+      let direccion = '';
+      
+      if (categorias.hayVehiculos) {
+        servicios = turnosSeparados.vehiculos.servicios;
+        fecha = turnosSeparados.vehiculos.fecha;
+        hora = turnosSeparados.vehiculos.hora;
+        if (turnosSeparados.vehiculos.direccion) {
+          if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+            direccion = `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`;
+          } else {
+            direccion = turnosSeparados.vehiculos.direccion;
+          }
+        }
+      } else if (categorias.hayTapizados) {
+        servicios = turnosSeparados.tapizados.servicios;
+        fecha = turnosSeparados.tapizados.fecha;
+        hora = turnosSeparados.tapizados.hora;
+        direccion = turnosSeparados.tapizados.direccion;
+      }
+      
+      mensaje += `Fecha: ${fecha} - Hora: ${hora}%0A`;
+      mensaje += `Servicios:%0A`;
+      
+      let total = 0;
+      servicios.forEach(servicio => {
+        const subtotal = servicio.precio * servicio.cantidad;
+        total += subtotal;
+        mensaje += `  • ${servicio.nombre} x${servicio.cantidad} - $${subtotal.toLocaleString('es-AR')}%0A`;
+      });
+      
+      mensaje += `💰 Total: $${total.toLocaleString('es-AR')}%0A%0A`;
+      
+      if (direccion) {
+        mensaje += `📍 Dirección: ${direccion}%0A%0A`;
+      }
     }
+    
+    mensaje += `Gracias! 🙏`;
+    
+    // Abrir WhatsApp
+    window.open(`https://wa.me/5493482588383?text=${mensaje}`, '_blank');
+    
+    // Mostrar mensaje de éxito
+    document.getElementById('wizard-content').style.display = 'none';
+    document.getElementById('turno-exito').style.display = 'block';
+    document.getElementById('btn-confirmar-fijo').style.display = 'none';
   }
 
   // Función para obtener ID del servicio por nombre
