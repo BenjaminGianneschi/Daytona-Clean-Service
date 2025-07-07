@@ -19,7 +19,7 @@ const authenticateToken = async (req, res, next) => {
     
     // Verificar que el usuario existe y está activo
     const admin = await query(
-      'SELECT id, username, email, full_name, role, is_active FROM admins WHERE id = ? AND is_active = 1',
+      'SELECT id, username, email, full_name, role, is_active FROM admins WHERE id = $1 AND is_active = 1',
       [decoded.userId]
     );
 
@@ -72,7 +72,7 @@ const authenticateUserToken = async (req, res, next) => {
     
     // Verificar que el usuario existe en la tabla users
     const user = await query(
-      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+      'SELECT id, name, email, phone, role FROM users WHERE id = $1',
       [decoded.userId]
     );
 

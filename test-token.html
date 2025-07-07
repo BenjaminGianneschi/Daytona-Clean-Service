@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Token - Daytona Clean Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test de Token - Daytona Clean Service</h1>
+        
+        <button onclick="checkToken()">🔍 Verificar Token</button>
+        <button onclick="clearToken()">🗑️ Limpiar Token</button>
+        <button onclick="testVerify()">🧪 Probar Verificación</button>
+        
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://daytona-clean-service.onrender.com/api';
+        
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+        
+        function checkToken() {
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            
+            let message = '📋 INFORMACIÓN DEL TOKEN:\n\n';
+            
+            if (token) {
+                message += `✅ Token encontrado: ${token.substring(0, 20)}...\n`;
+                message += `📏 Longitud: ${token.length} caracteres\n\n`;
+                
+                // Decodificar token (sin verificar firma)
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    message += `📊 Payload del token:\n`;
+                    message += `- userId: ${payload.userId}\n`;
+                    message += `- email: ${payload.email}\n`;
+                    message += `- role: ${payload.role}\n`;
+                    message += `- exp: ${new Date(payload.exp * 1000).toLocaleString()}\n\n`;
+                } catch (e) {
+                    message += `❌ Error decodificando token: ${e.message}\n\n`;
+                }
+            } else {
+                message += `❌ No hay token en localStorage\n\n`;
+            }
+            
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    message += `👤 Datos del usuario:\n`;
+                    message += `- ID: ${user.id}\n`;
+                    message += `- Nombre: ${user.name}\n`;
+                    message += `- Email: ${user.email}\n`;
+                    message += `- Rol: ${user.role}\n`;
+                } catch (e) {
+                    message += `❌ Error parseando userData: ${e.message}\n`;
+                }
+            } else {
+                message += `❌ No hay datos de usuario en localStorage\n`;
+            }
+            
+            showResult(message, token ? 'success' : 'error');
+        }
+        
+        function clearToken() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            showResult('🗑️ Token y datos de usuario eliminados', 'info');
+        }
+        
+        async function testVerify() {
+            const token = localStorage.getItem('authToken');
+            
+            if (!token) {
+                showResult('❌ No hay token para verificar', 'error');
+                return;
+            }
+            
+            showResult('⏳ Probando verificación...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/verify-user`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('📡 Status:', response.status);
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(`✅ VERIFICACIÓN EXITOSA!\n\n📋 Respuesta:\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    showResult(`❌ ERROR EN VERIFICACIÓN\n\n📊 Status: ${response.status}\n📋 Respuesta:\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                showResult(`❌ ERROR DE RED\n\n🔍 Detalles:\n- Error: ${error.message}\n- Tipo: ${error.name}`, 'error');
+            }
+        }
+        
+        // Auto-verificar al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Página de test de token cargada');
+            checkToken();
+        });
+    </script>
+</body>
+</html> 
