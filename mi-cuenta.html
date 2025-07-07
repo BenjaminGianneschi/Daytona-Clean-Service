@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
   
   <style>
@@ -30,10 +31,37 @@
       min-height: 100vh;
     }
     
+    /* Header fijo */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background-color: #1e1e1e;
+      border-bottom: 2px solid #ff3b3f;
+    }
+    
+    .logout-btn {
+      background: #ff3b3f;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background: #b31217;
+      color: white;
+    }
+    
     .account-container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 40px 20px;
+      margin-top: 80px; /* Espacio para el header fijo */
     }
     
     .account-header {
@@ -299,9 +327,6 @@
     <div class="account-header">
       <h1><i class="fas fa-user-circle me-2"></i>Mi Cuenta</h1>
       <p>Gestiona tus turnos y información personal</p>
-      <button onclick="logout()" class="btn btn-outline-danger mt-3">
-        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-      </button>
     </div>
     
     <!-- Alertas -->
@@ -325,16 +350,16 @@
         <p>Reserva un nuevo servicio</p>
       </div>
       
-      <div class="action-card" onclick="window.location.href='index.html#servicios'">
-        <i class="fas fa-list"></i>
-        <h4>Ver Servicios</h4>
-        <p>Explora todos nuestros servicios</p>
+      <div class="action-card" onclick="editProfile()">
+        <i class="fas fa-user-edit"></i>
+        <h4>Editar Perfil</h4>
+        <p>Actualiza tu información personal</p>
       </div>
       
-      <div class="action-card" onclick="window.location.href='index.html#contacto'">
-        <i class="fas fa-phone"></i>
-        <h4>Contacto</h4>
-        <p>Habla directamente con nosotros</p>
+      <div class="action-card" onclick="window.location.href='index.html'">
+        <i class="fas fa-home"></i>
+        <h4>Volver al Inicio</h4>
+        <p>Regresa a la página principal</p>
       </div>
     </div>
     
@@ -349,8 +374,12 @@
     </div>
   </div>
 
+  <!-- WhatsApp Float Button -->
+  <div id="whatsapp-float"></div>
+
   <script src="js/config.js"></script>
   <script src="js/api-service.js"></script>
+  <script src="js/whatsapp-float.js"></script>
   <script>
     let currentUser = null;
     
@@ -455,8 +484,15 @@
     
     async function loadAppointments() {
       try {
-        const response = await fetch('/api/users/appointments', {
-          credentials: 'include'
+        // Por ahora, mostrar mensaje de que no hay turnos
+        // Cuando implementes la funcionalidad de turnos, puedes descomentar esto:
+        /*
+        const token = localStorage.getItem('authToken');
+        const response = await fetch(`${getApiUrl()}/users/appointments`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         });
         
         if (response.ok) {
@@ -465,6 +501,18 @@
         } else {
           throw new Error('Error cargando turnos');
         }
+        */
+        
+        // Mostrar mensaje de que no hay turnos registrados
+        document.getElementById('appointmentsList').innerHTML = `
+          <div class="text-center text-muted">
+            <i class="fas fa-calendar-times fa-3x mb-3"></i>
+            <p>No tienes turnos registrados</p>
+            <a href="turnos.html" class="btn btn-outline-warning">
+              <i class="fas fa-calendar-plus me-2"></i>Agendar tu primer turno
+            </a>
+          </div>
+        `;
       } catch (error) {
         console.error('Error cargando turnos:', error);
         document.getElementById('appointmentsList').innerHTML = `
@@ -579,6 +627,12 @@
         localStorage.removeItem('userData');
         window.location.href = 'index.html';
       }
+    }
+    
+    function editProfile() {
+      // Por ahora, mostrar un mensaje
+      // En el futuro, puedes crear una página de edición de perfil
+      showAlert('Función de edición de perfil próximamente disponible', 'info');
     }
     
     function showAlert(message, type) {
