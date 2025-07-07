@@ -9,6 +9,7 @@
     "restart": "node scripts/restart-server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup-db": "node scripts/setup-render.js",
+    "setup-local": "node scripts/setup-postgres-local.js",
     "setup-manual": "node scripts/manual-setup.js",
     "fix-db": "node scripts/fix-database.js",
     "check-db": "node scripts/check-render-db.js",

@@ -23,6 +23,8 @@ window.AppConfig = {
 
 // Función para obtener la URL de la API según el entorno
 window.getApiUrl = function() {
-  // Forzar el uso de la API de Render para evitar problemas de CORS
-  return 'https://daytona-clean-service.onrender.com/api';
+  const API_URL = window.location.hostname.includes("localhost")
+    ? "http://localhost:10000/api"
+    : "https://daytona-clean-service.onrender.com/api";
+  return API_URL;
 }; 

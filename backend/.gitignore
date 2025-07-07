@@ -1,6 +1,7 @@
 # Ignorar archivos de entorno
 .env
 config.env
+config.env.postgres
 
 # Node modules
 node_modules/

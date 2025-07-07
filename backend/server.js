@@ -4,7 +4,9 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const path = require('path');
-require('dotenv').config({ path: './config.env' });
+// Cargar variables de entorno - usar local por defecto, postgres para producción
+const envPath = process.env.NODE_ENV === 'production' ? 'config.env.postgres' : 'config.env.local';
+require('dotenv').config({ path: envPath });
 
 // Importar configuración de base de datos
 const { testConnection } = require('./config/database');

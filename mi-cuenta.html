@@ -295,6 +295,13 @@
       }
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!localStorage.getItem('authToken') || !localStorage.getItem('userData')) {
+        window.location.href = 'login.html';
+      }
+    });
+    </script>
 </head>
 <body>
   <!-- HEADER -->

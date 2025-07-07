@@ -1,125 +1,100 @@
 const { Pool } = require('pg');
+require('dotenv').config({ path: '../config.env.local' });
 
-async function setupPostgresLocal() {
-  let pool;
+async function setupLocalDatabase() {
+  console.log('🔧 Configurando base de datos PostgreSQL local...');
   
+  // Primero conectarse a la base de datos postgres por defecto
+  const defaultPool = new Pool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '',
+    database: 'postgres', // Base de datos por defecto
+    port: process.env.DB_PORT || 5432
+  });
+
   try {
-    console.log('🔧 Configurando PostgreSQL local...');
-    
-    // Configuración para PostgreSQL local
-    const config = {
-      host: 'localhost',
-      user: 'postgres',
-      password: 'postgres', // Cambiar según tu configuración
-      database: 'postgres', // Base de datos por defecto
-      port: 5432,
-      ssl: false
-    };
-    
-    pool = new Pool(config);
-    
-    // Probar conexión
-    console.log('🔍 Probando conexión...');
-    const client = await pool.connect();
-    console.log('✅ Conexión exitosa');
-    client.release();
-    
-    // Crear base de datos si no existe
-    console.log('\n📋 Creando base de datos...');
-    try {
-      await pool.query('CREATE DATABASE daytona_turnos');
-      console.log('✅ Base de datos daytona_turnos creada');
-    } catch (error) {
-      if (error.code === '42P04') {
-        console.log('✅ Base de datos daytona_turnos ya existe');
-      } else {
-        throw error;
-      }
-    }
-    
-    // Conectar a la base de datos daytona_turnos
-    await pool.end();
-    
-    const dbConfig = {
-      host: 'localhost',
-      user: 'postgres',
-      password: 'postgres',
-      database: 'daytona_turnos',
-      port: 5432,
-      ssl: false
-    };
-    
-    pool = new Pool(dbConfig);
-    
-    // Ejecutar esquema
-    console.log('\n📋 Ejecutando esquema...');
-    const fs = require('fs');
-    const path = require('path');
-    
-    const schemaPath = path.join(__dirname, '../database/schema-postgres.sql');
-    const schema = fs.readFileSync(schemaPath, 'utf8');
-    
-    await pool.query(schema);
-    console.log('✅ Esquema ejecutado correctamente');
-    
-    // Crear usuario de prueba
-    console.log('\n👤 Creando usuario de prueba...');
-    const bcrypt = require('bcryptjs');
-    const hashedPassword = await bcrypt.hash('password123', 10);
-    
-    await pool.query(`
-      INSERT INTO users (name, email, password, phone) 
-      VALUES ($1, $2, $3, $4)
-      ON CONFLICT (email) DO UPDATE SET
-        name = EXCLUDED.name,
-        password = EXCLUDED.password,
-        phone = EXCLUDED.phone
-    `, ['Usuario Prueba', 'test@daytona.com', hashedPassword, '3482123456']);
-    
-    console.log('✅ Usuario de prueba creado');
-    
-    // Verificar que todo funciona
-    console.log('\n🔍 Verificando configuración...');
-    const users = await pool.query('SELECT id, name, email FROM users WHERE email = $1', ['test@daytona.com']);
-    
-    if (users.rows.length > 0) {
-      console.log('✅ Usuario encontrado:', users.rows[0]);
-    }
-    
-    console.log('\n🎉 Configuración de PostgreSQL completada');
-    console.log('\n📝 Credenciales de prueba:');
-    console.log('   Email: test@daytona.com');
-    console.log('   Contraseña: password123');
-    
+    // Crear la base de datos si no existe
+    console.log('📊 Creando base de datos...');
+    await defaultPool.query(`CREATE DATABASE ${process.env.DB_NAME || 'daytona_turnos'}`);
+    console.log('✅ Base de datos creada exitosamente');
   } catch (error) {
-    console.error('❌ Error:', error.message);
-    
-    if (error.code === 'ECONNREFUSED') {
-      console.log('\n💡 SOLUCIÓN:');
-      console.log('1. Instala PostgreSQL: https://www.postgresql.org/download/');
-      console.log('2. Inicia el servicio PostgreSQL');
-      console.log('3. Verifica que el puerto 5432 esté disponible');
-      console.log('4. Verifica las credenciales en el script');
+    if (error.code === '42P04') {
+      console.log('ℹ️ La base de datos ya existe');
+    } else {
+      console.error('❌ Error creando base de datos:', error.message);
+      return;
     }
-    
   } finally {
-    if (pool) {
-      await pool.end();
+    await defaultPool.end();
+  }
+
+  // Ahora conectarse a la base de datos específica
+  const pool = new Pool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'daytona_turnos',
+    port: process.env.DB_PORT || 5432
+  });
+
+  try {
+    // Crear tabla users
+    console.log('👥 Creando tabla users...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        role VARCHAR(20) DEFAULT 'user',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Crear tabla appointments
+    console.log('📅 Creando tabla appointments...');
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS appointments (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        service_type VARCHAR(100) NOT NULL,
+        appointment_date DATE NOT NULL,
+        appointment_time TIME NOT NULL,
+        vehicle_info TEXT,
+        customer_name VARCHAR(100) NOT NULL,
+        customer_phone VARCHAR(20) NOT NULL,
+        customer_email VARCHAR(100),
+        status VARCHAR(20) DEFAULT 'pending',
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    console.log('✅ Base de datos configurada exitosamente');
+    
+    // Crear usuario admin por defecto
+    const bcrypt = require('bcryptjs');
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    
+    try {
+      await pool.query(`
+        INSERT INTO users (username, email, password, role) 
+        VALUES ('admin', 'admin@daytona.com', $1, 'admin')
+        ON CONFLICT (username) DO NOTHING
+      `, [hashedPassword]);
+      console.log('👤 Usuario admin creado (username: admin, password: admin123)');
+    } catch (error) {
+      console.log('ℹ️ Usuario admin ya existe');
     }
+
+  } catch (error) {
+    console.error('❌ Error configurando tablas:', error.message);
+  } finally {
+    await pool.end();
   }
 }
 
-// Ejecutar si se llama directamente
-if (require.main === module) {
-  setupPostgresLocal()
-    .then(() => {
-      console.log('\n🎉 Script completado');
-      process.exit(0);
-    })
-    .catch((error) => {
-      console.error('💥 Error:', error.message);
-      process.exit(1);
-    });
-}
-
-module.exports = { setupPostgresLocal }; 
+setupLocalDatabase(); 
