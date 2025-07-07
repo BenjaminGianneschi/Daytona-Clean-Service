@@ -1227,3 +1227,38 @@
     margin: 0 auto !important;
   }
 }
+
+/* ===== HEADER FIJO Y DROPDOWN ===== */
+#header-container header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #ff3b3f;
+}
+
+/* Estilos para el dropdown del usuario */
+.dropdown-menu {
+  background-color: #232323 !important;
+  border: 1px solid #444 !important;
+}
+
+.dropdown-item {
+  color: #fff !important;
+}
+
+.dropdown-item:hover {
+  background-color: #333 !important;
+  color: #ff3b3f !important;
+}
+
+.dropdown-divider {
+  border-color: #444 !important;
+}
+
+/* Ajustar el hero para el header fijo */
+.hero-section {
+  margin-top: 80px;
+}
