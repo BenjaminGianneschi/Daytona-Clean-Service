@@ -196,3 +196,4 @@ process.on('SIGINT', () => {
 });
 
 // Iniciar servidor
+startServer();
