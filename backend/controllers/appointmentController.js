@@ -195,10 +195,11 @@ const createAppointment = async (req, res) => {
     const endMoment = startMoment.clone().add(totalDuration, 'minutes');
     const endTime = endMoment.format('HH:mm:ss');
 
-    // Crear el turno
+    // Crear el turno - incluir user_id si el usuario está autenticado
+    const userId = req.user ? req.user.id : null;
     const appointmentResult = await query(
-      'INSERT INTO appointments (client_id, appointment_date, start_time, end_time, total_amount, notes, status) VALUES (?, ?, ?, ?, ?, ?, "pending")',
-      [clientId, appointmentDate, startTime, endTime, totalAmount, notes || null]
+      'INSERT INTO appointments (client_id, user_id, appointment_date, start_time, end_time, total_amount, notes, status) VALUES (?, ?, ?, ?, ?, ?, ?, "pending")',
+      [clientId, userId, appointmentDate, startTime, endTime, totalAmount, notes || null]
     );
 
     const appointmentId = appointmentResult.insertId;
@@ -221,7 +222,9 @@ const createAppointment = async (req, res) => {
 
     await commitTransaction(connection);
 
-    // Enviar notificación WhatsApp de confirmación
+    // Comentado: Envío automático de WhatsApp deshabilitado
+    // Los turnos se guardan en el historial sin enviar notificaciones automáticas
+    /*
     try {
       const appointmentData = {
         id: appointmentId,
@@ -244,6 +247,7 @@ const createAppointment = async (req, res) => {
       console.error('Error enviando notificación WhatsApp:', whatsappError);
       // No fallar el turno si falla la notificación
     }
+    */
 
     // Obtener el turno creado con toda la información
     const appointment = await query(`
@@ -462,7 +466,9 @@ const updateAppointmentStatus = async (req, res) => {
       });
     }
 
-    // Enviar notificación según el estado
+    // Comentado: Envío automático de WhatsApp deshabilitado
+    // Los cambios de estado se guardan en el historial sin enviar notificaciones automáticas
+    /*
     try {
       const appointment = await query(`
         SELECT 
@@ -489,6 +495,7 @@ const updateAppointmentStatus = async (req, res) => {
       console.error('Error enviando notificación WhatsApp:', whatsappError);
       // No fallar la actualización si falla la notificación
     }
+    */
 
     res.json({
       success: true,
@@ -522,7 +529,9 @@ const cancelAppointment = async (req, res) => {
       });
     }
 
-    // Enviar notificación de cancelación
+    // Comentado: Envío automático de WhatsApp deshabilitado
+    // Las cancelaciones se guardan en el historial sin enviar notificaciones automáticas
+    /*
     try {
       const appointment = await query(`
         SELECT 
@@ -543,6 +552,7 @@ const cancelAppointment = async (req, res) => {
       console.error('Error enviando notificación WhatsApp:', whatsappError);
       // No fallar la cancelación si falla la notificación
     }
+    */
 
     res.json({
       success: true,

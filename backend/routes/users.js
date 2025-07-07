@@ -121,29 +121,130 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Endpoint de debug para verificar autenticación
+router.get('/debug-auth', async (req, res) => {
+  try {
+    console.log('🔍 Debug de autenticación:');
+    console.log('Headers:', req.headers);
+    console.log('Session:', req.session);
+    
+    // Verificar token JWT
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (token) {
+      try {
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('✅ Token JWT válido:', decoded);
+        
+        // Verificar usuario
+        const user = await query(
+          'SELECT id, name, email FROM users WHERE id = ?',
+          [decoded.userId]
+        );
+        
+        if (user.length > 0) {
+          return res.json({
+            success: true,
+            authType: 'JWT',
+            user: user[0],
+            message: 'Usuario autenticado con JWT'
+          });
+        }
+      } catch (jwtError) {
+        console.log('❌ Error JWT:', jwtError.message);
+      }
+    }
+    
+    // Verificar sesión
+    if (req.session && req.session.userId) {
+      console.log('✅ Sesión válida:', req.session);
+      
+      const user = await query(
+        'SELECT id, name, email FROM users WHERE id = ?',
+        [req.session.userId]
+      );
+      
+      if (user.length > 0) {
+        return res.json({
+          success: true,
+          authType: 'Session',
+          user: user[0],
+          message: 'Usuario autenticado con sesión'
+        });
+      }
+    }
+    
+    return res.status(401).json({
+      success: false,
+      authType: 'None',
+      message: 'No hay autenticación válida',
+      hasToken: !!token,
+      hasSession: !!(req.session && req.session.userId)
+    });
+    
+  } catch (error) {
+    console.error('Error en debug:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error en debug',
+      error: error.message
+    });
+  }
+});
+
 // Obtener historial de turnos del usuario
 router.get('/appointments', async (req, res) => {
   try {
-    if (!req.session.userId) {
+    // Extraer token del header Authorization
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
       return res.status(401).json({ 
         success: false, 
-        message: 'Usuario no autenticado' 
+        message: 'Token de acceso requerido' 
       });
     }
+
+    // Verificar token JWT
+    const jwt = require('jsonwebtoken');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Verificar que el usuario existe
+    const user = await query(
+      'SELECT id, name, email, phone FROM users WHERE id = ?',
+      [decoded.userId]
+    );
+
+    if (user.length === 0) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Usuario no encontrado' 
+      });
+    }
+
+    const userId = user[0].id;
     
     const appointments = await query(`
       SELECT 
         a.id,
         a.appointment_date,
-        a.appointment_time as start_time,
+        a.start_time,
         a.status,
-        a.total_price as total_amount,
+        a.total_amount,
         a.notes,
-        a.service_type as services
+        sl.address,
+        GROUP_CONCAT(CONCAT(s.name, ' x', as.quantity) SEPARATOR ', ') as services
       FROM appointments a
-      WHERE a.user_id = $1
-      ORDER BY a.appointment_date DESC, a.appointment_time DESC
-    `, [req.session.userId]);
+      LEFT JOIN service_locations sl ON a.id = sl.appointment_id
+      LEFT JOIN appointment_services as ON a.id = as.appointment_id
+      LEFT JOIN services s ON as.service_id = s.id
+      WHERE a.user_id = ?
+      GROUP BY a.id
+      ORDER BY a.appointment_date DESC, a.start_time DESC
+    `, [userId]);
     
     res.json({
       success: true,
@@ -151,6 +252,19 @@ router.get('/appointments', async (req, res) => {
     });
     
   } catch (error) {
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token inválido' 
+      });
+    }
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Token expirado' 
+      });
+    }
+    
     console.error('Error obteniendo turnos:', error);
     res.status(500).json({ 
       success: false, 

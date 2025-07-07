@@ -72,7 +72,7 @@ const authenticateUserToken = async (req, res, next) => {
     
     // Verificar que el usuario existe en la tabla users
     const user = await query(
-      'SELECT id, name, email, phone, role FROM users WHERE id = $1',
+      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
       [decoded.userId]
     );
 
@@ -107,6 +107,43 @@ const authenticateUserToken = async (req, res, next) => {
   }
 };
 
+// Middleware opcional para extraer información del usuario si existe token
+const optionalAuthenticateUser = async (req, res, next) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+      // No hay token, continuar sin usuario
+      req.user = null;
+      return next();
+    }
+
+    // Verificar token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Verificar que el usuario existe en la tabla users
+    const user = await query(
+      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+      [decoded.userId]
+    );
+
+    if (user.length === 0) {
+      // Token inválido, continuar sin usuario
+      req.user = null;
+      return next();
+    }
+
+    req.user = user[0];
+    next();
+  } catch (error) {
+    // Cualquier error, continuar sin usuario
+    console.log('Token opcional inválido o expirado, continuando sin autenticación');
+    req.user = null;
+    next();
+  }
+};
+
 // Middleware para verificar roles específicos
 const requireRole = (roles) => {
   return (req, res, next) => {
@@ -137,6 +174,7 @@ const requireAdmin = requireRole(['admin', 'super_admin']);
 module.exports = {
   authenticateToken,
   authenticateUserToken,
+  optionalAuthenticateUser,
   requireRole,
   requireSuperAdmin,
   requireAdmin

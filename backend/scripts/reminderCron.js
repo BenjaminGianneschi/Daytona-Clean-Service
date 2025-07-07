@@ -13,14 +13,18 @@ class ReminderCron {
    * Iniciar el cron job para recordatorios
    */
   start() {
+    // Comentado: Envío automático de recordatorios deshabilitado
+    // Los recordatorios se pueden enviar manualmente desde el panel de administración
+    /*
     // Ejecutar todos los días a las 9:00 AM
     cron.schedule('0 9 * * *', async () => {
       await this.sendDailyReminders();
     }, {
       timezone: 'America/Argentina/Buenos_Aires'
     });
+    */
 
-    logger.info('Reminder cron job started - running daily at 9:00 AM');
+    logger.info('Reminder cron job disabled - automatic reminders are turned off');
   }
 
   /**

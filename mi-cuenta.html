@@ -461,10 +461,20 @@
     
     async function loadAppointments() {
       try {
-        // Por ahora, mostrar mensaje de que no hay turnos
-        // Cuando implementes la funcionalidad de turnos, puedes descomentar esto:
-        /*
         const token = localStorage.getItem('authToken');
+        if (!token) {
+          document.getElementById('appointmentsList').innerHTML = `
+            <div class="text-center text-muted">
+              <i class="fas fa-calendar-times fa-3x mb-3"></i>
+              <p>Inicia sesión para ver tus turnos</p>
+              <a href="login.html" class="btn btn-outline-warning">
+                <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+              </a>
+            </div>
+          `;
+          return;
+        }
+
         const response = await fetch(`${getApiUrl()}/users/appointments`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -478,18 +488,6 @@
         } else {
           throw new Error('Error cargando turnos');
         }
-        */
-        
-        // Mostrar mensaje de que no hay turnos registrados
-        document.getElementById('appointmentsList').innerHTML = `
-          <div class="text-center text-muted">
-            <i class="fas fa-calendar-times fa-3x mb-3"></i>
-            <p>No tienes turnos registrados</p>
-            <a href="turnos.html" class="btn btn-outline-warning">
-              <i class="fas fa-calendar-plus me-2"></i>Agendar tu primer turno
-            </a>
-          </div>
-        `;
       } catch (error) {
         console.error('Error cargando turnos:', error);
         document.getElementById('appointmentsList').innerHTML = `

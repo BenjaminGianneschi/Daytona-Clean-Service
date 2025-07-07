@@ -49,9 +49,18 @@ class ApiService {
 
   // Crear nuevo turno
   async createAppointment(appointmentData) {
+    // Incluir token de usuario si está disponible
+    const userToken = localStorage.getItem('authToken');
+    const headers = this.getHeaders();
+    
+    if (userToken) {
+      headers['Authorization'] = `Bearer ${userToken}`;
+    }
+    
     return this.request('/appointments', {
       method: 'POST',
-      body: JSON.stringify(appointmentData)
+      body: JSON.stringify(appointmentData),
+      headers: headers
     });
   }
 

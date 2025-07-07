@@ -888,8 +888,9 @@
         <!-- Mensaje de éxito -->
         <div id="turno-exito" style="display:none;">
           <div class="alert alert-success mt-4" style="background: #232323; color: #fff; border: 1.5px solid #28a745;">
-            <h4 class="mb-2">¡Turno confirmado con éxito!</h4>
-            <p>Te contactaremos por WhatsApp para coordinar los detalles de tu servicio.</p>
+            <h4 class="mb-2">¡Turno guardado exitosamente!</h4>
+            <p>Tu turno ha sido guardado en nuestro historial. Te contactaremos pronto para coordinar los detalles de tu servicio.</p>
+            <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
           </div>
         </div>
       </div>
@@ -955,6 +956,74 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+  // Verificar que la API esté disponible
+  console.log('🔍 Verificando disponibilidad de la API...');
+  if (window.apiService) {
+    console.log('✅ API Service disponible');
+  } else {
+    console.log('❌ API Service no disponible');
+  }
+
+  // Función de prueba para verificar el guardado en historial
+  window.testGuardadoHistorial = async function() {
+    console.log('🧪 Iniciando prueba de guardado en historial...');
+    
+    // Simular datos de un turno
+    const turnoPrueba = {
+      nombre: 'Juan',
+      apellido: 'Pérez',
+      telefono: '3482123456',
+      email: 'juan@test.com'
+    };
+    
+    const turnosSeparadosPrueba = {
+      vehiculos: {
+        servicios: [
+          {
+            nombre: 'Lavado de Auto',
+            cantidad: 1,
+            precio: 20000,
+            duracion: 60
+          }
+        ],
+        fecha: '2024-12-20',
+        hora: '10:00',
+        direccion: 'Av. San Martín 123',
+        detalles: 'Test de guardado'
+      },
+      tapizados: {
+        servicios: [],
+        fecha: null,
+        hora: null,
+        direccion: null,
+        detalles: null
+      }
+    };
+    
+    // Guardar temporalmente los datos reales
+    const turnoOriginal = window.turno;
+    const turnosSeparadosOriginal = window.turnosSeparados;
+    
+    // Usar datos de prueba
+    window.turno = turnoPrueba;
+    window.turnosSeparados = turnosSeparadosPrueba;
+    
+    try {
+      console.log('📤 Enviando turno de prueba...');
+      const resultado = await window.guardarTurnoEnHistorial();
+      console.log('📋 Resultado:', resultado);
+      console.log('✅ Prueba completada exitosamente');
+    } catch (error) {
+      console.error('❌ Error en la prueba:', error);
+    } finally {
+      // Restaurar datos originales
+      window.turno = turnoOriginal;
+      window.turnosSeparados = turnosSeparadosOriginal;
+    }
+  };
+  
+  console.log('🧪 Para probar el guardado, ejecuta: testGuardadoHistorial()');
+
   // Variables globales para servicios
   let sillonesAgregados = [];
   let sillasAgregadas = [];
@@ -965,8 +1034,8 @@
   let alfombrasAgregadas = [];
   let puffsAgregados = [];
 
-  // Variables para manejar turnos separados
-  let turnosSeparados = {
+  // Variables para manejar turnos separados (hacerlas globales)
+  window.turnosSeparados = {
     vehiculos: {
       servicios: [],
       fecha: null,
@@ -2904,15 +2973,12 @@
        }
      }
      
-     mensaje += `Gracias! 🙏`;
-     
-     // Abrir WhatsApp
-     window.open(`https://wa.me/5493482588383?text=${mensaje}`, '_blank');
-     
-     // Mostrar mensaje de éxito
-     document.getElementById('wizard-content').style.display = 'none';
-     document.getElementById('turno-exito').style.display = 'block';
-     document.getElementById('btn-confirmar-fijo').style.display = 'none';
+         mensaje += `Gracias! 🙏`;
+    
+    // Mostrar mensaje de éxito (sin abrir WhatsApp automáticamente)
+    document.getElementById('wizard-content').style.display = 'none';
+    document.getElementById('turno-exito').style.display = 'block';
+    document.getElementById('btn-confirmar-fijo').style.display = 'none';
    }
 
    // Lógica para mostrar/ocultar y mover los botones fijos según el paso
@@ -3450,10 +3516,7 @@
     
     mensaje += `Gracias! 🙏`;
     
-    // Abrir WhatsApp
-    window.open(`https://wa.me/5493482588383?text=${mensaje}`, '_blank');
-    
-    // Mostrar mensaje de éxito
+    // Mostrar mensaje de éxito (sin abrir WhatsApp automáticamente)
     document.getElementById('wizard-content').style.display = 'none';
     document.getElementById('turno-exito').style.display = 'block';
     document.getElementById('btn-confirmar-fijo').style.display = 'none';

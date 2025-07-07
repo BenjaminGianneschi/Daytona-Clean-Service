@@ -8,11 +8,11 @@ const {
   updateAppointmentStatus,
   cancelAppointment
 } = require('../controllers/appointmentController');
-const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { authenticateToken, requireAdmin, optionalAuthenticateUser } = require('../middleware/auth');
 
 // Rutas públicas (para clientes)
 router.get('/availability/:date', getAvailability);
-router.post('/', createAppointment);
+router.post('/', optionalAuthenticateUser, createAppointment); // Puede recibir token opcional para usuarios registrados
 
 // Rutas protegidas (para administradores)
 router.get('/', authenticateToken, requireAdmin, getAllAppointments);
