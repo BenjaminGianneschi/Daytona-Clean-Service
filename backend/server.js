@@ -25,16 +25,13 @@ const PORT = process.env.PORT || 3001;
 app.set('trust proxy', 1);
 
 // Middleware CORS ultra permisivo
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
-  // No pongas credentials: true si usas '*'
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
-  }
-  next();
-});
+app.use(cors({
+  origin: [
+    'http://localhost:5500', // para desarrollo local
+    'https://daytona-clean-service.onrender.com' // para tu frontend en la nube
+  ],
+  credentials: true
+}));
 
 // Configuración de seguridad
 app.use(helmet({
