@@ -3349,11 +3349,11 @@
   // Función para confirmar turno con backend
   async function confirmarTurnoConBackend() {
     const categorizacion = categorizarServicios();
-    
     try {
+      let turno, turnoVehiculos, turnoTapizados;
       if (categorizacion.necesitaTurnosSeparados) {
         // Crear dos turnos separados
-        const turnoVehiculos = await crearTurnoEnBackend({
+        turnoVehiculos = await crearTurnoEnBackend({
           clientName: document.getElementById('nombre').value,
           clientPhone: document.getElementById('telefono').value,
           clientEmail: document.getElementById('email').value,
@@ -3375,7 +3375,7 @@
           }
         });
 
-        const turnoTapizados = await crearTurnoEnBackend({
+        turnoTapizados = await crearTurnoEnBackend({
           clientName: document.getElementById('nombre').value,
           clientPhone: document.getElementById('telefono').value,
           clientEmail: document.getElementById('email').value,
@@ -3397,19 +3397,25 @@
           }
         });
 
-        // Generar mensaje de confirmación
-        const mensaje = generarMensajeConfirmacionSeparado(turnoVehiculos, turnoTapizados);
+        // Mostrar mensaje de éxito en la web
+        mostrarConfirmacion('¡Turnos confirmados!');
+
+        // WhatsApp (opcional)
+        const mensaje = '¡Turno confirmado con éxito! Te enviaremos un recordatorio automático antes del día del turno.';
         enviarWhatsApp(mensaje);
-        
-        mostrarConfirmacion('¡Turnos confirmados! Se han creado dos turnos separados.');
-        
+
+        // Redirigir a Mi Cuenta después de unos segundos
+        setTimeout(() => {
+          window.location.href = 'mi-cuenta.html';
+        }, 2500);
+
       } else {
         // Crear un solo turno
         const categoria = categorizacion.hayVehiculos ? 'vehiculos' : 'tapizados';
         const servicios = categorizacion.hayVehiculos ? turnosSeparados.vehiculos.servicios : turnosSeparados.tapizados.servicios;
         const total = categorizacion.hayVehiculos ? calcularTotalVehiculos() : calcularTotalTapizados();
-        
-        const turno = await crearTurnoEnBackend({
+
+        turno = await crearTurnoEnBackend({
           clientName: document.getElementById('nombre').value,
           clientPhone: document.getElementById('telefono').value,
           clientEmail: document.getElementById('email').value,
@@ -3431,13 +3437,18 @@
           }
         });
 
-        // Generar mensaje de confirmación
-        const mensaje = generarMensajeConfirmacion(turno);
+        // Mostrar mensaje de éxito en la web
+        mostrarConfirmacion('¡Turno confirmado!');
+
+        // WhatsApp (opcional)
+        const mensaje = '¡Turno confirmado con éxito! Te enviaremos un recordatorio automático antes del día del turno.';
         enviarWhatsApp(mensaje);
-        
-        mostrarConfirmacion('¡Turno confirmado! Se ha creado exitosamente.');
+
+        // Redirigir a Mi Cuenta después de unos segundos
+        setTimeout(() => {
+          window.location.href = 'mi-cuenta.html';
+        }, 2500);
       }
-      
     } catch (error) {
       console.error('Error confirmando turno:', error);
       mostrarError('Error al confirmar el turno. Por favor, inténtalo nuevamente.');
