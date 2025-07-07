@@ -196,27 +196,3 @@ process.on('SIGINT', () => {
 });
 
 // Iniciar servidor
-startServer(); 
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Intentar obtener los datos del usuario logueado desde localStorage
-  const userData = localStorage.getItem('userData');
-  if (userData) {
-    try {
-      const user = JSON.parse(userData);
-
-      // Autocompletar los campos si existen en el formulario
-      if (user.name && document.getElementById('name')) {
-        document.getElementById('name').value = user.name;
-      }
-      if (user.email && document.getElementById('email')) {
-        document.getElementById('email').value = user.email;
-      }
-      if (user.phone && document.getElementById('phone')) {
-        document.getElementById('phone').value = user.phone;
-      }
-    } catch (e) {
-      console.error('Error parseando userData para autocompletar:', e);
-    }
-  }
-});
