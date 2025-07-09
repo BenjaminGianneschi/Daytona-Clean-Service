@@ -11,7 +11,7 @@ class ApiService {
     const headers = {
       'Content-Type': 'application/json'
     };
-    const token = localStorage.getItem('adminToken'); // Leer el token actualizado cada vez
+    const token = localStorage.getItem('token'); // Usar la misma clave que el login
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
