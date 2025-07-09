@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+backend/node_modules/
+
+# Logs
+logs/
+*.log
+
+# Archivos de entorno
+.env
+config.env
+config.env.local
+config.env.postgres
+
+# Archivos de desarrollo
+.DS_Store
+.vscode/
+.idea/
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos legacy
+legacy_cleanup/
+
+# Archivos de configuración local
+config.env.*
+
+# Archivos de Docker (si no se usan)
+docker-compose.override.yml
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de cache
+.cache/
+.tmp/
+
+# Archivos de test
+test-results/
+coverage/
+
+# Archivos de producción que no deben estar en repo
+package-lock.json
+
+# Archivos de Jekyll que pueden causar problemas
+_site/
+.jekyll-cache/ 
