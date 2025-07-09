@@ -22,7 +22,7 @@ function debugTurnos() {
   if (token) {
     console.log('2. Probando API de turnos...');
     
-    fetch('http://localhost:3001/api/appointments/user/appointments', {
+    fetch(`${getApiUrl()}/appointments/user/appointments`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -83,7 +83,7 @@ function debugTurnos() {
   
   console.log('   Datos del turno de prueba:', testAppointment);
   
-  fetch('http://localhost:3001/api/appointments', {
+  fetch(`${getApiUrl()}/appointments`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

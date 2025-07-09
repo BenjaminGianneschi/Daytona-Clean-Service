@@ -1145,7 +1145,7 @@
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Guardando...';
         submitBtn.disabled = true;
         
-        fetch(`http://localhost:3001/api/appointments/users/appointments/${id}`, {
+        fetch(`https://daytona-clean-service.onrender.com/api/appointments/users/appointments/${id}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -1221,7 +1221,7 @@
           confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Cancelando...';
           confirmBtn.disabled = true;
           
-          fetch(`http://localhost:3001/api/appointments/users/appointments/${appointmentId}/cancel`, {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/users/appointments/${appointmentId}/cancel`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -1358,7 +1358,7 @@
 
       // Cargar estadísticas del dashboard
       function loadAdminStats() {
-        fetch('http://localhost:3001/api/appointments/admin/all', {
+        fetch('https://daytona-clean-service.onrender.com/api/appointments/admin/all', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -1393,7 +1393,7 @@
 
       // Cargar todos los turnos para admin
       function loadAllAppointments() {
-        fetch('http://localhost:3001/api/appointments/admin/all', {
+        fetch('https://daytona-clean-service.onrender.com/api/appointments/admin/all', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -1474,7 +1474,7 @@
 
       // Filtrar turnos de admin
       window.filterAdminAppointments = function(filter) {
-        fetch('http://localhost:3001/api/appointments/admin/all', {
+        fetch('https://daytona-clean-service.onrender.com/api/appointments/admin/all', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -1500,7 +1500,7 @@
       window.searchAdminAppointments = function() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         
-        fetch('http://localhost:3001/api/appointments/admin/all', {
+        fetch('https://daytona-clean-service.onrender.com/api/appointments/admin/all', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -1531,7 +1531,7 @@
       // Confirmar turno (admin)
       window.confirmAdminAppointment = function(appointmentId) {
         if (confirm('¿Confirmar este turno?')) {
-          fetch(`http://localhost:3001/api/appointments/admin/${appointmentId}/status`, {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/status`, {
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -1559,7 +1559,7 @@
       // Cancelar turno (admin)
       window.cancelAdminAppointment = function(appointmentId) {
         if (confirm('¿Cancelar este turno?')) {
-          fetch(`http://localhost:3001/api/appointments/admin/${appointmentId}/cancel`, {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/cancel`, {
             method: 'PUT',
             headers: {
               'Authorization': `Bearer ${token}`
@@ -1584,7 +1584,7 @@
 
       // Exportar turnos
       window.exportAppointments = function() {
-        fetch('http://localhost:3001/api/appointments/admin/all', {
+        fetch('https://daytona-clean-service.onrender.com/api/appointments/admin/all', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -1718,7 +1718,7 @@
         }
         
         // Enviar actualización
-        fetch('http://localhost:3001/api/users/profile', {
+        fetch('https://daytona-clean-service.onrender.com/api/users/profile', {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${token}`,

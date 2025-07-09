@@ -21,12 +21,7 @@ window.AppConfig = {
   }
 };
 
-// Función para obtener la URL de la API según el entorno
+// Función para obtener la URL de la API (siempre nube)
 window.getApiUrl = function() {
-  // Si estás en localhost, usa el backend local en 3000
-  if (window.location.hostname.includes("localhost")) {
-    return "http://localhost:3001/api";
-  }
-  // Si no, usa la URL de producción
   return "https://daytona-clean-service.onrender.com/api";
 };
