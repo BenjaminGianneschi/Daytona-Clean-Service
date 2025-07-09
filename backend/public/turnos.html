@@ -1182,7 +1182,7 @@
       
       // Si no está en localStorage o es genérico, intentar obtener del backend
       console.log('🔄 Buscando teléfono en el backend...');
-      const response = await fetch(`${window.getApiUrl ? window.getApiUrl() : 'http://localhost:3001/api'}/users/me`, {
+      const response = await fetch(`${window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api'}/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
