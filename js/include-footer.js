@@ -1,4 +1,5 @@
 // Footer moderno de Daytona Clean Service, sin div principal anidado
+if (typeof footerHTML === 'undefined') {
 const footerHTML = `
   <div class="container" style="max-width:1100px; margin:auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px; padding-top:40px; color:#fff; background:#232323 !important;">
     <div style="flex:1 1 220px; min-width:220px; display:flex; flex-direction:column; align-items:flex-start;">
@@ -38,4 +39,5 @@ if (footer) {
   footer.style.color = '#fff';
   footer.style.borderTop = '1.5px solid #232323';
   footer.innerHTML = footerHTML;
+  }
 } 

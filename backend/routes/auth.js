@@ -1,17 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { login, verifyToken, changePassword, createAdmin } = require('../controllers/authController');
-const { authenticateToken, authenticateUserToken, requireSuperAdmin } = require('../middleware/auth');
+const { login, register } = require('../controllers/authController');
 
-// Rutas públicas
+// Rutas públicas para usuarios
 router.post('/login', login);
+router.post('/register', register);
 
-// Rutas protegidas (administradores)
-router.get('/verify', authenticateToken, verifyToken);
-router.put('/change-password', authenticateToken, changePassword);
-router.post('/create-admin', authenticateToken, requireSuperAdmin, createAdmin);
-
-// Rutas protegidas (usuarios regulares)
-router.get('/verify-user', authenticateUserToken, verifyToken);
-
-module.exports = router; 
+module.exports = router;

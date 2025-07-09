@@ -14,7 +14,7 @@ Sistema completo de gestión de turnos para servicios de limpieza de autos y tap
 
 ### 🔧 Backend (API)
 - **API RESTful** con Node.js y Express
-- **Base de datos MySQL** con esquema completo
+- **Base de datos PostgreSQL** con esquema completo
 - **Autenticación JWT** para administradores
 - **Validación de datos** y manejo de errores
 - **Rate limiting** y seguridad
@@ -63,7 +63,7 @@ Daytona/
 
 ### Prerrequisitos
 - **Node.js** 16+ 
-- **MySQL** 8.0+
+- **PostgreSQL** 12.0+
 - **npm** o **yarn**
 
 ### 1. Clonar el Repositorio
@@ -74,8 +74,8 @@ cd Daytona
 
 ### 2. Configurar Base de Datos
 ```bash
-# Conectar a MySQL
-mysql -u root -p
+# Conectar a PostgreSQL
+psql -U postgres -d daytona_turnos
 
 # Crear base de datos
 CREATE DATABASE daytona_turnos;
@@ -274,9 +274,9 @@ WHATSAPP_API_URL=https://api.twilio.com/2010-04-01/Accounts/...
 
 ### 1. Preparar Servidor
 ```bash
-# Instalar Node.js y MySQL
+# Instalar Node.js y PostgreSQL
 sudo apt update
-sudo apt install nodejs npm mysql-server
+sudo apt install nodejs npm postgresql postgresql-contrib
 
 # Configurar firewall
 sudo ufw allow 3000

@@ -1,6 +1,6 @@
 # Backend - Sistema de Turnos Daytona Clean Service
 
-Backend completo para el sistema de gestión de turnos de Daytona Clean Service, desarrollado con Node.js, Express y MySQL.
+Backend completo para el sistema de gestión de turnos de Daytona Clean Service, desarrollado con Node.js, Express y PostgreSQL.
 
 ## 🚀 Características
 
@@ -16,7 +16,7 @@ Backend completo para el sistema de gestión de turnos de Daytona Clean Service,
 ## 📋 Requisitos Previos
 
 - **Node.js** (versión 16 o superior)
-- **MySQL** (versión 8.0 o superior)
+- **PostgreSQL** (versión 12 o superior)
 - **npm** o **yarn**
 
 ## 🛠️ Instalación
@@ -43,8 +43,8 @@ nano .env
 
 ### 4. Configurar la base de datos
 ```bash
-# Conectar a MySQL
-mysql -u root -p
+# Conectar a PostgreSQL
+psql -U postgres -d daytona_turnos
 
 # Ejecutar el script de creación de la base de datos
 source database/schema.sql
@@ -70,7 +70,7 @@ Crea un archivo `.env` con las siguientes variables:
 PORT=3000
 NODE_ENV=development
 
-# Configuración de la base de datos MySQL
+# Configuración de la base de datos PostgreSQL
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=tu_password

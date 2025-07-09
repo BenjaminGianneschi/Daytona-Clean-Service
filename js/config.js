@@ -3,7 +3,7 @@ window.AppConfig = {
   // URLs de la API según el entorno
   API_URLS: {
     production: 'https://daytona-clean-service.onrender.com/api', // URL real de Render
-    development: 'http://localhost:3000/api',
+    development: 'http://localhost:3001/api', // <-- Cambiado a 3000
     render: null // Se detectará automáticamente
   },
   
@@ -23,8 +23,10 @@ window.AppConfig = {
 
 // Función para obtener la URL de la API según el entorno
 window.getApiUrl = function() {
-  const API_URL = window.location.hostname.includes("localhost")
-    ? "http://localhost:10000/api"
-    : "https://daytona-clean-service.onrender.com/api";
-  return API_URL;
-}; 
+  // Si estás en localhost, usa el backend local en 3000
+  if (window.location.hostname.includes("localhost")) {
+    return "http://localhost:3001/api";
+  }
+  // Si no, usa la URL de producción
+  return "https://daytona-clean-service.onrender.com/api";
+};

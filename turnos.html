@@ -670,7 +670,22 @@
           <div id="puffs-total" class="fw-bold mt-3"></div>
           
           <!-- Resumen final de todos los servicios -->
-          <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;"></div>
+          <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;">
+            <div class="card-turno">
+              <h5 class="mb-3">
+                <i class="fas fa-list-ul me-2 text-danger"></i>
+                Resumen de Servicios
+              </h5>
+              <div id="lista-servicios" class="mb-3">
+                <!-- Los servicios se mostrarán aquí -->
+              </div>
+              <hr style="border-color: #ff3b3f;">
+              <div class="d-flex justify-content-between align-items-center">
+                <strong class="text-white">Total General:</strong>
+                <strong class="text-danger fs-4" id="total-general">$0</strong>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Paso 2: Seleccionar Profesional -->
         <div id="step-2" style="display:none;">
@@ -792,6 +807,14 @@
         <!-- Paso 4: Datos Personales -->
         <div id="step-4" style="display:none;">
           <h3 class="mb-3">Datos Personales</h3>
+          
+          <!-- Mensaje para usuarios logueados -->
+          <div id="usuario-logueado-info" class="alert alert-info mb-4" style="display:none; background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+            <i class="fas fa-user-check me-2"></i>
+            <strong>¡Bienvenido de vuelta!</strong> Tus datos han sido auto-completados desde tu cuenta. 
+            Puedes modificarlos si es necesario.
+          </div>
+          
           <form id="datos-personales-form">
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -891,6 +914,9 @@
             <h4 class="mb-2">¡Turno guardado exitosamente!</h4>
             <p>Tu turno ha sido guardado en nuestro historial. Te contactaremos pronto para coordinar los detalles de tu servicio.</p>
             <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
+            <div id="botones-exito" class="mt-3">
+              <!-- Los botones se agregarán dinámicamente -->
+            </div>
           </div>
         </div>
       </div>
@@ -950,11 +976,12 @@
     </div>
   </div>
 
+  <!-- Bootstrap JS debe ir primero para que los dropdowns funcionen -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/api-service.js"></script>
+  <script src="js/include-header.js"></script>
   <script src="js/include-footer.js"></script>
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
   // Verificar que la API esté disponible
   console.log('🔍 Verificando disponibilidad de la API...');
@@ -1023,6 +1050,217 @@
   };
   
   console.log('🧪 Para probar el guardado, ejecuta: testGuardadoHistorial()');
+  
+  // Función para probar auto-completado de datos
+  window.testAutoCompletado = function() {
+    console.log('🧪 Probando auto-completado de datos...');
+    
+    // Simular datos de usuario (como se guardan realmente)
+    const userData = {
+      id: 1,
+      name: 'Juan Pérez', // Nombre completo como se guarda en el registro
+      email: 'juan@test.com',
+      phone: '3482123456', // Agregar teléfono para probar
+      role: 'user'
+    };
+    
+    // Guardar en localStorage
+    localStorage.setItem('token', 'test-token');
+    localStorage.setItem('userData', JSON.stringify(userData));
+    
+    console.log('✅ Datos de prueba guardados:', userData);
+    console.log('🔄 Ahora ve al paso 4 para ver el auto-completado');
+    console.log('📝 El nombre "Juan Pérez" se separará en: Nombre="Juan", Apellido="Pérez"');
+    console.log('📞 El teléfono "3482123456" debería autocompletarse');
+  };
+  
+  console.log('🧪 Para probar auto-completado, ejecuta: testAutoCompletado()');
+  
+  // Función para limpiar datos de prueba
+  window.limpiarDatosPrueba = function() {
+    console.log('🧹 Limpiando datos de prueba...');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    console.log('✅ Datos de prueba eliminados');
+    console.log('🔄 Recarga la página para ver el estado sin login');
+  };
+  
+  console.log('🧹 Para limpiar datos de prueba, ejecuta: limpiarDatosPrueba()');
+  
+  // Función para verificar datos del usuario actual
+  window.verificarDatosUsuario = function() {
+    console.log('🔍 Verificando datos del usuario actual...');
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('userData');
+    
+    console.log('Token:', token ? 'Presente' : 'Ausente');
+    console.log('UserData:', userData);
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        console.log('👤 Datos del usuario:', user);
+        console.log('📞 Teléfono disponible:', user.phone || user.telefono || user.phonenumber || user.celular || user.phoneNumber || 'NO ENCONTRADO');
+      } catch (error) {
+        console.error('❌ Error parseando userData:', error);
+      }
+    }
+  };
+  
+  console.log('🔍 Para verificar datos del usuario actual, ejecuta: verificarDatosUsuario()');
+  
+  // Función para agregar teléfono al usuario actual (para pruebas)
+  window.agregarTelefonoUsuario = function(telefono) {
+    console.log('📞 Agregando teléfono al usuario actual...');
+    const userData = localStorage.getItem('userData');
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        user.phone = telefono;
+        localStorage.setItem('userData', JSON.stringify(user));
+        console.log('✅ Teléfono agregado:', telefono);
+        console.log('🔄 Recarga la página para que tome efecto');
+      } catch (error) {
+        console.error('❌ Error actualizando userData:', error);
+      }
+    } else {
+      console.error('❌ No hay datos de usuario');
+    }
+  };
+  
+  console.log('📞 Para agregar teléfono al usuario actual, ejecuta: agregarTelefonoUsuario("3482123456")');
+  
+  // Agregar teléfono automáticamente al usuario actual si no lo tiene
+  window.agregarTelefonoAutomaticamente = function() {
+    console.log('🔧 Verificando teléfono del usuario...');
+    const userData = localStorage.getItem('userData');
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (!user.phone) {
+          // No agregar teléfono automáticamente, dejar que el usuario lo complete
+          console.log('ℹ️ El usuario no tiene teléfono guardado. Deberá completarlo manualmente.');
+          return false;
+        } else {
+          console.log('ℹ️ El usuario ya tiene teléfono:', user.phone);
+          return true;
+        }
+      } catch (error) {
+        console.error('❌ Error verificando userData:', error);
+        return false;
+      }
+    } else {
+      console.error('❌ No hay datos de usuario');
+      return false;
+    }
+  };
+  
+  console.log('🔧 Para agregar teléfono automáticamente, ejecuta: agregarTelefonoAutomaticamente()');
+  
+  // Función para obtener el teléfono real del usuario desde el backend
+  window.obtenerTelefonoReal = async function() {
+    console.log('📞 Obteniendo teléfono real del usuario...');
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      console.error('❌ No hay token de autenticación');
+      return null;
+    }
+    
+    try {
+      // Primero intentar obtener del localStorage (pero verificar que no sea el genérico)
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        const user = JSON.parse(userData);
+        if (user.phone && user.phone !== '3482123456') {
+          console.log('✅ Teléfono encontrado en localStorage:', user.phone);
+          return user.phone;
+        }
+      }
+      
+      // Si no está en localStorage o es genérico, intentar obtener del backend
+      console.log('🔄 Buscando teléfono en el backend...');
+      const response = await fetch(`${window.getApiUrl ? window.getApiUrl() : 'http://localhost:3001/api'}/users/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.user && data.user.phone) {
+          console.log('✅ Teléfono obtenido del backend:', data.user.phone);
+          // Actualizar localStorage con el teléfono real
+          if (userData) {
+            const user = JSON.parse(userData);
+            user.phone = data.user.phone;
+            localStorage.setItem('userData', JSON.stringify(user));
+            console.log('✅ localStorage actualizado con teléfono real');
+          }
+          return data.user.phone;
+        }
+      }
+      
+      console.log('ℹ️ No se encontró teléfono guardado');
+      return null;
+    } catch (error) {
+      console.error('❌ Error obteniendo teléfono:', error);
+      return null;
+    }
+  };
+  
+  console.log('📞 Para obtener teléfono real, ejecuta: obtenerTelefonoReal()');
+  
+  // Función para limpiar el teléfono genérico y usar el real
+  window.limpiarTelefonoGenerico = function() {
+    console.log('🧹 Limpiando teléfono genérico...');
+    const userData = localStorage.getItem('userData');
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        if (user.phone === '3482123456') {
+          // Eliminar el teléfono genérico
+          delete user.phone;
+          localStorage.setItem('userData', JSON.stringify(user));
+          console.log('✅ Teléfono genérico eliminado');
+          console.log('🔄 Recarga la página para que tome efecto');
+          return true;
+        } else {
+          console.log('ℹ️ No hay teléfono genérico para limpiar');
+          return false;
+        }
+      } catch (error) {
+        console.error('❌ Error limpiando teléfono:', error);
+        return false;
+      }
+    } else {
+      console.error('❌ No hay datos de usuario');
+      return false;
+    }
+  };
+  
+  console.log('🧹 Para limpiar teléfono genérico, ejecuta: limpiarTelefonoGenerico()');
+  
+  // Función para forzar la actualización del teléfono desde el backend
+  window.actualizarTelefonoDesdeBackend = async function() {
+    console.log('🔄 Forzando actualización del teléfono desde el backend...');
+    const telefono = await obtenerTelefonoReal();
+    if (telefono) {
+      console.log('✅ Teléfono actualizado:', telefono);
+      console.log('🔄 Recarga la página para ver el cambio en el formulario');
+      return telefono;
+    } else {
+      console.log('❌ No se pudo obtener el teléfono del backend');
+      return null;
+    }
+  };
+  
+  console.log('🔄 Para forzar actualización del teléfono, ejecuta: actualizarTelefonoDesdeBackend()');
+  
+
 
   // Variables globales para servicios
   let sillonesAgregados = [];
@@ -1941,6 +2179,12 @@
     const listaServicios = document.getElementById('lista-servicios');
     const totalGeneral = document.getElementById('total-general');
     
+    // Verificar que los elementos existen
+    if (!resumenFinal || !listaServicios || !totalGeneral) {
+      console.warn('⚠️ Elementos del resumen no encontrados');
+      return;
+    }
+    
     // Recolectar todos los servicios
     let todosLosServicios = [];
     let totalGeneralCalculado = 0;
@@ -2144,6 +2388,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    // Limpiar teléfono genérico y obtener el real
+    setTimeout(() => {
+      limpiarTelefonoGenerico();
+      agregarTelefonoAutomaticamente();
+    }, 1000);
+    
     // Wizard navigation logic
     let step = 1;
     let turno = {
@@ -2185,6 +2435,9 @@
       // Lógica específica para cada paso
       if (n === 3) {
         mostrarTurnosSeparados();
+      } else if (n === 4) {
+        console.log('🎯 Llegando al paso 4 - Datos Personales');
+        autoCompletarDatosUsuario();
       } else if (n === 5) {
         mostrarCamposUbicacion();
       } else if (n === 6) {
@@ -2357,6 +2610,214 @@
     const selectServicio = document.getElementById('servicio-select');
     const detalleServicio = document.getElementById('servicio-detalle');
     const sillonesOpciones = document.getElementById('sillones-opciones');
+    
+    // Función para auto-completar datos del usuario logueado
+    async function autoCompletarDatosUsuario() {
+      const token = localStorage.getItem('token');
+      const userData = localStorage.getItem('userData');
+      
+      console.log('🔍 Verificando datos de usuario...');
+      console.log('Token:', token ? 'Presente' : 'Ausente');
+      console.log('UserData:', userData);
+      
+      if (token && userData) {
+        try {
+          const user = JSON.parse(userData);
+          console.log('👤 Datos del usuario parseados:', user);
+          
+          // Mostrar mensaje de bienvenida
+          document.getElementById('usuario-logueado-info').style.display = 'block';
+          
+          // Separar nombre completo en nombre y apellido
+          let nombre = '';
+          let apellido = '';
+          
+          if (user.name) {
+            const nombres = user.name.split(' ');
+            nombre = nombres[0] || '';
+            apellido = nombres.slice(1).join(' ') || '';
+          }
+          
+          // Buscar teléfono en varias propiedades posibles
+          let telefono = user.phone || user.telefono || user.phonenumber || user.celular || user.phoneNumber || '';
+          
+          // Si no hay teléfono en localStorage, intentar obtenerlo del backend
+          if (!telefono) {
+            console.log('🔄 No hay teléfono en localStorage, buscando en el backend...');
+            telefono = await obtenerTelefonoReal();
+          }
+          
+          // Auto-completar campos
+          document.getElementById('nombre').value = nombre;
+          document.getElementById('apellido').value = apellido;
+          document.getElementById('telefono').value = telefono;
+          document.getElementById('email').value = user.email || '';
+          
+          // Guardar datos en el objeto turno
+          turno.nombre = nombre;
+          turno.apellido = apellido;
+          turno.telefono = telefono;
+          turno.email = user.email || '';
+          
+          console.log('✅ Datos auto-completados:', {
+            nombre: nombre,
+            apellido: apellido,
+            telefono: telefono,
+            email: user.email
+          });
+          
+          // Si no hay teléfono, mostrar advertencia
+          if (!telefono) {
+            console.warn('⚠️ El usuario no tiene teléfono guardado. Deberá completarlo manualmente.');
+            document.getElementById('telefono').placeholder = 'Ingresa tu teléfono (requerido)';
+          }
+          
+        } catch (error) {
+          console.error('❌ Error parseando datos de usuario:', error);
+          document.getElementById('usuario-logueado-info').style.display = 'none';
+        }
+      } else {
+        // Ocultar mensaje si no está logueado
+        document.getElementById('usuario-logueado-info').style.display = 'none';
+        console.log('ℹ️ Usuario no logueado, no se auto-completan datos');
+      }
+    }
+
+    // Función para guardar turno en el historial (disponible globalmente)
+    window.guardarTurnoEnHistorial = async function() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('Usuario no logueado, no se guarda en historial');
+        return { success: false, message: 'Usuario no logueado' };
+      }
+
+      try {
+        const categorias = categorizarServicios();
+        const turnosParaGuardar = [];
+
+            // Validar que el teléfono esté presente
+    if (!turno.telefono || turno.telefono.trim() === '') {
+      console.error('❌ Error: El teléfono es requerido');
+      return { success: false, message: 'El teléfono es requerido para crear el turno' };
+    }
+    
+    // Preparar datos del turno
+    const datosTurno = {
+      clientName: `${turno.nombre} ${turno.apellido}`,
+      clientPhone: turno.telefono,
+      clientEmail: turno.email,
+      status: 'pending',
+      notes: 'Turno creado desde el formulario web'
+    };
+
+        // Agregar userId si el usuario está logueado
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          const user = JSON.parse(userData);
+          datosTurno.userId = user.id;
+        }
+
+        if (categorias.necesitaTurnosSeparados) {
+          // Guardar turno de vehículos
+          if (turnosSeparados.vehiculos.servicios.length > 0) {
+            const turnoVehiculos = {
+              ...datosTurno,
+              appointmentDate: turnosSeparados.vehiculos.fecha,
+              startTime: turnosSeparados.vehiculos.hora,
+              serviceLocation: turnosSeparados.vehiculos.direccion ? 
+                (typeof turnosSeparados.vehiculos.direccion === 'object' ? 
+                  `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}` : 
+                  turnosSeparados.vehiculos.direccion) : 'A confirmar',
+              services: turnosSeparados.vehiculos.servicios.map(s => ({
+                name: s.nombre,
+                quantity: s.cantidad,
+                price: s.precio
+              })),
+              totalAmount: turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
+            };
+            turnosParaGuardar.push(turnoVehiculos);
+          }
+
+          // Guardar turno de tapizados
+          if (turnosSeparados.tapizados.servicios.length > 0) {
+            const turnoTapizados = {
+              ...datosTurno,
+              appointmentDate: turnosSeparados.tapizados.fecha,
+              startTime: turnosSeparados.tapizados.hora,
+              serviceLocation: turnosSeparados.tapizados.direccion || 'A confirmar',
+              services: turnosSeparados.tapizados.servicios.map(s => ({
+                name: s.nombre,
+                quantity: s.cantidad,
+                price: s.precio
+              })),
+              totalAmount: turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
+            };
+            turnosParaGuardar.push(turnoTapizados);
+          }
+        } else {
+          // Turno único
+          let servicios = [];
+          let fecha = '';
+          let hora = '';
+          let direccion = '';
+
+          if (categorias.hayVehiculos) {
+            servicios = turnosSeparados.vehiculos.servicios;
+            fecha = turnosSeparados.vehiculos.fecha;
+            hora = turnosSeparados.vehiculos.hora;
+            if (turnosSeparados.vehiculos.direccion) {
+              if (typeof turnosSeparados.vehiculos.direccion === 'object') {
+                direccion = `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`;
+              } else {
+                direccion = turnosSeparados.vehiculos.direccion;
+              }
+            }
+          } else if (categorias.hayTapizados) {
+            servicios = turnosSeparados.tapizados.servicios;
+            fecha = turnosSeparados.tapizados.fecha;
+            hora = turnosSeparados.tapizados.hora;
+            direccion = turnosSeparados.tapizados.direccion;
+          }
+
+          const turnoUnico = {
+            ...datosTurno,
+            appointmentDate: fecha,
+            startTime: hora,
+            serviceLocation: direccion || 'A confirmar',
+            services: servicios.map(s => ({
+              name: s.nombre,
+              quantity: s.cantidad,
+              price: s.precio
+            })),
+            totalAmount: servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
+          };
+          turnosParaGuardar.push(turnoUnico);
+        }
+
+        // Guardar cada turno en el backend
+        const resultados = [];
+        for (const turnoData of turnosParaGuardar) {
+          try {
+            const response = await apiService.createAppointment(turnoData);
+            if (response.success) {
+              resultados.push({ success: true, data: response.data });
+            } else {
+              resultados.push({ success: false, message: response.message });
+            }
+          } catch (error) {
+            console.error('Error guardando turno:', error);
+            resultados.push({ success: false, message: error.message });
+          }
+        }
+
+        console.log('📋 Turnos guardados en historial:', resultados);
+        return { success: true, data: resultados };
+
+      } catch (error) {
+        console.error('Error en guardarTurnoEnHistorial:', error);
+        return { success: false, message: error.message };
+      }
+    }
     
     // Función para mostrar campos de ubicación según el tipo de servicio
     function mostrarCamposUbicacion() {
@@ -2872,7 +3333,25 @@
        showStep(step);
      }
    };
-   document.getElementById('btn-confirmar-fijo').onclick = function() {
+   document.getElementById('btn-confirmar-fijo').onclick = async function() {
+     // Guardar turno en historial si el usuario está logueado
+     const token = localStorage.getItem('token');
+     if (token) {
+       try {
+         console.log('💾 Guardando turno en historial...');
+         const resultado = await guardarTurnoEnHistorial();
+         if (resultado.success) {
+           console.log('✅ Turno guardado exitosamente en historial');
+         } else {
+           console.warn('⚠️ No se pudo guardar en historial:', resultado.message);
+         }
+       } catch (error) {
+         console.error('❌ Error guardando en historial:', error);
+       }
+     } else {
+       console.log('ℹ️ Usuario no logueado, no se guarda en historial');
+     }
+
      // Confirmar turno y abrir WhatsApp
      const categorias = categorizarServicios();
      let mensaje = `¡Hola! Quiero reservar turno(s) en Daytona Clean Service:%0A%0A`;
@@ -2979,6 +3458,32 @@
      document.getElementById('wizard-content').style.display = 'none';
      document.getElementById('turno-exito').style.display = 'block';
      document.getElementById('btn-confirmar-fijo').style.display = 'none';
+     
+     // Actualizar mensaje según si está logueado o no
+     const mensajeExito = document.querySelector('#turno-exito .alert p');
+     const botonesExito = document.getElementById('botones-exito');
+     
+     if (token) {
+       mensajeExito.innerHTML = 'Tu turno ha sido guardado en nuestro historial y en tu perfil. Te contactaremos pronto para coordinar los detalles de tu servicio.';
+       botonesExito.innerHTML = `
+         <a href="mi-cuenta.html" class="btn btn-primary me-2">
+           <i class="fas fa-user me-1"></i>Ver mi perfil
+         </a>
+         <a href="turnos.html" class="btn btn-outline-light">
+           <i class="fas fa-plus me-1"></i>Agendar otro turno
+         </a>
+       `;
+     } else {
+       mensajeExito.innerHTML = 'Tu turno ha sido procesado. Te contactaremos pronto para coordinar los detalles de tu servicio.';
+       botonesExito.innerHTML = `
+         <a href="login.html" class="btn btn-primary me-2">
+           <i class="fas fa-sign-in-alt me-1"></i>Crear cuenta
+         </a>
+         <a href="turnos.html" class="btn btn-outline-light">
+           <i class="fas fa-plus me-1"></i>Agendar otro turno
+         </a>
+       `;
+     }
    }
 
    // Lógica para mostrar/ocultar y mover los botones fijos según el paso
@@ -3612,8 +4117,28 @@
 
 
 
+  });
+
+  // Función para obtener el paso actual
+  function obtenerPasoActual() {
+    return window.step || 1;
+  }
+  
+  // Función para ir al siguiente paso
+  function siguientePaso() {
+    const currentStep = window.step || 1;
+    if (currentStep < 6) {
+      window.step = currentStep + 1;
+      // Usar la función showStep que ya existe en el scope
+      if (typeof showStep === 'function') {
+        showStep(window.step);
+      } else {
+        console.warn('⚠️ Función showStep no disponible');
+      }
+    }
+  }
+
   // Actualizar la función del botón siguiente para usar el backend
-  document.addEventListener('DOMContentLoaded', function() {
     const btnSiguiente = document.getElementById('btn-siguiente-fijo');
     if (btnSiguiente) {
       btnSiguiente.addEventListener('click', async function() {
@@ -3621,7 +4146,11 @@
         
         if (pasoActual === 2) {
           // Al pasar al paso 3, actualizar disponibilidad
+        if (typeof actualizarDisponibilidadPaso3 === 'function') {
           await actualizarDisponibilidadPaso3();
+        } else {
+          console.warn('⚠️ Función actualizarDisponibilidadPaso3 no disponible');
+        }
         }
         
         siguientePaso();
@@ -3635,20 +4164,8 @@
         await confirmarTurnoConBackend();
       });
     }
-  });
-
-  });
 
 
 </script>
-  <script src="js/config.js"></script>
-  <script src="js/api-service.js"></script>
-  <script src="js/include-header.js"></script>
-  <script src="js/include-footer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/test-connection.js"></script>
-  <script src="js/faq-toggle.js"></script>
-  <script src="js/whatsapp-float.js"></script>
-  <script src="js/send-whatsapp.js"></script>
 </body>
 </html> 

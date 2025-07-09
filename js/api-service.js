@@ -49,41 +49,20 @@ class ApiService {
 
   // Crear nuevo turno
   async createAppointment(appointmentData) {
-    // Incluir token de usuario si está disponible
-    const userToken = localStorage.getItem('authToken');
-    const headers = this.getHeaders();
-    
-    if (userToken) {
-      headers['Authorization'] = `Bearer ${userToken}`;
-    }
-    
     return this.request('/appointments', {
       method: 'POST',
-      body: JSON.stringify(appointmentData),
-      headers: headers
+      body: JSON.stringify(appointmentData)
     });
   }
 
-  // Login de administrador
-  async login(credentials) {
-    const response = await this.request('/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(credentials)
-    });
 
-    if (response.success && response.data.token) {
-      this.token = response.data.token;
-      localStorage.setItem('adminToken', this.token);
-      localStorage.setItem('adminUser', JSON.stringify(response.data.user));
-    }
-
-    return response;
-  }
 
   // Verificar token
   async verifyToken() {
     return this.request('/auth/verify');
   }
+
+
 
   // Logout
   logout() {
@@ -141,5 +120,7 @@ class ApiService {
   }
 }
 
-// Instancia global del servicio de API
-window.apiService = new ApiService(); 
+// Instancia global del servicio de API (solo si no existe)
+if (!window.apiService) {
+  window.apiService = new ApiService();
+} 

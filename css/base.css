@@ -197,6 +197,83 @@ section {
   animation-delay: 0.6s;
 }
 
+/* ===== SECCIONES DE TURNOS ===== */
+.active-appointments-section,
+.appointments-history-section {
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-primary);
+  transition: var(--transition);
+}
+
+.active-appointments-section:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.appointments-history-section:hover {
+  box-shadow: 0 0 30px rgba(108, 117, 125, 0.3);
+}
+
+.appointment-card {
+  background-color: var(--bg-secondary);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid transparent;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.appointment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.appointment-card.border-danger {
+  border-color: #dc3545;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(220, 53, 69, 0.1) 100%);
+}
+
+.appointment-card.border-success {
+  border-color: #198754;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(25, 135, 84, 0.1) 100%);
+}
+
+.user-info-card {
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-primary);
+  border: 2px solid var(--primary-color);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: var(--bg-secondary);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.detail-item i {
+  color: var(--primary-color);
+  margin-right: 15px;
+  font-size: 1.2rem;
+  width: 20px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* ===== FORMULARIOS ===== */
 select,
 .form-select {

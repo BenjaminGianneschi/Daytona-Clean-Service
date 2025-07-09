@@ -54,7 +54,7 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { clientName, clientPhone, clientEmail, appointmentDate, startTime, services, totalAmount, notes, serviceLocation } = req.body;
+    const { clientName, clientPhone, clientEmail, appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId } = req.body;
     if (!clientName || !clientPhone || !appointmentDate || !startTime || !services || !totalAmount) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
@@ -77,9 +77,9 @@ const createAppointment = async (req, res) => {
     const startMoment = moment(`${appointmentDate} ${startTime}`, 'YYYY-MM-DD HH:mm');
     const endMoment = startMoment.clone().add(totalDuration, 'minutes');
     const endTime = endMoment.format('HH:mm:ss');
-    // Crear el turno
-    const userId = req.user ? req.user.id : null;
-    const appointmentId = await appointmentModel.createAppointment({ clientId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId });
+    // Crear el turno - usar userId del body si está disponible, o del req.user si viene de una ruta autenticada
+    const finalUserId = userId || (req.user ? req.user.id : null);
+    const appointmentId = await appointmentModel.createAppointment({ clientId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId: finalUserId });
     // (Opcional) Enviar WhatsApp de confirmación
     // await whatsappService.sendConfirmation(clientPhone, appointmentDate, startTime);
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
@@ -115,27 +115,187 @@ const getAppointment = async (req, res) => {
   }
 };
 
-// Actualizar estado de un turno
+// Actualizar estado de un turno (admin)
 const updateAppointmentStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+    
+    // Validar estado
+    const validStatuses = ['pending', 'confirmed', 'completed', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Estado inválido. Estados válidos: pending, confirmed, completed, cancelled' 
+      });
+    }
+    
+    // Verificar que el turno existe
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    // Actualizar estado
     await appointmentModel.updateAppointmentStatus(id, status);
-    res.json({ success: true, message: 'Estado del turno actualizado' });
+    
+    res.json({ success: true, message: 'Estado del turno actualizado exitosamente' });
   } catch (error) {
     console.error('Error actualizando estado:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };
 
-// Cancelar turno
+// Cancelar turno (admin)
 const cancelAppointment = async (req, res) => {
   try {
     const { id } = req.params;
+    
+    // Verificar que el turno existe
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    // Verificar que el turno no esté ya cancelado
+    if (appointment.status === 'cancelled') {
+      return res.status(400).json({ success: false, message: 'Este turno ya está cancelado' });
+    }
+    
+    // Verificar que el turno no esté completado
+    if (appointment.status === 'completed') {
+      return res.status(400).json({ success: false, message: 'No se puede cancelar un turno completado' });
+    }
+    
+    // Cancelar el turno
     await appointmentModel.cancelAppointment(id);
-    res.json({ success: true, message: 'Turno cancelado' });
+    
+    res.json({ success: true, message: 'Turno cancelado exitosamente' });
   } catch (error) {
     console.error('Error cancelando turno:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
+// Obtener turnos del usuario logueado
+const getUserAppointments = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const appointments = await appointmentModel.getUserAppointments(userId);
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.error('Error obteniendo turnos del usuario:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
+// Editar turno del usuario logueado
+const updateUserAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const { appointment_date, start_time, service_location, notes } = req.body;
+    
+    // Verificar que el turno pertenece al usuario
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    if (appointment.user_id !== userId) {
+      return res.status(403).json({ success: false, message: 'No tienes permisos para editar este turno' });
+    }
+    
+    // Verificar que el turno no esté cancelado o completado
+    if (appointment.status === 'cancelled' || appointment.status === 'completed') {
+      return res.status(400).json({ success: false, message: 'No se puede editar un turno cancelado o completado' });
+    }
+    
+    // Verificar disponibilidad del nuevo horario si cambió
+    if (appointment_date !== appointment.appointment_date || start_time !== appointment.start_time) {
+      const count = await appointmentModel.countAppointments(appointment_date, start_time, id);
+      if (count > 0) {
+        return res.status(409).json({ success: false, message: 'El nuevo horario no está disponible' });
+      }
+    }
+    
+    // Actualizar el turno
+    await appointmentModel.updateUserAppointment(id, {
+      appointment_date,
+      start_time,
+      service_location,
+      notes
+    });
+    
+    res.json({ success: true, message: 'Turno actualizado exitosamente' });
+  } catch (error) {
+    console.error('Error actualizando turno del usuario:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
+// Cancelar turno del usuario logueado
+const cancelUserAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    
+    // Verificar que el turno pertenece al usuario
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    if (appointment.user_id !== userId) {
+      return res.status(403).json({ success: false, message: 'No tienes permisos para cancelar este turno' });
+    }
+    
+    // Verificar que el turno no esté cancelado o completado
+    if (appointment.status === 'cancelled') {
+      return res.status(400).json({ success: false, message: 'Este turno ya está cancelado' });
+    }
+    
+    if (appointment.status === 'completed') {
+      return res.status(400).json({ success: false, message: 'No se puede cancelar un turno completado' });
+    }
+    
+    // Cancelar el turno
+    await appointmentModel.cancelAppointment(id);
+    
+    res.json({ success: true, message: 'Turno cancelado exitosamente' });
+  } catch (error) {
+    console.error('Error cancelando turno del usuario:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
+// Marcar turno como completado (admin)
+const completeAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Verificar que el turno existe
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    // Verificar que el turno no esté ya completado
+    if (appointment.status === 'completed') {
+      return res.status(400).json({ success: false, message: 'Este turno ya está completado' });
+    }
+    
+    // Verificar que el turno no esté cancelado
+    if (appointment.status === 'cancelled') {
+      return res.status(400).json({ success: false, message: 'No se puede completar un turno cancelado' });
+    }
+    
+    // Marcar como completado
+    await appointmentModel.updateAppointmentStatus(id, 'completed');
+    
+    res.json({ success: true, message: 'Turno marcado como completado exitosamente' });
+  } catch (error) {
+    console.error('Error completando turno:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };
@@ -146,5 +306,9 @@ module.exports = {
   getAllAppointments,
   getAppointment,
   updateAppointmentStatus,
-  cancelAppointment
+  cancelAppointment,
+  completeAppointment,
+  getUserAppointments,
+  updateUserAppointment,
+  cancelUserAppointment
 }; 

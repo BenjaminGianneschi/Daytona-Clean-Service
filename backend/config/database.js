@@ -2,17 +2,8 @@
 const envPath = process.env.NODE_ENV === 'production' ? './config.env.postgres' : './config.env.local';
 require('dotenv').config({ path: envPath });
 
-// Determinar qué base de datos usar basado en las variables de entorno
-const usePostgres = process.env.DB_TYPE === 'postgres' || process.env.DB_PORT === '5432';
-
-let database;
-
-if (usePostgres) {
-  console.log('🐘 Usando PostgreSQL');
-  database = require('./database-postgres');
-} else {
-  console.log('🐬 Usando MySQL');
-  database = require('./database-mysql');
-}
+// Usar solo PostgreSQL
+console.log('🐘 Usando PostgreSQL');
+const database = require('./database-postgres');
 
 module.exports = database; 

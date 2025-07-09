@@ -86,11 +86,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const response = await fetch(`${apiUrl}/users/me`);
 
       if (response.ok) {
-        // Ya está logueado, redirigir
+        // Ya está logueado, redirigir a mi-cuenta.html
         window.location.href = 'mi-cuenta.html';
       }
+      // Si no está logueado, simplemente no hace nada y permite el registro
     } catch (error) {
-      // No está logueado, continuar
+      // No está logueado, continuar en la página de registro
     }
   }
-}); 
+});

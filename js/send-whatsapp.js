@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("whatsapp-form");
 
+  if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -19,4 +20,5 @@ document.addEventListener("DOMContentLoaded", () => {
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(whatsappMessage)}`;
     window.open(url, "_blank");
   });
+  }
 });

@@ -9,10 +9,29 @@ EXCEPTION
 END $$;
 
 DO $$ BEGIN
+    CREATE TYPE admin_role AS ENUM ('admin', 'super_admin');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
     CREATE TYPE appointment_status AS ENUM ('pending', 'confirmed', 'completed', 'cancelled');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;
+
+-- Crear tabla de administradores
+CREATE TABLE IF NOT EXISTS admins (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100) NOT NULL,
+    role admin_role DEFAULT 'admin',
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Crear tabla de usuarios
 CREATE TABLE IF NOT EXISTS users (
@@ -30,6 +49,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS appointments (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    admin_id INTEGER REFERENCES admins(id),
     service_type VARCHAR(100) NOT NULL,
     vehicle_type VARCHAR(100),
     vehicle_brand VARCHAR(100),
@@ -79,6 +99,11 @@ CREATE TABLE IF NOT EXISTS logs (
 
 -- Insertar datos iniciales
 
+-- Insertar administrador por defecto (password: admin123)
+INSERT INTO admins (username, email, password_hash, full_name, role) VALUES 
+('admin', 'admin@daytona.com.ar', '$2a$10$E2HQ9WEDT3N.Mb3W20wphuB9BkO07XZVImbZtdNI3dPOtVsg/mvvK', 'Administrador Principal', 'super_admin')
+ON CONFLICT (username) DO NOTHING;
+
 -- Insertar servicios por defecto
 INSERT INTO services (name, description, price, duration) VALUES
 ('Limpieza Interior Completa', 'Limpieza completa del interior del vehículo incluyendo asientos, alfombras, tablero y consola', 15000.00, 120),
@@ -121,6 +146,9 @@ END;
 $$ language 'plpgsql';
 
 -- Crear triggers para actualizar updated_at
+CREATE TRIGGER update_admins_updated_at BEFORE UPDATE ON admins
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 

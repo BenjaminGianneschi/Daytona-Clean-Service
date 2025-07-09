@@ -52,10 +52,10 @@ if ! command -v npm &> /dev/null; then
     exit 1
 fi
 
-# Verificar MySQL
-if ! command -v mysql &> /dev/null; then
-    print_warning "MySQL no está instalado o no está en el PATH"
-    print_warning "Por favor instala MySQL y asegúrate de que esté en ejecución"
+# Verificar PostgreSQL
+if ! command -v psql &> /dev/null; then
+    print_warning "PostgreSQL no está instalado o no está en el PATH"
+    print_warning "Por favor instala PostgreSQL y asegúrate de que esté en ejecución"
 fi
 
 print_success "Dependencias del sistema verificadas"
@@ -98,42 +98,29 @@ fi
 
 # Valores por defecto si no están en config.env
 DB_HOST=${DB_HOST:-localhost}
-DB_USER=${DB_USER:-root}
+DB_USER=${DB_USER:-postgres}
 DB_PASSWORD=${DB_PASSWORD:-}
 DB_NAME=${DB_NAME:-daytona_turnos}
-DB_PORT=${DB_PORT:-3306}
+DB_PORT=${DB_PORT:-5432}
 
 print_status "Configuración de BD: $DB_USER@$DB_HOST:$DB_PORT/$DB_NAME"
 
-# Intentar conectar a MySQL
-if command -v mysql &> /dev/null; then
-    print_status "Probando conexión a MySQL..."
+# Intentar conectar a PostgreSQL
+if command -v psql &> /dev/null; then
+    print_status "Probando conexión a PostgreSQL..."
     
-    if [ -z "$DB_PASSWORD" ]; then
-        mysql -u "$DB_USER" -h "$DB_HOST" -P "$DB_PORT" -e "SELECT 1;" > /dev/null 2>&1
-    else
-        mysql -u "$DB_USER" -p"$DB_PASSWORD" -h "$DB_HOST" -P "$DB_PORT" -e "SELECT 1;" > /dev/null 2>&1
-    fi
-    
-    if [ $? -eq 0 ]; then
-        print_success "Conexión a MySQL exitosa"
+    # Intentar conectar
+    if PGPASSWORD="$DB_PASSWORD" psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres -c "SELECT 1;" > /dev/null 2>&1; then
+        print_success "Conexión a PostgreSQL exitosa"
         
         # Crear base de datos si no existe
         print_status "Creando base de datos si no existe..."
-        if [ -z "$DB_PASSWORD" ]; then
-            mysql -u "$DB_USER" -h "$DB_HOST" -P "$DB_PORT" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
-        else
-            mysql -u "$DB_USER" -p"$DB_PASSWORD" -h "$DB_HOST" -P "$DB_PORT" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
-        fi
+        PGPASSWORD="$DB_PASSWORD" psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres -c "CREATE DATABASE $DB_NAME;"
         
         # Ejecutar script de esquema
-        if [ -f "database/schema.sql" ]; then
+        if [ -f "database/schema-postgres.sql" ]; then
             print_status "Ejecutando script de esquema..."
-            if [ -z "$DB_PASSWORD" ]; then
-                mysql -u "$DB_USER" -h "$DB_HOST" -P "$DB_PORT" "$DB_NAME" < database/schema.sql
-            else
-                mysql -u "$DB_USER" -p"$DB_PASSWORD" -h "$DB_HOST" -P "$DB_PORT" "$DB_NAME" < database/schema.sql
-            fi
+            PGPASSWORD="$DB_PASSWORD" psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d "$DB_NAME" < database/schema-postgres.sql
             
             if [ $? -eq 0 ]; then
                 print_success "Base de datos configurada correctamente"
@@ -142,17 +129,17 @@ if command -v mysql &> /dev/null; then
                 exit 1
             fi
         else
-            print_error "No se encontró database/schema.sql"
+            print_error "No se encontró database/schema-postgres.sql"
             exit 1
         fi
     else
-        print_warning "No se pudo conectar a MySQL"
-        print_warning "Por favor verifica que MySQL esté ejecutándose y las credenciales sean correctas"
+        print_warning "No se pudo conectar a PostgreSQL"
+        print_warning "Por favor verifica que PostgreSQL esté ejecutándose y las credenciales sean correctas"
     fi
 else
-    print_warning "MySQL no está disponible"
-    print_warning "Por favor instala MySQL y ejecuta manualmente:"
-    print_warning "mysql -u root -p < backend/database/schema.sql"
+    print_warning "PostgreSQL no está disponible"
+    print_warning "Por favor instala PostgreSQL y ejecuta manualmente:"
+    print_warning "psql -U postgres -d daytona_turnos < backend/database/schema-postgres.sql"
 fi
 
 # 4. Crear directorio de logs
@@ -259,7 +246,7 @@ echo ""
 print_status "Verificando configuración final..."
 
 # Verificar archivos críticos
-if [ -f "backend/package.json" ] && [ -f "backend/config.env" ] && [ -f "backend/database/schema.sql" ]; then
+if [ -f "backend/package.json" ] && [ -f "backend/config.env" ] && [ -f "backend/database/schema-postgres.sql" ]; then
     print_success "✅ Configuración básica completada"
 else
     print_error "❌ Faltan archivos críticos"

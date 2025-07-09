@@ -43,16 +43,6 @@ app.use(helmet({
   contentSecurityPolicy: false // Deshabilitar CSP para desarrollo
 }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // máximo 100 requests por ventana
-  message: {
-    success: false,
-    message: 'Demasiadas solicitudes desde esta IP, intente nuevamente en 15 minutos'
-  }
-});
-app.use('/api/', limiter);
 
 // Configuración de sesiones
 app.use(session({
@@ -62,6 +52,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 24 * 60 * 60 * 1000 // 24 horas
   }
 }));
@@ -78,50 +69,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rutas de la API
+// -------------------
+// RUTAS DE LA API
+// -------------------
 app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 
-// Servir archivos estáticos después de las rutas de la API
-app.use('/admin', express.static(path.join(__dirname, '../admin')));
-app.use(express.static(path.join(__dirname, '..')));
-
-// Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API y archivos estáticos)
-app.use('*', (req, res) => {
-  // Si la ruta comienza con /api, devolver JSON
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({
-      success: false,
-      message: 'Ruta de API no encontrada'
-    });
-  }
-  
-  // Para otras rutas, servir el archivo index.html (SPA)
-  res.sendFile(path.join(__dirname, '../index.html'));
-});
-
-// Ruta de prueba
-app.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'API de Daytona Clean Service - Sistema de Turnos',
-    version: '1.0.0',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Ruta de prueba específica para CORS
-app.get('/api/test-cors', (req, res) => {
-  res.json({
-    success: true,
-    message: 'CORS funcionando correctamente',
-    origin: req.headers.origin,
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Ruta de estado de la API
+// Ruta de estado de la API (debe ir antes del catch-all)
 app.get('/api/health', async (req, res) => {
   try {
     const dbStatus = await testConnection();
@@ -141,10 +96,50 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+// Ruta de prueba específica para CORS
+app.get('/api/test-cors', (req, res) => {
+  res.json({
+    success: true,
+    message: 'CORS funcionando correctamente',
+    origin: req.headers.origin,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Ruta de prueba
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API de Daytona Clean Service - Sistema de Turnos',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// -------------------
+// ARCHIVOS ESTÁTICOS Y CATCH-ALL
+// -------------------
+
+// Servir archivos estáticos después de las rutas de la API
+app.use('/admin', express.static(path.join(__dirname, '../admin')));
+app.use(express.static(path.join(__dirname, '..')));
+
+// Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API y archivos estáticos)
+app.use('*', (req, res) => {
+  // Si la ruta comienza con /api, devolver JSON
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({
+      success: false,
+      message: 'Ruta de API no encontrada'
+    });
+  }
+  // Para otras rutas, servir el archivo index.html (SPA)
+  res.sendFile(path.join(__dirname, '../index.html'));
+});
+
 // Middleware para manejar errores
 app.use((error, req, res, next) => {
   console.error('Error no manejado:', error);
-  
   res.status(500).json({
     success: false,
     message: process.env.NODE_ENV === 'production' 
@@ -158,12 +153,10 @@ async function startServer() {
   try {
     // Probar conexión a la base de datos
     const dbConnected = await testConnection();
-    
     if (!dbConnected) {
       console.error('❌ No se pudo conectar a la base de datos. Verifique la configuración.');
       process.exit(1);
     }
-
     // Verificar y corregir estructura de la base de datos
     console.log('🔧 Verificando estructura de la base de datos...');
     await fixDatabase();

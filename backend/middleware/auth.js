@@ -1,60 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { query } = require('../config/database');
 
-// Middleware para verificar token JWT (administradores)
-const authenticateToken = async (req, res, next) => {
-  try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-
-    if (!token) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Token de acceso requerido' 
-      });
-    }
-
-    // Verificar token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Verificar que el usuario existe y está activo
-    const admin = await query(
-      'SELECT id, username, email, full_name, role, is_active FROM admins WHERE id = $1 AND is_active = 1',
-      [decoded.userId]
-    );
-
-    if (admin.length === 0) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Usuario no encontrado o inactivo' 
-      });
-    }
-
-    req.user = admin[0];
-    next();
-  } catch (error) {
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Token inválido' 
-      });
-    }
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Token expirado' 
-      });
-    }
-    
-    console.error('Error en autenticación:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Error interno del servidor' 
-    });
-  }
-};
-
-// Middleware para verificar token JWT (usuarios regulares)
+// Middleware para verificar token JWT de usuarios regulares
 const authenticateUserToken = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
@@ -69,10 +16,10 @@ const authenticateUserToken = async (req, res, next) => {
 
     // Verificar token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     // Verificar que el usuario existe en la tabla users
     const user = await query(
-      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+      'SELECT id, name, email, phone, role FROM users WHERE id = $1',
       [decoded.userId]
     );
 
@@ -98,7 +45,6 @@ const authenticateUserToken = async (req, res, next) => {
         message: 'Token expirado' 
       });
     }
-    
     console.error('Error en autenticación de usuario:', error);
     return res.status(500).json({ 
       success: false, 
@@ -107,75 +53,35 @@ const authenticateUserToken = async (req, res, next) => {
   }
 };
 
-// Middleware opcional para extraer información del usuario si existe token
-const optionalAuthenticateUser = async (req, res, next) => {
+
+
+// Middleware para verificar permisos de administrador
+const requireAdmin = async (req, res, next) => {
   try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-
-    if (!token) {
-      // No hay token, continuar sin usuario
-      req.user = null;
-      return next();
-    }
-
-    // Verificar token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Verificar que el usuario existe en la tabla users
-    const user = await query(
-      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
-      [decoded.userId]
-    );
-
-    if (user.length === 0) {
-      // Token inválido, continuar sin usuario
-      req.user = null;
-      return next();
-    }
-
-    req.user = user[0];
-    next();
+    // Primero verificar que el usuario esté autenticado
+    await authenticateUserToken(req, res, (err) => {
+      if (err) return next(err);
+      
+      // Verificar que el usuario sea admin
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Acceso denegado. Se requieren permisos de administrador.' 
+        });
+      }
+      
+      next();
+    });
   } catch (error) {
-    // Cualquier error, continuar sin usuario
-    console.log('Token opcional inválido o expirado, continuando sin autenticación');
-    req.user = null;
-    next();
+    console.error('Error verificando permisos de admin:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
   }
 };
 
-// Middleware para verificar roles específicos
-const requireRole = (roles) => {
-  return (req, res, next) => {
-    if (!req.user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Usuario no autenticado' 
-      });
-    }
-
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'No tienes permisos para realizar esta acción' 
-      });
-    }
-
-    next();
-  };
-};
-
-// Middleware para verificar que es super admin
-const requireSuperAdmin = requireRole(['super_admin']);
-
-// Middleware para verificar que es admin o super admin
-const requireAdmin = requireRole(['admin', 'super_admin']);
-
 module.exports = {
-  authenticateToken,
   authenticateUserToken,
-  optionalAuthenticateUser,
-  requireRole,
-  requireSuperAdmin,
   requireAdmin
-}; 
+};
