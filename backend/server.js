@@ -121,8 +121,7 @@ app.get('/', (req, res) => {
 // -------------------
 
 // Servir archivos estáticos después de las rutas de la API
-app.use('/admin', express.static(path.join(__dirname, '../admin')));
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API y archivos estáticos)
 app.use('*', (req, res) => {
@@ -134,7 +133,7 @@ app.use('*', (req, res) => {
     });
   }
   // Para otras rutas, servir el archivo index.html (SPA)
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // Middleware para manejar errores
