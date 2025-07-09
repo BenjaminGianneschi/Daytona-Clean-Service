@@ -22,7 +22,7 @@ async function testApiConnectivity() {
     
     // Probar endpoint de registro (solo verificar que existe)
     console.log('👤 Probando endpoint de registro...');
-    const registerResponse = await fetch(`${apiUrl}/users/register`, {
+    const registerResponse = await fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
