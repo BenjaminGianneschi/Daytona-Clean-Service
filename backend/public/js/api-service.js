@@ -11,11 +11,10 @@ class ApiService {
     const headers = {
       'Content-Type': 'application/json'
     };
-    
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
+    const token = localStorage.getItem('adminToken'); // Leer el token actualizado cada vez
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
-    
     return headers;
   }
 
