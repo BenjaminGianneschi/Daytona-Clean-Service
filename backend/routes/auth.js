@@ -4,6 +4,7 @@ const { login, register } = require('../controllers/authController');
 const bcrypt = require('bcrypt');
 const { query } = require('../config/database');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 
 // Rutas públicas para usuarios
 router.post('/login', login);
