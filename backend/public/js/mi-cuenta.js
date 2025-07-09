@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!token) {
         console.log('❌ No hay token, redirigiendo a login...');
-        window.location.href = 'login.html';
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 3000); // Esperar 3 segundos para ver logs
         return;
     }
     
@@ -43,13 +45,17 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('❌ Token inválido, redirigiendo a login...');
             localStorage.removeItem('token');
             localStorage.removeItem('userData');
-            window.location.href = 'login.html';
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3000); // Esperar 3 segundos para ver logs
         }
     })
     .catch(error => {
         console.error('❌ Error en verificación:', error);
         localStorage.removeItem('token');
         localStorage.removeItem('userData');
-        window.location.href = 'login.html';
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 3000); // Esperar 3 segundos para ver logs
     });
 });
