@@ -43,17 +43,22 @@
                         </div>
                         
                         <div class="mb-3">
-                            <h5>4. Probar Endpoint /users/me</h5>
+                            <h5>4. Hacer Admin</h5>
+                            <button id="makeAdmin" class="btn btn-success">Hacer Admin</button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>5. Probar Endpoint /users/me</h5>
                             <button id="testMe" class="btn btn-secondary">Probar /users/me</button>
                         </div>
                         
                         <div class="mb-3">
-                            <h5>5. Logs de Debug</h5>
+                            <h5>6. Logs de Debug</h5>
                             <div id="debug-logs" class="bg-dark text-light p-3" style="height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px;"></div>
                         </div>
                         
                         <div class="mb-3">
-                            <h5>6. Acciones</h5>
+                            <h5>7. Acciones</h5>
                             <button id="clearStorage" class="btn btn-danger me-2">Limpiar localStorage</button>
                             <button id="goToLogin" class="btn btn-info me-2">Ir a Login</button>
                             <button id="goToMiCuenta" class="btn btn-success">Ir a Mi Cuenta</button>
@@ -132,6 +137,40 @@
                     updateTokenStatus();
                 } else {
                     log(`❌ Login falló: ${data.message}`);
+                }
+
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+
+        // Hacer Admin
+        document.getElementById('makeAdmin').addEventListener('click', async function() {
+            const email = document.getElementById('email').value;
+            
+            log(`👑 Intentando hacer admin a: ${email}`);
+            
+            try {
+                const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+                
+                const response = await fetch(`${apiUrl}/auth/make-admin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                log(`📊 Status: ${response.status}`);
+                
+                const data = await response.json();
+                log(`📋 Respuesta: ${JSON.stringify(data, null, 2)}`);
+
+                if (data.success) {
+                    log('✅ Usuario promovido a admin exitosamente');
+                    log(`👑 Nuevo rol: ${data.user.role}`);
+                } else {
+                    log(`❌ Error: ${data.message}`);
                 }
 
             } catch (error) {

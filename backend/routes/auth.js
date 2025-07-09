@@ -109,4 +109,49 @@ router.post('/test-jwt', async (req, res) => {
   }
 });
 
+// Ruta para hacer admin a un usuario (temporal, solo para desarrollo)
+router.post('/make-admin', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    // Verificar si existe el usuario
+    const existingUser = await query(
+      'SELECT id, email, name, role FROM users WHERE email = $1',
+      [email]
+    );
+    
+    if (existingUser.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Usuario no encontrado'
+      });
+    }
+    
+    const user = existingUser[0];
+    
+    // Actualizar rol a admin
+    await query(
+      'UPDATE users SET role = $1, updated_at = NOW() WHERE email = $2',
+      ['admin', email]
+    );
+    
+    res.json({
+      success: true,
+      message: 'Usuario promovido a administrador exitosamente',
+      user: {
+        name: user.name,
+        email: user.email,
+        role: 'admin'
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error promoviendo usuario a admin:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error interno del servidor'
+    });
+  }
+});
+
 module.exports = router;
