@@ -38,17 +38,22 @@
                         </div>
                         
                         <div class="mb-3">
-                            <h5>3. Probar Endpoint /users/me</h5>
+                            <h5>3. Probar JWT</h5>
+                            <button id="testJwt" class="btn btn-warning">Probar JWT</button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h5>4. Probar Endpoint /users/me</h5>
                             <button id="testMe" class="btn btn-secondary">Probar /users/me</button>
                         </div>
                         
                         <div class="mb-3">
-                            <h5>4. Logs de Debug</h5>
+                            <h5>5. Logs de Debug</h5>
                             <div id="debug-logs" class="bg-dark text-light p-3" style="height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px;"></div>
                         </div>
                         
                         <div class="mb-3">
-                            <h5>5. Acciones</h5>
+                            <h5>6. Acciones</h5>
                             <button id="clearStorage" class="btn btn-danger me-2">Limpiar localStorage</button>
                             <button id="goToLogin" class="btn btn-info me-2">Ir a Login</button>
                             <button id="goToMiCuenta" class="btn btn-success">Ir a Mi Cuenta</button>
@@ -126,6 +131,43 @@
                     updateTokenStatus();
                 } else {
                     log(`❌ Login falló: ${data.message}`);
+                }
+
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        });
+
+        // Probar JWT
+        document.getElementById('testJwt').addEventListener('click', async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            log(`🔐 Probando JWT con: ${email}`);
+            
+            try {
+                const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+                
+                const response = await fetch(`${apiUrl}/auth/test-jwt`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                log(`📊 Status: ${response.status}`);
+                
+                const data = await response.json();
+                log(`📋 Respuesta: ${JSON.stringify(data, null, 2)}`);
+
+                if (data.success) {
+                    log('✅ JWT funcionando correctamente');
+                    log(`🔑 Token generado: ${data.token.substring(0, 20)}...`);
+                    log(`📏 JWT_SECRET length: ${data.jwtSecretLength}`);
+                } else {
+                    log(`❌ JWT falló: ${data.message}`);
+                    if (data.error) log(`🔍 Error: ${data.error}`);
                 }
 
             } catch (error) {
