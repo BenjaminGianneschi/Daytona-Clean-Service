@@ -31,32 +31,6 @@ async function countAppointments(date, startTime, excludeId = null) {
   return parseInt(existingAppointments[0].count);
 }
 
-// Buscar cliente por teléfono
-async function findClientByPhone(phone) {
-  const existingClient = await query(
-    'SELECT id FROM clients WHERE phone = $1',
-    [phone]
-  );
-  return existingClient;
-}
-
-// Crear cliente
-async function createClient(name, phone, email) {
-  const clientResult = await query(
-    'INSERT INTO clients (name, phone, email) VALUES ($1, $2, $3) RETURNING id',
-    [name, phone, email || null]
-  );
-  return clientResult[0].id;
-}
-
-// Actualizar cliente
-async function updateClient(name, email, clientId) {
-  await query(
-    'UPDATE clients SET name = $1, email = $2 WHERE id = $3',
-    [name, email || null, clientId]
-  );
-}
-
 // Crear turno
 async function createAppointment({ clientId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId }) {
   const appointmentResult = await query(
@@ -106,13 +80,10 @@ async function getAllAppointments() {
   const appointments = await query(`
     SELECT 
       a.*,
-      c.name as client_name,
-      c.phone as client_phone,
-      c.email as client_email,
       u.name as user_name,
+      u.phone as user_phone,
       u.email as user_email
     FROM appointments a
-    LEFT JOIN clients c ON a.client_id = c.id
     LEFT JOIN users u ON a.user_id = u.id
     ORDER BY a.appointment_date DESC, a.start_time DESC
   `);
@@ -142,13 +113,10 @@ async function getAppointmentById(id) {
   const appointments = await query(`
     SELECT 
       a.*,
-      c.name as client_name,
-      c.phone as client_phone,
-      c.email as client_email,
       u.name as user_name,
+      u.phone as user_phone,
       u.email as user_email
     FROM appointments a
-    LEFT JOIN clients c ON a.client_id = c.id
     LEFT JOIN users u ON a.user_id = u.id
     WHERE a.id = $1
   `, [id]);
@@ -192,11 +160,11 @@ async function getUserAppointments(userId) {
   const appointments = await query(`
     SELECT 
       a.*,
-      c.name as client_name,
-      c.phone as client_phone,
-      c.email as client_email
+      u.name as user_name,
+      u.phone as user_phone,
+      u.email as user_email
     FROM appointments a
-    LEFT JOIN clients c ON a.client_id = c.id
+    LEFT JOIN users u ON a.user_id = u.id
     WHERE a.user_id = $1
     ORDER BY a.appointment_date DESC, a.start_time DESC
   `, [userId]);
@@ -235,9 +203,6 @@ async function updateUserAppointment(id, updateData) {
 module.exports = {
   getAvailabilityByDate,
   countAppointments,
-  findClientByPhone,
-  createClient,
-  updateClient,
   createAppointment,
   getAllAppointments,
   getAppointmentById,

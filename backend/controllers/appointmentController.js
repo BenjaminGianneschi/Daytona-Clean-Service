@@ -54,8 +54,8 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { clientName, clientPhone, clientEmail, appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId } = req.body;
-    if (!clientName || !clientPhone || !appointmentDate || !startTime || !services || !totalAmount) {
+    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation } = req.body;
+    if (!appointmentDate || !startTime || !services || !totalAmount) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
     // Verificar disponibilidad del horario
@@ -63,14 +63,10 @@ const createAppointment = async (req, res) => {
     if (count > 0) {
       return res.status(409).json({ success: false, message: 'El horario seleccionado no está disponible' });
     }
-    // Crear o buscar cliente
-    let clientId;
-    const existingClient = await appointmentModel.findClientByPhone(clientPhone);
-    if (existingClient.length > 0) {
-      clientId = existingClient[0].id;
-      await appointmentModel.updateClient(clientName, clientEmail, clientId);
-    } else {
-      clientId = await appointmentModel.createClient(clientName, clientPhone, clientEmail);
+    // Usar req.user para obtener el usuario autenticado y asociar el turno a ese user_id
+    const userId = req.user ? req.user.id : null;
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Usuario no autenticado' });
     }
     // Calcular hora de fin basada en la duración total de los servicios
     const totalDuration = services.reduce((total, service) => total + (service.duration || 120) * service.quantity, 0);
@@ -78,8 +74,7 @@ const createAppointment = async (req, res) => {
     const endMoment = startMoment.clone().add(totalDuration, 'minutes');
     const endTime = endMoment.format('HH:mm:ss');
     // Crear el turno - usar userId del body si está disponible, o del req.user si viene de una ruta autenticada
-    const finalUserId = userId || (req.user ? req.user.id : null);
-    const appointmentId = await appointmentModel.createAppointment({ clientId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId: finalUserId });
+    const appointmentId = await appointmentModel.createAppointment({ clientId: userId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId });
     // (Opcional) Enviar WhatsApp de confirmación
     // await whatsappService.sendConfirmation(clientPhone, appointmentDate, startTime);
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
