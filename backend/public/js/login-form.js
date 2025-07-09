@@ -75,6 +75,7 @@ window.handleLogin = async function() {
         if (response.ok) {
             // Guardar token en localStorage
             if (data.token) {
+                console.log('💾 Guardando token en localStorage:', data.token.substring(0, 20) + '...');
                 localStorage.setItem('token', data.token); // <-- CLAVE ESTÁNDAR
                 localStorage.setItem('userData', JSON.stringify({
                     id: data.user.id,
@@ -83,9 +84,13 @@ window.handleLogin = async function() {
                     phone: data.user.phone,
                     role: data.user.role
                 }));
+                console.log('✅ Token guardado correctamente');
+            } else {
+                console.error('❌ No se recibió token en la respuesta');
             }
             showAlert('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
             setTimeout(() => {
+                console.log('🔄 Redirigiendo a mi-cuenta.html...');
                 window.location.href = 'mi-cuenta.html';
             }, 1000);
         } else {
