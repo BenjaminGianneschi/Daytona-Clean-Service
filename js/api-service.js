@@ -2,7 +2,7 @@
 class ApiService {
   constructor() {
     // Usar la configuración centralizada
-    this.baseURL = window.getApiUrl ? window.getApiUrl() : 'https://daytona-backend.onrender.com/api';
+    this.baseURL = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
     this.token = localStorage.getItem('adminToken');
   }
 
