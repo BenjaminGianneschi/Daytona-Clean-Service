@@ -106,26 +106,16 @@ app.get('/api/test-cors', (req, res) => {
   });
 });
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'API de Daytona Clean Service - Sistema de Turnos',
-    version: '1.0.0',
-    timestamp: new Date().toISOString()
-  });
-});
-
 // -------------------
-// ARCHIVOS ESTÁTICOS Y CATCH-ALL
+// ARCHIVOS ESTÁTICOS
 // -------------------
 
 // Servir archivos estáticos después de las rutas de la API
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware para manejar rutas no encontradas (debe ir DESPUÉS de las rutas de la API y archivos estáticos)
-app.use('*', (req, res) => {
-  // Si la ruta comienza con /api, devolver JSON
+// Ruta para servir el index.html para rutas del frontend
+app.get('*', (req, res) => {
+  // Si la ruta comienza con /api, devolver 404 JSON
   if (req.path.startsWith('/api')) {
     return res.status(404).json({
       success: false,
