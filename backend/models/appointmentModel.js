@@ -18,9 +18,9 @@ async function getAvailabilityByDate(date) {
 }
 
 // Verificar si hay turnos existentes en un horario
-async function countAppointments(date, startTime, excludeId = null) {
-  let sql = 'SELECT COUNT(*) as count FROM appointments WHERE appointment_date = $1 AND start_time = $2 AND status IN ($3, $4)';
-  let params = [date, startTime, 'pending', 'confirmed'];
+async function countAppointments(date, appointmentTime, excludeId = null) {
+  let sql = 'SELECT COUNT(*) as count FROM appointments WHERE appointment_date = $1 AND appointment_time = $2 AND status IN ($3, $4)';
+  let params = [date, appointmentTime, 'pending', 'confirmed'];
   
   if (excludeId) {
     sql += ' AND id != $5';
@@ -32,10 +32,10 @@ async function countAppointments(date, startTime, excludeId = null) {
 }
 
 // Crear turno
-async function createAppointment({ clientId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId }) {
+async function createAppointment({ clientId, appointmentDate, appointmentTime, services, totalAmount, notes, serviceLocation, userId }) {
   const appointmentResult = await query(
-    'INSERT INTO appointments (client_id, appointment_date, start_time, end_time, total_amount, notes, service_location, user_id, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-    [clientId, appointmentDate, startTime, endTime, totalAmount, notes || null, serviceLocation || null, userId, 'pending']
+    'INSERT INTO appointments (client_id, appointment_date, appointment_time, total_price, notes, service_location, user_id, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+    [clientId, appointmentDate, appointmentTime, totalAmount, notes || null, serviceLocation || null, userId, 'pending']
   );
   const appointmentId = appointmentResult[0].id;
   
@@ -85,7 +85,7 @@ async function getAllAppointments() {
       u.email as user_email
     FROM appointments a
     LEFT JOIN users u ON a.user_id = u.id
-    ORDER BY a.appointment_date DESC, a.start_time DESC
+    ORDER BY a.appointment_date DESC, a.appointment_time DESC
   `);
   
   // Para cada turno, obtener los servicios asociados
@@ -166,7 +166,7 @@ async function getUserAppointments(userId) {
     FROM appointments a
     LEFT JOIN users u ON a.user_id = u.id
     WHERE a.user_id = $1
-    ORDER BY a.appointment_date DESC, a.start_time DESC
+    ORDER BY a.appointment_date DESC, a.appointment_time DESC
   `, [userId]);
   
   // Para cada turno, obtener los servicios asociados
@@ -191,13 +191,13 @@ async function getUserAppointments(userId) {
 
 // Actualizar turno del usuario
 async function updateUserAppointment(id, updateData) {
-  const { appointment_date, start_time, service_location, notes } = updateData;
+  const { appointment_date, appointment_time, service_location, notes } = updateData;
   
   await query(`
     UPDATE appointments 
-    SET appointment_date = $1, start_time = $2, service_location = $3, notes = $4, updated_at = NOW()
+    SET appointment_date = $1, appointment_time = $2, service_location = $3, notes = $4, updated_at = NOW()
     WHERE id = $5
-  `, [appointment_date, start_time, service_location || null, notes || null, id]);
+  `, [appointment_date, appointment_time, service_location || null, notes || null, id]);
 }
 
 module.exports = {
