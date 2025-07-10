@@ -1484,8 +1484,8 @@
               <td>
                 <div>
                   <strong>${appointment.client_name || 'N/A'}</strong><br>
-                  <small class="text-muted">${appointment.client_phone || 'N/A'}</small><br>
-                  <small class="text-muted">${appointment.client_email || ''}</small>
+                  <small style="color: #fff;">${appointment.client_phone || 'N/A'}</small><br>
+                  <small style="color: #fff;">${appointment.client_email || ''}</small>
                 </div>
               </td>
               <td>${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</td>
@@ -1586,7 +1586,35 @@
             }).join('<br>')
           : appointment.service_type || 'No especificado';
 
-        const direccion = appointment.service_location || appointment.address || (appointment.notes && appointment.notes.includes('Retiro:') ? appointment.notes : appointment.notes || 'A confirmar');
+        // Lógica para mostrar dirección/retira/entrega
+        let direccion = 'A confirmar';
+        if (appointment.service_location) {
+          direccion = appointment.service_location;
+        } else if (appointment.address) {
+          direccion = appointment.address;
+        } else if (appointment.notes && appointment.notes.includes('Retiro:')) {
+          direccion = appointment.notes;
+        } else if (appointment.notes && appointment.notes.length > 0) {
+          direccion = appointment.notes;
+        }
+
+        // Mostrar dirección de forma clara
+        let direccionHtml = '';
+        if (appointment.service_location && appointment.service_location !== 'A confirmar') {
+          direccionHtml = `<div><strong style='color:#fff;'>Dirección de servicio:</strong> <span style='color:#fff;'>${appointment.service_location}</span></div>`;
+        } else if (appointment.notes && appointment.notes.includes('Retiro:') && appointment.notes.includes('Entrega:')) {
+          const match = appointment.notes.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
+          if (match) {
+            direccionHtml = `<div><strong style='color:#fff;'>Dirección de retiro:</strong> <span style='color:#fff;'>${match[1].trim()}</span></div><div><strong style='color:#fff;'>Dirección de entrega:</strong> <span style='color:#fff;'>${match[2].trim()}</span></div>`;
+          } else {
+            direccionHtml = `<div><strong style='color:#fff;'>Dirección:</strong> <span style='color:#fff;'>${appointment.notes}</span></div>`;
+          }
+        } else if (appointment.notes && appointment.notes.toLowerCase().includes('lleva el vehiculo')) {
+          direccionHtml = `<div><strong style='color:#fff;'>Logística:</strong> <span style='color:#fff;'>El cliente lleva el vehículo</span></div>`;
+        } else if (appointment.service_location === 'A confirmar' || !appointment.service_location) {
+          direccionHtml = `<div><strong style='color:#fff;'>Dirección:</strong> <span style='color:#fff;'>A confirmar</span></div>`;
+        }
+
         const total = appointment.total_amount || appointment.totalAmount || appointment.total_price
           ? `$${parseInt(appointment.total_amount || appointment.totalAmount || appointment.total_price).toLocaleString('es-AR')}`
           : 'A confirmar';
@@ -1594,13 +1622,13 @@
         const html = `
           <div class="mb-2"><strong>ID:</strong> #${appointment.id}</div>
           <div class="mb-2"><strong>Cliente:</strong> ${appointment.client_name || 'N/A'}<br>
-            <small class="text-muted">${appointment.client_phone || 'N/A'}</small><br>
-            <small class="text-muted">${appointment.client_email || ''}</small>
+            <small style="color: #fff;">${appointment.client_phone || 'N/A'}</small><br>
+            <small style="color: #fff;">${appointment.client_email || ''}</small>
           </div>
           <div class="mb-2"><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</div>
           <div class="mb-2"><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</div>
           <div class="mb-2"><strong>Servicios:</strong><br>${servicesInfo}</div>
-          <div class="mb-2"><strong>Dirección:</strong> ${direccion}</div>
+          ${direccionHtml}
           <div class="mb-2"><strong>Total:</strong> ${total}</div>
           <div class="mb-2"><strong>Estado:</strong> <span class="badge bg-${getStatusBadge(appointment.status)}">${getStatusText(appointment.status)}</span></div>
         `;
