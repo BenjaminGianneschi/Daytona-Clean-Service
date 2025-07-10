@@ -1139,21 +1139,56 @@
         document.getElementById('editAppointmentNotes').value = appointment.notes || '';
         
         // Mostrar información del turno actual
-        const servicesInfo = appointment.services && appointment.services.length > 0 
-          ? appointment.services.map(s => `${s.service_name} x${s.quantity}`).join(', ')
-          : 'No especificado';
-        
+        // --- Servicios ---
+        let serviciosInfo = '';
+        if (appointment.services && appointment.services.length > 0) {
+          serviciosInfo = appointment.services.map(s => {
+            const nombreServicio = s.nombre || s.name || s.service_name || '';
+            const cantidad = s.cantidad || s.quantity || 1;
+            if (!nombreServicio) return '';
+            return `${nombreServicio}${cantidad > 1 ? ' x'+cantidad : ''}`;
+          }).filter(Boolean).join(', ');
+        } else {
+          serviciosInfo = appointment.service_type || 'No especificado';
+        }
+
+        // --- Dirección / Logística ---
+        let direccionHtml = '';
+        const dir = appointment.serviceLocation || appointment.service_location || appointment.address || '';
+        if (dir.toLowerCase().includes('lleva el vehículo')) {
+          direccionHtml = '<strong>Logística:</strong> El cliente lleva el vehículo';
+        } else if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
+          const match = dir.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
+          if (match) {
+            direccionHtml = `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
+          } else {
+            direccionHtml = `<strong>Dirección:</strong> ${dir}`;
+          }
+        } else if (dir) {
+          direccionHtml = `<strong>Dirección:</strong> ${dir}`;
+        } else {
+          direccionHtml = '<span style="color: red;">¡Error! Dirección no especificada</span>';
+        }
+
+        // --- Total y hora ---
+        let total = 'A confirmar';
+        if (appointment.totalAmount || appointment.total_amount || appointment.total_price) {
+          const t = appointment.totalAmount || appointment.total_amount || appointment.total_price;
+          total = `$${parseInt(t).toLocaleString('es-AR')}`;
+        }
+        const hora = appointment.appointment_time || appointment.start_time || 'No especificada';
+
         document.getElementById('editAppointmentInfo').innerHTML = `
           <div class="row">
             <div class="col-md-6">
-              <strong>Servicios:</strong> ${servicesInfo}<br>
-              <strong>Total:</strong> $${parseInt(appointment.total_amount || 0).toLocaleString('es-AR')}<br>
+              <strong>Servicios:</strong> ${serviciosInfo}<br>
+              <strong>Total:</strong> ${total}<br>
               <strong>Estado:</strong> <span class="badge bg-${getStatusBadge(appointment.status)}">${getStatusText(appointment.status)}</span>
             </div>
             <div class="col-md-6">
               <strong>Fecha actual:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}<br>
-              <strong>Hora actual:</strong> ${appointment.start_time || 'No especificada'}<br>
-              <strong>Dirección:</strong> ${appointment.service_location || 'A confirmar'}
+              <strong>Hora actual:</strong> ${hora}<br>
+              ${direccionHtml}
             </div>
           </div>
         `;
