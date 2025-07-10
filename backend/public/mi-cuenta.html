@@ -901,20 +901,37 @@
           // Formatear servicios si existen
           let serviciosInfo = '';
           if (appointment.services && appointment.services.length > 0) {
-            serviciosInfo = appointment.services.map(s => 
-              `${s.service_name} x${s.quantity}`
-            ).join(', ');
+            serviciosInfo = appointment.services.map(s => {
+              const nombreServicio = s.nombre || s.name || s.service_name || 'Sin nombre';
+              const cantidad = s.cantidad || s.quantity || 1;
+              const precio = s.precio || s.price || '';
+              return `${nombreServicio} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
+            }).join(', ');
           } else {
             serviciosInfo = appointment.service_type || 'No especificado';
           }
 
-          // Formatear dirección
-          const direccion = appointment.address || 'A confirmar';
-          
+          // Formatear dirección (buscar en notes, serviceLocation o address)
+          let direccion = 'A confirmar';
+          if (appointment.service_location) {
+            direccion = appointment.service_location;
+          } else if (appointment.address) {
+            direccion = appointment.address;
+          } else if (appointment.notes && appointment.notes.includes('Retiro:')) {
+            direccion = appointment.notes;
+          } else if (appointment.notes && appointment.notes.length > 0) {
+            direccion = appointment.notes;
+          }
+
           // Formatear total
-          const total = appointment.total_amount ? 
-            `$${parseInt(appointment.total_amount).toLocaleString('es-AR')}` : 
-            'A confirmar';
+          let total = 'A confirmar';
+          if (appointment.totalAmount || appointment.total_amount || appointment.total_price) {
+            const t = appointment.totalAmount || appointment.total_amount || appointment.total_price;
+            total = `$${parseInt(t).toLocaleString('es-AR')}`;
+          } else if (appointment.services && appointment.services.length > 0) {
+            const suma = appointment.services.reduce((acc, s) => acc + (parseInt(s.precio || s.price || 0) * (parseInt(s.cantidad || s.quantity || 1))), 0);
+            if (suma > 0) total = `$${suma.toLocaleString('es-AR')}`;
+          }
 
                     return `
           <div class="appointment-card mb-3">
@@ -997,20 +1014,37 @@
           // Formatear servicios si existen
           let serviciosInfo = '';
           if (appointment.services && appointment.services.length > 0) {
-            serviciosInfo = appointment.services.map(s => 
-              `${s.service_name} x${s.quantity}`
-            ).join(', ');
+            serviciosInfo = appointment.services.map(s => {
+              const nombreServicio = s.nombre || s.name || s.service_name || 'Sin nombre';
+              const cantidad = s.cantidad || s.quantity || 1;
+              const precio = s.precio || s.price || '';
+              return `${nombreServicio} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
+            }).join(', ');
           } else {
             serviciosInfo = appointment.service_type || 'No especificado';
           }
 
-          // Formatear dirección
-          const direccion = appointment.address || 'A confirmar';
-          
+          // Formatear dirección (buscar en notes, serviceLocation o address)
+          let direccion = 'A confirmar';
+          if (appointment.service_location) {
+            direccion = appointment.service_location;
+          } else if (appointment.address) {
+            direccion = appointment.address;
+          } else if (appointment.notes && appointment.notes.includes('Retiro:')) {
+            direccion = appointment.notes;
+          } else if (appointment.notes && appointment.notes.length > 0) {
+            direccion = appointment.notes;
+          }
+
           // Formatear total
-          const total = appointment.total_amount ? 
-            `$${parseInt(appointment.total_amount).toLocaleString('es-AR')}` : 
-            'A confirmar';
+          let total = 'A confirmar';
+          if (appointment.totalAmount || appointment.total_amount || appointment.total_price) {
+            const t = appointment.totalAmount || appointment.total_amount || appointment.total_price;
+            total = `$${parseInt(t).toLocaleString('es-AR')}`;
+          } else if (appointment.services && appointment.services.length > 0) {
+            const suma = appointment.services.reduce((acc, s) => acc + (parseInt(s.precio || s.price || 0) * (parseInt(s.cantidad || s.quantity || 1))), 0);
+            if (suma > 0) total = `$${suma.toLocaleString('es-AR')}`;
+          }
 
           return `
             <div class="appointment-card mb-3 border-success">
