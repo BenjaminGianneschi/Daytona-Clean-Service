@@ -16,7 +16,7 @@ const { authenticateUserToken, requireAdmin } = require('../middleware/auth');
 
 // Rutas públicas (para clientes)
 router.get('/availability/:date', getAvailability);
-router.post('/', authenticateUserToken, createAppointment); // Ahora requiere autenticación
+router.post('/', createAppointment); // Permitir crear turno sin autenticación
 
 // Rutas para usuarios logueados
 router.get('/user/appointments', authenticateUserToken, getUserAppointments);

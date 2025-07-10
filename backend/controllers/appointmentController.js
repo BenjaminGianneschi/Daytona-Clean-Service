@@ -54,7 +54,7 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation } = req.body;
+    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId } = req.body;
     if (!appointmentDate || !startTime || !services || !totalAmount) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
@@ -63,20 +63,14 @@ const createAppointment = async (req, res) => {
     if (count > 0) {
       return res.status(409).json({ success: false, message: 'El horario seleccionado no está disponible' });
     }
-    // Usar req.user para obtener el usuario autenticado y asociar el turno a ese user_id
-    const userId = req.user ? req.user.id : null;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: 'Usuario no autenticado' });
-    }
+    // Si el frontend envía userId, se asocia el turno a ese usuario; si no, se guarda sin userId
     // Calcular hora de fin basada en la duración total de los servicios
     const totalDuration = services.reduce((total, service) => total + (service.duration || 120) * service.quantity, 0);
     const startMoment = moment(`${appointmentDate} ${startTime}`, 'YYYY-MM-DD HH:mm');
     const endMoment = startMoment.clone().add(totalDuration, 'minutes');
     const endTime = endMoment.format('HH:mm:ss');
-    // Crear el turno - usar userId del body si está disponible, o del req.user si viene de una ruta autenticada
-    const appointmentId = await appointmentModel.createAppointment({ clientId: userId, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId });
-    // (Opcional) Enviar WhatsApp de confirmación
-    // await whatsappService.sendConfirmation(clientPhone, appointmentDate, startTime);
+    // Crear el turno
+    const appointmentId = await appointmentModel.createAppointment({ clientId: userId || null, appointmentDate, startTime, endTime, services, totalAmount, notes, serviceLocation, userId: userId || null });
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
     console.error('Error creando turno:', error);
