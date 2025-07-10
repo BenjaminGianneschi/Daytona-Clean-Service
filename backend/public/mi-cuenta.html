@@ -923,10 +923,21 @@
 
           // Formatear dirección (lógica cuidadosa según tipo de servicio)
           let direccion = 'A confirmar';
+          
+          // Función para extraer dirección de notes si existe
+          const extraerDireccionDeNotes = (notes) => {
+            if (!notes) return null;
+            if (notes.includes('Ubicación:')) {
+              return notes.split('Ubicación:')[1].trim();
+            }
+            return null;
+          };
+          
           // Si hay servicios, analizamos el tipo
           if (appointment.services && appointment.services.length > 0) {
             const esTapizado = appointment.services.some(s => (s.tipo || s.type || '').toLowerCase().includes('tapizado') || (s.nombre || s.name || '').toLowerCase().includes('tapizado'));
             const esVehiculo = appointment.services.some(s => (s.tipo || s.type || '').toLowerCase().includes('vehiculo') || (s.nombre || s.name || '').toLowerCase().includes('vehiculo'));
+            
             if (esTapizado) {
               // Tapizados: siempre a domicilio
               if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
@@ -934,7 +945,12 @@
               } else if (appointment.address) {
                 direccion = appointment.address;
               } else {
-                direccion = 'A domicilio (sin dirección especificada)';
+                const direccionEnNotes = extraerDireccionDeNotes(appointment.notes);
+                if (direccionEnNotes) {
+                  direccion = direccionEnNotes;
+                } else {
+                  direccion = 'A domicilio (sin dirección especificada)';
+                }
               }
             } else if (esVehiculo) {
               // Vehículos: puede ser retiro/entrega o lo trae el cliente
@@ -945,15 +961,20 @@
               } else if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
                 direccion = appointment.serviceLocation;
               } else {
-                direccion = 'A coordinar';
+                const direccionEnNotes = extraerDireccionDeNotes(appointment.notes);
+                if (direccionEnNotes) {
+                  direccion = direccionEnNotes;
+                } else {
+                  direccion = 'A coordinar';
+                }
               }
             } else {
               // Otros servicios
-              direccion = appointment.serviceLocation || appointment.address || 'A confirmar';
+              direccion = appointment.serviceLocation || appointment.address || extraerDireccionDeNotes(appointment.notes) || 'A confirmar';
             }
           } else {
             // Fallback si no hay servicios cargados
-            direccion = appointment.serviceLocation || appointment.address || 'A confirmar';
+            direccion = appointment.serviceLocation || appointment.address || extraerDireccionDeNotes(appointment.notes) || 'A confirmar';
           }
 
           // Formatear total
