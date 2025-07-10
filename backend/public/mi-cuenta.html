@@ -1973,7 +1973,7 @@
     function mostrarDireccionAdmin(direccion) {
       if (!direccion || direccion === 'A confirmar') return 'A confirmar';
       if (direccion.toLowerCase().includes('lleva el vehículo')) {
-        return 'El cliente lleva el vehículo';
+        return '<strong>Logística:</strong> El cliente lleva el vehículo';
       }
       if (direccion.includes('Retiro:') && direccion.includes('Entrega:')) {
         const match = direccion.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
@@ -1981,7 +1981,8 @@
           return `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
         }
       }
-      return direccion;
+      // Por defecto, para tapizados u otros servicios
+      return `<strong>Dirección:</strong> ${direccion}`;
     }
   </script>
 </body>
