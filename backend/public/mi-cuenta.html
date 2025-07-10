@@ -919,8 +919,8 @@
             const esVehiculo = appointment.services.some(s => (s.tipo || s.type || '').toLowerCase().includes('vehiculo') || (s.nombre || s.name || '').toLowerCase().includes('vehiculo'));
             if (esTapizado) {
               // Tapizados: siempre a domicilio
-              if (appointment.service_location && appointment.service_location !== 'A confirmar') {
-                direccion = appointment.service_location;
+              if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
+                direccion = appointment.serviceLocation;
               } else if (appointment.address) {
                 direccion = appointment.address;
               } else {
@@ -928,22 +928,22 @@
               }
             } else if (esVehiculo) {
               // Vehículos: puede ser retiro/entrega o lo trae el cliente
-              if (appointment.service_location && appointment.service_location.includes('Retiro:') && appointment.service_location.includes('Entrega:')) {
-                direccion = appointment.service_location;
-              } else if (appointment.service_location && appointment.service_location.toLowerCase().includes('lleva el vehiculo')) {
+              if (appointment.serviceLocation && appointment.serviceLocation.includes('Retiro:') && appointment.serviceLocation.includes('Entrega:')) {
+                direccion = appointment.serviceLocation;
+              } else if (appointment.serviceLocation && appointment.serviceLocation.toLowerCase().includes('lleva el vehiculo')) {
                 direccion = 'El cliente lleva el vehículo';
-              } else if (appointment.service_location && appointment.service_location !== 'A confirmar') {
-                direccion = appointment.service_location;
+              } else if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
+                direccion = appointment.serviceLocation;
               } else {
                 direccion = 'A coordinar';
               }
             } else {
               // Otros servicios
-              direccion = appointment.service_location || appointment.address || 'A confirmar';
+              direccion = appointment.serviceLocation || appointment.address || 'A confirmar';
             }
           } else {
             // Fallback si no hay servicios cargados
-            direccion = appointment.service_location || appointment.address || 'A confirmar';
+            direccion = appointment.serviceLocation || appointment.address || 'A confirmar';
           }
 
           // Formatear total
@@ -1049,8 +1049,8 @@
 
           // Formatear dirección (buscar en notes, serviceLocation o address)
           let direccion = 'A confirmar';
-          if (appointment.service_location) {
-            direccion = appointment.service_location;
+          if (appointment.serviceLocation) {
+            direccion = appointment.serviceLocation;
           } else if (appointment.address) {
             direccion = appointment.address;
           } else if (appointment.notes && appointment.notes.includes('Retiro:')) {
