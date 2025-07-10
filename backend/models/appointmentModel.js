@@ -32,15 +32,15 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
 }
 
 // Crear turno
-async function createAppointment({ clientId, appointmentDate, appointmentTime, services, totalAmount, notes, serviceLocation, userId }) {
+async function createAppointment({ clientId, appointmentDate, appointmentTime, services, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail }) {
   // Para la estructura actual, vamos a guardar el primer servicio como service_type
   // y los detalles en notes
   const serviceType = services && services.length > 0 ? services[0].name : 'Servicio General';
   const serviceDetails = services ? JSON.stringify(services) : null;
   
   const appointmentResult = await query(
-    'INSERT INTO appointments (user_id, service_type, appointment_date, appointment_time, total_price, notes, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-    [userId, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, 'pending']
+    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, 'pending']
   );
   
   return appointmentResult[0].id;

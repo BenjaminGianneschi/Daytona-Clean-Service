@@ -2709,7 +2709,7 @@
     
         // Preparar datos del turno
         const datosTurno = {
-          clientName: `${nombre} ${apellido}`,
+          clientName: `${nombre} ${apellido}`.trim(),
           clientPhone: telefono,
           clientEmail: email,
           status: 'pending',

@@ -1289,15 +1289,19 @@
       };
 
       // Función para mostrar alertas
-      function showAlert(message, type) {
+      function showAlert(message, type, duration = 5000, isHtml = false) {
         const alertContainer = document.getElementById('alert-container');
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-        alertDiv.innerHTML = `
-          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'} me-2"></i>
-          ${message}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
+        if (isHtml) {
+          alertDiv.innerHTML = message;
+        } else {
+          alertDiv.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'} me-2"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          `;
+        }
         alertContainer.appendChild(alertDiv);
         
         // Auto-remover después de 5 segundos
@@ -1305,7 +1309,7 @@
           if (alertDiv.parentNode) {
             alertDiv.remove();
           }
-        }, 5000);
+        }, duration);
       }
       
       // Función para refrescar la lista de turnos
@@ -1435,6 +1439,7 @@
         .then(res => res.json())
         .then(data => {
           if (data.success && data.appointments) {
+            window.lastAdminAppointments = data.appointments; // Guardar para usar en el modal
             displayAdminAppointments(data.appointments);
           } else {
             document.getElementById('adminAppointmentsTableBody').innerHTML = 
@@ -1458,13 +1463,20 @@
         }
 
         tbody.innerHTML = appointments.map(appointment => {
+          // Mostrar detalles de servicios
           const servicesInfo = appointment.services && appointment.services.length > 0 
-            ? appointment.services.map(s => `${s.service_name} x${s.quantity}`).join(', ')
+            ? appointment.services.map(s => {
+                const nombre = s.nombre || s.name || s.service_name || 'Sin nombre';
+                const tipo = s.tipo || s.type || '';
+                const cantidad = s.cantidad || s.quantity || 1;
+                const precio = s.precio || s.price || '';
+                return `${nombre}${tipo ? ' ('+tipo+')' : ''} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
+              }).join('<br>')
             : appointment.service_type || 'No especificado';
 
-          const total = appointment.total_amount ? 
-            `$${parseInt(appointment.total_amount).toLocaleString()}` : 
-            'A confirmar';
+          const total = appointment.total_amount || appointment.totalAmount || appointment.total_price
+            ? `$${parseInt(appointment.total_amount || appointment.totalAmount || appointment.total_price).toLocaleString('es-AR')}`
+            : 'A confirmar';
 
           return `
             <tr>
@@ -1472,11 +1484,12 @@
               <td>
                 <div>
                   <strong>${appointment.client_name || 'N/A'}</strong><br>
-                  <small class="text-muted">${appointment.client_phone || 'N/A'}</small>
+                  <small class="text-muted">${appointment.client_phone || 'N/A'}</small><br>
+                  <small class="text-muted">${appointment.client_email || ''}</small>
                 </div>
               </td>
               <td>${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</td>
-              <td>${appointment.start_time || 'N/A'}</td>
+              <td>${appointment.start_time || appointment.appointment_time || 'N/A'}</td>
               <td>${servicesInfo}</td>
               <td>${total}</td>
               <td>
@@ -1558,8 +1571,40 @@
 
       // Ver detalles de turno (admin)
       window.viewAdminAppointment = function(appointmentId) {
-        // Implementar modal de detalles
-        showAlert('Función de ver detalles en desarrollo', 'info');
+        const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+        if (!appointment) {
+          showAlert('No se encontró el turno', 'danger');
+          return;
+        }
+        const servicesInfo = appointment.services && appointment.services.length > 0 
+          ? appointment.services.map(s => {
+              const nombre = s.nombre || s.name || s.service_name || 'Sin nombre';
+              const tipo = s.tipo || s.type || '';
+              const cantidad = s.cantidad || s.quantity || 1;
+              const precio = s.precio || s.price || '';
+              return `${nombre}${tipo ? ' ('+tipo+')' : ''} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
+            }).join('<br>')
+          : appointment.service_type || 'No especificado';
+
+        const direccion = appointment.service_location || appointment.address || (appointment.notes && appointment.notes.includes('Retiro:') ? appointment.notes : appointment.notes || 'A confirmar');
+        const total = appointment.total_amount || appointment.totalAmount || appointment.total_price
+          ? `$${parseInt(appointment.total_amount || appointment.totalAmount || appointment.total_price).toLocaleString('es-AR')}`
+          : 'A confirmar';
+
+        const html = `
+          <div class="mb-2"><strong>ID:</strong> #${appointment.id}</div>
+          <div class="mb-2"><strong>Cliente:</strong> ${appointment.client_name || 'N/A'}<br>
+            <small class="text-muted">${appointment.client_phone || 'N/A'}</small><br>
+            <small class="text-muted">${appointment.client_email || ''}</small>
+          </div>
+          <div class="mb-2"><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</div>
+          <div class="mb-2"><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</div>
+          <div class="mb-2"><strong>Servicios:</strong><br>${servicesInfo}</div>
+          <div class="mb-2"><strong>Dirección:</strong> ${direccion}</div>
+          <div class="mb-2"><strong>Total:</strong> ${total}</div>
+          <div class="mb-2"><strong>Estado:</strong> <span class="badge bg-${getStatusBadge(appointment.status)}">${getStatusText(appointment.status)}</span></div>
+        `;
+        showAlert(html, 'info', 0, true);
       };
 
       // Confirmar turno (admin)

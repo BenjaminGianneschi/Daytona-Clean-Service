@@ -54,7 +54,7 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId } = req.body;
+    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
     if (!appointmentDate || !startTime || !services || !totalAmount) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
@@ -69,8 +69,11 @@ const createAppointment = async (req, res) => {
       appointmentTime: startTime, 
       services, 
       totalAmount, 
-      notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`, 
-      userId: userId || null 
+      notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`,
+      userId: userId || null,
+      clientName,
+      clientPhone,
+      clientEmail
     });
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
