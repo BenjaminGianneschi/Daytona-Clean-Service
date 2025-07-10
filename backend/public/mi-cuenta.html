@@ -827,11 +827,11 @@
             </div>
             <div class="detail-item">
               <i class="fas fa-envelope"></i>
-              <span><strong>Email:</strong> ${user.email}</span>
+              <span><strong>Mail:</strong> ${user.email}</span>
             </div>
             <div class="detail-item">
               <i class="fas fa-phone"></i>
-              <span><strong>Teléfono:</strong> ${user.phone}</span>
+              <span><strong>Celular:</strong> ${user.phone}</span>
             </div>
             ${isAdmin ? `
             <div class="detail-item admin-badge">
@@ -995,7 +995,7 @@
                   </div>
                   <div class="mb-2">
                     <strong><i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>Dirección:</strong> 
-                    <span style="color: #fff;">${direccion}</span>
+                    <span style="color: #fff;">${formatearDireccionTurno(direccion)}</span>
                   </div>
                   <div class="mb-2">
                     <strong><i class="fas fa-dollar-sign me-2" style="color: #00d4ff;"></i>Total:</strong> 
@@ -1108,7 +1108,7 @@
                   </div>
                   <div class="mb-2">
                     <strong><i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>Dirección:</strong> 
-                    <span style="color: #fff;">${direccion}</span>
+                    <span style="color: #fff;">${formatearDireccionTurno(direccion)}</span>
                   </div>
                   <div class="mb-2">
                     <strong><i class="fas fa-dollar-sign me-2" style="color: #00d4ff;"></i>Total:</strong> 
@@ -1926,11 +1926,11 @@
           </div>
           <div class="detail-item">
             <i class="fas fa-envelope"></i>
-            <span><strong>Email:</strong> ${user.email}</span>
+            <span><strong>Mail:</strong> ${user.email}</span>
           </div>
           <div class="detail-item">
             <i class="fas fa-phone"></i>
-            <span><strong>Teléfono:</strong> ${user.phone}</span>
+            <span><strong>Celular:</strong> ${user.phone}</span>
           </div>
           ${isAdmin ? `
           <div class="detail-item admin-badge">
@@ -1963,6 +1963,30 @@
         }, 150);
       }
     });
+
+    // Reemplazar la lógica de formateo de dirección en displayActiveAppointments y displayAdminAppointments:
+    // --- NUEVO BLOQUE ---
+    function formatearDireccionTurno(direccion) {
+      if (!direccion || direccion === 'A confirmar') return 'A confirmar';
+      if (direccion.toLowerCase().includes('lleva el vehículo')) {
+        return 'El cliente lleva el vehículo';
+      }
+      if (direccion.includes('Retiro:') && direccion.includes('Entrega:')) {
+        const match = direccion.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
+        if (match) {
+          return `<span><strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}</span>`;
+        }
+      }
+      return direccion;
+    }
+    // ...
+    // En displayActiveAppointments y displayHistoryAppointments, reemplazar:
+    // <span style="color: #fff;">${direccion}</span>
+    // por:
+    // <span style="color: #fff;">${formatearDireccionTurno(direccion)}</span>
+    // ...
+    // En displayAdminAppointments, hacer lo mismo en la columna de dirección si se muestra, y en los detalles del modal admin.
+    // ... existing code ...
   </script>
 </body>
 </html>
