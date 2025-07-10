@@ -902,69 +902,31 @@
           let serviciosInfo = '';
           if (appointment.services && appointment.services.length > 0) {
             serviciosInfo = appointment.services.map(s => {
-              const nombreServicio = s.nombre || s.name || s.service_name || 'Sin nombre';
+              const nombreServicio = s.nombre || s.name || s.service_name || '';
               const cantidad = s.cantidad || s.quantity || 1;
-              const precio = s.precio || s.price || '';
-              return `${nombreServicio} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
-            }).join(', ');
+              if (!nombreServicio) return '';
+              return `${nombreServicio}${cantidad > 1 ? ' x'+cantidad : ''}`;
+            }).filter(Boolean).join(', ');
           } else {
             serviciosInfo = appointment.service_type || 'No especificado';
           }
 
-          // Formatear dirección (lógica cuidadosa según tipo de servicio)
-          let direccion = 'A confirmar';
-          
-          // Función para extraer dirección de notes si existe
-          const extraerDireccionDeNotes = (notes) => {
-            if (!notes) return null;
-            if (notes.includes('Ubicación:')) {
-              return notes.split('Ubicación:')[1].trim();
-            }
-            return null;
-          };
-          
-          // Si hay servicios, analizamos el tipo
-          if (appointment.services && appointment.services.length > 0) {
-            const esTapizado = appointment.services.some(s => (s.tipo || s.type || '').toLowerCase().includes('tapizado') || (s.nombre || s.name || '').toLowerCase().includes('tapizado'));
-            const esVehiculo = appointment.services.some(s => (s.tipo || s.type || '').toLowerCase().includes('vehiculo') || (s.nombre || s.name || '').toLowerCase().includes('vehiculo'));
-            
-            if (esTapizado) {
-              // Tapizados: siempre a domicilio
-              if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
-                direccion = appointment.serviceLocation;
-              } else if (appointment.address) {
-                direccion = appointment.address;
-              } else {
-                const direccionEnNotes = extraerDireccionDeNotes(appointment.notes);
-                if (direccionEnNotes) {
-                  direccion = direccionEnNotes;
-                } else {
-                  direccion = 'A domicilio (sin dirección especificada)';
-                }
-              }
-            } else if (esVehiculo) {
-              // Vehículos: puede ser retiro/entrega o lo trae el cliente
-              if (appointment.serviceLocation && appointment.serviceLocation.includes('Retiro:') && appointment.serviceLocation.includes('Entrega:')) {
-                direccion = appointment.serviceLocation;
-              } else if (appointment.serviceLocation && appointment.serviceLocation.toLowerCase().includes('lleva el vehiculo')) {
-                direccion = 'El cliente lleva el vehículo';
-              } else if (appointment.serviceLocation && appointment.serviceLocation !== 'A confirmar') {
-                direccion = appointment.serviceLocation;
-              } else {
-                const direccionEnNotes = extraerDireccionDeNotes(appointment.notes);
-                if (direccionEnNotes) {
-                  direccion = direccionEnNotes;
-                } else {
-                  direccion = 'A coordinar';
-                }
-              }
+          // Formatear dirección/logística
+          let direccionHtml = '';
+          const dir = appointment.serviceLocation || appointment.service_location || appointment.address || '';
+          if (dir.toLowerCase().includes('lleva el vehículo')) {
+            direccionHtml = '<strong>Logística:</strong> El cliente lleva el vehículo';
+          } else if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
+            const match = dir.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
+            if (match) {
+              direccionHtml = `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
             } else {
-              // Otros servicios
-              direccion = appointment.serviceLocation || appointment.address || extraerDireccionDeNotes(appointment.notes) || 'A confirmar';
+              direccionHtml = `<strong>Dirección:</strong> ${dir}`;
             }
+          } else if (dir) {
+            direccionHtml = `<strong>Dirección:</strong> ${dir}`;
           } else {
-            // Fallback si no hay servicios cargados
-            direccion = appointment.serviceLocation || appointment.address || extraerDireccionDeNotes(appointment.notes) || 'A confirmar';
+            direccionHtml = '<span style="color: red;">¡Error! Dirección no especificada</span>';
           }
 
           // Formatear total
@@ -977,7 +939,7 @@
             if (suma > 0) total = `$${suma.toLocaleString('es-AR')}`;
           }
 
-                    return `
+          return `
           <div class="appointment-card mb-3">
               <div class="row">
                 <div class="col-md-8">
@@ -994,8 +956,7 @@
                     <span class="text-info">${serviciosInfo}</span>
                   </div>
                   <div class="mb-2">
-                    <strong><i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>Dirección:</strong> 
-                    <span style="color: #fff;">${direccion}</span>
+                    <i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>${direccionHtml}
                   </div>
                   <div class="mb-2">
                     <strong><i class="fas fa-dollar-sign me-2" style="color: #00d4ff;"></i>Total:</strong> 
