@@ -4164,6 +4164,33 @@
     ];
     inputsFecha.forEach(input => { if (input) input.setAttribute('min', minDate); });
 
+    // Lógica para deshabilitar horarios ocupados en vehículos y tapizados
+    async function actualizarHorariosDisponibles(fecha, selectId) {
+      const select = document.getElementById(selectId);
+      if (!select) return;
+      // Habilitar todos los horarios primero
+      Array.from(select.options).forEach(opt => { opt.disabled = false; });
+      if (!fecha) return;
+      try {
+        const disponibilidad = await obtenerDisponibilidad(fecha);
+        if (disponibilidad && Array.isArray(disponibilidad.ocupados)) {
+          disponibilidad.ocupados.forEach(horaOcupada => {
+            const opt = Array.from(select.options).find(o => o.value === horaOcupada);
+            if (opt) opt.disabled = true;
+          });
+        }
+      } catch (e) {
+        console.error('Error consultando disponibilidad:', e);
+      }
+    }
+    // Event listeners para fechas
+    document.getElementById('fecha-vehiculos')?.addEventListener('change', function() {
+      actualizarHorariosDisponibles(this.value, 'hora-vehiculos');
+    });
+    document.getElementById('fecha-tapizados')?.addEventListener('change', function() {
+      actualizarHorariosDisponibles(this.value, 'hora-tapizados');
+    });
+
 </script>
 </body>
 </html> 
