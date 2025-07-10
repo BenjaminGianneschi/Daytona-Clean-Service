@@ -2746,7 +2746,6 @@
 
           // Guardar turno de tapizados
           if (window.turnosSeparados.tapizados.servicios.length > 0) {
-            const detallesTapizados = window.turnosSeparados.tapizados.detalles;
             const turnoTapizados = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.tapizados.fecha,
@@ -2757,8 +2756,7 @@
                 quantity: s.cantidad,
                 price: s.precio
               })),
-              totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-              notes: detallesTapizados ? detallesTapizados : undefined
+              totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
             };
             turnosParaGuardar.push(turnoTapizados);
           }
@@ -3073,26 +3071,6 @@
       // Total general
       html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total General:</span> <span style='color:#fff;'>$${totalGeneral.toLocaleString('es-AR')}</span></div>`;
 
-      // Dirección y detalles/aclaración
-      if (categorias.hayVehiculos || categorias.hayTapizados) {
-        let direccion = '';
-        if (categorias.hayVehiculos && turnosSeparados.vehiculos.direccion) {
-          direccion = typeof turnosSeparados.vehiculos.direccion === 'object'
-            ? `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`
-            : turnosSeparados.vehiculos.direccion;
-        } else if (categorias.hayTapizados && turnosSeparados.tapizados.direccion) {
-          direccion = turnosSeparados.tapizados.direccion;
-        }
-        if (direccion) {
-          html += `<div style='margin-top:10px;'><strong>Dirección:</strong> <span style='color:#fff;'>${direccion}</span></div>`;
-        }
-        // Mostrar aclaración/detalles/notes si existe
-        const notes = (categorias.hayVehiculos && turnosSeparados.vehiculos.notes) ? turnosSeparados.vehiculos.notes : (categorias.hayTapizados && turnosSeparados.tapizados.detalles ? turnosSeparados.tapizados.detalles : '');
-        if (notes) {
-          html += `<div style='margin-top:10px;'><strong>Aclaración/Detalles:</strong> <span style='color:#fff;'>${notes}</span></div>`;
-        }
-      }
-      
       html += `</div></div>`;
 
       resumenTurno.innerHTML = html;

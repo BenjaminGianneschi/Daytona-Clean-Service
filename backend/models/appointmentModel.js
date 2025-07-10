@@ -36,21 +36,13 @@ async function createAppointment({ clientId, appointmentDate, appointmentTime, s
   // Para la estructura actual, vamos a guardar el primer servicio como service_type
   // y los detalles en notes
   const serviceType = services && services.length > 0 ? services[0].name : 'Servicio General';
-  let serviceDetails = services ? JSON.stringify(services) : null;
-
-  // Si notes ya tiene detalles, los concatenamos
-  let finalNotes = notes;
-  if (serviceLocation && notes && !notes.includes(serviceLocation)) {
-    finalNotes = `${notes}\nDirección: ${serviceLocation}`;
-  } else if (serviceLocation && !notes) {
-    finalNotes = `Dirección: ${serviceLocation}`;
-  }
-
+  const serviceDetails = services ? JSON.stringify(services) : null;
+  
   const appointmentResult = await query(
-    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, service_location, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
-    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, finalNotes || serviceDetails, serviceLocation || null, 'pending']
+    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, 'pending']
   );
-
+  
   return appointmentResult[0].id;
 }
 

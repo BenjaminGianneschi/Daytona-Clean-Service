@@ -48,12 +48,6 @@ class ApiService {
 
   // Crear nuevo turno
   async createAppointment(appointmentData) {
-    // Si appointmentData.detalles existe y appointmentData.notes no, usar detalles como notes
-    if (appointmentData.detalles && !appointmentData.notes) {
-      appointmentData.notes = appointmentData.detalles;
-    } else if (appointmentData.detalles && appointmentData.notes) {
-      appointmentData.notes = appointmentData.notes + '\n' + appointmentData.detalles;
-    }
     return this.request('/appointments', {
       method: 'POST',
       body: JSON.stringify(appointmentData)
