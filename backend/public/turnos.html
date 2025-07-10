@@ -4151,6 +4151,18 @@
       });
     }
 
+    // Restringir fechas pasadas en los inputs de fecha
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+    const minDate = `${yyyy}-${mm}-${dd}`;
+    const inputsFecha = [
+      document.getElementById('fecha-vehiculos'),
+      document.getElementById('fecha-tapizados'),
+      document.getElementById('fecha')
+    ];
+    inputsFecha.forEach(input => { if (input) input.setAttribute('min', minDate); });
 
 </script>
 </body>
