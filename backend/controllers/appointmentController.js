@@ -73,7 +73,8 @@ const createAppointment = async (req, res) => {
       userId: userId || null,
       clientName,
       clientPhone,
-      clientEmail
+      clientEmail,
+      serviceLocation // <--- Asegurarse de pasar este campo
     });
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
