@@ -33,46 +33,17 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
 
 // Crear turno
 async function createAppointment({ clientId, appointmentDate, appointmentTime, services, totalAmount, notes, serviceLocation, userId }) {
-  const appointmentResult = await query(
-    'INSERT INTO appointments (client_id, appointment_date, appointment_time, total_price, notes, service_location, user_id, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-    [clientId, appointmentDate, appointmentTime, totalAmount, notes || null, serviceLocation || null, userId, 'pending']
-  );
-  const appointmentId = appointmentResult[0].id;
+  // Para la estructura actual, vamos a guardar el primer servicio como service_type
+  // y los detalles en notes
+  const serviceType = services && services.length > 0 ? services[0].name : 'Servicio General';
+  const serviceDetails = services ? JSON.stringify(services) : null;
   
-  // Insertar servicios asociados al turno
-  for (const service of services) {
-    let serviceId;
-    
-    // Si el servicio tiene un id, usarlo directamente
-    if (service.id) {
-      serviceId = service.id;
-    } else if (service.name) {
-      // Buscar el servicio por nombre
-      const existingService = await query(
-        'SELECT id FROM services WHERE name = $1',
-        [service.name]
-      );
-      
-      if (existingService.length > 0) {
-        serviceId = existingService[0].id;
-      } else {
-        // Crear un nuevo servicio si no existe
-        const newService = await query(
-          'INSERT INTO services (name, price, duration) VALUES ($1, $2, $3) RETURNING id',
-          [service.name, service.price || 0, service.duration || 120]
-        );
-        serviceId = newService[0].id;
-      }
-    }
-    
-    if (serviceId) {
-      await query(
-        'INSERT INTO appointment_services (appointment_id, service_id, quantity, duration, price) VALUES ($1, $2, $3, $4, $5)',
-        [appointmentId, serviceId, service.quantity || 1, service.duration || 120, service.price || 0]
-      );
-    }
-  }
-  return appointmentId;
+  const appointmentResult = await query(
+    'INSERT INTO appointments (user_id, service_type, appointment_date, appointment_time, total_price, notes, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    [userId, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, 'pending']
+  );
+  
+  return appointmentResult[0].id;
 }
 
 // Obtener todos los turnos (admin)
@@ -88,21 +59,26 @@ async function getAllAppointments() {
     ORDER BY a.appointment_date DESC, a.appointment_time DESC
   `);
   
-  // Para cada turno, obtener los servicios asociados
+  // Para cada turno, parsear los servicios desde notes si existen
   for (let appointment of appointments) {
-    const services = await query(`
-      SELECT 
-        s.name as service_name,
-        s.price,
-        s.duration,
-        aps.quantity,
-        aps.price as service_price
-      FROM appointment_services aps
-      JOIN services s ON aps.service_id = s.id
-      WHERE aps.appointment_id = $1
-    `, [appointment.id]);
-    
-    appointment.services = services;
+    try {
+      if (appointment.notes && appointment.notes.startsWith('[')) {
+        appointment.services = JSON.parse(appointment.notes);
+      } else {
+        appointment.services = [{
+          name: appointment.service_type,
+          price: appointment.total_price,
+          quantity: 1
+        }];
+      }
+    } catch (error) {
+      console.error('Error parseando servicios del turno:', error);
+      appointment.services = [{
+        name: appointment.service_type,
+        price: appointment.total_price,
+        quantity: 1
+      }];
+    }
   }
   
   return appointments;
@@ -127,20 +103,25 @@ async function getAppointmentById(id) {
   
   const appointment = appointments[0];
   
-  // Obtener servicios asociados
-  const services = await query(`
-    SELECT 
-      s.name as service_name,
-      s.price,
-      s.duration,
-      aps.quantity,
-      aps.price as service_price
-    FROM appointment_services aps
-    JOIN services s ON aps.service_id = s.id
-    WHERE aps.appointment_id = $1
-  `, [id]);
-  
-  appointment.services = services;
+  // Parsear servicios desde notes si existen
+  try {
+    if (appointment.notes && appointment.notes.startsWith('[')) {
+      appointment.services = JSON.parse(appointment.notes);
+    } else {
+      appointment.services = [{
+        name: appointment.service_type,
+        price: appointment.total_price,
+        quantity: 1
+      }];
+    }
+  } catch (error) {
+    console.error('Error parseando servicios del turno:', error);
+    appointment.services = [{
+      name: appointment.service_type,
+      price: appointment.total_price,
+      quantity: 1
+    }];
+  }
   
   return appointment;
 }
@@ -169,21 +150,26 @@ async function getUserAppointments(userId) {
     ORDER BY a.appointment_date DESC, a.appointment_time DESC
   `, [userId]);
   
-  // Para cada turno, obtener los servicios asociados
+  // Para cada turno, parsear los servicios desde notes si existen
   for (let appointment of appointments) {
-    const services = await query(`
-      SELECT 
-        s.name as service_name,
-        s.price,
-        s.duration,
-        aps.quantity,
-        aps.price as service_price
-      FROM appointment_services aps
-      JOIN services s ON aps.service_id = s.id
-      WHERE aps.appointment_id = $1
-    `, [appointment.id]);
-    
-    appointment.services = services;
+    try {
+      if (appointment.notes && appointment.notes.startsWith('[')) {
+        appointment.services = JSON.parse(appointment.notes);
+      } else {
+        appointment.services = [{
+          name: appointment.service_type,
+          price: appointment.total_price,
+          quantity: 1
+        }];
+      }
+    } catch (error) {
+      console.error('Error parseando servicios del turno:', error);
+      appointment.services = [{
+        name: appointment.service_type,
+        price: appointment.total_price,
+        quantity: 1
+      }];
+    }
   }
   
   return appointments;
@@ -191,13 +177,13 @@ async function getUserAppointments(userId) {
 
 // Actualizar turno del usuario
 async function updateUserAppointment(id, updateData) {
-  const { appointment_date, appointment_time, service_location, notes } = updateData;
+  const { appointment_date, appointment_time, notes } = updateData;
   
   await query(`
     UPDATE appointments 
-    SET appointment_date = $1, appointment_time = $2, service_location = $3, notes = $4, updated_at = NOW()
-    WHERE id = $5
-  `, [appointment_date, appointment_time, service_location || null, notes || null, id]);
+    SET appointment_date = $1, appointment_time = $2, notes = $3, updated_at = NOW()
+    WHERE id = $4
+  `, [appointment_date, appointment_time, notes || null, id]);
 }
 
 module.exports = {

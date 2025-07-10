@@ -2692,23 +2692,29 @@
       }
 
       try {
+        // Obtener datos del formulario
+        const nombre = document.getElementById('nombre')?.value || '';
+        const apellido = document.getElementById('apellido')?.value || '';
+        const telefono = document.getElementById('telefono')?.value || '';
+        const email = document.getElementById('email')?.value || '';
+
+        // Validar que el teléfono esté presente
+        if (!telefono || telefono.trim() === '') {
+          console.error('❌ Error: El teléfono es requerido');
+          return { success: false, message: 'El teléfono es requerido para crear el turno' };
+        }
+
         const categorias = categorizarServicios();
         const turnosParaGuardar = [];
-
-            // Validar que el teléfono esté presente
-    if (!turno.telefono || turno.telefono.trim() === '') {
-      console.error('❌ Error: El teléfono es requerido');
-      return { success: false, message: 'El teléfono es requerido para crear el turno' };
-    }
     
-    // Preparar datos del turno
-    const datosTurno = {
-      clientName: `${turno.nombre} ${turno.apellido}`,
-      clientPhone: turno.telefono,
-      clientEmail: turno.email,
-      status: 'pending',
-      notes: 'Turno creado desde el formulario web'
-    };
+        // Preparar datos del turno
+        const datosTurno = {
+          clientName: `${nombre} ${apellido}`,
+          clientPhone: telefono,
+          clientEmail: email,
+          status: 'pending',
+          notes: 'Turno creado desde el formulario web'
+        };
 
         // Agregar userId si el usuario está logueado
         const userData = localStorage.getItem('userData');
@@ -2719,38 +2725,38 @@
 
         if (categorias.necesitaTurnosSeparados) {
           // Guardar turno de vehículos
-          if (turnosSeparados.vehiculos.servicios.length > 0) {
+          if (window.turnosSeparados.vehiculos.servicios.length > 0) {
             const turnoVehiculos = {
               ...datosTurno,
-              appointmentDate: turnosSeparados.vehiculos.fecha,
-              startTime: turnosSeparados.vehiculos.hora,
-              serviceLocation: turnosSeparados.vehiculos.direccion ? 
-                (typeof turnosSeparados.vehiculos.direccion === 'object' ? 
-                  `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}` : 
-                  turnosSeparados.vehiculos.direccion) : 'A confirmar',
-              services: turnosSeparados.vehiculos.servicios.map(s => ({
+              appointmentDate: window.turnosSeparados.vehiculos.fecha,
+              startTime: window.turnosSeparados.vehiculos.hora,
+              serviceLocation: window.turnosSeparados.vehiculos.direccion ? 
+                (typeof window.turnosSeparados.vehiculos.direccion === 'object' ? 
+                  `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}` : 
+                  window.turnosSeparados.vehiculos.direccion) : 'A confirmar',
+              services: window.turnosSeparados.vehiculos.servicios.map(s => ({
                 name: s.nombre,
                 quantity: s.cantidad,
                 price: s.precio
               })),
-              totalAmount: turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
+              totalAmount: window.turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
             };
             turnosParaGuardar.push(turnoVehiculos);
           }
 
           // Guardar turno de tapizados
-          if (turnosSeparados.tapizados.servicios.length > 0) {
+          if (window.turnosSeparados.tapizados.servicios.length > 0) {
             const turnoTapizados = {
               ...datosTurno,
-              appointmentDate: turnosSeparados.tapizados.fecha,
-              startTime: turnosSeparados.tapizados.hora,
-              serviceLocation: turnosSeparados.tapizados.direccion || 'A confirmar',
-              services: turnosSeparados.tapizados.servicios.map(s => ({
+              appointmentDate: window.turnosSeparados.tapizados.fecha,
+              startTime: window.turnosSeparados.tapizados.hora,
+              serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
+              services: window.turnosSeparados.tapizados.servicios.map(s => ({
                 name: s.nombre,
                 quantity: s.cantidad,
                 price: s.precio
               })),
-              totalAmount: turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
+              totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
             };
             turnosParaGuardar.push(turnoTapizados);
           }
@@ -2762,21 +2768,21 @@
           let direccion = '';
 
           if (categorias.hayVehiculos) {
-            servicios = turnosSeparados.vehiculos.servicios;
-            fecha = turnosSeparados.vehiculos.fecha;
-            hora = turnosSeparados.vehiculos.hora;
-            if (turnosSeparados.vehiculos.direccion) {
-              if (typeof turnosSeparados.vehiculos.direccion === 'object') {
-                direccion = `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`;
+            servicios = window.turnosSeparados.vehiculos.servicios;
+            fecha = window.turnosSeparados.vehiculos.fecha;
+            hora = window.turnosSeparados.vehiculos.hora;
+            if (window.turnosSeparados.vehiculos.direccion) {
+              if (typeof window.turnosSeparados.vehiculos.direccion === 'object') {
+                direccion = `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}`;
               } else {
-                direccion = turnosSeparados.vehiculos.direccion;
+                direccion = window.turnosSeparados.vehiculos.direccion;
               }
             }
           } else if (categorias.hayTapizados) {
-            servicios = turnosSeparados.tapizados.servicios;
-            fecha = turnosSeparados.tapizados.fecha;
-            hora = turnosSeparados.tapizados.hora;
-            direccion = turnosSeparados.tapizados.direccion;
+            servicios = window.turnosSeparados.tapizados.servicios;
+            fecha = window.turnosSeparados.tapizados.fecha;
+            hora = window.turnosSeparados.tapizados.hora;
+            direccion = window.turnosSeparados.tapizados.direccion;
           }
 
           const turnoUnico = {
