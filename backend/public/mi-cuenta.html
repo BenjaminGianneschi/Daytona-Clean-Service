@@ -898,16 +898,6 @@
           return;
         }
         activeList.innerHTML = appointments.map(appointment => {
-          // DEBUG: Ver qué datos llegan del backend
-          console.log('🔍 DEBUG - Datos del turno:', {
-            id: appointment.id,
-            serviceLocation: appointment.serviceLocation,
-            service_location: appointment.service_location,
-            address: appointment.address,
-            notes: appointment.notes,
-            services: appointment.services
-          });
-          
           // Formatear servicios si existen
           let serviciosInfo = '';
           if (appointment.services && appointment.services.length > 0) {

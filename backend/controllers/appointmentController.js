@@ -187,7 +187,7 @@ const updateUserAppointment = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const { appointment_date, start_time, notes } = req.body;
+    const { appointment_date, start_time, notes, service_location } = req.body;
     
     // Verificar que el turno pertenece al usuario
     const appointment = await appointmentModel.getAppointmentById(id);
@@ -216,7 +216,8 @@ const updateUserAppointment = async (req, res) => {
     await appointmentModel.updateUserAppointment(id, {
       appointment_date,
       appointment_time: start_time,
-      notes
+      notes,
+      service_location
     });
     
     res.json({ success: true, message: 'Turno actualizado exitosamente' });

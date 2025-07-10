@@ -180,13 +180,13 @@ async function getUserAppointments(userId) {
 
 // Actualizar turno del usuario
 async function updateUserAppointment(id, updateData) {
-  const { appointment_date, appointment_time, notes } = updateData;
+  const { appointment_date, appointment_time, notes, service_location } = updateData;
   
   await query(`
     UPDATE appointments 
-    SET appointment_date = $1, appointment_time = $2, notes = $3, updated_at = NOW()
-    WHERE id = $4
-  `, [appointment_date, appointment_time, notes || null, id]);
+    SET appointment_date = $1, appointment_time = $2, notes = $3, service_location = $4, updated_at = NOW()
+    WHERE id = $5
+  `, [appointment_date, appointment_time, notes || null, service_location || null, id]);
 }
 
 module.exports = {
