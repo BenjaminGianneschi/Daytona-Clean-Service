@@ -70,6 +70,7 @@ const createAppointment = async (req, res) => {
       services, 
       totalAmount, 
       notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`,
+      serviceLocation,
       userId: userId || null,
       clientName,
       clientPhone,
