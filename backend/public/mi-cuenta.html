@@ -1529,7 +1529,10 @@
                 <div>
                   <strong>${appointment.client_name || 'N/A'}</strong><br>
                   <small style="color: #fff;">Celular: ${appointment.client_phone || 'N/A'}</small><br>
-                  <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small>
+                  <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small><br>
+                  <small style="color: #fff;">
+                    ${mostrarDireccionAdmin(appointment.service_location || appointment.serviceLocation || '')}
+                  </small>
                 </div>
               </td>
               <td>${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</td>
@@ -1667,7 +1670,10 @@
           <div class="mb-2"><strong>ID:</strong> #${appointment.id}</div>
           <div class="mb-2"><strong>Cliente:</strong> ${appointment.client_name || 'N/A'}<br>
             <small style="color: #fff;">Celular: ${appointment.client_phone || 'N/A'}</small><br>
-            <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small>
+            <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small><br>
+            <small style="color: #fff;">
+              ${mostrarDireccionAdmin(appointment.service_location || appointment.serviceLocation || '')}
+            </small>
           </div>
           <div class="mb-2"><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</div>
           <div class="mb-2"><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</div>
@@ -1963,6 +1969,20 @@
         }, 150);
       }
     });
+
+    function mostrarDireccionAdmin(direccion) {
+      if (!direccion || direccion === 'A confirmar') return 'A confirmar';
+      if (direccion.toLowerCase().includes('lleva el vehículo')) {
+        return 'El cliente lleva el vehículo';
+      }
+      if (direccion.includes('Retiro:') && direccion.includes('Entrega:')) {
+        const match = direccion.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
+        if (match) {
+          return `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
+        }
+      }
+      return direccion;
+    }
   </script>
 </body>
 </html>
