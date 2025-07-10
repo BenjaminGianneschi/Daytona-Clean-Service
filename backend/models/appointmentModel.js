@@ -39,8 +39,8 @@ async function createAppointment({ clientId, appointmentDate, appointmentTime, s
   const serviceDetails = services ? JSON.stringify(services) : null;
   
   const appointmentResult = await query(
-    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
-    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, 'pending']
+    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, service_location, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
+    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, serviceLocation, 'pending']
   );
   
   return appointmentResult[0].id;
@@ -51,6 +51,7 @@ async function getAllAppointments() {
   const appointments = await query(`
     SELECT 
       a.*,
+      a.service_location as serviceLocation,
       u.name as user_name,
       u.phone as user_phone,
       u.email as user_email
@@ -89,6 +90,7 @@ async function getAppointmentById(id) {
   const appointments = await query(`
     SELECT 
       a.*,
+      a.service_location as serviceLocation,
       u.name as user_name,
       u.phone as user_phone,
       u.email as user_email
@@ -141,6 +143,7 @@ async function getUserAppointments(userId) {
   const appointments = await query(`
     SELECT 
       a.*,
+      a.service_location as serviceLocation,
       u.name as user_name,
       u.phone as user_phone,
       u.email as user_email
