@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  console.log('🔄 include-header.js: Usuario logueado:', isLoggedIn, user);
+  // Verificar si es admin
+  const isAdmin = user && user.role === 'admin';
+
+  console.log('🔄 include-header.js: Usuario logueado:', isLoggedIn, user, 'Admin:', isAdmin);
 
   // Generar header dinámico
   const headerContainer = document.getElementById("header-container");
@@ -81,6 +84,7 @@ function generateHeader(isLoggedIn, user) {
     // Usuario logueado - mostrar menú de usuario profesional
     const userName = user.name || 'Usuario';
     const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+    const isAdmin = user.role === 'admin';
     
     return baseHeader + `
               <!-- Separador visual -->
@@ -101,8 +105,8 @@ function generateHeader(isLoggedIn, user) {
                   <li><a class="dropdown-item" href="mi-cuenta.html" style="color: #fff; padding: 10px 16px;">
                     <i class="fas fa-user me-2" style="width: 16px;"></i>Perfil
                   </a></li>
-                  <li><a class="dropdown-item" href="${window.location.pathname.includes('mi-cuenta.html') ? '#turnos-activos' : 'mi-cuenta.html#turnos-activos'}" style="color: #fff; padding: 10px 16px;">
-                    <i class="fas fa-calendar-alt me-2" style="width: 16px;"></i>Mis Turnos
+                  <li><a class="dropdown-item" href="${isAdmin ? 'mi-cuenta.html#gestion-turnos' : (window.location.pathname.includes('mi-cuenta.html') ? '#turnos-activos' : 'mi-cuenta.html#turnos-activos')}" style="color: #fff; padding: 10px 16px;">
+                    <i class="fas fa-calendar-alt me-2" style="width: 16px;"></i>${isAdmin ? 'Gestión' : 'Mis Turnos'}
                   </a></li>
                   <li><a class="dropdown-item" href="#" onclick="showNotifications()" style="color: #fff; padding: 10px 16px;">
                     <i class="fas fa-bell me-2" style="width: 16px;"></i>Notificaciones
