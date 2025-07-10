@@ -1897,6 +1897,28 @@
         `;
       }
     });
+
+    // Scroll automático a #gestion-turnos si está en el hash y el panel admin aparece
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.hash === '#gestion-turnos') {
+        const scrollToGestion = () => {
+          const adminPanel = document.getElementById('adminPanel');
+          const gestion = document.getElementById('gestion-turnos');
+          if (adminPanel && adminPanel.style.display !== 'none' && gestion) {
+            gestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return true;
+          }
+          return false;
+        };
+        // Intentar scroll varias veces por si el panel aparece después
+        let intentos = 0;
+        const intervalo = setInterval(() => {
+          if (scrollToGestion() || ++intentos > 20) {
+            clearInterval(intervalo);
+          }
+        }, 150);
+      }
+    });
   </script>
 </body>
 </html>
