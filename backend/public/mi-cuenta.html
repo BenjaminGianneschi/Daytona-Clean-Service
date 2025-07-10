@@ -1528,8 +1528,8 @@
               <td>
                 <div>
                   <strong>${appointment.client_name || 'N/A'}</strong><br>
-                  <small style="color: #fff;">${appointment.client_phone || 'N/A'}</small><br>
-                  <small style="color: #fff;">${appointment.client_email || ''}</small>
+                  <small style="color: #fff;">Celular: ${appointment.client_phone || 'N/A'}</small><br>
+                  <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small>
                 </div>
               </td>
               <td>${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</td>
@@ -1666,8 +1666,8 @@
         const html = `
           <div class="mb-2"><strong>ID:</strong> #${appointment.id}</div>
           <div class="mb-2"><strong>Cliente:</strong> ${appointment.client_name || 'N/A'}<br>
-            <small style="color: #fff;">${appointment.client_phone || 'N/A'}</small><br>
-            <small style="color: #fff;">${appointment.client_email || ''}</small>
+            <small style="color: #fff;">Celular: ${appointment.client_phone || 'N/A'}</small><br>
+            <small style="color: #fff;">Mail: ${appointment.client_email || ''}</small>
           </div>
           <div class="mb-2"><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</div>
           <div class="mb-2"><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</div>
