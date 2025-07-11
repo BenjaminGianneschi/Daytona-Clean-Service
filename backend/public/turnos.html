@@ -4129,16 +4129,41 @@
   // --- Lógica profesional de armado de nombres y búsqueda de precios ---
 
   function armarNombreServicio(tipo, subtipo) {
-    if (tipo === "vehiculo") return `Limpieza de ${subtipo}`; // Ej: "Limpieza de SUV"
-    if (tipo === "tapizadoVehiculo") return `Limpieza de Tapizado de ${subtipo}`; // Ej: "Limpieza de Tapizado de Auto"
-    if (tipo === "motor") return `Motor ${subtipo}`; // Ej: "Motor Detallada"
-    if (tipo === "detallado") return `Limpieza Detallada de ${subtipo}`; // Ej: "Limpieza Detallada de Auto"
-    if (tipo === "sillon") return `Sillón ${subtipo}`; // Ej: "Sillón 1 cuerpo"
+    if (tipo === "vehiculo") {
+      // Ej: "Limpieza de Auto"
+      return `Limpieza de ${capitalizarPrimeraLetra(subtipo)}`;
+    }
+    if (tipo === "tapizadoVehiculo") {
+      // Mapear subtipo a nombre exacto de la BD
+      if (subtipo === 'auto') return 'Limpieza de Tapizado de Auto';
+      if (subtipo === 'suv') return 'Limpieza de Tapizado de SUV';
+      if (subtipo === 'pickup') return 'Limpieza de Tapizado de Pickup';
+      return '';
+    }
+    if (tipo === "motor") {
+      // Mapear subtipo a nombre exacto de la BD
+      if (subtipo === 'completa') return 'Motor Completa';
+      if (subtipo === 'detallada') return 'Motor Detallada';
+      return '';
+    }
+    if (tipo === "sillon") return `Sillón ${subtipo}`;
+    if (tipo === "silla") return `Silla ${subtipo}`;
+    if (tipo === "colchon") return `Colchón de ${subtipo}`;
+    if (tipo === "puff") {
+      // Mapear subtipo a nombre exacto de la BD
+      if (subtipo === 'chico') return 'Puff chico';
+      if (subtipo === 'mediano') return 'Puff mediano';
+      if (subtipo === 'grande') return 'Puff grande';
+      return '';
+    }
     if (tipo === "tapizadoSilla") return `Limpieza de Tapizado de Silla`;
-    if (tipo === "colchon") return `Colchón de ${subtipo}`; // Ej: "Colchón de 1 plaza"
-    if (tipo === "puff") return `Puff ${subtipo}`; // Ej: "Puff grande"
     if (tipo === "tapizadoAlfombra") return `Limpieza de Tapizado de Alfombra`;
     return "";
+  }
+
+  function capitalizarPrimeraLetra(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
   function getPrecioDesdeBD(tipo, subtipo) {
