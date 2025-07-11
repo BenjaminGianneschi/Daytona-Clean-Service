@@ -54,7 +54,7 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, startTime, services, notes, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
+    const { appointmentDate, startTime, services, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
     if (!appointmentDate || !startTime || !services) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
@@ -66,33 +66,30 @@ const createAppointment = async (req, res) => {
     }
     
     // Crear el turno con precio temporal (se actualizará después)
-    const appointmentId = await appointmentModel.createAppointment({ 
-      appointmentDate, 
-      appointmentTime: startTime, 
-      totalAmount: 0, // Precio temporal, se calculará desde BD
-      notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`,
-      userId: userId || null,
+    const appointmentData = {
+      appointmentDate,
+      startTime,
+      totalAmount: 0, // Precio temporal
+      serviceLocation,
+      userId,
       clientName,
       clientPhone,
-      clientEmail,
-      serviceLocation
+      clientEmail
+    };
+    
+    const appointmentId = await appointmentModel.createAppointment(appointmentData);
+    
+    // Guardar los servicios en la tabla intermedia
+    console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
+    await appointmentModel.addAppointmentServices(appointmentId, services);
+    console.log('addAppointmentServices finalizado para appointmentId:', appointmentId);
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Turno creado exitosamente',
+      appointmentId 
     });
     
-    // Guardar los servicios en la tabla intermedia y calcular precio real
-    if (services && services.length > 0) {
-      try {
-        console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
-        const totalReal = await appointmentModel.addAppointmentServices(appointmentId, services);
-        console.log('addAppointmentServices finalizado para appointmentId:', appointmentId, 'Total real:', totalReal);
-      } catch (serviceError) {
-        console.error('Error guardando servicios:', serviceError);
-        // Si falla guardar servicios, eliminar el turno creado
-        await appointmentModel.deleteAppointment(appointmentId);
-        return res.status(500).json({ success: false, message: 'Error guardando servicios del turno' });
-      }
-    }
-    
-    res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
     console.error('Error creando turno:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });

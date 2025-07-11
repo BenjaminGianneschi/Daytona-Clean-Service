@@ -32,12 +32,17 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
 }
 
 // Crear turno
-async function createAppointment({ clientId, appointmentDate, appointmentTime, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail }) {
-  const appointmentResult = await query(
-    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, appointment_date, appointment_time, total_price, notes, service_location, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
-    [userId, clientName, clientPhone, clientEmail, appointmentDate, appointmentTime, totalAmount, notes, serviceLocation, 'pending']
+async function createAppointment(appointmentData) {
+  const { appointmentDate, startTime, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail } = appointmentData;
+  
+  const result = await query(
+    `INSERT INTO appointments (appointment_date, start_time, total_price, service_location, user_id, client_name, client_phone, client_email, status, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending', CURRENT_TIMESTAMP)
+     RETURNING id`,
+    [appointmentDate, startTime, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail]
   );
-  return appointmentResult[0].id;
+  
+  return result[0].id;
 }
 
 // Insertar servicios en appointment_services
@@ -232,9 +237,9 @@ async function updateUserAppointment(id, updateData) {
 // Obtener todos los servicios con precios
 async function getAllServices() {
   const services = await query(`
-    SELECT id, name, price, duration, category, description
+    SELECT id, name, price, duration, description
     FROM services 
-    ORDER BY category, name
+    ORDER BY name
   `);
   return services;
 }
