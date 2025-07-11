@@ -1658,7 +1658,7 @@
     
     sillonesAgregados.forEach(sillon => {
       console.log('Renderizando sillon:', sillon);
-      const precioUnitario = getPrecioDesdeBD('Sillón', sillon.tipo);
+      const precioUnitario = getPrecioPorId(sillon.service_id);
       const precioTotal = precioUnitario * sillon.cantidad;
       
       const card = document.createElement('div');
@@ -1667,7 +1667,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-couch me-2"></i><strong>${sillon.tipo}</strong>
+              <i class="fas fa-couch me-2"></i><strong>${sillon.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">80 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSillon('${sillon.id}')">
@@ -1887,7 +1887,7 @@
     motoresSeleccionados.innerHTML = '';
     
     motoresAgregados.forEach(motor => {
-      const precioUnitario = getPrecioDesdeBD('Motor', motor.tipo);
+      const precioUnitario = getPrecioPorId(motor.service_id);
       const precioTotal = precioUnitario * motor.cantidad;
       
       const card = document.createElement('div');
@@ -1896,7 +1896,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-gears me-2"></i><strong>${motor.tipo}</strong>
+              <i class="fas fa-gears me-2"></i><strong>${motor.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">45 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarMotor('${motor.id}')">
@@ -1944,7 +1944,7 @@
     alfombrasSeleccionadas.innerHTML = '';
     
     alfombrasAgregadas.forEach(alfombra => {
-      const precioUnitario = getPrecioDesdeBD('Alfombra', alfombra.tipo);
+      const precioUnitario = getPrecioPorId(alfombra.service_id);
       const precioTotal = precioUnitario * alfombra.cantidad;
       
       const card = document.createElement('div');
@@ -1953,7 +1953,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-rug me-2"></i><strong>${alfombra.tipo}</strong>
+              <i class="fas fa-rug me-2"></i><strong>${alfombra.nombre}</strong>
               <span class="badge bg-dark text-warning ms-2">120 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarAlfombra('${alfombra.id}')">
@@ -2015,7 +2015,7 @@
     puffsSeleccionados.innerHTML = '';
     
     puffsAgregados.forEach(puff => {
-      const precioUnitario = getPrecioDesdeBD('Puff', puff.tipo);
+      const precioUnitario = getPrecioPorId(puff.service_id);
       const precioTotal = precioUnitario * puff.cantidad;
       
       const card = document.createElement('div');
@@ -2024,7 +2024,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-couch me-2"></i><strong>${puff.tipo}</strong>
+              <i class="fas fa-couch me-2"></i><strong>${puff.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">60 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarPuff('${puff.id}')">
@@ -2085,7 +2085,7 @@
     tapizadovehiculosSeleccionados.innerHTML = '';
     
     tapizadoVehiculosAgregados.forEach(tv => {
-      const precioUnitario = getPrecioDesdeBD('Tapizado Vehículo', tv.tipo);
+      const precioUnitario = getPrecioPorId(tv.service_id);
       const precioTotal = precioUnitario * tv.cantidad;
       
       const card = document.createElement('div');
@@ -2094,7 +2094,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-car-side me-2"></i><strong>${tv.tipo}</strong>
+              <i class="fas fa-car-side me-2"></i><strong>${tv.nombre}</strong>
               <span class="badge bg-dark text-warning ms-2">120 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarTapizadoVehiculo('${tv.id}')">
