@@ -1668,7 +1668,7 @@
     sillasSeleccionadas.innerHTML = '';
     
     sillasAgregadas.forEach(silla => {
-      const precioUnitario = getPrecioDesdeBD('Silla', silla.tipo);
+      const precioUnitario = getPrecioPorId(silla.service_id);
       const precioTotal = precioUnitario * silla.cantidad;
       
       const card = document.createElement('div');
@@ -1677,21 +1677,21 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-chair me-2"></i><strong>${silla.tipo}</strong>
+              <i class="fas fa-chair me-2"></i><strong>${silla.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">60 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSilla('${silla.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSilla('${silla.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${silla.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadSilla('${silla.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -2088,7 +2088,7 @@
     categorizarServicios(); // Actualizar categorización
   }
 
-  // Función para actualizar el resumen final
+  // Función para actualizar el resumen final usando precios reales de la BD
   function actualizarResumenFinal() {
     const resumenFinal = document.getElementById('resumen-final');
     const listaServicios = document.getElementById('lista-servicios');
@@ -2100,178 +2100,35 @@
       return;
     }
     
-    // Recolectar todos los servicios
+    // Recolectar todos los servicios usando precios reales de la BD
     let todosLosServicios = [];
     let totalGeneralCalculado = 0;
     
-    // Agregar sillones
-    if (sillonesAgregados.length > 0) {
-      const preciosSillones = {
-        '1 cuerpo': 65000,
-        '2 cuerpos': 125000,
-        '3 cuerpos': 150000
-      };
-      sillonesAgregados.forEach(sillon => {
-        const precio = preciosSillones[sillon.tipo];
-        const subtotal = precio * sillon.cantidad;
+    // Función helper para agregar servicios con precio real
+    function agregarServiciosConPrecioReal(arrayServicios, icon) {
+      arrayServicios.forEach(servicio => {
+        const precioReal = getPrecioPorId(servicio.service_id);
+        const subtotal = precioReal * servicio.cantidad;
         todosLosServicios.push({
-          nombre: `Sillón ${sillon.tipo}`,
-          cantidad: sillon.cantidad,
-          precio: precio,
+          nombre: servicio.nombre,
+          cantidad: servicio.cantidad,
+          precio: precioReal,
           subtotal: subtotal,
-          icon: 'fa-couch'
+          icon: icon
         });
         totalGeneralCalculado += subtotal;
       });
     }
     
-    // Agregar sillas
-    if (sillasAgregadas.length > 0) {
-      const preciosSillas = {
-        'simple': 12500,
-        'gamer': 12500,
-        'oficina': 12500,
-        'comedor': 12500
-      };
-      sillasAgregadas.forEach(silla => {
-        const precio = preciosSillas[silla.tipo];
-        const subtotal = precio * silla.cantidad;
-        todosLosServicios.push({
-          nombre: `Silla ${silla.tipo}`,
-          cantidad: silla.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-chair'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-    
-    // Agregar colchones
-    if (colchonesAgregados.length > 0) {
-      const preciosColchones = {
-        '1 plaza': 80000,
-        '2 plazas': 120000
-      };
-      colchonesAgregados.forEach(colchon => {
-        const precio = preciosColchones[colchon.tipo];
-        const subtotal = precio * colchon.cantidad;
-        todosLosServicios.push({
-          nombre: `Colchón ${colchon.tipo}`,
-          cantidad: colchon.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-bed'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-    
-          // Agregar vehículos
-      if (vehiculosAgregados.length > 0) {
-        const preciosVehiculos = {
-          'auto': 20000,
-          'suv': 27000,
-          'pickup': 25000
-        };
-      vehiculosAgregados.forEach(vehiculo => {
-        const precio = preciosVehiculos[vehiculo.tipo];
-        const subtotal = precio * vehiculo.cantidad;
-        todosLosServicios.push({
-          nombre: `Vehículo ${vehiculo.tipo}`,
-          cantidad: vehiculo.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-car'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-    
-    // Agregar motores
-    if (motoresAgregados.length > 0) {
-      const preciosMotores = {
-        'basica': 12000,
-        'completa': 15000,
-        'detallada': 18000
-      };
-      motoresAgregados.forEach(motor => {
-        const precio = preciosMotores[motor.tipo];
-        const subtotal = precio * motor.cantidad;
-        todosLosServicios.push({
-          nombre: `Motor ${motor.tipo}`,
-          cantidad: motor.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-gears'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-    
-    // Agregar alfombras
-    if (alfombrasAgregadas.length > 0) {
-      const preciosAlfombras = {
-        'chica': 20000,
-        'mediana': 25000,
-        'grande': 30000,
-        'persa': 35000
-      };
-      alfombrasAgregadas.forEach(alfombra => {
-        const precio = preciosAlfombras[alfombra.tipo];
-        const subtotal = precio * alfombra.cantidad;
-        todosLosServicios.push({
-          nombre: `Alfombra ${alfombra.tipo}`,
-          cantidad: alfombra.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-rug'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-
-    // Agregar puffs
-    if (puffsAgregados.length > 0) {
-      const preciosPuffs = {
-        'simple': 10500,
-        'grande': 15000,
-        'especial': 20000
-      };
-      puffsAgregados.forEach(puff => {
-        const precio = preciosPuffs[puff.tipo];
-        const subtotal = precio * puff.cantidad;
-        todosLosServicios.push({
-          nombre: `Puff ${puff.tipo}`,
-          cantidad: puff.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-couch'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
-    
-    // Agregar tapizado de vehículos
-    if (tapizadoVehiculosAgregados.length > 0) {
-      const preciosTapizadoVehiculos = {
-        'auto': 100000,
-        'suv': 115000,
-        'pickup': 125000
-      };
-      tapizadoVehiculosAgregados.forEach(tv => {
-        const precio = preciosTapizadoVehiculos[tv.tipo];
-        const subtotal = precio * tv.cantidad;
-        todosLosServicios.push({
-          nombre: `Tapizado Vehículo ${tv.tipo}`,
-          cantidad: tv.cantidad,
-          precio: precio,
-          subtotal: subtotal,
-          icon: 'fa-car-side'
-        });
-        totalGeneralCalculado += subtotal;
-      });
-    }
+    // Agregar todos los tipos de servicios usando precios reales
+    agregarServiciosConPrecioReal(sillonesAgregados, 'fa-couch');
+    agregarServiciosConPrecioReal(sillasAgregadas, 'fa-chair');
+    agregarServiciosConPrecioReal(colchonesAgregados, 'fa-bed');
+    agregarServiciosConPrecioReal(vehiculosAgregados, 'fa-car');
+    agregarServiciosConPrecioReal(motoresAgregados, 'fa-gears');
+    agregarServiciosConPrecioReal(alfombrasAgregadas, 'fa-rug');
+    agregarServiciosConPrecioReal(puffsAgregados, 'fa-couch');
+    agregarServiciosConPrecioReal(tapizadoVehiculosAgregados, 'fa-car-side');
     
     // Mostrar u ocultar el resumen
     if (todosLosServicios.length > 0) {
