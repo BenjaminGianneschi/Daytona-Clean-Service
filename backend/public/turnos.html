@@ -3758,6 +3758,7 @@
     }
     // --- FIN NUEVO ---
     // --- Enviar al backend ---
+    console.log('Turno enviado al backend:', turnoParaBackend);
     try {
       const response = await fetch('https://daytona-clean-service.onrender.com/api/appointments', {
         method: 'POST',
