@@ -1369,10 +1369,10 @@
     // Categorizar vehículos
     vehiculosAgregados.forEach(vehiculo => {
       serviciosVehiculos.push({
-        tipo: 'vehiculo',
-        nombre: `Vehículo ${vehiculo.tipo}`,
+        service_id: vehiculo.service_id,
+        nombre: vehiculo.nombre,
         cantidad: vehiculo.cantidad,
-        precio: getPrecioVehiculo(vehiculo.tipo),
+        precio: vehiculo.precio,
         duracion: 180
       });
     });
@@ -1380,10 +1380,10 @@
     // Categorizar tapizado de vehículos
     tapizadoVehiculosAgregados.forEach(tv => {
       serviciosVehiculos.push({
-        tipo: 'tapizado_vehiculo',
-        nombre: `Tapizado Vehículo ${tv.tipo}`,
+        service_id: tv.service_id,
+        nombre: tv.nombre,
         cantidad: tv.cantidad,
-        precio: getPrecioTapizadoVehiculo(tv.tipo),
+        precio: tv.precio,
         duracion: 120
       });
     });
@@ -1391,10 +1391,10 @@
     // Categorizar motores
     motoresAgregados.forEach(motor => {
       serviciosVehiculos.push({
-        tipo: 'motor',
-        nombre: `Motor ${motor.tipo}`,
+        service_id: motor.service_id,
+        nombre: motor.nombre,
         cantidad: motor.cantidad,
-        precio: getPrecioMotor(motor.tipo),
+        precio: motor.precio,
         duracion: 45
       });
     });
@@ -1402,10 +1402,10 @@
     // Categorizar sillones
     sillonesAgregados.forEach(sillon => {
       serviciosTapizados.push({
-        tipo: 'sillon',
-        nombre: `Sillón ${sillon.tipo}`,
+        service_id: sillon.service_id,
+        nombre: sillon.nombre,
         cantidad: sillon.cantidad,
-        precio: getPrecioSillon(sillon.tipo),
+        precio: sillon.precio,
         duracion: 80
       });
     });
@@ -1413,10 +1413,10 @@
     // Categorizar sillas
     sillasAgregadas.forEach(silla => {
       serviciosTapizados.push({
-        tipo: 'silla',
-        nombre: `Silla ${silla.tipo}`,
+        service_id: silla.service_id,
+        nombre: silla.nombre,
         cantidad: silla.cantidad,
-        precio: getPrecioSilla(silla.tipo),
+        precio: silla.precio,
         duracion: 40
       });
     });
@@ -1424,10 +1424,10 @@
     // Categorizar colchones
     colchonesAgregados.forEach(colchon => {
       serviciosTapizados.push({
-        tipo: 'colchon',
-        nombre: `Colchón ${colchon.tipo}`,
+        service_id: colchon.service_id,
+        nombre: colchon.nombre,
         cantidad: colchon.cantidad,
-        precio: getPrecioColchon(colchon.tipo),
+        precio: colchon.precio,
         duracion: 60
       });
     });
@@ -1435,10 +1435,10 @@
     // Categorizar alfombras
     alfombrasAgregadas.forEach(alfombra => {
       serviciosTapizados.push({
-        tipo: 'alfombra',
-        nombre: `Alfombra ${alfombra.tipo}`,
+        service_id: alfombra.service_id,
+        nombre: alfombra.nombre,
         cantidad: alfombra.cantidad,
-        precio: getPrecioAlfombra(alfombra.tipo),
+        precio: alfombra.precio,
         duracion: 120
       });
     });
@@ -1446,10 +1446,10 @@
     // Categorizar puffs
     puffsAgregados.forEach(puff => {
       serviciosTapizados.push({
-        tipo: 'puff',
-        nombre: `Puff ${puff.tipo}`,
+        service_id: puff.service_id,
+        nombre: puff.nombre,
         cantidad: puff.cantidad,
-        precio: getPrecioPuff(puff.tipo),
+        precio: puff.precio,
         duracion: 60
       });
     });
@@ -2697,11 +2697,7 @@
                 (typeof window.turnosSeparados.vehiculos.direccion === 'object' ? 
                   `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}` : 
                   window.turnosSeparados.vehiculos.direccion) : 'A confirmar',
-              services: window.turnosSeparados.vehiculos.servicios.map(s => ({
-                name: s.nombre,
-                quantity: s.cantidad,
-                price: s.precio
-              })),
+              services: armarServiciosParaBackend(window.turnosSeparados.vehiculos.servicios),
               totalAmount: window.turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
             };
             turnosParaGuardar.push(turnoVehiculos);
@@ -2714,11 +2710,7 @@
               appointmentDate: window.turnosSeparados.tapizados.fecha,
               startTime: window.turnosSeparados.tapizados.hora,
               serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
-              services: window.turnosSeparados.tapizados.servicios.map(s => ({
-                name: s.nombre,
-                quantity: s.cantidad,
-                price: s.precio
-              })),
+              services: armarServiciosParaBackend(window.turnosSeparados.tapizados.servicios),
               totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
             };
             turnosParaGuardar.push(turnoTapizados);
@@ -2753,11 +2745,7 @@
             appointmentDate: fecha,
             startTime: hora,
             serviceLocation: direccion || 'A confirmar',
-            services: servicios.map(s => ({
-              name: s.nombre,
-              quantity: s.cantidad,
-              price: s.precio
-            })),
+            services: armarServiciosParaBackend(servicios),
             totalAmount: servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
           };
           turnosParaGuardar.push(turnoUnico);
@@ -2914,7 +2902,7 @@
         html += `
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <div style="display:flex;align-items:center;gap:8px;">
-              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
+              <i class='fas fa-${getIconForService(servicio.service_id)}'></i>
               <span>${servicio.nombre} x${servicio.cantidad}</span>
             </div>
             <div style="text-align:right;min-width:110px;">
@@ -3035,18 +3023,22 @@
       resumenTurno.innerHTML = html;
     }
     
-    function getIconForService(tipo) {
-      const icons = {
-        'vehiculo': 'car',
-        'tapizado_vehiculo': 'car-side',
-        'motor': 'gears',
-        'sillon': 'couch',
-        'silla': 'chair',
-        'colchon': 'bed',
-        'alfombra': 'rug',
-        'puff': 'couch'
-      };
-      return icons[tipo] || 'cog';
+    function getIconForService(serviceId) {
+      // Obtener el servicio por ID para determinar el tipo
+      const servicio = getServicioPorId(serviceId);
+      if (!servicio) return 'cog';
+      
+      const nombre = servicio.name.toLowerCase();
+      if (nombre.includes('vehículo') || nombre.includes('auto') || nombre.includes('suv') || nombre.includes('pickup')) return 'car';
+      if (nombre.includes('tapizado') && nombre.includes('vehículo')) return 'car-side';
+      if (nombre.includes('motor')) return 'gears';
+      if (nombre.includes('sillón')) return 'couch';
+      if (nombre.includes('silla')) return 'chair';
+      if (nombre.includes('colchón')) return 'bed';
+      if (nombre.includes('alfombra')) return 'rug';
+      if (nombre.includes('puff')) return 'couch';
+      
+      return 'cog';
     }
 
     selectServicio.addEventListener('change', function() {
@@ -3504,17 +3496,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = sillonesAgregados.find(s => s.tipo === tipoSeleccionado);
+       const existe = sillonesAgregados.find(s => s.nombre === armarNombreServicio('sillon', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         sillonesAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('sillon', tipoSeleccionado, 1);
        }
        
        renderSillonesCards();
@@ -3536,17 +3524,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = sillasAgregadas.find(s => s.tipo === tipoSeleccionado);
+       const existe = sillasAgregadas.find(s => s.nombre === armarNombreServicio('silla', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         sillasAgregadas.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('silla', tipoSeleccionado, 1);
        }
        
        renderSillasCards();
@@ -3568,17 +3552,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = colchonesAgregados.find(c => c.tipo === tipoSeleccionado);
+       const existe = colchonesAgregados.find(c => c.nombre === armarNombreServicio('colchon', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         colchonesAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('colchon', tipoSeleccionado, 1);
        }
        
        renderColchonesCards();
@@ -3600,17 +3580,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = vehiculosAgregados.find(v => v.tipo === tipoSeleccionado);
+       const existe = vehiculosAgregados.find(v => v.nombre === armarNombreServicio('vehiculo', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         vehiculosAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('vehiculo', tipoSeleccionado, 1);
        }
        
        renderVehiculosCards();
@@ -3632,17 +3608,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = motoresAgregados.find(m => m.tipo === tipoSeleccionado);
+       const existe = motoresAgregados.find(m => m.nombre === armarNombreServicio('motor', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         motoresAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('motor', tipoSeleccionado, 1);
        }
        
        renderMotoresCards();
@@ -3664,17 +3636,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = alfombrasAgregadas.find(a => a.tipo === tipoSeleccionado);
+       const existe = alfombrasAgregadas.find(a => a.nombre === armarNombreServicio('alfombra', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         alfombrasAgregadas.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('alfombra', tipoSeleccionado, 1);
        }
        
        renderAlfombrasCards();
@@ -3696,17 +3664,13 @@
        const tipoSeleccionado = this.value;
        
        // Verificar si ya existe este tipo
-       const existe = puffsAgregados.find(p => p.tipo === tipoSeleccionado);
+       const existe = puffsAgregados.find(p => p.nombre === armarNombreServicio('puff', tipoSeleccionado));
        if (existe) {
          // Si ya existe, aumentar cantidad
          existe.cantidad++;
        } else {
-         // Si no existe, agregar nuevo
-         puffsAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         // Si no existe, agregar nuevo usando la función centralizada
+         agregarServicioSeleccionado('puff', tipoSeleccionado, 1);
        }
        
        renderPuffsCards();
@@ -3727,15 +3691,11 @@
      radio.addEventListener('change', function() {
        const tipoSeleccionado = this.value;
        // Verificar si ya existe este tipo
-       const existe = tapizadoVehiculosAgregados.find(tv => tv.tipo === tipoSeleccionado);
+       const existe = tapizadoVehiculosAgregados.find(tv => tv.nombre === armarNombreServicio('tapizadoVehiculo', tipoSeleccionado));
        if (existe) {
          existe.cantidad++;
        } else {
-         tapizadoVehiculosAgregados.push({
-           tipo: tipoSeleccionado,
-           cantidad: 1,
-           id: Date.now() + Math.random()
-         });
+         agregarServicioSeleccionado('tapizadoVehiculo', tipoSeleccionado, 1);
        }
        renderTapizadoVehiculosCards();
        actualizarTotalTapizadoVehiculos();
@@ -4192,6 +4152,78 @@
   // Ejemplo de uso:
   // const precio = getPrecioDesdeBD('vehiculo', 'SUV');
   // const precio = getPrecioDesdeBD('sillon', '2 cuerpos');
+  // ... existing code ...
+
+  // --- Refactor profesional: trabajar siempre con service_id ---
+
+  function getServicioPorId(serviceId) {
+    return serviciosBD.find(s => s.id === serviceId);
+  }
+
+  // Al agregar un servicio, buscar el objeto en serviciosBD y guardar el id
+  function agregarServicioSeleccionado(tipo, subtipo, cantidad) {
+    // Buscar el servicio en la BD por nombre exacto
+    let nombre = armarNombreServicio(tipo, subtipo);
+    let servicio = serviciosBD.find(s => s.name === nombre);
+    if (!servicio) {
+      console.error('No se encontró el servicio en la BD:', nombre);
+      return;
+    }
+    // Agregar al array correspondiente
+    let obj = {
+      service_id: servicio.id,
+      nombre: servicio.name,
+      cantidad: cantidad,
+      precio: servicio.price
+    };
+    
+    // Agregar al array correspondiente según el tipo
+    switch(tipo) {
+      case 'sillon':
+        sillonesAgregados.push(obj);
+        break;
+      case 'silla':
+        sillasAgregadas.push(obj);
+        break;
+      case 'colchon':
+        colchonesAgregados.push(obj);
+        break;
+      case 'vehiculo':
+        vehiculosAgregados.push(obj);
+        break;
+      case 'tapizadoVehiculo':
+        tapizadoVehiculosAgregados.push(obj);
+        break;
+      case 'motor':
+        motoresAgregados.push(obj);
+        break;
+      case 'alfombra':
+        alfombrasAgregadas.push(obj);
+        break;
+      case 'puff':
+        puffsAgregados.push(obj);
+        break;
+      default:
+        console.error('Tipo de servicio no reconocido:', tipo);
+        return;
+    }
+    
+    console.log(`✅ Servicio agregado: ${nombre} (ID: ${servicio.id})`);
+  }
+
+  // Para mostrar el precio en cards y resumen:
+  function getPrecioPorId(serviceId) {
+    const servicio = getServicioPorId(serviceId);
+    return servicio ? servicio.price : 0;
+  }
+
+  // Al armar el request al backend:
+  function armarServiciosParaBackend(arrayServicios) {
+    return arrayServicios.map(s => ({
+      service_id: s.service_id,
+      quantity: s.cantidad
+    }));
+  }
   // ... existing code ...
 
 </script>
