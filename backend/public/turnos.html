@@ -1670,18 +1670,18 @@
               <i class="fas fa-couch me-2"></i><strong>${sillon.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">80 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSillon('${sillon.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarSillon('${sillon.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${sillon.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidad('${sillon.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -1785,18 +1785,18 @@
               <i class="fas fa-bed me-2"></i><strong>${colchon.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">90 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarColchon('${colchon.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarColchon('${colchon.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${colchon.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadColchon('${colchon.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -1842,18 +1842,18 @@
               <i class="fas fa-car me-2"></i><strong>${vehiculo.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">90 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarVehiculo('${vehiculo.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarVehiculo('${vehiculo.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${vehiculo.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadVehiculo('${vehiculo.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -1899,18 +1899,18 @@
               <i class="fas fa-gears me-2"></i><strong>${motor.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">45 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarMotor('${motor.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarMotor('${motor.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${motor.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadMotor('${motor.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -1956,18 +1956,18 @@
               <i class="fas fa-rug me-2"></i><strong>${alfombra.nombre}</strong>
               <span class="badge bg-dark text-warning ms-2">120 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarAlfombra('${alfombra.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarAlfombra('${alfombra.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${alfombra.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -2027,18 +2027,18 @@
               <i class="fas fa-couch me-2"></i><strong>${puff.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">60 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarPuff('${puff.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarPuff('${puff.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${puff.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadPuff('${puff.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -2097,18 +2097,18 @@
               <i class="fas fa-car-side me-2"></i><strong>${tv.nombre}</strong>
               <span class="badge bg-dark text-warning ms-2">120 min</span>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarTapizadoVehiculo('${tv.id}')">
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarTapizadoVehiculo('${tv.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
             <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.id}', -1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.service_id}', -1)">
                 <i class="fas fa-minus"></i>
               </button>
               <span class="mx-3 fw-bold">${tv.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.id}', 1)">
+              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadTapizadoVehiculo('${tv.service_id}', 1)">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -4248,6 +4248,137 @@
       service_id: s.service_id,
       quantity: s.cantidad
     }));
+  }
+  // ... existing code ...
+
+  // ... existing code ...
+  // Funciones de eliminar - arreglar para usar service_id
+  function eliminarSillon(serviceId) {
+    console.log('eliminarSillon llamado con:', serviceId);
+    const index = sillonesAgregados.findIndex(s => s.service_id == serviceId);
+    if (index > -1) {
+      sillonesAgregados.splice(index, 1);
+      renderSillonesCards();
+    }
+  }
+
+  function eliminarColchon(serviceId) {
+    console.log('eliminarColchon llamado con:', serviceId);
+    const index = colchonesAgregados.findIndex(c => c.service_id == serviceId);
+    if (index > -1) {
+      colchonesAgregados.splice(index, 1);
+      renderColchonesCards();
+    }
+  }
+
+  function eliminarVehiculo(serviceId) {
+    console.log('eliminarVehiculo llamado con:', serviceId);
+    const index = vehiculosAgregados.findIndex(v => v.service_id == serviceId);
+    if (index > -1) {
+      vehiculosAgregados.splice(index, 1);
+      renderVehiculosCards();
+    }
+  }
+
+  function eliminarTapizadoVehiculo(serviceId) {
+    console.log('eliminarTapizadoVehiculo llamado con:', serviceId);
+    const index = tapizadoVehiculosAgregados.findIndex(tv => tv.service_id == serviceId);
+    if (index > -1) {
+      tapizadoVehiculosAgregados.splice(index, 1);
+      renderTapizadoVehiculosCards();
+    }
+  }
+
+  function eliminarMotor(serviceId) {
+    console.log('eliminarMotor llamado con:', serviceId);
+    const index = motoresAgregados.findIndex(m => m.service_id == serviceId);
+    if (index > -1) {
+      motoresAgregados.splice(index, 1);
+      renderMotoresCards();
+    }
+  }
+
+  function eliminarAlfombra(serviceId) {
+    console.log('eliminarAlfombra llamado con:', serviceId);
+    const index = alfombrasAgregadas.findIndex(a => a.service_id == serviceId);
+    if (index > -1) {
+      alfombrasAgregadas.splice(index, 1);
+      renderAlfombrasCards();
+    }
+  }
+
+  function eliminarPuff(serviceId) {
+    console.log('eliminarPuff llamado con:', serviceId);
+    const index = puffsAgregados.findIndex(p => p.service_id == serviceId);
+    if (index > -1) {
+      puffsAgregados.splice(index, 1);
+      renderPuffsCards();
+    }
+  }
+
+  // Funciones de cambiar cantidad - arreglar para usar service_id
+  function cambiarCantidad(serviceId, delta) {
+    const sillon = sillonesAgregados.find(s => s.service_id == serviceId);
+    if (sillon) {
+      sillon.cantidad = Math.max(1, sillon.cantidad + delta);
+      renderSillonesCards();
+    }
+  }
+
+  function cambiarCantidadSilla(serviceId, delta) {
+    const silla = sillasAgregadas.find(s => s.service_id == serviceId);
+    if (silla) {
+      silla.cantidad = Math.max(1, silla.cantidad + delta);
+      renderSillasCards();
+    }
+  }
+
+  function cambiarCantidadColchon(serviceId, delta) {
+    const colchon = colchonesAgregados.find(c => c.service_id == serviceId);
+    if (colchon) {
+      colchon.cantidad = Math.max(1, colchon.cantidad + delta);
+      renderColchonesCards();
+    }
+  }
+
+  function cambiarCantidadVehiculo(serviceId, delta) {
+    const vehiculo = vehiculosAgregados.find(v => v.service_id == serviceId);
+    if (vehiculo) {
+      vehiculo.cantidad = Math.max(1, vehiculo.cantidad + delta);
+      renderVehiculosCards();
+    }
+  }
+
+  function cambiarCantidadMotor(serviceId, delta) {
+    const motor = motoresAgregados.find(m => m.service_id == serviceId);
+    if (motor) {
+      motor.cantidad = Math.max(1, motor.cantidad + delta);
+      renderMotoresCards();
+    }
+  }
+
+  function cambiarCantidadAlfombra(serviceId, delta) {
+    const alfombra = alfombrasAgregadas.find(a => a.service_id == serviceId);
+    if (alfombra) {
+      alfombra.cantidad = Math.max(1, alfombra.cantidad + delta);
+      renderAlfombrasCards();
+    }
+  }
+
+  function cambiarCantidadPuff(serviceId, delta) {
+    const puff = puffsAgregados.find(p => p.service_id == serviceId);
+    if (puff) {
+      puff.cantidad = Math.max(1, puff.cantidad + delta);
+      renderPuffsCards();
+    }
+  }
+
+  function cambiarCantidadTapizadoVehiculo(serviceId, delta) {
+    const tv = tapizadoVehiculosAgregados.find(tv => tv.service_id == serviceId);
+    if (tv) {
+      tv.cantidad = Math.max(1, tv.cantidad + delta);
+      renderTapizadoVehiculosCards();
+    }
   }
   // ... existing code ...
 
