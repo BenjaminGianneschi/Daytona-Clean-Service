@@ -2107,16 +2107,18 @@
     // Función helper para agregar servicios con precio real
     function agregarServiciosConPrecioReal(arrayServicios, icon) {
       arrayServicios.forEach(servicio => {
-        const precioReal = getPrecioPorId(servicio.service_id);
-        const subtotal = precioReal * servicio.cantidad;
-        todosLosServicios.push({
-          nombre: servicio.nombre,
-          cantidad: servicio.cantidad,
-          precio: precioReal,
-          subtotal: subtotal,
-          icon: icon
-        });
-        totalGeneralCalculado += subtotal;
+        if (servicio.cantidad > 0) { // Solo agregar si la cantidad es mayor a 0
+          const precioReal = getPrecioPorId(servicio.service_id);
+          const subtotal = precioReal * servicio.cantidad;
+          todosLosServicios.push({
+            nombre: servicio.nombre,
+            cantidad: servicio.cantidad,
+            precio: precioReal,
+            subtotal: subtotal,
+            icon: icon
+          });
+          totalGeneralCalculado += subtotal;
+        }
       });
     }
     
