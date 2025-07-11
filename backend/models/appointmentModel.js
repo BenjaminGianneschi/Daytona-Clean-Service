@@ -31,18 +31,79 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
   return parseInt(existingAppointments[0].count);
 }
 
+// Verificar disponibilidad estricta
+async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = null) {
+  // Buscar todos los turnos de ese día
+  let sql = 'SELECT id, appointment_time, duration FROM appointments WHERE appointment_date = $1 AND status IN ($2, $3)';
+  let params = [date, 'pending', 'confirmed'];
+  if (excludeId) {
+    sql += ' AND id != $4';
+    params.push(excludeId);
+  }
+  const appointments = await query(sql, params);
+
+  // Convertir a minutos
+  const requestedStart = parseInt(appointmentTime.split(':')[0]) * 60 + parseInt(appointmentTime.split(':')[1]);
+  const requestedEnd = requestedStart + duration;
+
+  for (const app of appointments) {
+    const appStart = parseInt(app.appointment_time.split(':')[0]) * 60 + parseInt(app.appointment_time.split(':')[1]);
+    const appEnd = appStart + app.duration;
+    // Si hay solapamiento, no está disponible
+    if (requestedStart < appEnd && requestedEnd > appStart) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Crear turno
 async function createAppointment(appointmentData) {
-  const { appointmentDate, startTime, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail } = appointmentData;
-  
+  const { appointmentDate, appointmentTime, userId, clientName, clientPhone, clientEmail, serviceLocation, services } = appointmentData;
+
+  // Obtener info de los servicios
+  let totalAmount = 0;
+  let totalDuration = 0;
+  let hasFullDay = false;
+  for (const s of services) {
+    const serviceResult = await query('SELECT price, duration, full_day FROM services WHERE id = $1', [s.service_id]);
+    if (serviceResult.length === 0) throw new Error(`Servicio con ID ${s.service_id} no encontrado`);
+    totalAmount += serviceResult[0].price * s.quantity;
+    totalDuration += serviceResult[0].duration * s.quantity;
+    if (serviceResult[0].full_day) hasFullDay = true;
+  }
+
+  // Si algún servicio es full_day, bloquear todo el día
+  if (hasFullDay) {
+    // Verificar que no haya ningún turno ese día
+    const count = await query('SELECT COUNT(*) FROM appointments WHERE appointment_date = $1 AND status IN ($2, $3)', [appointmentDate, 'pending', 'confirmed']);
+    if (parseInt(count[0].count) > 0) throw new Error('Ya existe un turno para ese día. No se puede reservar un servicio que ocupa todo el día.');
+    totalDuration = 1440; // 24 horas
+  } else {
+    // Validar disponibilidad estricta
+    const disponible = await isTimeSlotAvailable(appointmentDate, appointmentTime, totalDuration);
+    if (!disponible) throw new Error('El horario solicitado no está disponible.');
+  }
+
+  // Insertar el turno
   const result = await query(
-    `INSERT INTO appointments (appointment_date, start_time, total_price, service_location, user_id, client_name, client_phone, client_email, status, created_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending', CURRENT_TIMESTAMP)
+    `INSERT INTO appointments (appointment_date, appointment_time, total_price, duration, service_location, user_id, client_name, client_phone, client_email, status, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'pending', CURRENT_TIMESTAMP)
      RETURNING id`,
-    [appointmentDate, startTime, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail]
+    [appointmentDate, appointmentTime, totalAmount, totalDuration, serviceLocation, userId, clientName, clientPhone, clientEmail]
   );
-  
-  return result[0].id;
+  const appointmentId = result[0].id;
+
+  // Guardar los servicios en appointment_services
+  for (const s of services) {
+    await query(
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity, price, created_at)
+       VALUES ($1, $2, $3, (SELECT price FROM services WHERE id = $2), CURRENT_TIMESTAMP)`,
+      [appointmentId, s.service_id, s.quantity]
+    );
+  }
+
+  return appointmentId;
 }
 
 // Insertar servicios en appointment_services
@@ -256,5 +317,6 @@ module.exports = {
   cancelAppointment,
   getUserAppointments,
   updateUserAppointment,
-  getAllServices
+  getAllServices,
+  isTimeSlotAvailable
 };

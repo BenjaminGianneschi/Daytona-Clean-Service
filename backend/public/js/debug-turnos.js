@@ -55,34 +55,35 @@ function debugTurnos() {
   
   // 3. Probar crear un turno de prueba
   console.log('3. Probando crear turno de prueba...');
-  
+
   const testAppointment = {
     clientName: 'Test User',
     clientPhone: '3482123456',
     clientEmail: 'test@test.com',
     appointmentDate: '2024-12-30',
-    startTime: '10:00',
+    appointmentTime: '10:00',
     services: [
       {
-        name: 'Limpieza Test',
-        quantity: 1,
-        price: 20000
+        service_id: 4, // Ejemplo: Tapizado de Auto
+        quantity: 1
+      },
+      {
+        service_id: 7, // Ejemplo: Motor Detallada
+        quantity: 2
       }
     ],
-    totalAmount: 20000,
-    notes: 'Turno de prueba',
     serviceLocation: 'Dirección de prueba'
   };
-  
+
   // Agregar userId si está logueado
   if (userData) {
     const user = JSON.parse(userData);
     testAppointment.userId = user.id;
     console.log('   Agregando userId:', user.id);
   }
-  
+
   console.log('   Datos del turno de prueba:', testAppointment);
-  
+
   fetch(`${getApiUrl()}/appointments`, {
     method: 'POST',
     headers: {

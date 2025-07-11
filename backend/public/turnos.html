@@ -3743,14 +3743,11 @@
       clientPhone: turno.telefono,
       clientEmail: turno.email,
       appointmentDate: fecha,
-      startTime: hora,
+      appointmentTime: hora,
       services: servicios.map(s => ({
-        name: s.nombre,
-        quantity: s.cantidad,
-        price: s.precio
+        service_id: s.service_id,
+        quantity: s.cantidad
       })),
-      totalAmount: total,
-      notes: '',
       serviceLocation: direccion
     };
     // Si el usuario está logueado, agregar userId

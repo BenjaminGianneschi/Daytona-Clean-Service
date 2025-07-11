@@ -54,45 +54,35 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, startTime, services, totalAmount, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
-    if (!appointmentDate || !startTime || !services) {
-      return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
+    const { appointmentDate, appointmentTime, services, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
+    if (!appointmentDate || !appointmentTime || !services || !Array.isArray(services) || services.length === 0) {
+      return res.status(400).json({ success: false, message: 'Faltan datos obligatorios para crear el turno.' });
     }
-    
-    // Verificar disponibilidad del horario
-    const count = await appointmentModel.countAppointments(appointmentDate, startTime);
-    if (count > 0) {
-      return res.status(409).json({ success: false, message: 'El horario seleccionado no está disponible' });
-    }
-    
-    // Crear el turno con precio temporal (se actualizará después)
-    const appointmentData = {
+
+    // Llamar al modelo para crear el turno (incluye validación de disponibilidad y full_day)
+    const appointmentId = await appointmentModel.createAppointment({
       appointmentDate,
-      startTime,
-      totalAmount: 0, // Precio temporal
-      serviceLocation,
+      appointmentTime,
       userId,
       clientName,
       clientPhone,
-      clientEmail
-    };
-    
-    const appointmentId = await appointmentModel.createAppointment(appointmentData);
-    
-    // Guardar los servicios en la tabla intermedia
-    console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
-    await appointmentModel.addAppointmentServices(appointmentId, services);
-    console.log('addAppointmentServices finalizado para appointmentId:', appointmentId);
-    
+      clientEmail,
+      serviceLocation,
+      services
+    });
+
     res.status(201).json({ 
       success: true, 
       message: 'Turno creado exitosamente',
       appointmentId 
     });
-    
   } catch (error) {
     console.error('Error creando turno:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    let msg = 'Error interno del servidor';
+    if (error.message && (error.message.includes('no encontrado') || error.message.includes('No se puede reservar') || error.message.includes('no está disponible'))) {
+      msg = error.message;
+    }
+    res.status(500).json({ success: false, message: msg });
   }
 };
 
