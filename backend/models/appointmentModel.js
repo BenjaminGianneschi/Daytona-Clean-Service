@@ -32,18 +32,23 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
 }
 
 // Crear turno
-async function createAppointment({ clientId, appointmentDate, appointmentTime, services, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail }) {
-  // Para la estructura actual, vamos a guardar el primer servicio como service_type
-  // y los detalles en notes
-  const serviceType = services && services.length > 0 ? services[0].name : 'Servicio General';
-  const serviceDetails = services ? JSON.stringify(services) : null;
-  
+async function createAppointment({ clientId, appointmentDate, appointmentTime, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail }) {
   const appointmentResult = await query(
-    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, service_type, appointment_date, appointment_time, total_price, notes, service_location, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
-    [userId, clientName, clientPhone, clientEmail, serviceType, appointmentDate, appointmentTime, totalAmount, notes || serviceDetails, serviceLocation, 'pending']
+    'INSERT INTO appointments (user_id, client_name, client_phone, client_email, appointment_date, appointment_time, total_price, notes, service_location, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+    [userId, clientName, clientPhone, clientEmail, appointmentDate, appointmentTime, totalAmount, notes, serviceLocation, 'pending']
   );
-  
   return appointmentResult[0].id;
+}
+
+// Insertar servicios en appointment_services
+async function addAppointmentServices(appointmentId, services) {
+  for (const s of services) {
+    await query(
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity)
+       VALUES ($1, $2, $3)`,
+      [appointmentId, s.service_id, s.quantity]
+    );
+  }
 }
 
 // Obtener todos los turnos (admin)
@@ -193,6 +198,7 @@ module.exports = {
   getAvailabilityByDate,
   countAppointments,
   createAppointment,
+  addAppointmentServices,
   getAllAppointments,
   getAppointmentById,
   updateAppointmentStatus,
