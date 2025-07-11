@@ -1464,188 +1464,140 @@
     };
   }
 
-  // Funciones globales para sillones
-  function cambiarCantidad(id, cambio) {
-    console.log('cambiarCantidad llamado con:', id, cambio);
-    console.log('sillonesAgregados ANTES:', JSON.stringify(sillonesAgregados));
-    // Convertir el ID a número para que coincida con el tipo de dato
-    const idNum = parseFloat(id);
-    const sillon = sillonesAgregados.find(s => s.id === idNum);
-    console.log('sillon encontrado:', sillon);
+  // Funciones globales para sillones (usando service_id)
+  function cambiarCantidad(serviceId, delta) {
+    const sillon = sillonesAgregados.find(s => s.service_id == serviceId);
     if (sillon) {
-      sillon.cantidad += cambio;
-      console.log('nueva cantidad:', sillon.cantidad);
-      if (sillon.cantidad <= 0) {
-        eliminarSillon(idNum);
-      } else {
-        console.log('sillonesAgregados DESPUÉS:', JSON.stringify(sillonesAgregados));
-        renderSillonesCards();
-        actualizarTotalSillones();
-      }
+      sillon.cantidad = Math.max(1, sillon.cantidad + delta);
+      renderSillonesCards();
     }
   }
 
-  function eliminarSillon(id) {
-    console.log('eliminarSillon llamado con:', id);
-    // Convertir el ID a número para que coincida con el tipo de dato
-    const idNum = parseFloat(id);
-    sillonesAgregados = sillonesAgregados.filter(s => s.id !== idNum);
-    renderSillonesCards();
-    actualizarTotalSillones();
+  function eliminarSillon(serviceId) {
+    const index = sillonesAgregados.findIndex(s => s.service_id == serviceId);
+    if (index > -1) {
+      sillonesAgregados.splice(index, 1);
+      renderSillonesCards();
+    }
   }
 
-  // Funciones globales para sillas
-  function cambiarCantidadSilla(id, cambio) {
-    const idNum = parseFloat(id);
-    const silla = sillasAgregadas.find(s => s.id === idNum);
+  // Funciones globales para sillas (usando service_id)
+  function cambiarCantidadSilla(serviceId, delta) {
+    const silla = sillasAgregadas.find(s => s.service_id == serviceId);
     if (silla) {
-      silla.cantidad += cambio;
-      if (silla.cantidad <= 0) {
-        eliminarSilla(idNum);
-      } else {
-        renderSillasCards();
-        actualizarTotalSillas();
-      }
+      silla.cantidad = Math.max(1, silla.cantidad + delta);
+      renderSillasCards();
     }
   }
 
-  function eliminarSilla(id) {
-    const idNum = parseFloat(id);
-    sillasAgregadas = sillasAgregadas.filter(s => s.id !== idNum);
-    renderSillasCards();
-    actualizarTotalSillas();
+  function eliminarSilla(serviceId) {
+    const index = sillasAgregadas.findIndex(s => s.service_id == serviceId);
+    if (index > -1) {
+      sillasAgregadas.splice(index, 1);
+      renderSillasCards();
+    }
   }
 
-  // Funciones globales para colchones
-  function cambiarCantidadColchon(id, cambio) {
-    const idNum = parseFloat(id);
-    const colchon = colchonesAgregados.find(c => c.id === idNum);
+  // Funciones globales para colchones (usando service_id)
+  function cambiarCantidadColchon(serviceId, delta) {
+    const colchon = colchonesAgregados.find(c => c.service_id == serviceId);
     if (colchon) {
-      colchon.cantidad += cambio;
-      if (colchon.cantidad <= 0) {
-        eliminarColchon(idNum);
-      } else {
-        renderColchonesCards();
-        actualizarTotalColchones();
-      }
+      colchon.cantidad = Math.max(1, colchon.cantidad + delta);
+      renderColchonesCards();
     }
   }
 
-  function eliminarColchon(id) {
-    const idNum = parseFloat(id);
-    colchonesAgregados = colchonesAgregados.filter(c => c.id !== idNum);
-    renderColchonesCards();
-    actualizarTotalColchones();
+  function eliminarColchon(serviceId) {
+    const index = colchonesAgregados.findIndex(c => c.service_id == serviceId);
+    if (index > -1) {
+      colchonesAgregados.splice(index, 1);
+      renderColchonesCards();
+    }
   }
 
-  // Funciones globales para vehículos
-  function cambiarCantidadVehiculo(id, cambio) {
-    const idNum = parseFloat(id);
-    const vehiculo = vehiculosAgregados.find(v => v.id === idNum);
+  // Funciones globales para vehículos (usando service_id)
+  function cambiarCantidadVehiculo(serviceId, delta) {
+    const vehiculo = vehiculosAgregados.find(v => v.service_id == serviceId);
     if (vehiculo) {
-      vehiculo.cantidad += cambio;
-      if (vehiculo.cantidad <= 0) {
-        eliminarVehiculo(idNum);
-      } else {
-        renderVehiculosCards();
-        actualizarTotalVehiculos();
-      }
+      vehiculo.cantidad = Math.max(1, vehiculo.cantidad + delta);
+      renderVehiculosCards();
     }
   }
 
-  function eliminarVehiculo(id) {
-    const idNum = parseFloat(id);
-    vehiculosAgregados = vehiculosAgregados.filter(v => v.id !== idNum);
-    renderVehiculosCards();
-    actualizarTotalVehiculos();
-  }
-
-  // Funciones globales para tapizado de vehículos
-  function cambiarCantidadTapizadoVehiculo(id, cambio) {
-    const idNum = parseFloat(id);
-    const tapizadoVehiculo = tapizadoVehiculosAgregados.find(tv => tv.id === idNum);
-    if (tapizadoVehiculo) {
-      tapizadoVehiculo.cantidad += cambio;
-      if (tapizadoVehiculo.cantidad <= 0) {
-        eliminarTapizadoVehiculo(idNum);
-      } else {
-        renderTapizadoVehiculosCards();
-        actualizarTotalTapizadoVehiculos();
-      }
+  function eliminarVehiculo(serviceId) {
+    const index = vehiculosAgregados.findIndex(v => v.service_id == serviceId);
+    if (index > -1) {
+      vehiculosAgregados.splice(index, 1);
+      renderVehiculosCards();
     }
   }
 
-  function eliminarTapizadoVehiculo(id) {
-    const idNum = parseFloat(id);
-    tapizadoVehiculosAgregados = tapizadoVehiculosAgregados.filter(tv => tv.id !== idNum);
-    renderTapizadoVehiculosCards();
-    actualizarTotalTapizadoVehiculos();
+  // Funciones globales para tapizado de vehículos (usando service_id)
+  function cambiarCantidadTapizadoVehiculo(serviceId, delta) {
+    const tv = tapizadoVehiculosAgregados.find(tv => tv.service_id == serviceId);
+    if (tv) {
+      tv.cantidad = Math.max(1, tv.cantidad + delta);
+      renderTapizadoVehiculosCards();
+    }
   }
 
-  // Funciones globales para motores
-  function cambiarCantidadMotor(id, cambio) {
-    const idNum = parseFloat(id);
-    const motor = motoresAgregados.find(m => m.id === idNum);
+  function eliminarTapizadoVehiculo(serviceId) {
+    const index = tapizadoVehiculosAgregados.findIndex(tv => tv.service_id == serviceId);
+    if (index > -1) {
+      tapizadoVehiculosAgregados.splice(index, 1);
+      renderTapizadoVehiculosCards();
+    }
+  }
+
+  // Funciones globales para motores (usando service_id)
+  function cambiarCantidadMotor(serviceId, delta) {
+    const motor = motoresAgregados.find(m => m.service_id == serviceId);
     if (motor) {
-      motor.cantidad += cambio;
-      if (motor.cantidad <= 0) {
-        eliminarMotor(idNum);
-      } else {
-        renderMotoresCards();
-        actualizarTotalMotores();
-      }
+      motor.cantidad = Math.max(1, motor.cantidad + delta);
+      renderMotoresCards();
     }
   }
 
-  function eliminarMotor(id) {
-    const idNum = parseFloat(id);
-    motoresAgregados = motoresAgregados.filter(m => m.id !== idNum);
-    renderMotoresCards();
-    actualizarTotalMotores();
+  function eliminarMotor(serviceId) {
+    const index = motoresAgregados.findIndex(m => m.service_id == serviceId);
+    if (index > -1) {
+      motoresAgregados.splice(index, 1);
+      renderMotoresCards();
+    }
   }
 
-  // Funciones globales para alfombras
-  function cambiarCantidadAlfombra(id, cambio) {
-    const idNum = parseFloat(id);
-    const alfombra = alfombrasAgregadas.find(a => a.id === idNum);
+  // Funciones globales para alfombras (usando service_id)
+  function cambiarCantidadAlfombra(serviceId, delta) {
+    const alfombra = alfombrasAgregadas.find(a => a.service_id == serviceId);
     if (alfombra) {
-      alfombra.cantidad += cambio;
-      if (alfombra.cantidad <= 0) {
-        eliminarAlfombra(idNum);
-      } else {
-        renderAlfombrasCards();
-        actualizarTotalAlfombras();
-      }
+      alfombra.cantidad = Math.max(1, alfombra.cantidad + delta);
+      renderAlfombrasCards();
     }
   }
 
-  function eliminarAlfombra(id) {
-    const idNum = parseFloat(id);
-    alfombrasAgregadas = alfombrasAgregadas.filter(a => a.id !== idNum);
-    renderAlfombrasCards();
-    actualizarTotalAlfombras();
+  function eliminarAlfombra(serviceId) {
+    const index = alfombrasAgregadas.findIndex(a => a.service_id == serviceId);
+    if (index > -1) {
+      alfombrasAgregadas.splice(index, 1);
+      renderAlfombrasCards();
+    }
   }
 
-  // Funciones globales para puffs
-  function cambiarCantidadPuff(id, cambio) {
-    const idNum = parseFloat(id);
-    const puff = puffsAgregados.find(p => p.id === idNum);
+  // Funciones globales para puffs (usando service_id)
+  function cambiarCantidadPuff(serviceId, delta) {
+    const puff = puffsAgregados.find(p => p.service_id == serviceId);
     if (puff) {
-      puff.cantidad += cambio;
-      if (puff.cantidad <= 0) {
-        eliminarPuff(idNum);
-      } else {
-        renderPuffsCards();
-        actualizarTotalPuffs();
-      }
+      puff.cantidad = Math.max(1, puff.cantidad + delta);
+      renderPuffsCards();
     }
   }
 
-  function eliminarPuff(id) {
-    const idNum = parseFloat(id);
-    puffsAgregados = puffsAgregados.filter(p => p.id !== idNum);
-    renderPuffsCards();
-    actualizarTotalPuffs();
+  function eliminarPuff(serviceId) {
+    const index = puffsAgregados.findIndex(p => p.service_id == serviceId);
+    if (index > -1) {
+      puffsAgregados.splice(index, 1);
+      renderPuffsCards();
+    }
   }
 
   // Funciones de renderizado para sillones
@@ -4251,136 +4203,7 @@
   }
   // ... existing code ...
 
-  // ... existing code ...
-  // Funciones de eliminar - arreglar para usar service_id
-  function eliminarSillon(serviceId) {
-    console.log('eliminarSillon llamado con:', serviceId);
-    const index = sillonesAgregados.findIndex(s => s.service_id == serviceId);
-    if (index > -1) {
-      sillonesAgregados.splice(index, 1);
-      renderSillonesCards();
-    }
-  }
 
-  function eliminarColchon(serviceId) {
-    console.log('eliminarColchon llamado con:', serviceId);
-    const index = colchonesAgregados.findIndex(c => c.service_id == serviceId);
-    if (index > -1) {
-      colchonesAgregados.splice(index, 1);
-      renderColchonesCards();
-    }
-  }
-
-  function eliminarVehiculo(serviceId) {
-    console.log('eliminarVehiculo llamado con:', serviceId);
-    const index = vehiculosAgregados.findIndex(v => v.service_id == serviceId);
-    if (index > -1) {
-      vehiculosAgregados.splice(index, 1);
-      renderVehiculosCards();
-    }
-  }
-
-  function eliminarTapizadoVehiculo(serviceId) {
-    console.log('eliminarTapizadoVehiculo llamado con:', serviceId);
-    const index = tapizadoVehiculosAgregados.findIndex(tv => tv.service_id == serviceId);
-    if (index > -1) {
-      tapizadoVehiculosAgregados.splice(index, 1);
-      renderTapizadoVehiculosCards();
-    }
-  }
-
-  function eliminarMotor(serviceId) {
-    console.log('eliminarMotor llamado con:', serviceId);
-    const index = motoresAgregados.findIndex(m => m.service_id == serviceId);
-    if (index > -1) {
-      motoresAgregados.splice(index, 1);
-      renderMotoresCards();
-    }
-  }
-
-  function eliminarAlfombra(serviceId) {
-    console.log('eliminarAlfombra llamado con:', serviceId);
-    const index = alfombrasAgregadas.findIndex(a => a.service_id == serviceId);
-    if (index > -1) {
-      alfombrasAgregadas.splice(index, 1);
-      renderAlfombrasCards();
-    }
-  }
-
-  function eliminarPuff(serviceId) {
-    console.log('eliminarPuff llamado con:', serviceId);
-    const index = puffsAgregados.findIndex(p => p.service_id == serviceId);
-    if (index > -1) {
-      puffsAgregados.splice(index, 1);
-      renderPuffsCards();
-    }
-  }
-
-  // Funciones de cambiar cantidad - arreglar para usar service_id
-  function cambiarCantidad(serviceId, delta) {
-    const sillon = sillonesAgregados.find(s => s.service_id == serviceId);
-    if (sillon) {
-      sillon.cantidad = Math.max(1, sillon.cantidad + delta);
-      renderSillonesCards();
-    }
-  }
-
-  function cambiarCantidadSilla(serviceId, delta) {
-    const silla = sillasAgregadas.find(s => s.service_id == serviceId);
-    if (silla) {
-      silla.cantidad = Math.max(1, silla.cantidad + delta);
-      renderSillasCards();
-    }
-  }
-
-  function cambiarCantidadColchon(serviceId, delta) {
-    const colchon = colchonesAgregados.find(c => c.service_id == serviceId);
-    if (colchon) {
-      colchon.cantidad = Math.max(1, colchon.cantidad + delta);
-      renderColchonesCards();
-    }
-  }
-
-  function cambiarCantidadVehiculo(serviceId, delta) {
-    const vehiculo = vehiculosAgregados.find(v => v.service_id == serviceId);
-    if (vehiculo) {
-      vehiculo.cantidad = Math.max(1, vehiculo.cantidad + delta);
-      renderVehiculosCards();
-    }
-  }
-
-  function cambiarCantidadMotor(serviceId, delta) {
-    const motor = motoresAgregados.find(m => m.service_id == serviceId);
-    if (motor) {
-      motor.cantidad = Math.max(1, motor.cantidad + delta);
-      renderMotoresCards();
-    }
-  }
-
-  function cambiarCantidadAlfombra(serviceId, delta) {
-    const alfombra = alfombrasAgregadas.find(a => a.service_id == serviceId);
-    if (alfombra) {
-      alfombra.cantidad = Math.max(1, alfombra.cantidad + delta);
-      renderAlfombrasCards();
-    }
-  }
-
-  function cambiarCantidadPuff(serviceId, delta) {
-    const puff = puffsAgregados.find(p => p.service_id == serviceId);
-    if (puff) {
-      puff.cantidad = Math.max(1, puff.cantidad + delta);
-      renderPuffsCards();
-    }
-  }
-
-  function cambiarCantidadTapizadoVehiculo(serviceId, delta) {
-    const tv = tapizadoVehiculosAgregados.find(tv => tv.service_id == serviceId);
-    if (tv) {
-      tv.cantidad = Math.max(1, tv.cantidad + delta);
-      renderTapizadoVehiculosCards();
-    }
-  }
-  // ... existing code ...
 
 </script>
 </body>
