@@ -43,14 +43,47 @@ async function createAppointment({ clientId, appointmentDate, appointmentTime, t
 // Insertar servicios en appointment_services
 async function addAppointmentServices(appointmentId, services) {
   console.log('addAppointmentServices llamado con:', { appointmentId, services });
+  let totalCalculado = 0;
+  
   for (const s of services) {
-    console.log('Insertando en appointment_services:', { appointmentId, service_id: s.service_id, quantity: s.quantity });
+    // Obtener precio real desde la base de datos
+    const serviceResult = await query('SELECT price FROM services WHERE id = $1', [s.service_id]);
+    if (serviceResult.length === 0) {
+      throw new Error(`Servicio con ID ${s.service_id} no encontrado`);
+    }
+    
+    const precioReal = serviceResult[0].price;
+    const subtotal = precioReal * s.quantity;
+    totalCalculado += subtotal;
+    
+    console.log('Insertando en appointment_services:', { 
+      appointmentId, 
+      service_id: s.service_id, 
+      quantity: s.quantity,
+      price: precioReal,
+      subtotal: subtotal
+    });
+    
     await query(
-      `INSERT INTO appointment_services (appointment_id, service_id, quantity)
-       VALUES ($1, $2, $3)`,
-      [appointmentId, s.service_id, s.quantity]
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity, price)
+       VALUES ($1, $2, $3, $4)`,
+      [appointmentId, s.service_id, s.quantity, precioReal]
     );
   }
+  
+  // Actualizar el total del turno con el precio real calculado
+  await query('UPDATE appointments SET total_price = $1 WHERE id = $2', [totalCalculado, appointmentId]);
+  
+  console.log('Total calculado desde BD:', totalCalculado);
+  return totalCalculado;
+}
+
+// Eliminar turno y sus servicios asociados
+async function deleteAppointment(appointmentId) {
+  // Primero eliminar servicios asociados
+  await query('DELETE FROM appointment_services WHERE appointment_id = $1', [appointmentId]);
+  // Luego eliminar el turno
+  await query('DELETE FROM appointments WHERE id = $1', [appointmentId]);
 }
 
 // Obtener todos los turnos (admin)
@@ -196,15 +229,27 @@ async function updateUserAppointment(id, updateData) {
   `, [appointment_date, appointment_time, notes || null, service_location || null, id]);
 }
 
+// Obtener todos los servicios con precios
+async function getAllServices() {
+  const services = await query(`
+    SELECT id, name, price, duration, category, description
+    FROM services 
+    ORDER BY category, name
+  `);
+  return services;
+}
+
 module.exports = {
   getAvailabilityByDate,
   countAppointments,
   createAppointment,
   addAppointmentServices,
+  deleteAppointment,
   getAllAppointments,
   getAppointmentById,
   updateAppointmentStatus,
   cancelAppointment,
   getUserAppointments,
-  updateUserAppointment
+  updateUserAppointment,
+  getAllServices
 };

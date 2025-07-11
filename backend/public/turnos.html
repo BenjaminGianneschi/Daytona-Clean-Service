@@ -1278,6 +1278,89 @@
     }
   };
 
+  // Variables globales para servicios
+  let serviciosBD = [];
+  let serviciosPorCategoria = {};
+
+  // Cargar servicios desde la base de datos
+  async function cargarServiciosDesdeBD() {
+    try {
+      const response = await fetch('/api/appointments/services');
+      const data = await response.json();
+      
+      if (data.success) {
+        serviciosBD = data.services;
+        
+        // Organizar servicios por categoría
+        serviciosPorCategoria = {};
+        serviciosBD.forEach(servicio => {
+          if (!serviciosPorCategoria[servicio.category]) {
+            serviciosPorCategoria[servicio.category] = [];
+          }
+          serviciosPorCategoria[servicio.category].push(servicio);
+        });
+        
+        console.log('✅ Servicios cargados desde BD:', serviciosBD.length, 'servicios');
+        console.log('📂 Categorías disponibles:', Object.keys(serviciosPorCategoria));
+      } else {
+        console.error('❌ Error cargando servicios:', data.message);
+      }
+    } catch (error) {
+      console.error('❌ Error en cargarServiciosDesdeBD:', error);
+    }
+  }
+
+  // Función para obtener precio desde BD por nombre y tipo
+  function getPrecioDesdeBD(nombreServicio, tipo = null) {
+    const servicio = serviciosBD.find(s => {
+      if (tipo) {
+        return s.name.toLowerCase().includes(nombreServicio.toLowerCase()) && 
+               s.name.toLowerCase().includes(tipo.toLowerCase());
+      }
+      return s.name.toLowerCase().includes(nombreServicio.toLowerCase());
+    });
+    
+    return servicio ? servicio.price : 0;
+  }
+
+  // Funciones helper para obtener precios (solo desde BD)
+  function getPrecioVehiculo(tipo) {
+    return getPrecioDesdeBD('vehículo', tipo);
+  }
+
+  function getPrecioTapizadoVehiculo(tipo) {
+    return getPrecioDesdeBD('tapizado vehículo', tipo);
+  }
+
+  function getPrecioMotor(tipo) {
+    return getPrecioDesdeBD('motor', tipo);
+  }
+
+  function getPrecioSillon(tipo) {
+    return getPrecioDesdeBD('sillón', tipo);
+  }
+
+  function getPrecioSilla(tipo) {
+    return getPrecioDesdeBD('silla', tipo);
+  }
+
+  function getPrecioColchon(tipo) {
+    return getPrecioDesdeBD('colchón', tipo);
+  }
+
+  function getPrecioAlfombra(tipo) {
+    return getPrecioDesdeBD('alfombra', tipo);
+  }
+
+  function getPrecioPuff(tipo) {
+    return getPrecioDesdeBD('puff', tipo);
+  }
+
+  // Cargar servicios al iniciar la página
+  document.addEventListener('DOMContentLoaded', function() {
+    cargarServiciosDesdeBD();
+  });
+
   // Función para categorizar servicios
   function categorizarServicios() {
     const serviciosVehiculos = [];
@@ -1379,73 +1462,6 @@
       hayTapizados: serviciosTapizados.length > 0,
       necesitaTurnosSeparados: serviciosVehiculos.length > 0 && serviciosTapizados.length > 0
     };
-  }
-
-  // Funciones helper para obtener precios
-  function getPrecioVehiculo(tipo) {
-    const precios = { 'auto': 20000, 'suv': 27000, 'pickup': 25000 };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioTapizadoVehiculo(tipo) {
-    const precios = { 'auto': 100000, 'suv': 115000, 'pickup': 125000 };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioMotor(tipo) {
-    const precios = { 'basica': 12000, 'completa': 15000, 'detallada': 18000 };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioSillon(tipo) {
-    // Precios actualizados según tabla de promociones
-    const precios = { 
-      '1 cuerpo': 65000, 
-      '2 cuerpos': 125000, 
-      '3 cuerpos': 150000
-    };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioSilla(tipo) {
-    // Precios actualizados según tabla de promociones (precio base por silla)
-    const precios = { 
-      'simple': 12500, 
-      'gamer': 12500, 
-      'oficina': 12500, 
-      'comedor': 12500 
-    };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioColchon(tipo) {
-    // Precios actualizados según tabla de promociones
-    const precios = { 
-      '1 plaza': 80000, 
-      '2 plazas': 120000
-    };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioAlfombra(tipo) {
-    // Precios base para alfombras (no encontrados en promociones, mantener valores actuales)
-    const precios = { 
-      'chica': 20000, 
-      'mediana': 25000, 
-      'grande': 30000, 
-      'persa': 35000 
-    };
-    return precios[tipo] || 0;
-  }
-
-  function getPrecioPuff(tipo) {
-    // Precios base para puffs (no encontrados en promociones, mantener valores actuales)
-    const precios = { 
-      'simple': 10500, 
-      'grande': 15000, 
-      'especial': 20000 
-    };
-    return precios[tipo] || 0;
   }
 
   // Funciones globales para sillones

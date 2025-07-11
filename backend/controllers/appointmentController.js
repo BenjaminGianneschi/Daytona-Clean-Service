@@ -54,20 +54,22 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, startTime, services, totalAmount, notes, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
-    if (!appointmentDate || !startTime || !services || !totalAmount) {
+    const { appointmentDate, startTime, services, notes, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
+    if (!appointmentDate || !startTime || !services) {
       return res.status(400).json({ success: false, message: 'Todos los campos requeridos deben estar presentes' });
     }
+    
     // Verificar disponibilidad del horario
     const count = await appointmentModel.countAppointments(appointmentDate, startTime);
     if (count > 0) {
       return res.status(409).json({ success: false, message: 'El horario seleccionado no está disponible' });
     }
-    // Crear el turno
+    
+    // Crear el turno con precio temporal (se actualizará después)
     const appointmentId = await appointmentModel.createAppointment({ 
       appointmentDate, 
       appointmentTime: startTime, 
-      totalAmount, 
+      totalAmount: 0, // Precio temporal, se calculará desde BD
       notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`,
       userId: userId || null,
       clientName,
@@ -75,10 +77,21 @@ const createAppointment = async (req, res) => {
       clientEmail,
       serviceLocation
     });
-    // Guardar los servicios en la tabla intermedia
-    console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
-    await appointmentModel.addAppointmentServices(appointmentId, services);
-    console.log('addAppointmentServices finalizado para appointmentId:', appointmentId);
+    
+    // Guardar los servicios en la tabla intermedia y calcular precio real
+    if (services && services.length > 0) {
+      try {
+        console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
+        const totalReal = await appointmentModel.addAppointmentServices(appointmentId, services);
+        console.log('addAppointmentServices finalizado para appointmentId:', appointmentId, 'Total real:', totalReal);
+      } catch (serviceError) {
+        console.error('Error guardando servicios:', serviceError);
+        // Si falla guardar servicios, eliminar el turno creado
+        await appointmentModel.deleteAppointment(appointmentId);
+        return res.status(500).json({ success: false, message: 'Error guardando servicios del turno' });
+      }
+    }
+    
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
     console.error('Error creando turno:', error);
@@ -297,6 +310,17 @@ const completeAppointment = async (req, res) => {
   }
 };
 
+// Obtener todos los servicios con precios
+const getAllServices = async (req, res) => {
+  try {
+    const services = await appointmentModel.getAllServices();
+    res.json({ success: true, services });
+  } catch (error) {
+    console.error('Error obteniendo servicios:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
 module.exports = {
   getAvailability,
   createAppointment,
@@ -307,5 +331,6 @@ module.exports = {
   completeAppointment,
   getUserAppointments,
   updateUserAppointment,
-  cancelUserAppointment
+  cancelUserAppointment,
+  getAllServices
 }; 

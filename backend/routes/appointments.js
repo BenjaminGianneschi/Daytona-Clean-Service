@@ -10,13 +10,17 @@ const {
   completeAppointment,
   getUserAppointments,
   updateUserAppointment,
-  cancelUserAppointment
+  cancelUserAppointment,
+  getAllServices
 } = require('../controllers/appointmentController');
 const { authenticateUserToken, requireAdmin } = require('../middleware/auth');
 
 // Rutas públicas (para clientes)
 router.get('/availability/:date', getAvailability);
 router.post('/', createAppointment); // Permitir crear turno sin autenticación
+
+// Obtener todos los servicios
+router.get('/services', getAllServices);
 
 // Rutas para usuarios logueados
 router.get('/user/appointments', authenticateUserToken, getUserAppointments);
