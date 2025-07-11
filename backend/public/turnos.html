@@ -592,19 +592,19 @@
           <div id="puff-tipos-container" style="display:none;" class="mb-3">
             <div class="mb-2"><strong>Elegí el tipo de puff:</strong></div>
             <div class="btn-group" role="group" id="puff-tipos">
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-simple" value="simple" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-simple">
-                <i class="fas fa-couch me-1"></i>Simple
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-chico" value="chico" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-chico">
+                <i class="fas fa-couch me-1"></i>Chico
+              </label>
+              
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-mediano" value="mediano" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-mediano">
+                <i class="fas fa-couch me-1"></i>Mediano
               </label>
               
               <input type="radio" class="btn-check" name="puff-tipo" id="puff-grande" value="grande" autocomplete="off">
               <label class="btn btn-outline-primary" for="puff-grande">
                 <i class="fas fa-couch me-1"></i>Grande
-              </label>
-              
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-especial" value="especial" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-especial">
-                <i class="fas fa-couch me-1"></i>Especial
               </label>
             </div>
           </div>
@@ -3939,8 +3939,10 @@
 
   function armarNombreServicio(tipo, subtipo) {
     if (tipo === "vehiculo") {
-      // Ej: "Limpieza de Auto"
-      return `Limpieza de ${capitalizarPrimeraLetra(subtipo)}`;
+      if (subtipo === 'auto') return 'Limpieza de Auto';
+      if (subtipo === 'pickup') return 'Limpieza de Pickup';
+      if (subtipo === 'suv') return 'Limpieza de SUV';
+      return '';
     }
     if (tipo === "tapizadoVehiculo") {
       // Mapear subtipo a nombre exacto de la BD
