@@ -76,7 +76,9 @@ const createAppointment = async (req, res) => {
       serviceLocation
     });
     // Guardar los servicios en la tabla intermedia
+    console.log('Llamando a addAppointmentServices con:', { appointmentId, services });
     await appointmentModel.addAppointmentServices(appointmentId, services);
+    console.log('addAppointmentServices finalizado para appointmentId:', appointmentId);
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
     console.error('Error creando turno:', error);

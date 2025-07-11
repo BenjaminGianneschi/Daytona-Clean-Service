@@ -42,7 +42,9 @@ async function createAppointment({ clientId, appointmentDate, appointmentTime, t
 
 // Insertar servicios en appointment_services
 async function addAppointmentServices(appointmentId, services) {
+  console.log('addAppointmentServices llamado con:', { appointmentId, services });
   for (const s of services) {
+    console.log('Insertando en appointment_services:', { appointmentId, service_id: s.service_id, quantity: s.quantity });
     await query(
       `INSERT INTO appointment_services (appointment_id, service_id, quantity)
        VALUES ($1, $2, $3)`,
