@@ -1468,7 +1468,11 @@
   function cambiarCantidad(serviceId, delta) {
     const sillon = sillonesAgregados.find(s => s.service_id == serviceId);
     if (sillon) {
-      sillon.cantidad = Math.max(1, sillon.cantidad + delta);
+      sillon.cantidad += delta;
+      if (sillon.cantidad <= 0) {
+        const index = sillonesAgregados.findIndex(s => s.service_id == serviceId);
+        if (index !== -1) sillonesAgregados.splice(index, 1);
+      }
       renderSillonesCards();
     }
   }
@@ -1485,7 +1489,11 @@
   function cambiarCantidadSilla(serviceId, delta) {
     const silla = sillasAgregadas.find(s => s.service_id == serviceId);
     if (silla) {
-      silla.cantidad = Math.max(1, silla.cantidad + delta);
+      silla.cantidad += delta;
+      if (silla.cantidad <= 0) {
+        const index = sillasAgregadas.findIndex(s => s.service_id == serviceId);
+        if (index !== -1) sillasAgregadas.splice(index, 1);
+      }
       renderSillasCards();
     }
   }
@@ -1502,7 +1510,11 @@
   function cambiarCantidadColchon(serviceId, delta) {
     const colchon = colchonesAgregados.find(c => c.service_id == serviceId);
     if (colchon) {
-      colchon.cantidad = Math.max(1, colchon.cantidad + delta);
+      colchon.cantidad += delta;
+      if (colchon.cantidad <= 0) {
+        const index = colchonesAgregados.findIndex(c => c.service_id == serviceId);
+        if (index !== -1) colchonesAgregados.splice(index, 1);
+      }
       renderColchonesCards();
     }
   }
@@ -1519,7 +1531,11 @@
   function cambiarCantidadVehiculo(serviceId, delta) {
     const vehiculo = vehiculosAgregados.find(v => v.service_id == serviceId);
     if (vehiculo) {
-      vehiculo.cantidad = Math.max(1, vehiculo.cantidad + delta);
+      vehiculo.cantidad += delta;
+      if (vehiculo.cantidad <= 0) {
+        const index = vehiculosAgregados.findIndex(v => v.service_id == serviceId);
+        if (index !== -1) vehiculosAgregados.splice(index, 1);
+      }
       renderVehiculosCards();
     }
   }
@@ -1536,7 +1552,11 @@
   function cambiarCantidadTapizadoVehiculo(serviceId, delta) {
     const tv = tapizadoVehiculosAgregados.find(tv => tv.service_id == serviceId);
     if (tv) {
-      tv.cantidad = Math.max(1, tv.cantidad + delta);
+      tv.cantidad += delta;
+      if (tv.cantidad <= 0) {
+        const index = tapizadoVehiculosAgregados.findIndex(tv => tv.service_id == serviceId);
+        if (index !== -1) tapizadoVehiculosAgregados.splice(index, 1);
+      }
       renderTapizadoVehiculosCards();
     }
   }
@@ -1553,7 +1573,11 @@
   function cambiarCantidadMotor(serviceId, delta) {
     const motor = motoresAgregados.find(m => m.service_id == serviceId);
     if (motor) {
-      motor.cantidad = Math.max(1, motor.cantidad + delta);
+      motor.cantidad += delta;
+      if (motor.cantidad <= 0) {
+        const index = motoresAgregados.findIndex(m => m.service_id == serviceId);
+        if (index !== -1) motoresAgregados.splice(index, 1);
+      }
       renderMotoresCards();
     }
   }
@@ -1570,7 +1594,11 @@
   function cambiarCantidadAlfombra(serviceId, delta) {
     const alfombra = alfombrasAgregadas.find(a => a.service_id == serviceId);
     if (alfombra) {
-      alfombra.cantidad = Math.max(1, alfombra.cantidad + delta);
+      alfombra.cantidad += delta;
+      if (alfombra.cantidad <= 0) {
+        const index = alfombrasAgregadas.findIndex(a => a.service_id == serviceId);
+        if (index !== -1) alfombrasAgregadas.splice(index, 1);
+      }
       renderAlfombrasCards();
     }
   }
@@ -1587,7 +1615,11 @@
   function cambiarCantidadPuff(serviceId, delta) {
     const puff = puffsAgregados.find(p => p.service_id == serviceId);
     if (puff) {
-      puff.cantidad = Math.max(1, puff.cantidad + delta);
+      puff.cantidad += delta;
+      if (puff.cantidad <= 0) {
+        const index = puffsAgregados.findIndex(p => p.service_id == serviceId);
+        if (index !== -1) puffsAgregados.splice(index, 1);
+      }
       renderPuffsCards();
     }
   }
