@@ -1773,7 +1773,7 @@
     colchonesSeleccionados.innerHTML = '';
     
     colchonesAgregados.forEach(colchon => {
-      const precioUnitario = getPrecioDesdeBD('Colchón', colchon.tipo);
+      const precioUnitario = getPrecioPorId(colchon.service_id);
       const precioTotal = precioUnitario * colchon.cantidad;
       
       const card = document.createElement('div');
@@ -1782,7 +1782,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-bed me-2"></i><strong>${colchon.tipo}</strong>
+              <i class="fas fa-bed me-2"></i><strong>${colchon.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">90 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarColchon('${colchon.id}')">
@@ -1830,7 +1830,7 @@
     vehiculosSeleccionados.innerHTML = '';
     
     vehiculosAgregados.forEach(vehiculo => {
-      const precioUnitario = getPrecioDesdeBD('Vehículo', vehiculo.tipo);
+      const precioUnitario = getPrecioPorId(vehiculo.service_id);
       const precioTotal = precioUnitario * vehiculo.cantidad;
       
       const card = document.createElement('div');
@@ -1839,7 +1839,7 @@
         <div class="p-3 rounded bg-dark text-light position-relative">
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
-              <i class="fas fa-car me-2"></i><strong>${vehiculo.tipo}</strong>
+              <i class="fas fa-car me-2"></i><strong>${vehiculo.nombre}</strong>
               <span class="badge bg-dark text-white ms-2">90 min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarVehiculo('${vehiculo.id}')">
