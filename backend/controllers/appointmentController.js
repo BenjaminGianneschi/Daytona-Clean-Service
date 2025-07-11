@@ -67,15 +67,16 @@ const createAppointment = async (req, res) => {
     const appointmentId = await appointmentModel.createAppointment({ 
       appointmentDate, 
       appointmentTime: startTime, 
-      services, 
       totalAmount, 
       notes: notes || `Ubicación: ${serviceLocation || 'A confirmar'}`,
       userId: userId || null,
       clientName,
       clientPhone,
       clientEmail,
-      serviceLocation // <--- Asegurarse de pasar este campo
+      serviceLocation
     });
+    // Guardar los servicios en la tabla intermedia
+    await appointmentModel.addAppointmentServices(appointmentId, services);
     res.json({ success: true, message: 'Turno creado exitosamente', appointmentId });
   } catch (error) {
     console.error('Error creando turno:', error);
