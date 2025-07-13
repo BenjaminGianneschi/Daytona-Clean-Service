@@ -2583,7 +2583,7 @@
         if (categorias.necesitaTurnosSeparados) {
           // Guardar turno de vehículos
           if (window.turnosSeparados.vehiculos.servicios.length > 0) {
-            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
             console.log("Servicios seleccionados (vehículos):", window.turnosSeparados.vehiculos.servicios);
             console.log("Nombres de servicios (vehículos):", nombresServiciosVehiculos);
             if (!nombresServiciosVehiculos) {
@@ -2607,7 +2607,7 @@
 
           // Guardar turno de tapizados
           if (window.turnosSeparados.tapizados.servicios.length > 0) {
-            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
             console.log("Servicios seleccionados (tapizados):", window.turnosSeparados.tapizados.servicios);
             console.log("Nombres de servicios (tapizados):", nombresServiciosTapizados);
             if (!nombresServiciosTapizados) {
@@ -2637,7 +2637,7 @@
             servicios = window.turnosSeparados.vehiculos.servicios;
             fecha = window.turnosSeparados.vehiculos.fecha;
             hora = window.turnosSeparados.vehiculos.hora;
-            tipo = servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            tipo = servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
             if (window.turnosSeparados.vehiculos.direccion) {
               if (typeof window.turnosSeparados.vehiculos.direccion === 'object') {
                 direccion = `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}`;
@@ -2650,7 +2650,7 @@
             fecha = window.turnosSeparados.tapizados.fecha;
             hora = window.turnosSeparados.tapizados.hora;
             direccion = window.turnosSeparados.tapizados.direccion;
-            tipo = servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            tipo = servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
           }
 
           console.log("Servicios seleccionados (único):", servicios);
