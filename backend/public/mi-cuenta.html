@@ -911,22 +911,22 @@
             serviciosInfo = appointment.service_type || 'No especificado';
           }
 
-          // Formatear dirección/logística
+          // Formatear dirección/logística mejorada
           let direccionHtml = '';
           const dir = appointment.serviceLocation || appointment.service_location || appointment.address || '';
-          if (dir.toLowerCase().includes('lleva el vehículo')) {
-            direccionHtml = '<strong>Logística:</strong> El cliente lleva el vehículo';
-          } else if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
+          if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
             const match = dir.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
             if (match) {
               direccionHtml = `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
             } else {
               direccionHtml = `<strong>Dirección:</strong> ${dir}`;
             }
-          } else if (dir) {
+          } else if (dir && dir.toLowerCase().includes('lleva el vehículo')) {
+            direccionHtml = '<strong>Logística:</strong> El cliente lleva el vehículo';
+          } else if (dir && dir.trim() && dir !== 'A confirmar') {
             direccionHtml = `<strong>Dirección:</strong> ${dir}`;
           } else {
-            direccionHtml = '<span style="color: red;">¡Error! Dirección no especificada</span>';
+            direccionHtml = '<span style="color: red; font-weight: bold;">¡Error! Dirección obligatoria no especificada. Contactar al administrador.</span>';
           }
 
           // Formatear total
