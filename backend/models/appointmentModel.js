@@ -59,7 +59,7 @@ async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = 
 
 // Crear turno
 async function createAppointment(appointmentData) {
-  const { appointmentDate, appointmentTime, userId, clientName, clientPhone, clientEmail, serviceLocation, services } = appointmentData;
+  const { appointmentDate, appointmentTime, userId, clientName, clientPhone, clientEmail, serviceLocation, services, service_type } = appointmentData;
 
   // Obtener info de los servicios
   let totalAmount = 0;
@@ -87,10 +87,10 @@ async function createAppointment(appointmentData) {
 
   // Insertar el turno
   const result = await query(
-    `INSERT INTO appointments (appointment_date, appointment_time, total_price, duration, service_location, user_id, client_name, client_phone, client_email, status, created_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'pending', CURRENT_TIMESTAMP)
+    `INSERT INTO appointments (appointment_date, appointment_time, total_price, duration, service_location, user_id, client_name, client_phone, client_email, service_type, status, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'pending', CURRENT_TIMESTAMP)
      RETURNING id`,
-    [appointmentDate, appointmentTime, totalAmount, totalDuration, serviceLocation, userId, clientName, clientPhone, clientEmail]
+    [appointmentDate, appointmentTime, totalAmount, totalDuration, serviceLocation, userId, clientName, clientPhone, clientEmail, service_type]
   );
   const appointmentId = result[0].id;
 
