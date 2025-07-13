@@ -54,10 +54,38 @@ const getAvailability = async (req, res) => {
 // Crear nuevo turno
 const createAppointment = async (req, res) => {
   try {
-    const { appointmentDate, appointmentTime, services, serviceLocation, userId, clientName, clientPhone, clientEmail } = req.body;
+    console.log('📋 Datos recibidos para crear turno:', req.body);
+    
+    const { appointmentDate, appointmentTime, services, serviceLocation, userId, clientName, clientPhone, clientEmail, service_type, totalAmount } = req.body;
+    
+    // Validaciones básicas
     if (!appointmentDate || !appointmentTime || !services || !Array.isArray(services) || services.length === 0) {
       return res.status(400).json({ success: false, message: 'Faltan datos obligatorios para crear el turno.' });
     }
+
+    // Validar y procesar service_type
+    if (!service_type) {
+      console.error('❌ Error: service_type es null o undefined');
+      return res.status(400).json({ success: false, message: 'El campo service_type es obligatorio.' });
+    }
+
+    // Validar y convertir totalAmount a número
+    let precioFinal = 0;
+    if (totalAmount !== undefined && totalAmount !== null) {
+      precioFinal = Number(totalAmount);
+      if (isNaN(precioFinal)) {
+        console.error('❌ Error: totalAmount no es un número válido:', totalAmount);
+        return res.status(400).json({ success: false, message: 'El campo totalAmount debe ser un número válido.' });
+      }
+    }
+
+    console.log('✅ Datos procesados:', {
+      appointmentDate,
+      appointmentTime,
+      service_type,
+      precioFinal,
+      servicesCount: services.length
+    });
 
     // Llamar al modelo para crear el turno (incluye validación de disponibilidad y full_day)
     const appointmentId = await appointmentModel.createAppointment({
@@ -68,7 +96,9 @@ const createAppointment = async (req, res) => {
       clientPhone,
       clientEmail,
       serviceLocation,
-      services
+      services,
+      service_type,
+      totalAmount: precioFinal
     });
 
     res.status(201).json({ 

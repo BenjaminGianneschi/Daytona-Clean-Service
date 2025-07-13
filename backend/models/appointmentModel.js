@@ -59,19 +59,43 @@ async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = 
 
 // Crear turno
 async function createAppointment(appointmentData) {
-  const { appointmentDate, appointmentTime, userId, clientName, clientPhone, clientEmail, serviceLocation, services, service_type } = appointmentData;
+  const { appointmentDate, appointmentTime, userId, clientName, clientPhone, clientEmail, serviceLocation, services, service_type, totalAmount } = appointmentData;
 
-  // Obtener info de los servicios
-  let totalAmount = 0;
+  console.log('🔧 Modelo recibió datos:', {
+    appointmentDate,
+    appointmentTime,
+    service_type,
+    totalAmount,
+    servicesCount: services.length
+  });
+
+  // Validar que service_type no sea null
+  if (!service_type) {
+    throw new Error('El campo service_type es obligatorio');
+  }
+
+  // Obtener info de los servicios para validar y calcular duración
   let totalDuration = 0;
   let hasFullDay = false;
+  let calculatedAmount = 0;
+  
   for (const s of services) {
     const serviceResult = await query('SELECT price, duration, full_day FROM services WHERE id = $1', [s.service_id]);
     if (serviceResult.length === 0) throw new Error(`Servicio con ID ${s.service_id} no encontrado`);
-    totalAmount += serviceResult[0].price * s.quantity;
+    
+    calculatedAmount += serviceResult[0].price * s.quantity;
     totalDuration += serviceResult[0].duration * s.quantity;
     if (serviceResult[0].full_day) hasFullDay = true;
   }
+
+  // Usar el precio que viene del frontend si está disponible, sino calcularlo
+  const finalAmount = totalAmount && totalAmount > 0 ? totalAmount : calculatedAmount;
+
+  console.log('💰 Precios calculados:', {
+    calculatedAmount,
+    totalAmount,
+    finalAmount
+  });
 
   // Si algún servicio es full_day, bloquear todo el día
   if (hasFullDay) {
@@ -85,14 +109,29 @@ async function createAppointment(appointmentData) {
     if (!disponible) throw new Error('El horario solicitado no está disponible.');
   }
 
+  console.log('💾 Insertando turno con datos:', {
+    appointmentDate,
+    appointmentTime,
+    finalAmount,
+    totalDuration,
+    serviceLocation,
+    userId,
+    clientName,
+    clientPhone,
+    clientEmail,
+    service_type
+  });
+
   // Insertar el turno
   const result = await query(
     `INSERT INTO appointments (appointment_date, appointment_time, total_price, duration, service_location, user_id, client_name, client_phone, client_email, service_type, status, created_at)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'pending', CURRENT_TIMESTAMP)
      RETURNING id`,
-    [appointmentDate, appointmentTime, totalAmount, totalDuration, serviceLocation, userId, clientName, clientPhone, clientEmail, service_type]
+    [appointmentDate, appointmentTime, finalAmount, totalDuration, serviceLocation, userId, clientName, clientPhone, clientEmail, service_type]
   );
   const appointmentId = result[0].id;
+
+  console.log('✅ Turno creado con ID:', appointmentId);
 
   // Guardar los servicios en appointment_services
   for (const s of services) {
