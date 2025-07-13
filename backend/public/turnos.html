@@ -1365,8 +1365,10 @@
   function categorizarServicios() {
     const serviciosVehiculos = [];
     const serviciosTapizados = [];
-    
-    // Categorizar vehículos
+    let tipoVehiculo = '';
+    let tipoTapizado = '';
+
+    // Categorizar vehículos y detectar subtipo
     vehiculosAgregados.forEach(vehiculo => {
       serviciosVehiculos.push({
         service_id: vehiculo.service_id,
@@ -1375,9 +1377,16 @@
         precio: vehiculo.precio,
         duracion: 180
       });
+      // Detectar subtipo por nombre
+      if (!tipoVehiculo && vehiculo.nombre) {
+        if (vehiculo.nombre.toLowerCase().includes('auto')) tipoVehiculo = 'vehiculo auto';
+        else if (vehiculo.nombre.toLowerCase().includes('pickup')) tipoVehiculo = 'vehiculo pickup';
+        else if (vehiculo.nombre.toLowerCase().includes('suv')) tipoVehiculo = 'vehiculo suv';
+        else tipoVehiculo = 'vehiculo';
+      }
     });
-    
-    // Categorizar tapizado de vehículos
+
+    // Categorizar tapizado de vehículos y detectar subtipo
     tapizadoVehiculosAgregados.forEach(tv => {
       serviciosVehiculos.push({
         service_id: tv.service_id,
@@ -1386,8 +1395,14 @@
         precio: tv.precio,
         duracion: 120
       });
+      if (!tipoVehiculo && tv.nombre) {
+        if (tv.nombre.toLowerCase().includes('auto')) tipoVehiculo = 'vehiculo auto';
+        else if (tv.nombre.toLowerCase().includes('pickup')) tipoVehiculo = 'vehiculo pickup';
+        else if (tv.nombre.toLowerCase().includes('suv')) tipoVehiculo = 'vehiculo suv';
+        else tipoVehiculo = 'vehiculo';
+      }
     });
-    
+
     // Categorizar motores
     motoresAgregados.forEach(motor => {
       serviciosVehiculos.push({
@@ -1397,9 +1412,12 @@
         precio: motor.precio,
         duracion: 45
       });
+      if (!tipoVehiculo && motor.nombre) {
+        tipoVehiculo = 'vehiculo motor';
+      }
     });
-    
-    // Categorizar sillones
+
+    // Categorizar sillones y detectar subtipo
     sillonesAgregados.forEach(sillon => {
       serviciosTapizados.push({
         service_id: sillon.service_id,
@@ -1408,8 +1426,11 @@
         precio: sillon.precio,
         duracion: 80
       });
+      if (!tipoTapizado && sillon.nombre) {
+        tipoTapizado = 'tapizado sillón';
+      }
     });
-    
+
     // Categorizar sillas
     sillasAgregadas.forEach(silla => {
       serviciosTapizados.push({
@@ -1419,8 +1440,11 @@
         precio: silla.precio,
         duracion: 40
       });
+      if (!tipoTapizado && silla.nombre) {
+        tipoTapizado = 'tapizado silla';
+      }
     });
-    
+
     // Categorizar colchones
     colchonesAgregados.forEach(colchon => {
       serviciosTapizados.push({
@@ -1430,8 +1454,11 @@
         precio: colchon.precio,
         duracion: 60
       });
+      if (!tipoTapizado && colchon.nombre) {
+        tipoTapizado = 'tapizado colchon';
+      }
     });
-    
+
     // Categorizar alfombras
     alfombrasAgregadas.forEach(alfombra => {
       serviciosTapizados.push({
@@ -1441,8 +1468,11 @@
         precio: alfombra.precio,
         duracion: 120
       });
+      if (!tipoTapizado && alfombra.nombre) {
+        tipoTapizado = 'tapizado alfombra';
+      }
     });
-    
+
     // Categorizar puffs
     puffsAgregados.forEach(puff => {
       serviciosTapizados.push({
@@ -1452,15 +1482,20 @@
         precio: puff.precio,
         duracion: 60
       });
+      if (!tipoTapizado && puff.nombre) {
+        tipoTapizado = 'tapizado puff';
+      }
     });
-    
+
     turnosSeparados.vehiculos.servicios = serviciosVehiculos;
     turnosSeparados.tapizados.servicios = serviciosTapizados;
-    
+
     return {
       hayVehiculos: serviciosVehiculos.length > 0,
       hayTapizados: serviciosTapizados.length > 0,
-      necesitaTurnosSeparados: serviciosVehiculos.length > 0 && serviciosTapizados.length > 0
+      necesitaTurnosSeparados: serviciosVehiculos.length > 0 && serviciosTapizados.length > 0,
+      tipoVehiculo,
+      tipoTapizado
     };
   }
 
@@ -2548,6 +2583,7 @@
         if (categorias.necesitaTurnosSeparados) {
           // Guardar turno de vehículos
           if (window.turnosSeparados.vehiculos.servicios.length > 0) {
+            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre).join(', ');
             const turnoVehiculos = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.vehiculos.fecha,
@@ -2558,13 +2594,14 @@
                   window.turnosSeparados.vehiculos.direccion) : 'A confirmar',
               services: armarServiciosParaBackend(window.turnosSeparados.vehiculos.servicios),
               totalAmount: window.turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-              service_type: 'vehiculo' // AGREGADO
+              service_type: nombresServiciosVehiculos || 'Vehículo' // Nombres exactos
             };
             turnosParaGuardar.push(turnoVehiculos);
           }
 
           // Guardar turno de tapizados
           if (window.turnosSeparados.tapizados.servicios.length > 0) {
+            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre).join(', ');
             const turnoTapizados = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.tapizados.fecha,
@@ -2572,7 +2609,7 @@
               serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
               services: armarServiciosParaBackend(window.turnosSeparados.tapizados.servicios),
               totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-              service_type: 'tapizado' // AGREGADO
+              service_type: nombresServiciosTapizados || 'Tapizado' // Nombres exactos
             };
             turnosParaGuardar.push(turnoTapizados);
           }
@@ -2588,7 +2625,7 @@
             servicios = window.turnosSeparados.vehiculos.servicios;
             fecha = window.turnosSeparados.vehiculos.fecha;
             hora = window.turnosSeparados.vehiculos.hora;
-            tipo = 'vehiculo';
+            tipo = servicios.map(s => s.nombre).join(', ') || 'Vehículo';
             if (window.turnosSeparados.vehiculos.direccion) {
               if (typeof window.turnosSeparados.vehiculos.direccion === 'object') {
                 direccion = `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}`;
@@ -2601,7 +2638,7 @@
             fecha = window.turnosSeparados.tapizados.fecha;
             hora = window.turnosSeparados.tapizados.hora;
             direccion = window.turnosSeparados.tapizados.direccion;
-            tipo = 'tapizado';
+            tipo = servicios.map(s => s.nombre).join(', ') || 'Tapizado';
           }
 
           const turnoUnico = {
@@ -2611,7 +2648,7 @@
             serviceLocation: direccion || 'A confirmar',
             services: armarServiciosParaBackend(servicios),
             totalAmount: servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-            service_type: tipo // AGREGADO
+            service_type: tipo // Nombres exactos
           };
           turnosParaGuardar.push(turnoUnico);
         }
@@ -3755,7 +3792,7 @@
         quantity: s.cantidad
       })),
       serviceLocation: direccion,
-      service_type: tipo // AGREGADO
+      service_type: categorias.tipoVehiculo || categorias.tipoTapizado || tipo || 'vehiculo' // USAR SUBTIPO
     };
     // Si el usuario está logueado, agregar userId
     const userData = localStorage.getItem('userData');
