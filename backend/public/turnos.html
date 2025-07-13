@@ -2551,7 +2551,7 @@
             const turnoVehiculos = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.vehiculos.fecha,
-              startTime: window.turnosSeparados.vehiculos.hora,
+              appointmentTime: window.turnosSeparados.vehiculos.hora,
               serviceLocation: window.turnosSeparados.vehiculos.direccion ? 
                 (typeof window.turnosSeparados.vehiculos.direccion === 'object' ? 
                   `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}` : 
@@ -2567,7 +2567,7 @@
             const turnoTapizados = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.tapizados.fecha,
-              startTime: window.turnosSeparados.tapizados.hora,
+              appointmentTime: window.turnosSeparados.tapizados.hora,
               serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
               services: armarServiciosParaBackend(window.turnosSeparados.tapizados.servicios),
               totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
@@ -2602,7 +2602,7 @@
           const turnoUnico = {
             ...datosTurno,
             appointmentDate: fecha,
-            startTime: hora,
+            appointmentTime: hora,
             serviceLocation: direccion || 'A confirmar',
             services: armarServiciosParaBackend(servicios),
             totalAmount: servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)
