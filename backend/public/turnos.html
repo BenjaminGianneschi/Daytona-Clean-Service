@@ -2583,7 +2583,13 @@
         if (categorias.necesitaTurnosSeparados) {
           // Guardar turno de vehículos
           if (window.turnosSeparados.vehiculos.servicios.length > 0) {
-            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre).join(', ');
+            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            console.log("Servicios seleccionados (vehículos):", window.turnosSeparados.vehiculos.servicios);
+            console.log("Nombres de servicios (vehículos):", nombresServiciosVehiculos);
+            if (!nombresServiciosVehiculos) {
+              alert("Error: No se detectó ningún servicio válido de vehículos para guardar el turno.");
+              return;
+            }
             const turnoVehiculos = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.vehiculos.fecha,
@@ -2594,14 +2600,20 @@
                   window.turnosSeparados.vehiculos.direccion) : 'A confirmar',
               services: armarServiciosParaBackend(window.turnosSeparados.vehiculos.servicios),
               totalAmount: window.turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-              service_type: nombresServiciosVehiculos || 'Vehículo' // Nombres exactos
+              service_type: nombresServiciosVehiculos
             };
             turnosParaGuardar.push(turnoVehiculos);
           }
 
           // Guardar turno de tapizados
           if (window.turnosSeparados.tapizados.servicios.length > 0) {
-            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre).join(', ');
+            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre).filter(Boolean).join(', ');
+            console.log("Servicios seleccionados (tapizados):", window.turnosSeparados.tapizados.servicios);
+            console.log("Nombres de servicios (tapizados):", nombresServiciosTapizados);
+            if (!nombresServiciosTapizados) {
+              alert("Error: No se detectó ningún servicio válido de tapizados para guardar el turno.");
+              return;
+            }
             const turnoTapizados = {
               ...datosTurno,
               appointmentDate: window.turnosSeparados.tapizados.fecha,
@@ -2609,7 +2621,7 @@
               serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
               services: armarServiciosParaBackend(window.turnosSeparados.tapizados.servicios),
               totalAmount: window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-              service_type: nombresServiciosTapizados || 'Tapizado' // Nombres exactos
+              service_type: nombresServiciosTapizados
             };
             turnosParaGuardar.push(turnoTapizados);
           }
@@ -2625,7 +2637,7 @@
             servicios = window.turnosSeparados.vehiculos.servicios;
             fecha = window.turnosSeparados.vehiculos.fecha;
             hora = window.turnosSeparados.vehiculos.hora;
-            tipo = servicios.map(s => s.nombre).join(', ') || 'Vehículo';
+            tipo = servicios.map(s => s.nombre).filter(Boolean).join(', ');
             if (window.turnosSeparados.vehiculos.direccion) {
               if (typeof window.turnosSeparados.vehiculos.direccion === 'object') {
                 direccion = `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}`;
@@ -2638,7 +2650,14 @@
             fecha = window.turnosSeparados.tapizados.fecha;
             hora = window.turnosSeparados.tapizados.hora;
             direccion = window.turnosSeparados.tapizados.direccion;
-            tipo = servicios.map(s => s.nombre).join(', ') || 'Tapizado';
+            tipo = servicios.map(s => s.nombre).filter(Boolean).join(', ');
+          }
+
+          console.log("Servicios seleccionados (único):", servicios);
+          console.log("Nombres de servicios (único):", tipo);
+          if (!tipo) {
+            alert("Error: No se detectó ningún servicio válido para guardar el turno.");
+            return;
           }
 
           const turnoUnico = {
@@ -2648,7 +2667,7 @@
             serviceLocation: direccion || 'A confirmar',
             services: armarServiciosParaBackend(servicios),
             totalAmount: servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0),
-            service_type: tipo // Nombres exactos
+            service_type: tipo
           };
           turnosParaGuardar.push(turnoUnico);
         }
