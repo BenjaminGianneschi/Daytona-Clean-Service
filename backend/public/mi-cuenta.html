@@ -328,9 +328,9 @@
 
     .admin-dashboard-section h3,
     .admin-appointments-section h3 {
-      color: #ff6b35;
+      color: #00d4ff;
       margin-bottom: 1.5rem;
-      border-bottom: 2px solid #ff6b35;
+      border-bottom: 2px solid #00d4ff;
       padding-bottom: 0.8rem;
       font-weight: 600;
     }
@@ -417,7 +417,7 @@
   <div id="header-container"></div>
 
   <div class="account-container">
-    <div class="account-header">
+    <div class="account-header" id="account-header">
       <h1><i class="fas fa-user-circle me-2"></i>Mi Cuenta</h1>
       <p>Gestiona tus turnos y tu información personal</p>
     </div>
@@ -466,7 +466,7 @@
     <div id="adminPanel" style="display: none;">
       <!-- Dashboard Admin -->
       <div class="admin-dashboard-section">
-        <h3><i class="fas fa-chart-line me-2"></i>Dashboard de Administración</h3>
+        <h3><i class="fas fa-chart-line me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Dashboard de Administración</span></h3>
         <div class="row mb-4">
           <div class="col-md-3">
             <div class="admin-stat-card bg-primary text-white">
@@ -525,7 +525,7 @@
 
       <!-- Gestión de Turnos Admin -->
       <div class="admin-appointments-section" id="gestion-turnos">
-        <h3><i class="fas fa-list me-2"></i>Gestión de Todos los Turnos</h3>
+        <h3><i class="fas fa-list me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Gestión de Todos los Turnos</span></h3>
         
         <!-- Filtros y búsqueda -->
         <div class="row mb-4">
@@ -561,7 +561,7 @@
                 <th><i class="fas fa-clock me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Hora</span></th>
                 <th><i class="fas fa-tools me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Servicios</span></th>
                 <th><i class="fas fa-dollar-sign me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Total</span></th>
-                <th><i class="fas fa-flag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Estado</span></th>
+                <th><span style="display: flex; align-items: center;"><i class="fas fa-flag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Estado</span></span></th>
                 <th><i class="fas fa-cogs me-1" style="color:#adb5bd;"></i><span style="font-weight:bold;color:#fff;">Acciones</span></th>
               </tr>
             </thead>
@@ -835,10 +835,16 @@
           if (isAdmin) {
             document.getElementById('adminPanel').style.display = 'block';
             hideUserSectionsForAdmin();
+            // Ocultar encabezado solo para admin
+            const header = document.getElementById('account-header');
+            if (header) header.style.display = 'none';
             loadAdminFeatures();
           } else {
             document.getElementById('adminPanel').style.display = 'none';
             showUserSectionsForNormal();
+            // Mostrar encabezado para usuario normal
+            const header = document.getElementById('account-header');
+            if (header) header.style.display = 'block';
             loadAppointments();
           }
         } else {
