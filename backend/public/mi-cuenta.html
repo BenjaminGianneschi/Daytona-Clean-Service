@@ -1502,6 +1502,21 @@
           return;
         }
 
+        // Encabezado de la tabla admin con iconos y color
+        const adminTableHead = document.querySelector('#gestion-turnos thead tr');
+        if (adminTableHead) {
+          adminTableHead.innerHTML = `
+            <th><i class="fas fa-hashtag me-1" style="color:#ff6b35;"></i>ID</th>
+            <th><i class="fas fa-user me-1" style="color:#00d4ff;"></i>Cliente</th>
+            <th><i class="fas fa-calendar-alt me-1" style="color:#ffc107;"></i>Fecha</th>
+            <th><i class="fas fa-clock me-1" style="color:#20c997;"></i>Hora</th>
+            <th><i class="fas fa-tools me-1" style="color:#6f42c1;"></i>Servicios</th>
+            <th><i class="fas fa-dollar-sign me-1" style="color:#28a745;"></i>Total</th>
+            <th><i class="fas fa-flag me-1" style="color:#fd7e14;"></i>Estado</th>
+            <th><i class="fas fa-cogs me-1" style="color:#adb5bd;"></i>Acciones</th>
+          `;
+        }
+
         tbody.innerHTML = appointments.map(appointment => {
           // Mostrar detalles de servicios
           const servicesInfo = appointment.services && appointment.services.length > 0 
@@ -1509,8 +1524,8 @@
                 const nombre = s.nombre || s.name || s.service_name || 'Sin nombre';
                 const tipo = s.tipo || s.type || '';
                 const cantidad = s.cantidad || s.quantity || 1;
-                const precio = s.precio || s.price || '';
-                return `${nombre}${tipo ? ' ('+tipo+')' : ''} x${cantidad}${precio ? ` ($${parseInt(precio).toLocaleString('es-AR')})` : ''}`;
+                // Eliminar precio aquí
+                return `${nombre}${tipo ? ' ('+tipo+')' : ''} x${cantidad}`;
               }).join('<br>')
             : appointment.service_type || 'No especificado';
 
@@ -1518,23 +1533,23 @@
             ? `$${parseInt(appointment.total_amount || appointment.totalAmount || appointment.total_price).toLocaleString('es-AR')}`
             : 'A confirmar';
 
-          // Lógica de dirección/logística profesional con iconos y formato tipo card
+          // Lógica de dirección/logística profesional con iconos y color
           let direccionHtml = '';
           const dir = appointment.service_location || appointment.serviceLocation || '';
           if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
             const match = dir.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
             if (match) {
               direccionHtml = `
-                <div><i class='fas fa-map-marker-alt me-1'></i><span style='font-weight:bold;color:#fff;'>Retiro:</span> <span style='font-weight:normal;color:#fff;'>${match[1].trim()}</span></div>
-                <div><i class='fas fa-location-arrow me-1'></i><span style='font-weight:bold;color:#fff;'>Entrega:</span> <span style='font-weight:normal;color:#fff;'>${match[2].trim()}</span></div>
+                <div><i class='fas fa-map-marker-alt me-1' style='color:#fd7e14;'></i><span style='font-weight:bold;color:#fff;'>Retiro:</span> <span style='font-weight:normal;color:#fff;'>${match[1].trim()}</span></div>
+                <div><i class='fas fa-location-arrow me-1' style='color:#20c997;'></i><span style='font-weight:bold;color:#fff;'>Entrega:</span> <span style='font-weight:normal;color:#fff;'>${match[2].trim()}</span></div>
               `;
             } else {
-              direccionHtml = `<div><i class='fas fa-map-marker-alt me-1'></i><span style='font-weight:bold;color:#fff;'>Dirección:</span> <span style='font-weight:normal;color:#fff;'>${dir}</span></div>`;
+              direccionHtml = `<div><i class='fas fa-map-marker-alt me-1' style='color:#fd7e14;'></i><span style='font-weight:bold;color:#fff;'>Dirección:</span> <span style='font-weight:normal;color:#fff;'>${dir}</span></div>`;
             }
           } else if (dir && dir.toLowerCase().includes('lleva el vehículo')) {
-            direccionHtml = `<div><i class='fas fa-car me-1'></i><span style='font-weight:bold;color:#fff;'>Logística:</span> <span style='font-weight:normal;color:#fff;'>El cliente lleva el vehículo a la instalación</span></div>`;
+            direccionHtml = `<div><i class='fas fa-car me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Logística:</span> <span style='font-weight:normal;color:#fff;'>El cliente lleva el vehículo a la instalación</span></div>`;
           } else if (dir && dir.trim() && dir !== 'A confirmar') {
-            direccionHtml = `<div><i class='fas fa-map-marker-alt me-1'></i><span style='font-weight:bold;color:#fff;'>Dirección:</span> <span style='font-weight:normal;color:#fff;'>${dir}</span></div>`;
+            direccionHtml = `<div><i class='fas fa-map-marker-alt me-1' style='color:#fd7e14;'></i><span style='font-weight:bold;color:#fff;'>Dirección:</span> <span style='font-weight:normal;color:#fff;'>${dir}</span></div>`;
           } else {
             direccionHtml = `<div style='color: red; font-weight: bold;'>¡Error! Dirección obligatoria no especificada. Contactar al administrador.</div>`;
           }
@@ -1543,9 +1558,9 @@
             <tr>
               <td>#${appointment.id}</td>
               <td>
-                <div style="margin-bottom: 6px;"><i class='fas fa-user me-1'></i><span style='font-weight:bold;color:#fff;'>Nombre:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_name || 'N/A'}</span></div>
-                <div><i class='fas fa-phone me-1'></i><span style='font-weight:bold;color:#fff;'>Celular:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_phone || 'N/A'}</span></div>
-                <div><i class='fas fa-envelope me-1'></i><span style='font-weight:bold;color:#fff;'>Mail:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_email || ''}</span></div>
+                <div style="margin-bottom: 6px;"><i class='fas fa-user me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Nombre:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_name || 'N/A'}</span></div>
+                <div><i class='fas fa-phone me-1' style='color:#28a745;'></i><span style='font-weight:bold;color:#fff;'>Celular:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_phone || 'N/A'}</span></div>
+                <div><i class='fas fa-envelope me-1' style='color:#ffc107;'></i><span style='font-weight:bold;color:#fff;'>Mail:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_email || ''}</span></div>
                 ${direccionHtml}
               </td>
               <td>${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</td>
