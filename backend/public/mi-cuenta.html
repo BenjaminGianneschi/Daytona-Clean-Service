@@ -1540,7 +1540,7 @@
 
           return `
             <tr>
-              <td>#${appointment.id}</td>
+              <td><i class='fas fa-hashtag me-1' style='color:#00d4ff;'></i>#${appointment.id}</td>
               <td>
                 <div style="margin-bottom: 6px;"><i class='fas fa-user me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Nombre:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_name || 'N/A'}</span></div>
                 <div><i class='fas fa-phone me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Celular:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_phone || 'N/A'}</span></div>
@@ -1552,25 +1552,29 @@
               <td>${servicesInfo}</td>
               <td>${total}</td>
               <td>
+                <i class='fas fa-flag me-1' style='color:#00d4ff;'></i>
                 <span class="badge bg-${getStatusBadge(appointment.status)}">
                   ${getStatusText(appointment.status)}
                 </span>
               </td>
               <td>
-                <div class="btn-group btn-group-sm">
-                  <button class="btn btn-outline-primary" onclick="viewAdminAppointment(${appointment.id})" title="Ver detalles">
-                    <i class="fas fa-eye" style="color:#adb5bd;"></i>
-                  </button>
-                  ${appointment.status === 'pending' ? `
-                    <button class="btn btn-outline-success" onclick="confirmAdminAppointment(${appointment.id})" title="Confirmar">
-                      <i class="fas fa-check" style="color:#adb5bd;"></i>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-cogs me-1" style="color:#adb5bd;"></i>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" onclick="viewAdminAppointment(${appointment.id})" title="Ver detalles">
+                      <i class="fas fa-eye" style="color:#adb5bd;"></i>
                     </button>
-                  ` : ''}
-                  ${appointment.status !== 'cancelled' && appointment.status !== 'completed' ? `
-                    <button class="btn btn-outline-danger" onclick="cancelAdminAppointment(${appointment.id})" title="Cancelar">
-                      <i class="fas fa-times" style="color:#adb5bd;"></i>
-                    </button>
-                  ` : ''}
+                    ${appointment.status === 'pending' ? `
+                      <button class="btn btn-outline-success" onclick="confirmAdminAppointment(${appointment.id})" title="Confirmar">
+                        <i class="fas fa-check" style="color:#adb5bd;"></i>
+                      </button>
+                    ` : ''}
+                    ${appointment.status !== 'cancelled' && appointment.status !== 'completed' ? `
+                      <button class="btn btn-outline-danger" onclick="cancelAdminAppointment(${appointment.id})" title="Cancelar">
+                        <i class="fas fa-times" style="color:#adb5bd;"></i>
+                      </button>
+                    ` : ''}
+                  </div>
                 </div>
               </td>
             </tr>
