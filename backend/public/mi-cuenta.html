@@ -555,14 +555,14 @@
           <table class="table table-dark table-hover">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Servicios</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th><i class="fas fa-hashtag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">ID</span></th>
+                <th><i class="fas fa-user me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Cliente</span></th>
+                <th><i class="fas fa-calendar-alt me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Fecha</span></th>
+                <th><i class="fas fa-clock me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Hora</span></th>
+                <th><i class="fas fa-tools me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Servicios</span></th>
+                <th><i class="fas fa-dollar-sign me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Total</span></th>
+                <th><i class="fas fa-flag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Estado</span></th>
+                <th><i class="fas fa-cogs me-1" style="color:#adb5bd;"></i><span style="font-weight:bold;color:#fff;">Acciones</span></th>
               </tr>
             </thead>
             <tbody id="adminAppointmentsTableBody">
@@ -1500,21 +1500,6 @@
         if (!appointments.length) {
           tbody.innerHTML = '<tr><td colspan="8" class="text-center">No se encontraron turnos</td></tr>';
           return;
-        }
-
-        // Encabezado de la tabla admin con iconos y color unificado
-        const adminTableHead = document.querySelector('#gestion-turnos thead tr');
-        if (adminTableHead) {
-          adminTableHead.innerHTML = `
-            <th><i class="fas fa-hashtag me-1" style="color:#00d4ff;"></i>ID</th>
-            <th><i class="fas fa-user me-1" style="color:#00d4ff;"></i>Cliente</th>
-            <th><i class="fas fa-calendar-alt me-1" style="color:#00d4ff;"></i>Fecha</th>
-            <th><i class="fas fa-clock me-1" style="color:#00d4ff;"></i>Hora</th>
-            <th><i class="fas fa-tools me-1" style="color:#00d4ff;"></i>Servicios</th>
-            <th><i class="fas fa-dollar-sign me-1" style="color:#00d4ff;"></i>Total</th>
-            <th><i class="fas fa-flag me-1" style="color:#00d4ff;"></i>Estado</th>
-            <th><i class="fas fa-cogs me-1" style="color:#adb5bd;"></i>Acciones</th>
-          `;
         }
 
         tbody.innerHTML = appointments.map(appointment => {
