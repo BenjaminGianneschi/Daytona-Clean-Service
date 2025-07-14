@@ -795,15 +795,30 @@
   <script>
     let currentAppointments = [];
 
-    document.addEventListener('DOMContentLoaded', function() {
+    function hideUserSectionsForAdmin() {
+      const info = document.getElementById('user-info-card');
+      const activos = document.getElementById('turnos-activos');
+      const historial = document.getElementById('appointments-history-section');
+      if (info) info.style.display = 'none';
+      if (activos) activos.style.display = 'none';
+      if (historial) historial.style.display = 'none';
+    }
+    function showUserSectionsForNormal() {
+      const info = document.getElementById('user-info-card');
+      const activos = document.getElementById('turnos-activos');
+      const historial = document.getElementById('appointments-history-section');
+      if (info) info.style.display = 'block';
+      if (activos) activos.style.display = 'block';
+      if (historial) historial.style.display = 'block';
+    }
 
+    document.addEventListener('DOMContentLoaded', function() {
       // Verificar autenticación y cargar datos
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = 'login.html';
         return;
       }
-
       // Cargar datos del usuario
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
       fetch(`${apiUrl}/users/me`, {
@@ -816,37 +831,16 @@
         if (data.success) {
           const user = data.user;
           const isAdmin = user.role === 'admin';
-          
-          // Guardar datos del usuario en localStorage para usar en el modal
           localStorage.setItem('userData', JSON.stringify(user));
-          
-          document.getElementById('userDetails').innerHTML = `
-            <div class="detail-item">
-              <i class="fas fa-user"></i>
-              <span><strong>Nombre:</strong> ${user.name}</span>
-            </div>
-            <div class="detail-item">
-              <i class="fas fa-envelope"></i>
-              <span><strong>Email:</strong> ${user.email}</span>
-            </div>
-            <div class="detail-item">
-              <i class="fas fa-phone"></i>
-              <span><strong>Teléfono:</strong> ${user.phone}</span>
-            </div>
-            ${isAdmin ? `
-            <div class="detail-item admin-badge">
-              <i class="fas fa-shield-alt" style="color: #ff6b35;"></i>
-              <span><strong>Rol:</strong> <span class="badge bg-warning">Administrador</span></span>
-            </div>
-            ` : ''}
-          `;
-          
-          // Si es admin, cargar también las funcionalidades de admin
           if (isAdmin) {
+            document.getElementById('adminPanel').style.display = 'block';
+            hideUserSectionsForAdmin();
             loadAdminFeatures();
+          } else {
+            document.getElementById('adminPanel').style.display = 'none';
+            showUserSectionsForNormal();
+            loadAppointments();
           }
-          
-          loadAppointments();
         } else {
           localStorage.removeItem('token');
           window.location.href = 'login.html';
