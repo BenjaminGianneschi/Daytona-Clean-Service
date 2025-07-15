@@ -148,7 +148,7 @@ class NotificationService {
    */
   formatWebNotificationMessage(appointment, type, reason = null) {
     const date = new Date(appointment.appointment_date).toLocaleDateString('es-AR');
-    const time = appointment.start_time || appointment.appointment_time || 'No especificada';
+    const time = appointment.appointment_time || 'No especificada';
 
     switch (type) {
       case 'confirmation':
