@@ -1,6 +1,7 @@
 const moment = require('moment');
 const appointmentModel = require('../models/appointmentModel');
 const whatsappService = require('../services/whatsappService');
+const notificationService = require('../services/notificationService');
 
 // Obtener disponibilidad de horarios para una fecha específica
 const getAvailability = async (req, res) => {
@@ -163,10 +164,29 @@ const updateAppointmentStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Turno no encontrado' });
     }
     
+    // Guardar estado anterior para notificaciones
+    const previousStatus = appointment.status;
+    
     // Actualizar estado
     await appointmentModel.updateAppointmentStatus(id, status);
     
-    res.json({ success: true, message: 'Estado del turno actualizado exitosamente' });
+    // Enviar notificaciones según el cambio de estado
+    let notificationResult = null;
+    
+    if (status === 'confirmed' && previousStatus === 'pending') {
+      // Notificación de confirmación
+      notificationResult = await notificationService.sendConfirmationNotification(appointment);
+      console.log('📱 Notificación de confirmación enviada:', notificationResult);
+    } else if (status === 'completed' && previousStatus !== 'completed') {
+      // Notificación de completado (opcional)
+      console.log('✅ Turno marcado como completado');
+    }
+    
+    res.json({ 
+      success: true, 
+      message: 'Estado del turno actualizado exitosamente',
+      notification: notificationResult
+    });
   } catch (error) {
     console.error('Error actualizando estado:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
@@ -177,6 +197,7 @@ const updateAppointmentStatus = async (req, res) => {
 const cancelAppointment = async (req, res) => {
   try {
     const { id } = req.params;
+    const { reason } = req.body; // Motivo de cancelación opcional
     
     // Verificar que el turno existe
     const appointment = await appointmentModel.getAppointmentById(id);
@@ -197,7 +218,18 @@ const cancelAppointment = async (req, res) => {
     // Cancelar el turno
     await appointmentModel.cancelAppointment(id);
     
-    res.json({ success: true, message: 'Turno cancelado exitosamente' });
+    // Enviar notificación de cancelación
+    const notificationResult = await notificationService.sendCancellationNotification(
+      appointment, 
+      reason || 'Cancelado por el administrador'
+    );
+    console.log('📱 Notificación de cancelación enviada:', notificationResult);
+    
+    res.json({ 
+      success: true, 
+      message: 'Turno cancelado exitosamente',
+      notification: notificationResult
+    });
   } catch (error) {
     console.error('Error cancelando turno:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
@@ -338,6 +370,37 @@ const getAllServices = async (req, res) => {
   }
 };
 
+// Enviar recordatorio manual (admin)
+const sendManualReminder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Verificar que el turno existe
+    const appointment = await appointmentModel.getAppointmentById(id);
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Turno no encontrado' });
+    }
+    
+    // Verificar que el turno esté confirmado
+    if (appointment.status !== 'confirmed') {
+      return res.status(400).json({ success: false, message: 'Solo se pueden enviar recordatorios a turnos confirmados' });
+    }
+    
+    // Enviar recordatorio
+    const notificationResult = await notificationService.sendReminderNotification(appointment);
+    console.log('📱 Recordatorio manual enviado:', notificationResult);
+    
+    res.json({ 
+      success: true, 
+      message: 'Recordatorio enviado exitosamente',
+      notification: notificationResult
+    });
+  } catch (error) {
+    console.error('Error enviando recordatorio:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
+
 module.exports = {
   getAvailability,
   createAppointment,
@@ -349,5 +412,6 @@ module.exports = {
   getUserAppointments,
   updateUserAppointment,
   cancelUserAppointment,
-  getAllServices
+  getAllServices,
+  sendManualReminder
 }; 

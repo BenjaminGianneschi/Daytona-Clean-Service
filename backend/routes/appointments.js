@@ -11,7 +11,8 @@ const {
   getUserAppointments,
   updateUserAppointment,
   cancelUserAppointment,
-  getAllServices
+  getAllServices,
+  sendManualReminder
 } = require('../controllers/appointmentController');
 const { authenticateUserToken, requireAdmin } = require('../middleware/auth');
 
@@ -33,5 +34,6 @@ router.get('/admin/:id', requireAdmin, getAppointment);
 router.put('/admin/:id/status', requireAdmin, updateAppointmentStatus);
 router.put('/admin/:id/cancel', requireAdmin, cancelAppointment);
 router.put('/admin/:id/complete', requireAdmin, completeAppointment);
+router.post('/admin/:id/reminder', requireAdmin, sendManualReminder);
 
 module.exports = router; 

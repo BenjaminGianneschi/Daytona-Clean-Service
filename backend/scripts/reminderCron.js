@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const moment = require('moment');
-const { query } = require('../config/database');
-const whatsappService = require('../services/whatsappService');
+const { query } = require('../config/database-postgres');
+const notificationService = require('../services/notificationService');
 const logger = require('../utils/logger');
 
 class ReminderCron {
@@ -13,18 +13,15 @@ class ReminderCron {
    * Iniciar el cron job para recordatorios
    */
   start() {
-    // Comentado: Envío automático de recordatorios deshabilitado
-    // Los recordatorios se pueden enviar manualmente desde el panel de administración
-    /*
+    // Habilitar recordatorios automáticos
     // Ejecutar todos los días a las 9:00 AM
     cron.schedule('0 9 * * *', async () => {
       await this.sendDailyReminders();
     }, {
       timezone: 'America/Argentina/Buenos_Aires'
     });
-    */
 
-    logger.info('Reminder cron job disabled - automatic reminders are turned off');
+    logger.info('Reminder cron job started - automatic reminders enabled');
   }
 
   /**
@@ -64,13 +61,13 @@ class ReminderCron {
 
       for (const appointment of appointments) {
         try {
-          // Enviar recordatorio
-          const result = await whatsappService.sendReminder(appointment);
+          // Enviar recordatorio usando el nuevo servicio de notificaciones
+          const result = await notificationService.sendReminderNotification(appointment);
           
           if (result.success) {
             // Marcar como recordatorio enviado
             await query(
-              'UPDATE appointments SET reminder_sent = 1 WHERE id = ?',
+              'UPDATE appointments SET reminder_sent = 1 WHERE id = $1',
               [appointment.id]
             );
             
@@ -113,7 +110,7 @@ class ReminderCron {
         FROM appointments a
         LEFT JOIN clients c ON a.client_id = c.id
         LEFT JOIN service_locations sl ON a.id = sl.appointment_id
-        WHERE a.id = ?
+        WHERE a.id = $1
         AND a.status = 'confirmed'
       `, [appointmentId]);
 
@@ -124,12 +121,12 @@ class ReminderCron {
         };
       }
 
-      const result = await whatsappService.sendReminder(appointment[0]);
+      const result = await notificationService.sendReminderNotification(appointment[0]);
       
       if (result.success) {
         // Marcar como recordatorio enviado
         await query(
-          'UPDATE appointments SET reminder_sent = 1 WHERE id = ?',
+          'UPDATE appointments SET reminder_sent = 1 WHERE id = $1',
           [appointmentId]
         );
       }

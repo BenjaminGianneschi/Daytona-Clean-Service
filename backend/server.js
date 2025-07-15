@@ -16,6 +16,7 @@ const { fixDatabase } = require('./scripts/fix-database');
 const authRoutes = require('./routes/auth');
 const appointmentRoutes = require('./routes/appointments');
 const userRoutes = require('./routes/users');
+const notificationRoutes = require('./routes/notifications');
 
 // Importar servicios
 const reminderCron = require('./scripts/reminderCron');
@@ -75,6 +76,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Ruta de estado de la API (debe ir antes del catch-all)
 app.get('/api/health', async (req, res) => {

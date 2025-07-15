@@ -539,6 +539,9 @@
             <button type="button" class="btn btn-outline-secondary ms-3" onclick="exportAppointments()">
               <i class="fas fa-download me-2"></i>Exportar
             </button>
+            <button type="button" class="btn btn-outline-info ms-3" onclick="testNotifications()">
+              <i class="fas fa-bell me-2"></i>Probar Notificaciones
+            </button>
           </div>
           <div class="col-md-4">
             <div class="input-group">
@@ -788,6 +791,7 @@
   
   <!-- Scripts para incluir header y footer -->
   <script src="js/config.js"></script>
+  <script src="js/notifications.js"></script>
   <script src="js/mi-cuenta.js"></script>
   <script src="js/include-header.js"></script>
   <script src="js/include-footer.js"></script>
@@ -1568,6 +1572,11 @@
                         <i class="fas fa-check" style="color:#adb5bd;"></i>
                       </button>
                     ` : ''}
+                    ${appointment.status === 'confirmed' ? `
+                      <button class="btn btn-outline-info" onclick="sendReminderAdmin(${appointment.id})" title="Enviar Recordatorio">
+                        <i class="fas fa-bell" style="color:#adb5bd;"></i>
+                      </button>
+                    ` : ''}
                     ${appointment.status !== 'cancelled' && appointment.status !== 'completed' ? `
                       <button class="btn btn-outline-danger" onclick="cancelAdminAppointment(${appointment.id})" title="Cancelar">
                         <i class="fas fa-times" style="color:#adb5bd;"></i>
@@ -1704,6 +1713,15 @@
           .then(data => {
             if (data.success) {
               showAlert('Turno confirmado exitosamente', 'success');
+              
+              // Mostrar notificación web si está disponible
+              if (window.showAppointmentConfirmation) {
+                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+                if (appointment) {
+                  window.showAppointmentConfirmation(appointment);
+                }
+              }
+              
               loadAllAppointments();
               loadAdminStats();
             } else {
@@ -1730,6 +1748,15 @@
           .then(data => {
             if (data.success) {
               showAlert('Turno cancelado exitosamente', 'success');
+              
+              // Mostrar notificación web si está disponible
+              if (window.showAppointmentCancellation) {
+                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+                if (appointment) {
+                  window.showAppointmentCancellation(appointment, 'Cancelado por el administrador');
+                }
+              }
+              
               loadAllAppointments();
               loadAdminStats();
             } else {
@@ -1739,6 +1766,40 @@
           .catch(error => {
             console.error('Error:', error);
             showAlert('Error de conexión al cancelar turno', 'danger');
+          });
+        }
+      };
+
+      // Enviar recordatorio (admin)
+      window.sendReminderAdmin = function(appointmentId) {
+        if (confirm('¿Enviar recordatorio de turno al cliente?')) {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/reminder`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              showAlert('Recordatorio enviado exitosamente', 'success');
+              
+              // Mostrar notificación web si está disponible
+              if (window.showAppointmentReminder) {
+                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+                if (appointment) {
+                  window.showAppointmentReminder(appointment);
+                }
+              }
+              
+              loadAllAppointments();
+            } else {
+              showAlert('Error enviando recordatorio: ' + (data.message || ''), 'danger');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error de conexión al enviar recordatorio', 'danger');
           });
         }
       };
@@ -1762,6 +1823,43 @@
         .catch(error => {
           console.error('Error exportando:', error);
           showAlert('Error al exportar', 'danger');
+        });
+      };
+
+      // Probar sistema de notificaciones
+      window.testNotifications = function() {
+        const phone = prompt('Ingresa un número de teléfono para probar (opcional):');
+        
+        fetch('https://daytona-clean-service.onrender.com/api/notifications/test', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ phone })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Prueba de notificaciones enviada exitosamente', 'success');
+            
+            // Mostrar notificaciones web de prueba
+            if (window.showNotification) {
+              window.showNotification('✅ Notificación de confirmación de prueba', 'confirmation', 5000);
+              setTimeout(() => {
+                window.showNotification('❌ Notificación de cancelación de prueba', 'cancellation', 5000);
+              }, 2000);
+              setTimeout(() => {
+                window.showNotification('⏰ Notificación de recordatorio de prueba', 'reminder', 5000);
+              }, 4000);
+            }
+          } else {
+            showAlert('Error en prueba de notificaciones: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error probando notificaciones:', error);
+          showAlert('Error de conexión al probar notificaciones', 'danger');
         });
       };
 
