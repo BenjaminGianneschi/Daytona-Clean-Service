@@ -70,6 +70,11 @@ const createAppointment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'El campo service_type es obligatorio.' });
     }
 
+    // Validar dirección obligatoria
+    if (!serviceLocation || typeof serviceLocation !== 'string' || serviceLocation.trim() === '' || serviceLocation === 'A confirmar') {
+      return res.status(400).json({ success: false, message: 'El campo dirección (serviceLocation) es obligatorio.' });
+    }
+
     // Validar y convertir totalAmount a número
     let precioFinal = 0;
     if (totalAmount !== undefined && totalAmount !== null) {
