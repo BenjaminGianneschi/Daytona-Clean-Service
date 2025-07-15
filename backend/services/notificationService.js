@@ -147,6 +147,7 @@ class NotificationService {
    * Formatear mensaje para notificación web
    */
   formatWebNotificationMessage(appointment, type, reason = null) {
+    console.log('DEBUG APPOINTMENT:', appointment); 
     const date = new Date(appointment.appointment_date).toLocaleDateString('es-AR');
     const time = appointment.appointment_time || 'No especificada';
 

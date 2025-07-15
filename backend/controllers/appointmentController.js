@@ -253,7 +253,7 @@ const updateUserAppointment = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const { appointment_date, start_time, notes, service_location } = req.body;
+    const { appointment_date, appointment_time, notes, service_location } = req.body;
     
     // Verificar que el turno pertenece al usuario
     const appointment = await appointmentModel.getAppointmentById(id);
@@ -271,8 +271,8 @@ const updateUserAppointment = async (req, res) => {
     }
     
     // Verificar disponibilidad del nuevo horario si cambió
-    if (appointment_date !== appointment.appointment_date || start_time !== appointment.appointment_time) {
-      const count = await appointmentModel.countAppointments(appointment_date, start_time, id);
+    if (appointment_date !== appointment.appointment_date || appointment_time !== appointment.appointment_time) {
+      const count = await appointmentModel.countAppointments(appointment_date, appointment_time, id);
       if (count > 0) {
         return res.status(409).json({ success: false, message: 'El nuevo horario no está disponible' });
       }
@@ -281,7 +281,7 @@ const updateUserAppointment = async (req, res) => {
     // Actualizar el turno
     await appointmentModel.updateUserAppointment(id, {
       appointment_date,
-      appointment_time: start_time,
+      appointment_time,
       notes,
       service_location
     });
