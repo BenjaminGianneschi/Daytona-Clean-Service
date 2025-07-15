@@ -3943,23 +3943,7 @@
   // ... existing code ...
   // Lógica para armar el campo serviceLocation en confirmarTurnoConBackend
   // ... dentro de confirmarTurnoConBackend ...
-  let direccion = '';
-  if (categorias.hayVehiculos) {
-    const modoEntrega = document.getElementById('vehiculo-entrega-select').value;
-    if (modoEntrega === 'buscar') {
-      const retiro = document.getElementById('direccion-retiro').value.trim();
-      const entrega = document.getElementById('direccion-entrega').value.trim();
-      direccion = `Retiro: ${retiro} | Entrega: ${entrega}`;
-    } else {
-      direccion = 'El cliente lleva el vehículo';
-    }
-  } else if (categorias.hayTapizados) {
-    direccion = document.getElementById('direccion-tapizado').value.trim();
-  }
-  // ... luego usar direccion como serviceLocation en el objeto para el backend
-  // ... existing code ...
 
-  });
 
   // Función para obtener el paso actual
   function obtenerPasoActual() {
