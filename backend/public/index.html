@@ -185,7 +185,7 @@
     .services-carousel {
       overflow: hidden;
       width: 100%;
-      max-width: 1120px;
+      max-width: 1045px;
       position: relative;
       display: block;
       margin: 0;
@@ -194,7 +194,7 @@
     
     .carousel-track {
       display: flex;
-      gap: 30px;
+      gap: 25px;
       transition: transform 0.5s ease-in-out;
       width: max-content;
       flex-wrap: nowrap;
@@ -356,7 +356,7 @@
       }
       
       .services-carousel {
-        max-width: 990px;
+        max-width: 940px;
       }
       
       .carousel-item.servicio-card-custom {
@@ -1056,7 +1056,7 @@
       
       // Función para mover el carrusel
       let currentIndex = 0;
-      const gap = 30; // Espacio entre tarjetas
+      const gap = 25; // Espacio entre tarjetas
       
       function moveCarousel() {
         const itemsPerView = getItemsPerView();
@@ -1071,14 +1071,11 @@
         // Calcular la posición para mostrar las tarjetas centradas
         // Para el índice 0, mostrar las primeras 3 tarjetas
         // Para otros índices, mover de acuerdo al número de items por vista
-        // Agregar espacio extra entre grupos para evitar recortes
         let translateX;
         if (currentIndex === 0) {
           translateX = 0; // Empezar desde la primera tarjeta
         } else {
-          // Agregar espacio extra entre grupos de tarjetas
-          const extraSpacing = 50; // Espacio adicional entre grupos
-          translateX = -(currentIndex * (itemsPerView * moveDistance + extraSpacing));
+          translateX = -(currentIndex * itemsPerView * moveDistance);
         }
         
         console.log('=== MOVE CARRUSEL ===');
