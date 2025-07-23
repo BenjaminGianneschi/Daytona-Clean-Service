@@ -42,18 +42,28 @@ async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = 
   }
   const appointments = await query(sql, params);
 
+  console.log(`📅 Turnos existentes para ${date}:`, appointments);
+
   // Convertir a minutos
   const requestedStart = parseInt(appointmentTime.split(':')[0]) * 60 + parseInt(appointmentTime.split(':')[1]);
   const requestedEnd = requestedStart + duration;
 
+  console.log(`⏰ Verificando slot: ${appointmentTime} (${requestedStart}min - ${requestedEnd}min)`);
+
   for (const app of appointments) {
     const appStart = parseInt(app.appointment_time.split(':')[0]) * 60 + parseInt(app.appointment_time.split(':')[1]);
     const appEnd = appStart + app.duration;
+    
+    console.log(`🔍 Comparando con turno ${app.id}: ${app.appointment_time} (${appStart}min - ${appEnd}min)`);
+    
     // Si hay solapamiento, no está disponible
     if (requestedStart < appEnd && requestedEnd > appStart) {
+      console.log(`❌ SOLAPAMIENTO DETECTADO! Slot no disponible`);
       return false;
     }
   }
+  
+  console.log(`✅ Slot disponible`);
   return true;
 }
 
