@@ -180,7 +180,7 @@
     }
     
     .services-carousel {
-      overflow: hidden; /* VOLVER A HIDDEN PARA EL CARRUSEL */
+      overflow: hidden;
       width: 100%;
     }
     
@@ -189,11 +189,21 @@
       gap: 20px;
       transition: transform 0.5s ease-in-out;
       width: max-content;
+      flex-wrap: nowrap;
     }
     
     .carousel-item {
       flex: 0 0 270px;
       width: 270px;
+    }
+    
+    /* SOBRESCRIBIR EL CSS DE LAS TARJETAS EN EL CARRUSEL */
+    .carousel-item.servicio-card-custom {
+      width: 270px !important;
+      min-width: 270px !important;
+      max-width: 270px !important;
+      flex: 0 0 270px !important;
+      display: block !important;
     }
     
     .carousel-btn {
