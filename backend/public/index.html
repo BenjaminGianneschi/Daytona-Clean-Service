@@ -177,37 +177,23 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 60px;
-      border: 3px solid yellow; /* Debug */
     }
     
     .services-carousel {
-      overflow: visible; /* CAMBIAR A VISIBLE PARA VER TODAS LAS TARJETAS */
+      overflow: hidden; /* VOLVER A HIDDEN PARA EL CARRUSEL */
       width: 100%;
-      border: 3px solid red; /* Debug */
     }
     
     .carousel-track {
       display: flex;
       gap: 20px;
-      border: 3px solid blue; /* Debug */
-      /* FORZAR VISIBILIDAD DE TODAS LAS TARJETAS */
-      transform: none !important;
-      width: auto !important;
-      flex-wrap: nowrap !important;
-      min-width: 2320px !important; /* 8 tarjetas * 270px + 7 gaps * 20px */
+      transition: transform 0.5s ease-in-out;
+      width: max-content;
     }
     
     .carousel-item {
       flex: 0 0 270px;
       width: 270px;
-      border: 3px solid green; /* Debug */
-      /* FORZAR VISIBILIDAD Y ALINEACIÓN HORIZONTAL */
-      display: inline-block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      position: relative !important;
-      float: left !important;
-      margin-right: 20px !important;
     }
     
     .carousel-btn {
@@ -251,11 +237,46 @@
     
 
     
-    /* Responsive simple */
+    /* Responsive para el carrusel */
+    @media (max-width: 1200px) {
+      .services-carousel-container {
+        max-width: 1000px;
+        padding: 0 60px;
+      }
+    }
+    
     @media (max-width: 768px) {
       .carousel-item {
         flex: 0 0 250px;
         width: 250px;
+      }
+      
+      .services-carousel-container {
+        max-width: 100%;
+        padding: 0 50px;
+      }
+      
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .carousel-item {
+        flex: 0 0 220px;
+        width: 220px;
+      }
+      
+      .services-carousel-container {
+        padding: 0 40px;
+      }
+      
+      .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
       }
     }
   </style>
@@ -904,34 +925,21 @@
       track.style.transform = 'none';
       track.style.transition = 'none';
       
-      // Agregar números de debug y información de posición
+      // Verificar que todos los items estén presentes
       items.forEach((item, index) => {
-        const debugNumber = document.createElement('div');
-        debugNumber.style.cssText = 'position: absolute; top: 5px; right: 5px; background: red; color: white; padding: 5px; border-radius: 50%; font-size: 16px; z-index: 1000; font-weight: bold;';
-        debugNumber.textContent = index + 1;
-        item.style.position = 'relative';
-        item.appendChild(debugNumber);
-        
-        // Agregar información de posición
-        const positionInfo = document.createElement('div');
-        positionInfo.style.cssText = 'position: absolute; top: 5px; left: 5px; background: yellow; color: black; padding: 2px 4px; font-size: 10px; z-index: 1000;';
-        positionInfo.textContent = `Pos: ${index}`;
-        item.appendChild(positionInfo);
-        
         console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
-        console.log(`Posición de tarjeta ${index + 1}:`, item.offsetLeft, item.offsetTop);
       });
       
-      // DESACTIVAR TEMPORALMENTE EL CARRUSEL PARA DEBUG
-      console.log('CARRUSEL DESACTIVADO PARA DEBUG');
-      
-      // Función simple para mover el carrusel
+      // Función para mover el carrusel
       let currentIndex = 0;
       
       function moveCarousel() {
-        // NO MOVER NADA TEMPORALMENTE
-        track.style.transform = 'none';
-        console.log('CARRUSEL DESACTIVADO - TODAS LAS TARJETAS DEBERÍAN SER VISIBLES');
+        const translateX = -(currentIndex * 290); // 270px + 20px gap
+        track.style.transform = `translateX(${translateX}px)`;
+        
+        // Actualizar botones
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= items.length - 4;
       }
       
       prevBtn.addEventListener('click', () => {
