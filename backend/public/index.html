@@ -170,40 +170,32 @@
       box-shadow: 0 0 10px rgba(255, 59, 63, 0.5);
     }
     
-    /* Estilos para el carrusel de servicios */
+    /* Estilos para el carrusel de servicios - VERSIÓN SIMPLE */
     .services-carousel-container {
       position: relative;
+      width: 100%;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 60px;
+      border: 3px solid yellow; /* Debug */
     }
     
     .services-carousel {
       overflow: hidden;
-      position: relative;
       width: 100%;
-      border: 2px solid red; /* Temporal para debug */
-      min-height: 400px; /* Asegurar altura mínima */
+      border: 3px solid red; /* Debug */
     }
     
     .carousel-track {
       display: flex;
-      transition: transform 0.5s ease-in-out;
       gap: 20px;
-      border: 2px solid blue; /* Temporal para debug */
-      width: max-content; /* Permitir que el track se expanda */
+      border: 3px solid blue; /* Debug */
     }
     
     .carousel-item {
-      flex-shrink: 0;
-      width: 270px !important;
-      border: 2px solid green; /* Temporal para debug */
-    }
-    
-    /* Sobrescribir el ancho de las tarjetas en el carrusel */
-    .carousel-item.servicio-card-custom {
-      width: 270px !important;
-      min-height: 420px !important;
+      flex: 0 0 270px;
+      width: 270px;
+      border: 3px solid green; /* Debug */
     }
     
     .carousel-btn {
@@ -247,52 +239,11 @@
     
 
     
-    /* Responsive para el carrusel */
-    @media (max-width: 1200px) {
-      .services-carousel-container {
-        max-width: 1000px;
-        padding: 0 60px;
-      }
-    }
-    
+    /* Responsive simple */
     @media (max-width: 768px) {
       .carousel-item {
-        width: 250px !important;
-      }
-      
-      .carousel-item.servicio-card-custom {
-        width: 250px !important;
-      }
-      
-      .services-carousel-container {
-        max-width: 100%;
-        padding: 0 50px;
-      }
-      
-      .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-    }
-    
-    @media (max-width: 576px) {
-      .carousel-item {
-        width: 220px !important;
-      }
-      
-      .carousel-item.servicio-card-custom {
-        width: 220px !important;
-      }
-      
-      .services-carousel-container {
-        padding: 0 40px;
-      }
-      
-      .carousel-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
+        flex: 0 0 250px;
+        width: 250px;
       }
     }
   </style>
@@ -923,7 +874,7 @@
     });
   </script>
 
-  <!-- Carrusel de Servicios Script -->
+  <!-- Carrusel de Servicios Script - VERSIÓN SIMPLE -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const carousel = document.getElementById('servicesCarousel');
@@ -932,56 +883,56 @@
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
       
-      let currentIndex = 0;
-      const itemWidth = 270;
-      const gap = 20;
-      const step = itemWidth + gap;
+      console.log('=== DEBUG CARRUSEL ===');
+      console.log('Items encontrados:', items.length);
+      console.log('Ancho del contenedor:', carousel.offsetWidth);
+      console.log('Ancho del track:', track.offsetWidth);
       
-      // Función para actualizar el carrusel
-      function updateCarousel() {
-        const translateX = -(currentIndex * step);
+      // Mostrar todas las tarjetas sin carrusel primero
+      track.style.transform = 'none';
+      track.style.transition = 'none';
+      
+      // Agregar números de debug
+      items.forEach((item, index) => {
+        const debugNumber = document.createElement('div');
+        debugNumber.style.cssText = 'position: absolute; top: 5px; right: 5px; background: red; color: white; padding: 5px; border-radius: 50%; font-size: 16px; z-index: 1000; font-weight: bold;';
+        debugNumber.textContent = index + 1;
+        item.style.position = 'relative';
+        item.appendChild(debugNumber);
+        console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
+      });
+      
+      // Función simple para mover el carrusel
+      let currentIndex = 0;
+      
+      function moveCarousel() {
+        const translateX = -(currentIndex * 290); // 270px + 20px gap
         track.style.transform = `translateX(${translateX}px)`;
+        track.style.transition = 'transform 0.5s ease';
         
-        console.log('Actualizando carrusel:', {
-          currentIndex,
-          translateX,
-          totalItems: items.length,
-          maxIndex: items.length - 4
-        });
+        console.log('Moviendo a posición:', currentIndex, 'translateX:', translateX);
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= items.length - 4; // Mostrar 4 items máximo
+        nextBtn.disabled = currentIndex >= items.length - 4;
       }
       
-      // Event listeners para botones
       prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
           currentIndex--;
-          updateCarousel();
+          moveCarousel();
         }
       });
       
       nextBtn.addEventListener('click', () => {
         if (currentIndex < items.length - 4) {
           currentIndex++;
-          updateCarousel();
+          moveCarousel();
         }
       });
       
-      // Inicializar carrusel
-      console.log('Carrusel inicializado');
-      console.log('Número de items:', items.length);
-      console.log('Ancho de cada item:', itemWidth);
-      console.log('Gap entre items:', gap);
-      console.log('Step por movimiento:', step);
-      
-      // Verificar que todos los items estén presentes
-      items.forEach((item, index) => {
-        console.log(`Item ${index + 1}:`, item.querySelector('h5')?.textContent);
-      });
-      
-      updateCarousel();
+      // Inicializar
+      moveCarousel();
     });
   </script>
 
