@@ -411,6 +411,15 @@
             .tips-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .tip-card {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+            
+            .tip-card > div {
+                flex: none !important;
+            }
         }
     </style>
 </head>
@@ -523,109 +532,98 @@
             <h2>¿Por qué el Mantenimiento Preventivo es tu Mejor Inversión?</h2>
             
             <div class="info-section">
-                <h3>💡 El Secreto que los Expertos Conocen</h3>
+                <h3 style="color: #00d4ff;">El Secreto que los Expertos Conocen</h3>
                 <p>¿Sabías que un mantenimiento regular puede ahorrarte hasta un 70% en costos de limpieza profunda? 
                 Es como ir al dentista: es mejor una limpieza mensual que esperar a que duela todo.</p>
             </div>
 
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <h4>🚗 Tu Vehículo Merece Cuidado Constante</h4>
-                    <p><strong>¿Te ha pasado esto?</strong></p>
-                    <ul>
-                        <li>Llevas meses sin limpiar el auto y cuando lo haces, las manchas ya no salen</li>
-                        <li>Los asientos se ven viejos y desgastados por la suciedad acumulada</li>
-                        <li>El olor del interior te avergüenza cuando llevas pasajeros</li>
-                    </ul>
-                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; border-left: 4px solid #ff3b3f;">
-                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">💡 Nuestra Recomendación:</h5>
+            <div class="tips-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                <div class="tip-card" style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 1rem;">Tu Vehículo Merece Cuidado Constante</h4>
+                        <p><strong>¿Te ha pasado esto?</strong></p>
+                        <ul>
+                            <li>Llevas meses sin limpiar el auto y cuando lo haces, las manchas ya no salen</li>
+                            <li>Los asientos se ven viejos y desgastados por la suciedad acumulada</li>
+                            <li>El olor del interior te avergüenza cuando llevas pasajeros</li>
+                        </ul>
+                    </div>
+                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff3b3f; flex: 1;">
+                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">Nuestra Recomendación</h5>
                         <p><strong>Plan Mensual Premium:</strong> 2 lavados convencionales + 1 detallado completo por mes. 
                         Mantén tu auto siempre impecable por menos de lo que cuesta un café diario.</p>
-                        <a href="https://wa.me/5493482588383?text=Hola! Me interesa el plan mensual para mi auto" class="btn" style="background: #ff3b3f; color: white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none; font-size: 0.9rem; margin-top: 1rem; display: inline-block;">
-                            <i class="fab fa-whatsapp me-1"></i>Consultar Plan
-                        </a>
                     </div>
                 </div>
 
-                <div class="tip-card">
-                    <h4>🛋️ Tapizados que Duran Años, No Meses</h4>
-                    <p><strong>La realidad que nadie te cuenta:</strong></p>
-                    <ul>
-                        <li>Un tapizado sin mantenimiento se deteriora 3 veces más rápido</li>
-                        <li>Las manchas se vuelven permanentes después de 48 horas</li>
-                        <li>Los ácaros y bacterias se multiplican sin limpieza regular</li>
-                    </ul>
-                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; border-left: 4px solid #ff3b3f;">
-                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">💡 Nuestra Recomendación:</h5>
+                <div class="tip-card" style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 1rem;">Tapizados que Duran Años, No Meses</h4>
+                        <p><strong>La realidad que nadie te cuenta:</strong></p>
+                        <ul>
+                            <li>Un tapizado sin mantenimiento se deteriora 3 veces más rápido</li>
+                            <li>Las manchas se vuelven permanentes después de 48 horas</li>
+                            <li>Los ácaros y bacterias se multiplican sin limpieza regular</li>
+                        </ul>
+                    </div>
+                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff3b3f; flex: 1;">
+                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">Nuestra Recomendación</h5>
                         <p><strong>Plan Trimestral Inteligente:</strong> Limpieza profunda cada 3 meses. 
                         Protege tu inversión y mantén un ambiente saludable para tu familia.</p>
-                        <a href="https://wa.me/5493482588383?text=Hola! Quiero proteger mis tapizados con el plan trimestral" class="btn" style="background: #ff3b3f; color: white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none; font-size: 0.9rem; margin-top: 1rem; display: inline-block;">
-                            <i class="fab fa-whatsapp me-1"></i>Consultar Plan
-                        </a>
                     </div>
                 </div>
 
-                <div class="tip-card">
-                    <h4>🛏️ Colchones: Tu Salud Depende de Ellos</h4>
-                    <p><strong>¿Sabías que pasas 1/3 de tu vida en tu cama?</strong></p>
-                    <ul>
-                        <li>Un colchón sin limpiar puede contener hasta 2 millones de ácaros</li>
-                        <li>Las manchas de sudor crean bacterias que afectan tu respiración</li>
-                        <li>La suciedad acelera el desgaste del colchón</li>
-                    </ul>
-                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; border-left: 4px solid #ff3b3f;">
-                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">💡 Nuestra Recomendación:</h5>
+                <div class="tip-card" style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 1rem;">Colchones: Tu Salud Depende de Ellos</h4>
+                        <p><strong>¿Sabías que pasas 1/3 de tu vida en tu cama?</strong></p>
+                        <ul>
+                            <li>Un colchón sin limpiar puede contener hasta 2 millones de ácaros</li>
+                            <li>Las manchas de sudor crean bacterias que afectan tu respiración</li>
+                            <li>La suciedad acelera el desgaste del colchón</li>
+                        </ul>
+                    </div>
+                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff3b3f; flex: 1;">
+                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">Nuestra Recomendación</h5>
                         <p><strong>Plan Semestral Saludable:</strong> Limpieza profunda cada 6 meses. 
                         Duerme mejor, respira mejor, vive mejor.</p>
-                        <a href="https://wa.me/5493482588383?text=Hola! Quiero cuidar mi salud con el plan de colchones" class="btn" style="background: #ff3b3f; color: white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none; font-size: 0.9rem; margin-top: 1rem; display: inline-block;">
-                            <i class="fab fa-whatsapp me-1"></i>Consultar Plan
-                        </a>
                     </div>
                 </div>
 
-                <div class="tip-card">
-                    <h4>🏠 Alfombras: El Corazón de tu Hogar</h4>
-                    <p><strong>¿Por qué las alfombras se ven viejas tan rápido?</strong></p>
-                    <ul>
-                        <li>La suciedad se acumula en las fibras y las desgasta</li>
-                        <li>Los olores se impregnan y son difíciles de eliminar</li>
-                        <li>Las manchas se vuelven permanentes con el tiempo</li>
-                    </ul>
-                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; border-left: 4px solid #ff3b3f;">
-                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">💡 Nuestra Recomendación:</h5>
+                <div class="tip-card" style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 1rem;">Alfombras: El Corazón de tu Hogar</h4>
+                        <p><strong>¿Por qué las alfombras se ven viejas tan rápido?</strong></p>
+                        <ul>
+                            <li>La suciedad se acumula en las fibras y las desgasta</li>
+                            <li>Los olores se impregnan y son difíciles de eliminar</li>
+                            <li>Las manchas se vuelven permanentes con el tiempo</li>
+                        </ul>
+                    </div>
+                    <div style="background: #1a1a1a; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ff3b3f; flex: 1;">
+                        <h5 style="color: #00d4ff; margin-bottom: 1rem;">Nuestra Recomendación</h5>
                         <p><strong>Plan Cuatrimestral Hogar:</strong> Limpieza profunda cada 4 meses. 
                         Mantén tu hogar siempre acogedor y saludable.</p>
-                        <a href="https://wa.me/5493482588383?text=Hola! Quiero mantener mis alfombras siempre hermosas" class="btn" style="background: #ff3b3f; color: white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none; font-size: 0.9rem; margin-top: 1rem; display: inline-block;">
-                            <i class="fab fa-whatsapp me-1"></i>Consultar Plan
-                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="contact-section" style="margin-top: 3rem;">
-                <h3>🎯 ¿Por Qué Elegir Planes de Mantenimiento?</h3>
+                <h3 style="color: #fff;">¿Por Qué Elegir Planes de Mantenimiento?</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
                     <div style="text-align: center; padding: 1rem;">
-                        <i class="fas fa-piggy-bank" style="font-size: 2rem; color: #00d4ff; margin-bottom: 1rem;"></i>
                         <h5 style="color: #00d4ff;">Ahorra Dinero</h5>
                         <p>Hasta 40% menos que limpiezas esporádicas</p>
                     </div>
                     <div style="text-align: center; padding: 1rem;">
-                        <i class="fas fa-clock" style="font-size: 2rem; color: #00d4ff; margin-bottom: 1rem;"></i>
                         <h5 style="color: #00d4ff;">Ahorra Tiempo</h5>
                         <p>No más búsquedas de último momento</p>
                     </div>
                     <div style="text-align: center; padding: 1rem;">
-                        <i class="fas fa-shield-alt" style="font-size: 2rem; color: #00d4ff; margin-bottom: 1rem;"></i>
                         <h5 style="color: #00d4ff;">Protege tu Inversión</h5>
                         <p>Mantén todo como nuevo por más tiempo</p>
                     </div>
                 </div>
-                <p><strong>¿Listo para empezar?</strong> Nuestros planes son flexibles y se adaptan a tus necesidades. 
-                ¡Consulta sin compromiso!</p>
-                <a href="https://wa.me/5493482588383?text=Hola! Quiero conocer todos los planes de mantenimiento disponibles" class="btn">
-                    <i class="fab fa-whatsapp me-2"></i>Consultar Todos los Planes
-                </a>
+                <p style="text-align: center; font-size: 1.1rem; margin-top: 2rem;"><strong>El mantenimiento preventivo es la clave para preservar el valor y la belleza de tus pertenencias.</strong></p>
             </div>
         </section>
 
