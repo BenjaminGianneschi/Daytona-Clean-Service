@@ -459,8 +459,9 @@
     }
     
     .service-details h3 {
-      color: #ff3b3f;
+      color: #ffffff;
       font-size: 1.3rem;
+      font-weight: bold;
       margin-bottom: 15px;
       margin-top: 25px;
     }
@@ -485,17 +486,7 @@
       line-height: 1.5;
     }
     
-    .modal-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 30px;
-      flex-wrap: wrap;
-    }
-    
-    .modal-actions .btn {
-      flex: 1;
-      min-width: 200px;
-    }
+
     
     /* Estilos para el botón de información */
     .info-btn {
@@ -530,9 +521,7 @@
         padding: 20px;
       }
       
-      .modal-actions {
-        flex-direction: column;
-      }
+
     }
     
 
@@ -1187,14 +1176,7 @@
           <p id="modalRecommendations"></p>
         </div>
         
-        <div class="modal-actions">
-          <button class="btn btn-primary btn-lg" onclick="contactService()">
-            <i class="fas fa-phone me-2"></i>Contactar para Reservar
-          </button>
-          <button class="btn btn-outline-light btn-lg" onclick="closeModal()">
-            <i class="fas fa-times me-2"></i>Cerrar
-          </button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1382,14 +1364,7 @@
       document.body.style.overflow = 'auto'; // Restaurar scroll
     }
 
-    // Función para contactar servicio
-    function contactService() {
-      const serviceTitle = document.getElementById('modalTitle').textContent;
-      const message = `Hola Daytona! 👋\n\nMe interesa el servicio: ${serviceTitle}\n\nQuiero más información y un presupuesto personalizado. ¡Gracias!`;
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappUrl = `https://wa.me/5493482588383?text=${encodedMessage}`;
-      window.open(whatsappUrl, '_blank');
-    }
+
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
