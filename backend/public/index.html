@@ -177,7 +177,7 @@
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 60px;
-      min-width: 1140px;
+      min-width: 1240px;
       overflow: visible;
     }
     
@@ -185,7 +185,7 @@
       overflow: hidden;
       width: 100%;
       position: relative;
-      min-width: 1140px;
+      min-width: 1240px;
       display: block;
     }
     
@@ -196,7 +196,7 @@
       width: max-content;
       flex-wrap: nowrap;
       position: relative;
-      min-width: 2320px;
+      min-width: 2440px;
     }
     
     .carousel-item {
@@ -206,10 +206,10 @@
     
     /* SOBRESCRIBIR EL CSS DE LAS TARJETAS EN EL CARRUSEL */
     .carousel-item.servicio-card-custom {
-      width: 270px !important;
-      min-width: 270px !important;
-      max-width: 270px !important;
-      flex: 0 0 270px !important;
+      width: 280px !important;
+      min-width: 280px !important;
+      max-width: 280px !important;
+      flex: 0 0 280px !important;
       display: flex !important;
       background: rgba(33, 37, 41, 1) !important;
       border-radius: 15px !important;
@@ -313,6 +313,11 @@
       .services-carousel-container {
         max-width: 1000px;
         padding: 0 60px;
+        min-width: 1000px;
+      }
+      
+      .services-carousel {
+        min-width: 1000px;
       }
       
       .carousel-item.servicio-card-custom {
@@ -1024,7 +1029,7 @@
         if (window.innerWidth <= 576) return 200;
         if (window.innerWidth <= 768) return 220;
         if (window.innerWidth <= 1200) return 250;
-        return 270;
+        return 280;
       }
       
       // Función para mover el carrusel
