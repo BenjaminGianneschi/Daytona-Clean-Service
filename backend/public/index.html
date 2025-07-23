@@ -174,9 +174,9 @@
     .services-carousel-container {
       position: relative;
       width: 100%;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 60px;
+      padding: 0 80px;
       overflow: hidden;
     }
     
@@ -185,6 +185,8 @@
       width: 100%;
       position: relative;
       display: block;
+      min-width: 1040px;
+      margin: 0 auto;
     }
     
     .carousel-track {
@@ -194,6 +196,8 @@
       width: max-content;
       flex-wrap: nowrap;
       position: relative;
+      min-width: 1960px;
+      justify-content: flex-start;
     }
     
     .carousel-item {
@@ -326,8 +330,12 @@
     /* Responsive para el carrusel */
     @media (max-width: 1200px) {
       .services-carousel-container {
-        max-width: 900px;
-        padding: 0 60px;
+        max-width: 1000px;
+        padding: 0 70px;
+      }
+      
+      .services-carousel {
+        min-width: 900px;
       }
       
       .carousel-item.servicio-card-custom {
@@ -1059,7 +1067,7 @@
         const itemsPerView = getItemsPerView();
         const itemWidth = getItemWidth();
         const moveDistance = itemWidth + gap;
-        // Mover de 4 en 4 tarjetas (o el número de items por vista)
+        // Mover de 3 en 3 tarjetas (o el número de items por vista)
         const translateX = -(currentIndex * itemsPerView * moveDistance);
         
         console.log('=== MOVE CARRUSEL ===');
@@ -1069,6 +1077,7 @@
         console.log('Distancia total de movimiento:', currentIndex * itemsPerView * moveDistance);
         console.log('TranslateX:', translateX);
         console.log('CurrentIndex:', currentIndex);
+        console.log('Total de items:', items.length);
         
         // Aplicar la transformación
         track.style.transform = `translateX(${translateX}px)`;
