@@ -2644,6 +2644,8 @@
               } else {
                 direccion = window.turnosSeparados.vehiculos.direccion;
               }
+            } else {
+              direccion = 'El cliente lleva el vehículo a la instalación';
             }
           } else if (categorias.hayTapizados) {
             servicios = window.turnosSeparados.tapizados.servicios;
@@ -3178,6 +3180,9 @@
            }
            
            turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
+         } else {
+           // Cliente lleva el vehículo
+           turnosSeparados.vehiculos.direccion = 'El cliente lleva el vehículo a la instalación';
          }
          
        } else if (categorias.hayVehiculos) {
@@ -3193,6 +3198,9 @@
            }
            
            turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
+         } else {
+           // Cliente lleva el vehículo
+           turnosSeparados.vehiculos.direccion = 'El cliente lleva el vehículo a la instalación';
          }
          
        } else if (categorias.hayTapizados) {
@@ -3258,6 +3266,8 @@
            if (typeof turnosSeparados.vehiculos.direccion === 'object') {
              mensaje += `📍 Retiro: ${turnosSeparados.vehiculos.direccion.retiro}%0A`;
              mensaje += `📍 Entrega: ${turnosSeparados.vehiculos.direccion.entrega}%0A%0A`;
+           } else {
+             mensaje += `📍 Logística: ${turnosSeparados.vehiculos.direccion}%0A%0A`;
            }
          }
        }
@@ -3306,6 +3316,8 @@
            } else {
              direccion = turnosSeparados.vehiculos.direccion;
            }
+         } else {
+           direccion = 'El cliente lleva el vehículo a la instalación';
          }
        } else if (categorias.hayTapizados) {
          servicios = turnosSeparados.tapizados.servicios;
@@ -3790,6 +3802,8 @@
         } else {
           direccion = turnosSeparados.vehiculos.direccion;
         }
+      } else {
+        direccion = 'El cliente lleva el vehículo a la instalación';
       }
     } else if (categorias.hayTapizados) {
       servicios = turnosSeparados.tapizados.servicios;
