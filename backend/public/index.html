@@ -280,6 +280,32 @@
       right: 0;
     }
     
+    /* Estilos para los indicadores de página */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .carousel-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .carousel-indicator.active {
+      background-color: #ff3b3f;
+      transform: scale(1.2);
+    }
+    
+    .carousel-indicator:hover {
+      background-color: rgba(255, 59, 63, 0.7);
+    }
+    
 
     
     /* Responsive para el carrusel */
@@ -568,6 +594,11 @@
       <button class="carousel-btn carousel-btn-next" id="nextBtn">
         <i class="fas fa-chevron-right"></i>
       </button>
+    </div>
+    
+    <!-- Indicadores de página -->
+    <div class="carousel-indicators mt-4 text-center" id="carouselIndicators">
+      <!-- Los indicadores se generarán dinámicamente -->
     </div>
   </section>
 
@@ -971,6 +1002,8 @@
       const items = carousel.querySelectorAll('.carousel-item');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      const indicatorsContainer = document.getElementById('carouselIndicators');
+      let indicators = [];
       
       console.log('=== DEBUG CARRUSEL ===');
       console.log('Items encontrados:', items.length);
@@ -1002,12 +1035,14 @@
         const itemsPerView = getItemsPerView();
         const itemWidth = getItemWidth();
         const moveDistance = itemWidth + gap;
-        const translateX = -(currentIndex * moveDistance);
+        // Mover de 4 en 4 tarjetas (o el número de items por vista)
+        const translateX = -(currentIndex * itemsPerView * moveDistance);
         
         console.log('=== MOVE CARRUSEL ===');
         console.log('Items por vista:', itemsPerView);
         console.log('Ancho de item:', itemWidth);
-        console.log('Distancia de movimiento:', moveDistance);
+        console.log('Distancia de movimiento por item:', moveDistance);
+        console.log('Distancia total de movimiento:', currentIndex * itemsPerView * moveDistance);
         console.log('TranslateX:', translateX);
         console.log('CurrentIndex:', currentIndex);
         
@@ -1017,15 +1052,54 @@
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= items.length - itemsPerView;
+        // Calcular cuántas "páginas" de tarjetas hay
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        nextBtn.disabled = currentIndex >= totalPages - 1;
         
         console.log('Botón prev deshabilitado:', prevBtn.disabled);
         console.log('Botón next deshabilitado:', nextBtn.disabled);
+        console.log('Total de páginas:', totalPages);
         
         // Debug: mostrar información del track
         console.log('Track transform:', track.style.transform);
         console.log('Track width:', track.offsetWidth);
         console.log('Track scrollWidth:', track.scrollWidth);
+        
+        // Actualizar indicadores
+        updateIndicators();
+      }
+      
+      function generateIndicators() {
+        const itemsPerView = getItemsPerView();
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        
+        indicatorsContainer.innerHTML = '';
+        indicators = [];
+        
+        for (let i = 0; i < totalPages; i++) {
+          const indicator = document.createElement('span');
+          indicator.className = 'carousel-indicator';
+          if (i === 0) indicator.classList.add('active');
+          
+          indicator.addEventListener('click', () => {
+            console.log(`Click en indicador ${i + 1}`);
+            currentIndex = i;
+            moveCarousel();
+          });
+          
+          indicatorsContainer.appendChild(indicator);
+          indicators.push(indicator);
+        }
+      }
+      
+      function updateIndicators() {
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
       }
       
       prevBtn.addEventListener('click', () => {
@@ -1039,7 +1113,8 @@
       nextBtn.addEventListener('click', () => {
         console.log('Click en botón next');
         const itemsPerView = getItemsPerView();
-        if (currentIndex < items.length - itemsPerView) {
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        if (currentIndex < totalPages - 1) {
           currentIndex++;
           moveCarousel();
         }
@@ -1049,15 +1124,21 @@
       function handleResize() {
         console.log('Redimensionando ventana');
         currentIndex = 0;
+        generateIndicators();
         moveCarousel();
       }
       
       // Escuchar cambios de tamaño de ventana
       window.addEventListener('resize', handleResize);
       
+      // Los event listeners para los indicadores se generan dinámicamente en generateIndicators()
+      
       // Inicializar con un pequeño retraso para asegurar que todo esté cargado
       console.log('Inicializando carrusel...');
       setTimeout(() => {
+        // Generar indicadores
+        generateIndicators();
+        
         // Verificar que todos los items estén presentes
         items.forEach((item, index) => {
           console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
