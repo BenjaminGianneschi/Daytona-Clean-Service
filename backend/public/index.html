@@ -181,7 +181,7 @@
     }
     
     .services-carousel {
-      overflow: hidden;
+      overflow: visible; /* CAMBIAR A VISIBLE PARA VER TODAS LAS TARJETAS */
       width: 100%;
       border: 3px solid red; /* Debug */
     }
@@ -190,12 +190,21 @@
       display: flex;
       gap: 20px;
       border: 3px solid blue; /* Debug */
+      /* FORZAR VISIBILIDAD DE TODAS LAS TARJETAS */
+      transform: none !important;
+      width: auto !important;
+      flex-wrap: nowrap !important;
     }
     
     .carousel-item {
       flex: 0 0 270px;
       width: 270px;
       border: 3px solid green; /* Debug */
+      /* FORZAR VISIBILIDAD */
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: static !important;
     }
     
     .carousel-btn {
@@ -902,19 +911,16 @@
         console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
       });
       
+      // DESACTIVAR TEMPORALMENTE EL CARRUSEL PARA DEBUG
+      console.log('CARRUSEL DESACTIVADO PARA DEBUG');
+      
       // Función simple para mover el carrusel
       let currentIndex = 0;
       
       function moveCarousel() {
-        const translateX = -(currentIndex * 290); // 270px + 20px gap
-        track.style.transform = `translateX(${translateX}px)`;
-        track.style.transition = 'transform 0.5s ease';
-        
-        console.log('Moviendo a posición:', currentIndex, 'translateX:', translateX);
-        
-        // Actualizar botones
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= items.length - 4;
+        // NO MOVER NADA TEMPORALMENTE
+        track.style.transform = 'none';
+        console.log('CARRUSEL DESACTIVADO - TODAS LAS TARJETAS DEBERÍAN SER VISIBLES');
       }
       
       prevBtn.addEventListener('click', () => {
