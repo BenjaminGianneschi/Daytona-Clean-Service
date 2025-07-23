@@ -178,15 +178,17 @@
       margin: 0 auto;
       padding: 0 80px;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
     }
     
     .services-carousel {
       overflow: hidden;
-      width: 100%;
+      width: 960px;
       position: relative;
       display: block;
-      min-width: 1040px;
       margin: 0 auto;
+      border-radius: 15px;
     }
     
     .carousel-track {
@@ -196,7 +198,7 @@
       width: max-content;
       flex-wrap: nowrap;
       position: relative;
-      min-width: 1960px;
+      min-width: 1920px;
       justify-content: flex-start;
     }
     
@@ -335,7 +337,7 @@
       }
       
       .services-carousel {
-        min-width: 900px;
+        width: 840px;
       }
       
       .carousel-item.servicio-card-custom {
@@ -1078,6 +1080,7 @@
         console.log('TranslateX:', translateX);
         console.log('CurrentIndex:', currentIndex);
         console.log('Total de items:', items.length);
+        console.log('Ancho del carrusel:', carousel.offsetWidth);
         
         // Aplicar la transformación
         track.style.transform = `translateX(${translateX}px)`;
