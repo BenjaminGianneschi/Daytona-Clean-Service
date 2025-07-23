@@ -78,6 +78,11 @@ function generateHeader(isLoggedIn, user) {
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="ayuda.html" style="color: #fff;">
+                  <i class="fas fa-question-circle me-1"></i>Ayuda
+                </a>
               </li>`;
 
   if (isLoggedIn && user) {
@@ -173,5 +178,5 @@ function showNotifications() {
 
 // Función para mostrar ayuda
 function showHelp() {
-  alert('¿Necesitas ayuda? Puedes contactarnos por WhatsApp al +54 9 3482 588383 o visitar nuestra sección de contacto.');
+  window.location.href = 'ayuda.html';
 }
