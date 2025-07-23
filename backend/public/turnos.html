@@ -1356,6 +1356,70 @@
     return getPrecioDesdeBD('puff', tipo);
   }
 
+  // Definir funciones antes del DOMContentLoaded
+  // Variable global para servicios disponibles
+  let serviciosDisponibles = [];
+
+  // Función para cargar servicios desde el backend
+  async function cargarServiciosDisponibles() {
+    try {
+      const response = await fetch('https://daytona-clean-service.onrender.com/api/services');
+      const data = await response.json();
+      if (data.success) {
+        serviciosDisponibles = data.services;
+        console.log('✅ Servicios cargados desde BD:', serviciosDisponibles);
+      } else {
+        throw new Error('Error en respuesta del servidor');
+      }
+    } catch (error) {
+      console.error('❌ Error cargando servicios desde BD:', error);
+      // No usar duraciones hardcodeadas - mostrar error al usuario
+      serviciosDisponibles = [];
+      alert('Error cargando servicios. Por favor recarga la página.');
+    }
+  }
+
+  // Función para calcular duración total de servicios
+  function calcularDuracionServicios(servicios) {
+    let duracionTotal = 0;
+    
+    if (!serviciosDisponibles || serviciosDisponibles.length === 0) {
+      console.warn('⚠️ Servicios no cargados, usando duración por defecto');
+      return 120; // duración por defecto
+    }
+    
+    servicios.forEach(servicio => {
+      // Buscar la duración del servicio en la lista de servicios disponibles
+      const servicioEncontrado = serviciosDisponibles.find(s => s.id === servicio.service_id);
+      if (servicioEncontrado) {
+        duracionTotal += servicioEncontrado.duration * servicio.cantidad;
+        console.log(`📅 Servicio: ${servicioEncontrado.name} - Duración: ${servicioEncontrado.duration}min x ${servicio.cantidad} = ${servicioEncontrado.duration * servicio.cantidad}min`);
+      } else {
+        console.warn(`⚠️ Servicio con ID ${servicio.service_id} no encontrado en BD`);
+        duracionTotal += 120 * servicio.cantidad; // duración por defecto
+      }
+    });
+    
+    console.log(`⏱️ Duración total calculada: ${duracionTotal} minutos (${Math.round(duracionTotal/60*10)/10} horas)`);
+    return duracionTotal;
+  }
+
+  // Función para obtener disponibilidad de horarios
+  async function obtenerDisponibilidad(fecha, duracion = null) {
+    try {
+      const response = await apiService.getAvailability(fecha, duracion);
+      
+      if (response.success) {
+        return response.data;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      console.error('Error obteniendo disponibilidad:', error);
+      throw error;
+    }
+  }
+
   // Cargar servicios al iniciar la página
   document.addEventListener('DOMContentLoaded', function() {
     cargarServiciosDesdeBD();
@@ -3639,69 +3703,6 @@
    });
 
   // ===== INTEGRACIÓN CON BACKEND =====
-
-  // Variable global para servicios disponibles
-  let serviciosDisponibles = [];
-
-  // Función para cargar servicios desde el backend
-  async function cargarServiciosDisponibles() {
-    try {
-      const response = await fetch('https://daytona-clean-service.onrender.com/api/services');
-      const data = await response.json();
-      if (data.success) {
-        serviciosDisponibles = data.services;
-        console.log('✅ Servicios cargados desde BD:', serviciosDisponibles);
-      } else {
-        throw new Error('Error en respuesta del servidor');
-      }
-    } catch (error) {
-      console.error('❌ Error cargando servicios desde BD:', error);
-      // No usar duraciones hardcodeadas - mostrar error al usuario
-      serviciosDisponibles = [];
-      alert('Error cargando servicios. Por favor recarga la página.');
-    }
-  }
-
-  // Función para calcular duración total de servicios
-  function calcularDuracionServicios(servicios) {
-    let duracionTotal = 0;
-    
-    if (!serviciosDisponibles || serviciosDisponibles.length === 0) {
-      console.warn('⚠️ Servicios no cargados, usando duración por defecto');
-      return 120; // duración por defecto
-    }
-    
-    servicios.forEach(servicio => {
-      // Buscar la duración del servicio en la lista de servicios disponibles
-      const servicioEncontrado = serviciosDisponibles.find(s => s.id === servicio.service_id);
-      if (servicioEncontrado) {
-        duracionTotal += servicioEncontrado.duration * servicio.cantidad;
-        console.log(`📅 Servicio: ${servicioEncontrado.name} - Duración: ${servicioEncontrado.duration}min x ${servicio.cantidad} = ${servicioEncontrado.duration * servicio.cantidad}min`);
-      } else {
-        console.warn(`⚠️ Servicio con ID ${servicio.service_id} no encontrado en BD`);
-        duracionTotal += 120 * servicio.cantidad; // duración por defecto
-      }
-    });
-    
-    console.log(`⏱️ Duración total calculada: ${duracionTotal} minutos (${Math.round(duracionTotal/60*10)/10} horas)`);
-    return duracionTotal;
-  }
-
-  // Función para obtener disponibilidad de horarios
-  async function obtenerDisponibilidad(fecha, duracion = null) {
-    try {
-      const response = await apiService.getAvailability(fecha, duracion);
-      
-      if (response.success) {
-        return response.data;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error obteniendo disponibilidad:', error);
-      throw error;
-    }
-  }
 
   // Función para crear turno en el backend
   async function crearTurnoEnBackend(datosTurno) {
