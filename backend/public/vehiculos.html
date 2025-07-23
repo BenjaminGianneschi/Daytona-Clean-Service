@@ -149,77 +149,102 @@
     <!-- SERVICIOS PRINCIPALES -->
     <section id="servicios" class="container py-5">
       <h2 class="text-center text-white mb-5 fw-bold">Nuestros Servicios Principales</h2>
-      <div class="servicios-grid-custom">
-        <!-- Card 1: Limpieza de Auto -->
-        <div class="servicio-card-custom">
-          <img src="img/autodetalle1.jpg" alt="Limpieza de Auto">
-          <div class="servicio-card-body">
-            <h5>Limpieza de Auto</h5>
-            <div class="servicio-precio">$20.000</div>
-            <p>Limpieza profunda y eficiente para mantener tu vehículo en perfecto estado, utilizando productos de alta calidad y técnicas avanzadas.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+      
+      <!-- Carrusel de Servicios -->
+      <div class="services-carousel-container">
+        <button class="carousel-btn carousel-btn-prev" id="prevBtn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="services-carousel" id="servicesCarousel">
+          <div class="carousel-track">
+            <!-- Card 1: Limpieza de Auto -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/autodetalle1.jpg" alt="Limpieza de Auto">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Auto</h5>
+                <div class="servicio-precio text-white">$20.000</div>
+                <p>Limpieza profunda y eficiente para mantener tu vehículo en perfecto estado, utilizando productos de alta calidad y técnicas avanzadas.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-auto">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 2: Limpieza de Pickup -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/camioneta3.jpg" alt="Limpieza de Pickup">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Pickup</h5>
+                <div class="servicio-precio text-white">$25.000</div>
+                <p>Limpieza completa de pickups, incluyendo cabina y caja de carga. Eliminamos suciedad, manchas y olores para mantener tu pickup como nuevo.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-pickup">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 3: Limpieza de SUV -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/toyota5.jpg" alt="Limpieza de SUV">
+              <div class="servicio-card-body">
+                <h5>Limpieza de SUV</h5>
+                <div class="servicio-precio text-white">$27.000</div>
+                <p>Limpieza especializada para vehículos SUV, adaptada a su mayor tamaño y espacios interiores. Incluye limpieza de pisos, consola, puertas y superficies plásticas.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-suv">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 4: Limpieza Detallada de Auto -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/asientosucio.jpg" alt="Limpieza Detallada de Auto">
+              <div class="servicio-card-body">
+                <h5>Limpieza Detallada de Auto</h5>
+                <div class="servicio-precio text-white">$100.000</div>
+                <p>Atención minuciosa a cada rincón de tu auto para eliminar suciedad, manchas difíciles y olores, garantizando un acabado impecable.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-detallada-auto">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 5: Limpieza Detallada de SUV -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/hilux2.jpg" alt="Limpieza Detallada de SUV">
+              <div class="servicio-card-body">
+                <h5>Limpieza Detallada de SUV</h5>
+                <div class="servicio-precio text-white">$115.000</div>
+                <p>Limpieza exhaustiva de SUV con atención especial a todos los espacios interiores, eliminando suciedad profunda y restaurando el brillo original.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-detallada-suv">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 6: Limpieza Detallada de Pickup -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/hilux1.jpg" alt="Limpieza Detallada de Pickup">
+              <div class="servicio-card-body">
+                <h5>Limpieza Detallada de Pickup</h5>
+                <div class="servicio-precio text-white">$125.000</div>
+                <p>Limpieza profunda y detallada de pickups, incluyendo cabina completa, asientos, tapizados, pisos y todas las superficies interiores, garantizando resultados excepcionales.</p>
+                <button class="servicio-btn info-btn" data-service="limpieza-detallada-pickup">Más Información</button>
+              </div>
+            </div>
+            
+            <!-- Card 7: Restauración de Motor -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/motorauto1.jpg" alt="Restauración de Motor">
+              <div class="servicio-card-body">
+                <h5>Restauración de Motor</h5>
+                <div class="servicio-precio text-white">$50.000</div>
+                <p>Servicio especializado para limpiar y restaurar el motor de tu vehículo, mejorando su rendimiento y prolongando su vida útil con técnicas profesionales.</p>
+                <button class="servicio-btn info-btn" data-service="restauracion-motor">Más Información</button>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Card 2: Limpieza de Pickup -->
-        <div class="servicio-card-custom">
-          <img src="img/camioneta3.jpg" alt="Limpieza de Pickup">
-          <div class="servicio-card-body">
-            <h5>Limpieza de Pickup</h5>
-            <div class="servicio-precio">$25.000</div>
-            <p>Limpieza completa de pickups, incluyendo cabina y caja de carga. Eliminamos suciedad, manchas y olores para mantener tu pickup como nuevo.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
-        <!-- Card 3: Limpieza de SUV -->
-        <div class="servicio-card-custom">
-          <img src="img/toyota5.jpg" alt="Limpieza de SUV">
-          <div class="servicio-card-body">
-            <h5>Limpieza de SUV</h5>
-            <div class="servicio-precio">$27.000</div>
-            <p>Limpieza especializada para vehículos SUV, adaptada a su mayor tamaño y espacios interiores. Incluye limpieza de pisos, consola, puertas y superficies plásticas.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
-        <!-- Card 4: Limpieza Detallada de Auto -->
-        <div class="servicio-card-custom">
-          <img src="img/asientosucio.jpg" alt="Limpieza Detallada de Auto">
-          <div class="servicio-card-body">
-            <h5>Limpieza Detallada de Auto</h5>
-            <div class="servicio-precio">$100.000</div>
-            <p>Atención minuciosa a cada rincón de tu auto para eliminar suciedad, manchas difíciles y olores, garantizando un acabado impecable.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
-        <!-- Card 5: Limpieza Detallada de SUV -->
-        <div class="servicio-card-custom">
-          <img src="img/hilux2.jpg" alt="Limpieza Detallada de SUV">
-          <div class="servicio-card-body">
-            <h5>Limpieza Detallada de SUV</h5>
-            <div class="servicio-precio">$115.000</div>
-            <p>Limpieza exhaustiva de SUV con atención especial a todos los espacios interiores, eliminando suciedad profunda y restaurando el brillo original.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
-        <!-- Card 6: Limpieza Detallada de Pickup -->
-        <div class="servicio-card-custom">
-          <img src="img/hilux1.jpg" alt="Limpieza Detallada de Pickup">
-          <div class="servicio-card-body">
-            <h5>Limpieza Detallada de Pickup</h5>
-            <div class="servicio-precio">$125.000</div>
-            <p>Limpieza profunda y detallada de pickups, incluyendo cabina completa, asientos, tapizados, pisos y todas las superficies interiores, garantizando resultados excepcionales.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
-        <!-- Card 7: Restauración de Motor -->
-        <div class="servicio-card-custom">
-          <img src="img/motorauto1.jpg" alt="Restauración de Motor">
-          <div class="servicio-card-body">
-            <h5>Restauración de Motor</h5>
-            <div class="servicio-precio">$50.000</div>
-            <p>Servicio especializado para limpiar y restaurar el motor de tu vehículo, mejorando su rendimiento y prolongando su vida útil con técnicas profesionales.</p>
-            <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-          </div>
-        </div>
+        
+        <button class="carousel-btn carousel-btn-next" id="nextBtn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      
+      <!-- Indicadores de página -->
+      <div class="carousel-indicators mt-4 text-center" id="carouselIndicators">
+        <!-- Los indicadores se generarán dinámicamente -->
       </div>
     </section>
 
@@ -602,6 +627,35 @@
 
   </main>
 
+  <!-- Modal de Información de Servicio -->
+  <div id="serviceModal" class="service-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <img id="modalImage" src="" alt="Servicio">
+        <div class="modal-overlay">
+          <h2 id="modalTitle"></h2>
+          <div class="modal-price" id="modalPrice"></div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="service-details">
+          <h3>Descripción Detallada</h3>
+          <p id="modalDescription"></p>
+          
+          <h3>¿Qué incluye este servicio?</h3>
+          <ul id="modalFeatures"></ul>
+          
+          <h3>Tiempo estimado</h3>
+          <p id="modalTime"></p>
+          
+          <h3>Recomendaciones</h3>
+          <p id="modalRecommendations"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer></footer>
   <script src="js/include-footer.js"></script>
 
@@ -612,6 +666,428 @@
   <script src="js/whatsapp-float.js"></script>
 
   <script src="js/send-whatsapp.js"></script>
+
+  <!-- Estilos para el carrusel y modal -->
+  <style>
+    /* Estilos para el carrusel de servicios - VERSIÓN MEJORADA */
+    .services-carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 100px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .services-carousel {
+      overflow: hidden;
+      width: 100%;
+      max-width: 1010px;
+      position: relative;
+      display: block;
+      margin: 0;
+      border-radius: 15px;
+    }
+    
+    .carousel-track {
+      display: flex;
+      gap: 25px;
+      transition: transform 0.5s ease-in-out;
+      width: max-content;
+      flex-wrap: nowrap;
+      position: relative;
+      justify-content: flex-start;
+      box-sizing: border-box;
+    }
+    
+    .carousel-item {
+      flex: 0 0 320px;
+      width: 320px;
+    }
+    
+    /* SOBRESCRIBIR EL CSS DE LAS TARJETAS EN EL CARRUSEL */
+    .carousel-item.servicio-card-custom {
+      width: 320px !important;
+      min-width: 320px !important;
+      max-width: 320px !important;
+      flex: 0 0 320px !important;
+      display: flex !important;
+      background: rgba(33, 37, 41, 1) !important;
+      border-radius: 15px !important;
+      height: 500px !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      overflow: hidden !important;
+      transition: transform 0.2s !important;
+      margin-right: 0 !important;
+      box-sizing: border-box !important;
+    }
+    
+    .carousel-item.servicio-card-custom img {
+      width: 100% !important;
+      height: 200px !important;
+      object-fit: cover !important;
+      border-top-left-radius: 16px !important;
+      border-top-right-radius: 16px !important;
+    }
+    
+    .carousel-item.servicio-card-custom .servicio-card-body {
+      flex: 1 1 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      padding: 22px 22px 20px 22px !important;
+      background: rgba(33, 37, 41, 1) !important;
+      height: 300px !important;
+      justify-content: space-between !important;
+    }
+    
+    .carousel-item.servicio-card-custom .servicio-card-body h5 {
+      font-size: 1.3rem !important;
+      line-height: 1.3 !important;
+      margin-bottom: 10px !important;
+    }
+    
+    .carousel-item.servicio-card-custom .servicio-card-body p {
+      font-size: 1rem !important;
+      line-height: 1.5 !important;
+      margin-bottom: 15px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 4 !important;
+      -webkit-box-orient: vertical !important;
+    }
+    
+    .carousel-item.servicio-card-custom:last-child {
+      margin-right: 0 !important;
+    }
+    
+    /* Asegurar que el carrusel esté centrado y no se corte */
+    .services-carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .services-carousel {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    .carousel-track {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+    
+    .carousel-btn:hover {
+      color: #ff3b3f;
+      transform: translateY(-50%) scale(1.2);
+      text-shadow: 2px 2px 8px rgba(255, 59, 63, 0.6);
+    }
+    
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: translateY(-50%) scale(1);
+    }
+    
+    .carousel-btn-prev {
+      left: 0;
+    }
+    
+    .carousel-btn-next {
+      right: 0;
+    }
+    
+    /* Estilos para los indicadores de página */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .carousel-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .carousel-indicator.active {
+      background-color: #ff3b3f;
+      transform: scale(1.2);
+    }
+    
+    .carousel-indicator:hover {
+      background-color: rgba(255, 59, 63, 0.7);
+    }
+    
+    /* Estilos para el modal de servicios */
+    .service-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal-content {
+      position: relative;
+      background-color: #1a1a1a;
+      margin: 2% auto;
+      padding: 0;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { 
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to { 
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .close-modal:hover {
+      background: rgba(255, 59, 63, 0.8);
+      transform: scale(1.1);
+    }
+    
+    .modal-header {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+    
+    .modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .modal-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+      padding: 40px 30px 30px;
+      color: white;
+    }
+    
+    .modal-overlay h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+    
+    .modal-price {
+      font-size: 1.5rem;
+      color: #ff3b3f;
+      font-weight: bold;
+    }
+    
+    .modal-body {
+      padding: 30px;
+      color: white;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    
+    .service-details h3 {
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      margin-top: 25px;
+    }
+    
+    .service-details h3:first-child {
+      margin-top: 0;
+    }
+    
+    .service-details p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+    
+    .service-details ul {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    
+    .service-details li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    
+    /* Estilos para el botón de información */
+    .info-btn {
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%) !important;
+      border: none !important;
+      color: white !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .info-btn:hover {
+      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4) !important;
+    }
+    
+    /* Responsive para el carrusel */
+    @media (max-width: 1200px) {
+      .services-carousel-container {
+        max-width: 1100px;
+        padding: 0 80px;
+      }
+      
+      .services-carousel {
+        max-width: 940px;
+      }
+      
+      .carousel-item.servicio-card-custom {
+        width: 300px !important;
+        min-width: 300px !important;
+        max-width: 300px !important;
+        flex: 0 0 300px !important;
+        height: 480px !important;
+      }
+      
+      .carousel-item.servicio-card-custom img {
+        height: 190px !important;
+      }
+      
+      .carousel-item.servicio-card-custom .servicio-card-body {
+        height: 290px !important;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .carousel-item.servicio-card-custom {
+        width: 280px !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        flex: 0 0 280px !important;
+        height: 460px !important;
+      }
+      
+      .services-carousel-container {
+        max-width: 100%;
+        padding: 0 60px;
+      }
+      
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .carousel-item.servicio-card-custom {
+        width: 260px !important;
+        min-width: 260px !important;
+        max-width: 260px !important;
+        flex: 0 0 260px !important;
+        height: 440px !important;
+      }
+      
+      .services-carousel-container {
+        padding: 0 50px;
+      }
+      
+      .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+      }
+    }
+    
+    /* Responsive para el modal */
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 95%;
+        margin: 5% auto;
+      }
+      
+      .modal-header {
+        height: 200px;
+      }
+      
+      .modal-overlay h2 {
+        font-size: 1.8rem;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+    }
+  </style>
 
   <!-- Formulario Mejorado -->
   <script>
@@ -681,6 +1157,309 @@
       
       // Cambiar slide cada 3 segundos
       setInterval(nextSlide, 3000);
+    });
+  </script>
+
+  <!-- Script para el carrusel y modal de servicios -->
+  <script>
+    // Datos de los servicios de vehículos
+    const serviciosData = {
+      'limpieza-auto': {
+        title: 'Limpieza de Auto',
+        price: '$20.000',
+        image: 'img/autodetalle1.jpg',
+        description: 'Limpieza profunda y eficiente para mantener tu vehículo en perfecto estado, utilizando productos de alta calidad y técnicas avanzadas.',
+        features: [
+          'Lavado exterior completo con shampoo profesional',
+          'Aspirado profundo de todo el interior',
+          'Limpieza de superficies plásticas y vinílicas',
+          'Limpieza de vidrios interior y exterior',
+          'Aplicación de protectores UV en plásticos',
+          'Secado manual para evitar rayas'
+        ],
+        time: '2-3 horas',
+        recommendations: 'Ideal para mantenimiento regular. Recomendamos realizar este servicio cada 15-20 días para mantener tu auto en óptimas condiciones.'
+      },
+      'limpieza-pickup': {
+        title: 'Limpieza de Pickup',
+        price: '$25.000',
+        image: 'img/camioneta3.jpg',
+        description: 'Limpieza completa de pickups, incluyendo cabina y caja de carga. Eliminamos suciedad, manchas y olores para mantener tu pickup como nuevo.',
+        features: [
+          'Limpieza completa de cabina',
+          'Limpieza de caja de carga',
+          'Aspirado profundo de todos los espacios',
+          'Limpieza de superficies plásticas',
+          'Desinfección con productos especializados',
+          'Aplicación de protectores'
+        ],
+        time: '3-4 horas',
+        recommendations: 'Ideal para pickups de trabajo o uso intensivo. Recomendado cada 20-30 días.'
+      },
+      'limpieza-suv': {
+        title: 'Limpieza de SUV',
+        price: '$27.000',
+        image: 'img/toyota5.jpg',
+        description: 'Limpieza especializada para vehículos SUV, adaptada a su mayor tamaño y espacios interiores.',
+        features: [
+          'Limpieza de pisos y alfombras',
+          'Limpieza de consola central',
+          'Limpieza de puertas y paneles',
+          'Limpieza de asientos traseros',
+          'Limpieza de maletero',
+          'Desinfección completa'
+        ],
+        time: '3-4 horas',
+        recommendations: 'Ideal para familias con niños. Recomendado cada 15-25 días.'
+      },
+      'limpieza-detallada-auto': {
+        title: 'Limpieza Detallada de Auto',
+        price: '$100.000',
+        image: 'img/asientosucio.jpg',
+        description: 'Atención minuciosa a cada rincón de tu auto para eliminar suciedad, manchas difíciles y olores, garantizando un acabado impecable.',
+        features: [
+          'Limpieza profunda de tapizados con extractor',
+          'Eliminación de manchas difíciles',
+          'Desinfección con vapor a alta temperatura',
+          'Limpieza de techos y alfombras',
+          'Tratamiento anti-ácaros y bacterias',
+          'Aplicación de protectores de tapizados',
+          'Limpieza de conductos de aire acondicionado'
+        ],
+        time: '4-6 horas',
+        recommendations: 'Servicio recomendado cada 3-6 meses. Especialmente útil para vehículos con niños, mascotas o uso intensivo.'
+      },
+      'limpieza-detallada-suv': {
+        title: 'Limpieza Detallada de SUV',
+        price: '$115.000',
+        image: 'img/hilux2.jpg',
+        description: 'Limpieza exhaustiva de SUV con atención especial a todos los espacios interiores, eliminando suciedad profunda y restaurando el brillo original.',
+        features: [
+          'Limpieza profunda de todos los espacios',
+          'Limpieza de maletero completo',
+          'Limpieza de asientos traseros abatibles',
+          'Desinfección con vapor',
+          'Tratamiento anti-ácaros',
+          'Aplicación de protectores',
+          'Limpieza de conductos de ventilación'
+        ],
+        time: '5-7 horas',
+        recommendations: 'Ideal para SUV familiares o de trabajo. Recomendado cada 4-6 meses.'
+      },
+      'limpieza-detallada-pickup': {
+        title: 'Limpieza Detallada de Pickup',
+        price: '$125.000',
+        image: 'img/hilux1.jpg',
+        description: 'Limpieza profunda y detallada de pickups, incluyendo cabina completa, asientos, tapizados, pisos y todas las superficies interiores.',
+        features: [
+          'Limpieza profunda de cabina completa',
+          'Limpieza de caja de carga',
+          'Limpieza de asientos y tapizados',
+          'Desinfección con vapor',
+          'Tratamiento anti-ácaros',
+          'Aplicación de protectores',
+          'Limpieza de conductos'
+        ],
+        time: '6-8 horas',
+        recommendations: 'Ideal para pickups de trabajo intensivo. Recomendado cada 4-6 meses.'
+      },
+      'restauracion-motor': {
+        title: 'Restauración de Motor',
+        price: '$50.000',
+        image: 'img/motorauto1.jpg',
+        description: 'Servicio especializado para limpiar y restaurar el motor de tu vehículo, mejorando su rendimiento y prolongando su vida útil.',
+        features: [
+          'Desengrasado completo del motor',
+          'Limpieza de componentes plásticos',
+          'Protección de componentes eléctricos',
+          'Limpieza de filtros de aire',
+          'Aplicación de protectores anti-corrosión',
+          'Inspección visual de posibles problemas'
+        ],
+        time: '2-3 horas',
+        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante antes de vender el vehículo.'
+      }
+    };
+
+    // Función para abrir el modal
+    function openServiceModal(serviceId) {
+      const service = serviciosData[serviceId];
+      if (!service) return;
+
+      // Llenar el modal con la información del servicio
+      document.getElementById('modalImage').src = service.image;
+      document.getElementById('modalTitle').textContent = service.title;
+      document.getElementById('modalPrice').textContent = service.price;
+      document.getElementById('modalDescription').textContent = service.description;
+      document.getElementById('modalTime').textContent = service.time;
+      document.getElementById('modalRecommendations').textContent = service.recommendations;
+
+      // Llenar las características
+      const featuresList = document.getElementById('modalFeatures');
+      featuresList.innerHTML = '';
+      service.features.forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        featuresList.appendChild(li);
+      });
+
+      // Mostrar el modal
+      document.getElementById('serviceModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+      document.getElementById('serviceModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Carrusel de Servicios Script
+    document.addEventListener('DOMContentLoaded', function() {
+      const carousel = document.getElementById('servicesCarousel');
+      const track = carousel.querySelector('.carousel-track');
+      const items = carousel.querySelectorAll('.carousel-item');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const indicatorsContainer = document.getElementById('carouselIndicators');
+      let indicators = [];
+      
+      // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
+      function getItemsPerView() {
+        if (window.innerWidth <= 576) return 1;
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1200) return 2;
+        return 3; // Siempre mostrar 3 en desktop
+      }
+      
+      // Función para obtener el ancho de cada tarjeta según el tamaño de pantalla
+      function getItemWidth() {
+        if (window.innerWidth <= 576) return 260;
+        if (window.innerWidth <= 768) return 280;
+        if (window.innerWidth <= 1200) return 300;
+        return 320;
+      }
+      
+      // Función para mover el carrusel
+      let currentIndex = 0;
+      const gap = 25; // Espacio entre tarjetas
+      
+      function moveCarousel() {
+        const itemsPerView = getItemsPerView();
+        const itemWidth = getItemWidth();
+        const moveDistance = itemWidth + gap;
+        
+        // Calcular la posición para mostrar las tarjetas centradas
+        // Para el índice 0, mostrar las primeras 3 tarjetas
+        // Para otros índices, mover de acuerdo al número de items por vista
+        let translateX;
+        if (currentIndex === 0) {
+          translateX = 0; // Empezar desde la primera tarjeta
+        } else {
+          translateX = -(currentIndex * itemsPerView * moveDistance);
+        }
+        
+        // Aplicar la transformación
+        track.style.transform = `translateX(${translateX}px)`;
+        track.style.transition = 'transform 0.5s ease-in-out';
+        
+        // Actualizar botones
+        prevBtn.disabled = currentIndex === 0;
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        nextBtn.disabled = currentIndex >= totalPages - 1;
+        
+        // Actualizar indicadores
+        updateIndicators();
+      }
+      
+      function generateIndicators() {
+        const itemsPerView = getItemsPerView();
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        
+        indicatorsContainer.innerHTML = '';
+        indicators = [];
+        
+        for (let i = 0; i < totalPages; i++) {
+          const indicator = document.createElement('span');
+          indicator.className = 'carousel-indicator';
+          if (i === 0) indicator.classList.add('active');
+          
+          indicator.addEventListener('click', () => {
+            currentIndex = i;
+            moveCarousel();
+          });
+          
+          indicatorsContainer.appendChild(indicator);
+          indicators.push(indicator);
+        }
+      }
+      
+      function updateIndicators() {
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+      }
+      
+      prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          moveCarousel();
+        }
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        const itemsPerView = getItemsPerView();
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        if (currentIndex < totalPages - 1) {
+          currentIndex++;
+          moveCarousel();
+        }
+      });
+      
+      // Función para reiniciar el carrusel cuando cambie el tamaño de pantalla
+      function handleResize() {
+        currentIndex = 0;
+        generateIndicators();
+        moveCarousel();
+      }
+      
+      // Escuchar cambios de tamaño de ventana
+      window.addEventListener('resize', handleResize);
+      
+      // Event listeners para los botones de información
+      document.querySelectorAll('.info-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const serviceId = this.getAttribute('data-service');
+          openServiceModal(serviceId);
+        });
+      });
+
+      // Event listener para cerrar el modal
+      document.querySelector('.close-modal').addEventListener('click', closeModal);
+
+      // Cerrar modal al hacer clic fuera de él
+      document.getElementById('serviceModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+
+      // Cerrar modal con la tecla Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+      
+      // Inicializar carrusel
+      setTimeout(() => {
+        generateIndicators();
+        moveCarousel();
+      }, 100);
     });
   </script>
 
