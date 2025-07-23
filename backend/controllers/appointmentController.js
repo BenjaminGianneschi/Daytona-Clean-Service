@@ -50,15 +50,23 @@ const getAvailability = async (req, res) => {
       const slotEnd = currentTime.clone();
       
       // Verificar disponibilidad considerando la duración del servicio
-      console.log(`🔍 Verificando disponibilidad: ${date} ${slotStart.format('HH:mm:ss')} - Duración: ${requestedDuration}min`);
+      let isAvailable = true;
       
-      const isAvailable = await appointmentModel.isTimeSlotAvailable(
-        date, 
-        slotStart.format('HH:mm:ss'), 
-        requestedDuration
-      );
-      
-      console.log(`✅ Slot ${slotStart.format('HH:mm')} - ${slotEnd.format('HH:mm')}: ${isAvailable ? 'DISPONIBLE' : 'OCUPADO'}`);
+      try {
+        console.log(`🔍 Verificando disponibilidad: ${date} ${slotStart.format('HH:mm:ss')} - Duración: ${requestedDuration}min`);
+        
+        isAvailable = await appointmentModel.isTimeSlotAvailable(
+          date, 
+          slotStart.format('HH:mm:ss'), 
+          requestedDuration
+        );
+        
+        console.log(`✅ Slot ${slotStart.format('HH:mm')} - ${slotEnd.format('HH:mm')}: ${isAvailable ? 'DISPONIBLE' : 'OCUPADO'}`);
+      } catch (error) {
+        console.error('❌ Error verificando disponibilidad:', error);
+        // En caso de error, marcar como disponible para no romper el sistema
+        isAvailable = true;
+      }
       
       availableSlots.push({
         startTime: slotStart.format('HH:mm'),

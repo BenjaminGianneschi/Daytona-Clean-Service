@@ -33,38 +33,50 @@ async function countAppointments(date, appointmentTime, excludeId = null) {
 
 // Verificar disponibilidad estricta
 async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = null) {
-  // Buscar todos los turnos de ese día
-  let sql = 'SELECT id, appointment_time, duration FROM appointments WHERE appointment_date = $1 AND status IN ($2, $3)';
-  let params = [date, 'pending', 'confirmed'];
-  if (excludeId) {
-    sql += ' AND id != $4';
-    params.push(excludeId);
-  }
-  const appointments = await query(sql, params);
-
-  console.log(`📅 Turnos existentes para ${date}:`, appointments);
-
-  // Convertir a minutos
-  const requestedStart = parseInt(appointmentTime.split(':')[0]) * 60 + parseInt(appointmentTime.split(':')[1]);
-  const requestedEnd = requestedStart + duration;
-
-  console.log(`⏰ Verificando slot: ${appointmentTime} (${requestedStart}min - ${requestedEnd}min)`);
-
-  for (const app of appointments) {
-    const appStart = parseInt(app.appointment_time.split(':')[0]) * 60 + parseInt(app.appointment_time.split(':')[1]);
-    const appEnd = appStart + app.duration;
-    
-    console.log(`🔍 Comparando con turno ${app.id}: ${app.appointment_time} (${appStart}min - ${appEnd}min)`);
-    
-    // Si hay solapamiento, no está disponible
-    if (requestedStart < appEnd && requestedEnd > appStart) {
-      console.log(`❌ SOLAPAMIENTO DETECTADO! Slot no disponible`);
-      return false;
+  try {
+    // Buscar todos los turnos de ese día
+    let sql = 'SELECT id, appointment_time, duration FROM appointments WHERE appointment_date = $1 AND status IN ($2, $3)';
+    let params = [date, 'pending', 'confirmed'];
+    if (excludeId) {
+      sql += ' AND id != $4';
+      params.push(excludeId);
     }
+    const appointments = await query(sql, params);
+
+    console.log(`📅 Turnos existentes para ${date}:`, appointments);
+
+    // Si no hay turnos, está disponible
+    if (!appointments || appointments.length === 0) {
+      console.log(`✅ No hay turnos para ${date}, slot disponible`);
+      return true;
+    }
+
+    // Convertir a minutos
+    const requestedStart = parseInt(appointmentTime.split(':')[0]) * 60 + parseInt(appointmentTime.split(':')[1]);
+    const requestedEnd = requestedStart + duration;
+
+    console.log(`⏰ Verificando slot: ${appointmentTime} (${requestedStart}min - ${requestedEnd}min)`);
+
+    for (const app of appointments) {
+      const appStart = parseInt(app.appointment_time.split(':')[0]) * 60 + parseInt(app.appointment_time.split(':')[1]);
+      const appEnd = appStart + (app.duration || 120); // Usar duración del turno o 120min por defecto
+      
+      console.log(`🔍 Comparando con turno ${app.id}: ${app.appointment_time} (${appStart}min - ${appEnd}min)`);
+      
+      // Si hay solapamiento, no está disponible
+      if (requestedStart < appEnd && requestedEnd > appStart) {
+        console.log(`❌ SOLAPAMIENTO DETECTADO! Slot no disponible`);
+        return false;
+      }
+    }
+    
+    console.log(`✅ Slot disponible`);
+    return true;
+  } catch (error) {
+    console.error('❌ Error en isTimeSlotAvailable:', error);
+    // En caso de error, retornar true para no bloquear el sistema
+    return true;
   }
-  
-  console.log(`✅ Slot disponible`);
-  return true;
 }
 
 // Crear turno
