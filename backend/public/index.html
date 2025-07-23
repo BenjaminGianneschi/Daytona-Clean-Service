@@ -182,17 +182,20 @@
       overflow: hidden;
       position: relative;
       width: 100%;
+      border: 2px solid red; /* Temporal para debug */
     }
     
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
       gap: 20px;
+      border: 2px solid blue; /* Temporal para debug */
     }
     
     .carousel-item {
       flex-shrink: 0;
       width: 280px;
+      border: 2px solid green; /* Temporal para debug */
     }
     
     .carousel-btn {
@@ -234,30 +237,7 @@
       right: 0;
     }
     
-    .carousel-indicators {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 30px;
-    }
-    
-    .carousel-indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-indicator.active {
-      background: #ff3b3f;
-      transform: scale(1.2);
-    }
-    
-    .carousel-indicator:hover {
-      background: rgba(255, 59, 63, 0.7);
-    }
+
     
     /* Responsive para el carrusel */
     @media (max-width: 768px) {
@@ -524,11 +504,6 @@
       <button class="carousel-btn carousel-btn-next" id="nextBtn">
         <i class="fas fa-chevron-right"></i>
       </button>
-    </div>
-    
-    <!-- Indicadores de navegación -->
-    <div class="carousel-indicators" id="carouselIndicators">
-      <!-- Se generan dinámicamente con JavaScript -->
     </div>
   </section>
 
@@ -932,69 +907,27 @@
       const items = carousel.querySelectorAll('.carousel-item');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
-      const indicatorsContainer = document.getElementById('carouselIndicators');
       
       let currentIndex = 0;
-      
-      // Función para calcular cuántos items mostrar
-      function getItemsPerView() {
-        const containerWidth = carousel.offsetWidth;
-        const itemWidth = 280;
-        const gap = 20;
-        const itemsThatFit = Math.floor(containerWidth / (itemWidth + gap));
-        return Math.max(1, Math.min(4, itemsThatFit));
-      }
+      const itemWidth = 280;
+      const gap = 20;
+      const step = itemWidth + gap;
       
       // Función para actualizar el carrusel
       function updateCarousel() {
-        const itemsPerView = getItemsPerView();
-        const maxIndex = Math.max(0, items.length - itemsPerView);
-        currentIndex = Math.min(currentIndex, maxIndex);
-        
-        const translateX = -(currentIndex * 300); // 280px + 20px gap
+        const translateX = -(currentIndex * step);
         track.style.transform = `translateX(${translateX}px)`;
         
         console.log('Actualizando carrusel:', {
-          itemsPerView,
           currentIndex,
-          maxIndex,
-          translateX
+          translateX,
+          totalItems: items.length,
+          maxIndex: items.length - 4
         });
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= maxIndex;
-        
-        // Actualizar indicadores
-        updateIndicators();
-      }
-      
-      // Función para crear indicadores
-      function createIndicators() {
-        const itemsPerView = getItemsPerView();
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        indicatorsContainer.innerHTML = '';
-        
-        for (let i = 0; i < totalPages; i++) {
-          const indicator = document.createElement('div');
-          indicator.className = 'carousel-indicator';
-          indicator.addEventListener('click', () => {
-            currentIndex = i * itemsPerView;
-            updateCarousel();
-          });
-          indicatorsContainer.appendChild(indicator);
-        }
-      }
-      
-      // Función para actualizar indicadores
-      function updateIndicators() {
-        const itemsPerView = getItemsPerView();
-        const indicators = indicatorsContainer.querySelectorAll('.carousel-indicator');
-        const currentPage = Math.floor(currentIndex / itemsPerView);
-        
-        indicators.forEach((indicator, index) => {
-          indicator.classList.toggle('active', index === currentPage);
-        });
+        nextBtn.disabled = currentIndex >= items.length - 4; // Mostrar 4 items máximo
       }
       
       // Event listeners para botones
@@ -1006,31 +939,25 @@
       });
       
       nextBtn.addEventListener('click', () => {
-        const itemsPerView = getItemsPerView();
-        const maxIndex = Math.max(0, items.length - itemsPerView);
-        if (currentIndex < maxIndex) {
+        if (currentIndex < items.length - 4) {
           currentIndex++;
           updateCarousel();
         }
       });
       
-      // Event listener para redimensionamiento de ventana
-      window.addEventListener('resize', () => {
-        setTimeout(() => {
-          createIndicators();
-          updateCarousel();
-        }, 100);
+      // Inicializar carrusel
+      console.log('Carrusel inicializado');
+      console.log('Número de items:', items.length);
+      console.log('Ancho de cada item:', itemWidth);
+      console.log('Gap entre items:', gap);
+      console.log('Step por movimiento:', step);
+      
+      // Verificar que todos los items estén presentes
+      items.forEach((item, index) => {
+        console.log(`Item ${index + 1}:`, item.querySelector('h5')?.textContent);
       });
       
-      // Inicializar carrusel
-      setTimeout(() => {
-        console.log('Inicializando carrusel...');
-        console.log('Items encontrados:', items.length);
-        console.log('Ancho del contenedor:', carousel.offsetWidth);
-        console.log('Items por vista:', getItemsPerView());
-        createIndicators();
-        updateCarousel();
-      }, 100);
+      updateCarousel();
     });
   </script>
 
