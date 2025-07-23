@@ -178,6 +178,7 @@
       margin: 0 auto;
       padding: 0 60px;
       min-width: 1140px;
+      overflow: visible;
     }
     
     .services-carousel {
@@ -185,6 +186,7 @@
       width: 100%;
       position: relative;
       min-width: 1140px;
+      display: block;
     }
     
     .carousel-track {
@@ -193,6 +195,8 @@
       transition: transform 0.5s ease-in-out;
       width: max-content;
       flex-wrap: nowrap;
+      position: relative;
+      min-width: 2320px;
     }
     
     .carousel-item {
@@ -206,7 +210,7 @@
       min-width: 270px !important;
       max-width: 270px !important;
       flex: 0 0 270px !important;
-      display: block !important;
+      display: flex !important;
       background: rgba(33, 37, 41, 1) !important;
       border-radius: 15px !important;
       min-height: 420px !important;
@@ -214,6 +218,7 @@
       align-items: stretch !important;
       overflow: hidden !important;
       transition: transform 0.2s !important;
+      margin-right: 20px !important;
     }
     
     .carousel-item.servicio-card-custom img {
@@ -230,6 +235,10 @@
       flex-direction: column !important;
       padding: 18px 18px 16px 18px !important;
       background: rgba(33, 37, 41, 1) !important;
+    }
+    
+    .carousel-item.servicio-card-custom:last-child {
+      margin-right: 0 !important;
     }
     
     .carousel-btn {
@@ -1002,7 +1011,9 @@
         console.log('TranslateX:', translateX);
         console.log('CurrentIndex:', currentIndex);
         
+        // Aplicar la transformación
         track.style.transform = `translateX(${translateX}px)`;
+        track.style.transition = 'transform 0.5s ease-in-out';
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
@@ -1010,6 +1021,11 @@
         
         console.log('Botón prev deshabilitado:', prevBtn.disabled);
         console.log('Botón next deshabilitado:', nextBtn.disabled);
+        
+        // Debug: mostrar información del track
+        console.log('Track transform:', track.style.transform);
+        console.log('Track width:', track.offsetWidth);
+        console.log('Track scrollWidth:', track.scrollWidth);
       }
       
       prevBtn.addEventListener('click', () => {
@@ -1042,12 +1058,21 @@
       // Inicializar con un pequeño retraso para asegurar que todo esté cargado
       console.log('Inicializando carrusel...');
       setTimeout(() => {
-        moveCarousel();
-        
         // Verificar que todos los items estén presentes
         items.forEach((item, index) => {
           console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
+          console.log(`Tarjeta ${index + 1} width:`, item.offsetWidth);
+          console.log(`Tarjeta ${index + 1} display:`, window.getComputedStyle(item).display);
         });
+        
+        // Verificar el estado inicial del carrusel
+        console.log('=== ESTADO INICIAL ===');
+        console.log('Track transform inicial:', track.style.transform);
+        console.log('Track width inicial:', track.offsetWidth);
+        console.log('Carousel width:', carousel.offsetWidth);
+        console.log('Container width:', carousel.parentElement.offsetWidth);
+        
+        moveCarousel();
       }, 100);
     });
   </script>
