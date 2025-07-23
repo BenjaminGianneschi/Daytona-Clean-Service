@@ -78,6 +78,17 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
 
+// Ruta directa para servicios (para compatibilidad con frontend)
+app.get('/api/services', async (req, res) => {
+  try {
+    const { getAllServices } = require('./controllers/appointmentController');
+    await getAllServices(req, res);
+  } catch (error) {
+    console.error('Error en /api/services:', error);
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+});
+
 // Ruta de estado de la API (debe ir antes del catch-all)
 app.get('/api/health', async (req, res) => {
   try {
