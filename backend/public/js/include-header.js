@@ -80,9 +80,7 @@ function generateHeader(isLoggedIn, user) {
                 <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="ayuda.html" style="color: #fff;">
-                  <i class="fas fa-question-circle me-1"></i>Ayuda
-                </a>
+                <a class="nav-link" href="ayuda.html" style="color: #fff;">Ayuda</a>
               </li>`;
 
   if (isLoggedIn && user) {
