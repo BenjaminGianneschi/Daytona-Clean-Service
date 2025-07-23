@@ -1,37 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayuda - Daytona Limpieza</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/components/header.css">
-    <link rel="stylesheet" href="css/index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Centro de Ayuda - Daytona Clean Service | Preguntas Frecuentes y Soporte</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Centro de ayuda de Daytona Clean Service. Encuentra respuestas a preguntas frecuentes, información sobre servicios, consejos de mantenimiento y contacto directo." />
+  <meta name="keywords" content="ayuda Daytona, preguntas frecuentes, soporte cliente, información servicios, contacto Daytona, FAQ lavado autos, limpieza tapizados ayuda" />
+  <meta name="author" content="Daytona Clean Service - Benjamín Gianneschi" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="Spanish" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Centro de Ayuda - Daytona Clean Service" />
+  <meta property="og:description" content="Encuentra respuestas a tus preguntas sobre nuestros servicios de limpieza y mantenimiento." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://daytona.com.ar/ayuda.html" />
+  <meta property="og:site_name" content="Daytona Clean Service" />
+  <meta property="og:locale" content="es_AR" />
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts - Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Animate.css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
+  <link rel="stylesheet" href="css/components/buttons.css" />
+  <link rel="stylesheet" href="css/components/forms.css" />
+  <link rel="stylesheet" href="css/cta.css" />
     <style>
+        /* Estilos específicos para la página de ayuda */
         .help-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
         }
 
         .help-header {
             text-align: center;
             margin-bottom: 3rem;
-            padding: 2rem 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #ff3b3f 0%, #b31217 100%);
             color: white;
-            border-radius: 15px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 59, 63, 0.3);
         }
 
         .help-header h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .help-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .help-nav {
@@ -43,72 +81,92 @@
         }
 
         .help-nav a {
-            padding: 0.75rem 1.5rem;
-            background: #f8f9fa;
+            padding: 1rem 2rem;
+            background: white;
             color: #333;
             text-decoration: none;
-            border-radius: 25px;
+            border-radius: 50px;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 2px solid #e9ecef;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .help-nav a:hover {
-            background: #667eea;
+            background: #ff3b3f;
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+            border-color: #ff3b3f;
         }
 
         .help-nav a.active {
-            background: #667eea;
+            background: #ff3b3f;
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+            border-color: #ff3b3f;
         }
 
         .help-section {
             margin-bottom: 3rem;
             background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
         }
 
         .help-section h2 {
-            color: #667eea;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
+            color: #ff3b3f;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid #ff3b3f;
+            padding-bottom: 1rem;
+            font-weight: 700;
         }
 
         .faq-item {
             margin-bottom: 1.5rem;
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #ff3b3f;
+            box-shadow: 0 5px 15px rgba(255, 59, 63, 0.1);
         }
 
         .faq-question {
             background: #f8f9fa;
-            padding: 1rem 1.5rem;
+            padding: 1.5rem 2rem;
             cursor: pointer;
             font-weight: 600;
             color: #333;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 1.1rem;
         }
 
         .faq-question:hover {
-            background: #e9ecef;
+            background: #ff3b3f;
+            color: white;
         }
 
         .faq-question::after {
             content: '+';
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             transition: transform 0.3s ease;
+            color: #ff3b3f;
+        }
+
+        .faq-question:hover::after {
+            color: white;
         }
 
         .faq-question.active::after {
@@ -116,93 +174,105 @@
         }
 
         .faq-answer {
-            padding: 0 1.5rem;
+            padding: 0 2rem;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             background: white;
+            line-height: 1.6;
         }
 
         .faq-answer.active {
-            padding: 1.5rem;
+            padding: 2rem;
             max-height: 500px;
         }
 
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .contact-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 15px;
             text-align: center;
-            border-left: 4px solid #667eea;
+            border-left: 5px solid #ff3b3f;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 59, 63, 0.2);
         }
 
         .contact-card h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .service-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .service-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #28a745;
-        }
-
-        .service-card h4 {
-            color: #28a745;
-            margin-bottom: 0.5rem;
+            color: #ff3b3f;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
         }
 
         .tips-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .tip-card {
-            background: #fff3cd;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid #ffc107;
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid #ffc107;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.3);
         }
 
         .tip-card h4 {
             color: #856404;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .tip-card ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .tip-card li {
             margin-bottom: 0.5rem;
+            color: #856404;
         }
 
         .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: #667eea;
+            background: #ff3b3f;
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             transition: all 0.3s ease;
             opacity: 0;
             visibility: hidden;
+            box-shadow: 0 5px 15px rgba(255, 59, 63, 0.3);
+            z-index: 1000;
         }
 
         .back-to-top.visible {
@@ -211,8 +281,76 @@
         }
 
         .back-to-top:hover {
-            background: #5a6fd8;
+            background: #b31217;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 59, 63, 0.4);
+        }
+
+        /* Estilos para las secciones de información */
+        .info-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 5px solid #1976d2;
+        }
+
+        .info-section h3 {
+            color: #1976d2;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .info-section ol {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .info-section li {
+            margin-bottom: 1rem;
+            color: #1565c0;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #7b1fa2;
+        }
+
+        .contact-section h3 {
+            color: #7b1fa2;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .contact-section p {
+            color: #6a1b9a;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-section .btn {
+            background: linear-gradient(45deg, #25d366, #128c7e);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .contact-section .btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -220,8 +358,16 @@
                 padding: 1rem;
             }
             
+            .help-header {
+                padding: 2rem 1rem;
+            }
+            
             .help-header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+            
+            .help-header p {
+                font-size: 1.1rem;
             }
             
             .help-nav {
@@ -232,6 +378,20 @@
             .help-nav a {
                 width: 100%;
                 text-align: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .help-section {
+                padding: 1.5rem;
+            }
+            
+            .help-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-info,
+            .tips-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -247,7 +407,6 @@
 
         <nav class="help-nav">
             <a href="#preguntas-frecuentes">Preguntas Frecuentes</a>
-            <a href="#nuestros-servicios">Nuestros Servicios</a>
             <a href="#como-reservar">Cómo Reservar</a>
             <a href="#consejos-mantenimiento">Consejos de Mantenimiento</a>
             <a href="#contacto">Contacto</a>
@@ -319,64 +478,27 @@
             </div>
         </section>
 
-        <section id="nuestros-servicios" class="help-section">
-            <h2>Nuestros Servicios</h2>
-            
-            <div class="service-list">
-                <div class="service-card">
-                    <h4>Limpieza de Vehículos</h4>
-                    <p>Limpieza completa del interior y exterior de tu vehículo, incluyendo asientos, 
-                    alfombras, tablero, ventanas y más. Utilizamos productos especializados para cada superficie.</p>
-                </div>
 
-                <div class="service-card">
-                    <h4>Limpieza de Tapizados</h4>
-                    <p>Limpieza profunda de sofás, sillones, sillas y otros muebles tapizados. 
-                    Eliminamos manchas, olores y alérgenos con técnicas profesionales.</p>
-                </div>
-
-                <div class="service-card">
-                    <h4>Limpieza de Alfombras</h4>
-                    <p>Limpieza y desinfección de alfombras y tapetes. Restauramos el color original 
-                    y eliminamos manchas difíciles con equipos especializados.</p>
-                </div>
-
-                <div class="service-card">
-                    <h4>Limpieza de Colchones</h4>
-                    <p>Limpieza profunda y desinfección de colchones. Eliminamos ácaros, 
-                    manchas y olores para mejorar la calidad del sueño.</p>
-                </div>
-
-                <div class="service-card">
-                    <h4>Servicio de Vapor</h4>
-                    <p>Limpieza con vapor a alta temperatura que elimina bacterias, 
-                    virus y alérgenos sin usar productos químicos agresivos.</p>
-                </div>
-
-                <div class="service-card">
-                    <h4>Limpieza de Oficinas</h4>
-                    <p>Servicios de limpieza especializada para oficinas, incluyendo muebles, 
-                    alfombras y áreas comunes.</p>
-                </div>
-            </div>
-        </section>
 
         <section id="como-reservar" class="help-section">
             <h2>Cómo Reservar tu Servicio</h2>
             
-            <div style="background: #e3f2fd; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
-                <h3 style="color: #1976d2; margin-bottom: 1rem;">Proceso Simple en 3 Pasos</h3>
-                <ol style="font-size: 1.1rem; line-height: 1.8;">
+            <div class="info-section">
+                <h3>Proceso Simple en 3 Pasos</h3>
+                <ol>
                     <li><strong>Selecciona tu servicio:</strong> Navega por nuestra página web y elige el servicio que necesitas.</li>
                     <li><strong>Agenda tu cita:</strong> Selecciona la fecha y hora que mejor te convenga en nuestro calendario online.</li>
                     <li><strong>Confirma tu reserva:</strong> Completa tus datos y confirma tu cita. Recibirás una confirmación por WhatsApp.</li>
                 </ol>
             </div>
 
-            <div style="background: #f3e5f5; padding: 2rem; border-radius: 10px;">
-                <h3 style="color: #7b1fa2; margin-bottom: 1rem;">¿Necesitas ayuda para reservar?</h3>
+            <div class="contact-section">
+                <h3>¿Necesitas ayuda para reservar?</h3>
                 <p>Si tienes problemas con la reserva online o prefieres hacerlo por teléfono, 
                 no dudes en contactarnos directamente. Estamos aquí para ayudarte.</p>
+                <a href="https://wa.me/5493482588383" class="btn">
+                    <i class="fab fa-whatsapp me-2"></i>Contactar por WhatsApp
+                </a>
             </div>
         </section>
 
@@ -455,23 +577,29 @@
                 </div>
             </div>
 
-            <div style="background: #fff3cd; padding: 2rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
-                <h3 style="color: #856404; margin-bottom: 1rem;">¿No encontraste lo que buscabas?</h3>
+            <div class="contact-section">
+                <h3>¿No encontraste lo que buscabas?</h3>
                 <p>Si tienes alguna pregunta específica que no está cubierta aquí, no dudes en contactarnos. 
                 Nuestro equipo está siempre dispuesto a ayudarte.</p>
-                <a href="https://wa.me/5491112345678" style="display: inline-block; background: #25d366; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 25px; margin-top: 1rem; font-weight: bold;">
-                    Contactar por WhatsApp
+                <a href="https://wa.me/5493482588383" class="btn">
+                    <i class="fab fa-whatsapp me-2"></i>Contactar por WhatsApp
                 </a>
             </div>
         </section>
     </div>
 
-    <div id="footer-placeholder"></div>
+    <footer></footer>
 
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts para incluir header y footer -->
     <script src="js/include-header.js"></script>
     <script src="js/include-footer.js"></script>
     <script src="js/faq-toggle.js"></script>
+
 </body>
+
 </html> 
