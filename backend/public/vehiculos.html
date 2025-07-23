@@ -242,10 +242,7 @@
         </button>
       </div>
       
-      <!-- Indicadores de página -->
-      <div class="carousel-indicators mt-4 text-center" id="carouselIndicators">
-        <!-- Los indicadores se generarán dinámicamente -->
-      </div>
+
     </section>
 
     <!-- POR QUÉ ELEGIRNOS Y BENEFICIOS -->
@@ -821,31 +818,7 @@
       right: 0;
     }
     
-    /* Estilos para los indicadores de página */
-    .carousel-indicators {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    
-    .carousel-indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-indicator.active {
-      background-color: #ff3b3f;
-      transform: scale(1.2);
-    }
-    
-    .carousel-indicator:hover {
-      background-color: rgba(255, 59, 63, 0.7);
-    }
+
     
     /* Estilos para el modal de servicios */
     .service-modal {
@@ -946,7 +919,7 @@
     
     .modal-price {
       font-size: 1.5rem;
-      color: #ff3b3f;
+      color: #ffffff;
       font-weight: bold;
     }
     
@@ -1321,8 +1294,7 @@
       const items = carousel.querySelectorAll('.carousel-item');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
-      const indicatorsContainer = document.getElementById('carouselIndicators');
-      let indicators = [];
+
       
       // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
       function getItemsPerView() {
@@ -1368,41 +1340,10 @@
         const totalPages = Math.ceil(items.length / itemsPerView);
         nextBtn.disabled = currentIndex >= totalPages - 1;
         
-        // Actualizar indicadores
-        updateIndicators();
+
       }
       
-      function generateIndicators() {
-        const itemsPerView = getItemsPerView();
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        
-        indicatorsContainer.innerHTML = '';
-        indicators = [];
-        
-        for (let i = 0; i < totalPages; i++) {
-          const indicator = document.createElement('span');
-          indicator.className = 'carousel-indicator';
-          if (i === 0) indicator.classList.add('active');
-          
-          indicator.addEventListener('click', () => {
-            currentIndex = i;
-            moveCarousel();
-          });
-          
-          indicatorsContainer.appendChild(indicator);
-          indicators.push(indicator);
-        }
-      }
-      
-      function updateIndicators() {
-        indicators.forEach((indicator, index) => {
-          if (index === currentIndex) {
-            indicator.classList.add('active');
-          } else {
-            indicator.classList.remove('active');
-          }
-        });
-      }
+
       
       prevBtn.addEventListener('click', () => {
         if (currentIndex > 0) {
@@ -1423,7 +1364,6 @@
       // Función para reiniciar el carrusel cuando cambie el tamaño de pantalla
       function handleResize() {
         currentIndex = 0;
-        generateIndicators();
         moveCarousel();
       }
       
@@ -1457,7 +1397,6 @@
       
       // Inicializar carrusel
       setTimeout(() => {
-        generateIndicators();
         moveCarousel();
       }, 100);
     });
