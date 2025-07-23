@@ -176,8 +176,8 @@
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 60px;
-      min-width: 1240px;
+      padding: 0 80px;
+      min-width: 1280px;
       overflow: visible;
     }
     
@@ -185,7 +185,7 @@
       overflow: hidden;
       width: 100%;
       position: relative;
-      min-width: 1240px;
+      min-width: 1280px;
       display: block;
     }
     
@@ -196,7 +196,7 @@
       width: max-content;
       flex-wrap: nowrap;
       position: relative;
-      min-width: 2440px;
+      min-width: 2480px;
     }
     
     .carousel-item {
@@ -213,7 +213,7 @@
       display: flex !important;
       background: rgba(33, 37, 41, 1) !important;
       border-radius: 15px !important;
-      min-height: 420px !important;
+      height: 450px !important;
       flex-direction: column !important;
       align-items: stretch !important;
       overflow: hidden !important;
@@ -223,7 +223,7 @@
     
     .carousel-item.servicio-card-custom img {
       width: 100% !important;
-      height: 140px !important;
+      height: 160px !important;
       object-fit: cover !important;
       border-top-left-radius: 16px !important;
       border-top-right-radius: 16px !important;
@@ -235,6 +235,24 @@
       flex-direction: column !important;
       padding: 18px 18px 16px 18px !important;
       background: rgba(33, 37, 41, 1) !important;
+      height: 290px !important;
+      justify-content: space-between !important;
+    }
+    
+    .carousel-item.servicio-card-custom .servicio-card-body h5 {
+      font-size: 1.1rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 8px !important;
+    }
+    
+    .carousel-item.servicio-card-custom .servicio-card-body p {
+      font-size: 0.9rem !important;
+      line-height: 1.3 !important;
+      margin-bottom: 12px !important;
+      overflow: hidden !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 4 !important;
+      -webkit-box-orient: vertical !important;
     }
     
     .carousel-item.servicio-card-custom:last-child {
@@ -312,7 +330,7 @@
     @media (max-width: 1200px) {
       .services-carousel-container {
         max-width: 1000px;
-        padding: 0 60px;
+        padding: 0 70px;
         min-width: 1000px;
       }
       
@@ -325,6 +343,15 @@
         min-width: 250px !important;
         max-width: 250px !important;
         flex: 0 0 250px !important;
+        height: 450px !important;
+      }
+      
+      .carousel-item.servicio-card-custom img {
+        height: 160px !important;
+      }
+      
+      .carousel-item.servicio-card-custom .servicio-card-body {
+        height: 290px !important;
       }
     }
     
