@@ -188,13 +188,11 @@
       display: flex;
       transition: transform 0.5s ease-in-out;
       gap: 20px;
-      width: 100%;
     }
     
     .carousel-item {
-      flex: 0 0 280px;
-      min-width: 280px;
-      max-width: 280px;
+      flex-shrink: 0;
+      width: 280px;
     }
     
     .carousel-btn {
@@ -262,19 +260,9 @@
     }
     
     /* Responsive para el carrusel */
-    @media (max-width: 1200px) {
-      .carousel-item {
-        flex: 0 0 300px;
-        min-width: 300px;
-        max-width: 300px;
-      }
-    }
-    
     @media (max-width: 768px) {
       .carousel-item {
-        flex: 0 0 320px;
-        min-width: 320px;
-        max-width: 320px;
+        width: 260px;
       }
       
       .services-carousel-container {
@@ -290,9 +278,7 @@
     
     @media (max-width: 576px) {
       .carousel-item {
-        flex: 0 0 280px;
-        min-width: 280px;
-        max-width: 280px;
+        width: 240px;
       }
       
       .services-carousel-container {
@@ -949,33 +935,31 @@
       const indicatorsContainer = document.getElementById('carouselIndicators');
       
       let currentIndex = 0;
-      let itemsPerView = 4; // Número de items visibles por defecto
       
-      // Función para calcular cuántos items mostrar según el tamaño de pantalla
+      // Función para calcular cuántos items mostrar
       function getItemsPerView() {
-        const containerWidth = carousel.offsetWidth - 120; // Restar padding de los botones
-        const itemWidth = 280; // Ancho fijo de cada item
-        const gap = 20; // Gap entre items
-        
-        // Calcular cuántos items caben en el contenedor
+        const containerWidth = carousel.offsetWidth;
+        const itemWidth = 280;
+        const gap = 20;
         const itemsThatFit = Math.floor(containerWidth / (itemWidth + gap));
-        
-        // Asegurar que al menos se muestre 1 item
         return Math.max(1, Math.min(4, itemsThatFit));
       }
       
       // Función para actualizar el carrusel
       function updateCarousel() {
-        itemsPerView = getItemsPerView();
+        const itemsPerView = getItemsPerView();
         const maxIndex = Math.max(0, items.length - itemsPerView);
         currentIndex = Math.min(currentIndex, maxIndex);
         
-        // Calcular el desplazamiento en píxeles
-        const itemWidth = 280; // Ancho fijo de cada item
-        const gap = 20; // Gap entre items
-        const translateX = -(currentIndex * (itemWidth + gap));
-        
+        const translateX = -(currentIndex * 300); // 280px + 20px gap
         track.style.transform = `translateX(${translateX}px)`;
+        
+        console.log('Actualizando carrusel:', {
+          itemsPerView,
+          currentIndex,
+          maxIndex,
+          translateX
+        });
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
@@ -987,6 +971,7 @@
       
       // Función para crear indicadores
       function createIndicators() {
+        const itemsPerView = getItemsPerView();
         const totalPages = Math.ceil(items.length / itemsPerView);
         indicatorsContainer.innerHTML = '';
         
@@ -1003,6 +988,7 @@
       
       // Función para actualizar indicadores
       function updateIndicators() {
+        const itemsPerView = getItemsPerView();
         const indicators = indicatorsContainer.querySelectorAll('.carousel-indicator');
         const currentPage = Math.floor(currentIndex / itemsPerView);
         
@@ -1020,6 +1006,7 @@
       });
       
       nextBtn.addEventListener('click', () => {
+        const itemsPerView = getItemsPerView();
         const maxIndex = Math.max(0, items.length - itemsPerView);
         if (currentIndex < maxIndex) {
           currentIndex++;
@@ -1029,7 +1016,6 @@
       
       // Event listener para redimensionamiento de ventana
       window.addEventListener('resize', () => {
-        // Esperar un poco para que el resize termine
         setTimeout(() => {
           createIndicators();
           updateCarousel();
@@ -1038,22 +1024,13 @@
       
       // Inicializar carrusel
       setTimeout(() => {
+        console.log('Inicializando carrusel...');
+        console.log('Items encontrados:', items.length);
+        console.log('Ancho del contenedor:', carousel.offsetWidth);
+        console.log('Items por vista:', getItemsPerView());
         createIndicators();
         updateCarousel();
       }, 100);
-      
-      // Auto-play opcional (descomenta si quieres que se mueva automáticamente)
-      /*
-      setInterval(() => {
-        const maxIndex = Math.max(0, items.length - itemsPerView);
-        if (currentIndex < maxIndex) {
-          currentIndex++;
-        } else {
-          currentIndex = 0;
-        }
-        updateCarousel();
-      }, 5000);
-      */
     });
   </script>
 
