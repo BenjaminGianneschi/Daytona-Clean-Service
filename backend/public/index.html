@@ -169,6 +169,136 @@
       color: #ffffff !important;
       box-shadow: 0 0 10px rgba(255, 59, 63, 0.5);
     }
+    
+    /* Estilos para el carrusel de servicios */
+    .services-carousel-container {
+      position: relative;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+    
+    .services-carousel {
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      gap: 20px;
+    }
+    
+    .carousel-item {
+      flex: 0 0 calc(25% - 15px);
+      min-width: 280px;
+      max-width: 320px;
+    }
+    
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 59, 63, 0.9);
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+      font-size: 18px;
+    }
+    
+    .carousel-btn:hover {
+      background: rgba(255, 59, 63, 1);
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 59, 63, 0.4);
+    }
+    
+    .carousel-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: translateY(-50%) scale(1);
+    }
+    
+    .carousel-btn-prev {
+      left: 0;
+    }
+    
+    .carousel-btn-next {
+      right: 0;
+    }
+    
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    
+    .carousel-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .carousel-indicator.active {
+      background: #ff3b3f;
+      transform: scale(1.2);
+    }
+    
+    .carousel-indicator:hover {
+      background: rgba(255, 59, 63, 0.7);
+    }
+    
+    /* Responsive para el carrusel */
+    @media (max-width: 1200px) {
+      .carousel-item {
+        flex: 0 0 calc(33.333% - 15px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .carousel-item {
+        flex: 0 0 calc(50% - 10px);
+        min-width: 250px;
+      }
+      
+      .services-carousel-container {
+        padding: 0 50px;
+      }
+      
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .carousel-item {
+        flex: 0 0 calc(100% - 10px);
+        min-width: 280px;
+      }
+      
+      .services-carousel-container {
+        padding: 0 40px;
+      }
+      
+      .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+    }
   </style>
 
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -300,67 +430,113 @@
   <!-- SERVICIOS PRINCIPALES -->
   <section id="servicios" class="container py-5">
     <h2 class="text-center text-white mb-5 fw-bold">Nuestros Servicios Principales</h2>
-    <div class="servicios-grid-custom">
-        <!-- Card 1: Limpieza de Auto -->
-      <div class="servicio-card-custom">
-        <img src="img/autodetalle1.jpg" alt="Limpieza de Auto">
-        <div class="servicio-card-body">
-          <h5>Limpieza de Auto</h5>
-          <div class="servicio-precio text-white">$20.000</div>
-          <p>Lavado común interior y exterior. Aspirado, limpieza de superficies y vidrios. Ideal para mantenimiento regular.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-        </div>
-        </div>
-        <!-- Card 2: Limpieza Detallada de Auto -->
-      <div class="servicio-card-custom">
-        <img src="img/asientosucio.jpg" alt="Limpieza Detallada de Auto">
-        <div class="servicio-card-body">
-          <h5>Limpieza Detallada de Auto</h5>
-          <div class="servicio-precio text-white">$100.000</div>
-          <p>Limpieza profunda de tapizados, alfombras y techos. Eliminación de manchas, ácaros y olores.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-        </div>
-        </div>
-        <!-- Card 3: Limpieza de Motor -->
-      <div class="servicio-card-custom">
-        <img src="img/motorauto1.jpg" alt="Limpieza de Motor">
-        <div class="servicio-card-body">
-          <h5>Limpieza de Motor</h5>
-          <div class="servicio-precio text-white">$50.000</div>
-          <p>Desengrasado y limpieza segura del motor. Mejorá el aspecto y funcionamiento de tu vehículo.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+    
+    <!-- Carrusel de Servicios -->
+    <div class="services-carousel-container">
+      <button class="carousel-btn carousel-btn-prev" id="prevBtn">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="services-carousel" id="servicesCarousel">
+        <div class="carousel-track">
+          <!-- Card 1: Limpieza de Auto -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/autodetalle1.jpg" alt="Limpieza de Auto">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Auto</h5>
+              <div class="servicio-precio text-white">$20.000</div>
+              <p>Lavado común interior y exterior. Aspirado, limpieza de superficies y vidrios. Ideal para mantenimiento regular.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 2: Limpieza Detallada de Auto -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/asientosucio.jpg" alt="Limpieza Detallada de Auto">
+            <div class="servicio-card-body">
+              <h5>Limpieza Detallada de Auto</h5>
+              <div class="servicio-precio text-white">$100.000</div>
+              <p>Limpieza profunda de tapizados, alfombras y techos. Eliminación de manchas, ácaros y olores.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 3: Limpieza de Motor -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/motorauto1.jpg" alt="Limpieza de Motor">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Motor</h5>
+              <div class="servicio-precio text-white">$50.000</div>
+              <p>Desengrasado y limpieza segura del motor. Mejorá el aspecto y funcionamiento de tu vehículo.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 4: Sillones -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/sillon123.jpg" alt="Limpieza de Sillones">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Sillones</h5>
+              <div class="servicio-precio text-white">$125.000</div>
+              <p>Eliminación de manchas, ácaros y olores en sillones de todo tipo. Higiene y renovación total.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 5: Colchones -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/colchonlimpio.jpg" alt="Limpieza de Colchones">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Colchones</h5>
+              <div class="servicio-precio text-white">$100.000</div>
+              <p>Limpieza y desinfección profunda de colchones. Eliminación de manchas, ácaros y bacterias.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 6: Sillas -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/sillacomedor1234.jpeg" alt="Limpieza de Sillas">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Sillas</h5>
+              <div class="servicio-precio text-white">$12.500</div>
+              <p>Limpieza profesional de sillas tapizadas y plásticas. Higiene y frescura en tu hogar u oficina.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 7: Alfombras -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/alfombralimpia.jpg" alt="Limpieza de Alfombras">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Alfombras</h5>
+              <div class="servicio-precio text-white">$25.000</div>
+              <p>Devolvé la vida y el color a tus alfombras. Eliminamos manchas profundas, suciedad y olores.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
+          
+          <!-- Card 8: Respaldar -->
+          <div class="servicio-card-custom carousel-item">
+            <img src="img/respaldar1.jpeg" alt="Limpieza de Respaldar">
+            <div class="servicio-card-body">
+              <h5>Limpieza de Respaldar</h5>
+              <div class="servicio-precio text-white">$35.000</div>
+              <p>Limpieza especializada de respaldos de sillas y sillones. Eliminación de manchas y suciedad.</p>
+              <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
+            </div>
+          </div>
         </div>
       </div>
-        <!-- Card 4: Sillones -->
-      <div class="servicio-card-custom">
-        <img src="img/sillon123.jpg" alt="Limpieza de Sillones">
-        <div class="servicio-card-body">
-          <h5>Limpieza de Sillones</h5>
-          <div class="servicio-precio text-white">$125.000</div>
-          <p>Eliminación de manchas, ácaros y olores en sillones de todo tipo. Higiene y renovación total.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-        </div>
-        </div>
-        <!-- Card 5: Colchones -->
-      <div class="servicio-card-custom">
-        <img src="img/colchonlimpio.jpg" alt="Limpieza de Colchones">
-        <div class="servicio-card-body">
-          <h5>Limpieza de Colchones</h5>
-          <div class="servicio-precio text-white">$100.000</div>
-          <p>Limpieza y desinfección profunda de colchones. Eliminación de manchas, ácaros y bacterias.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-        </div>
-        </div>
-        <!-- Card 6: Sillas -->
-      <div class="servicio-card-custom">
-        <img src="img/sillacomedor1234.jpeg" alt="Limpieza de Sillas">
-        <div class="servicio-card-body">
-          <h5>Limpieza de Sillas</h5>
-          <div class="servicio-precio text-white">$12.500</div>
-          <p>Limpieza profesional de sillas tapizadas y plásticas. Higiene y frescura en tu hogar u oficina.</p>
-          <a href="#contacto" class="servicio-btn">Solicitar Servicio</a>
-        </div>
-      </div>
+      
+      <button class="carousel-btn carousel-btn-next" id="nextBtn">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
+    <!-- Indicadores de navegación -->
+    <div class="carousel-indicators" id="carouselIndicators">
+      <!-- Se generan dinámicamente con JavaScript -->
     </div>
   </section>
 
@@ -753,6 +929,111 @@
       
       // Cambiar slide cada 4 segundos
       setInterval(nextSlide, 4000);
+    });
+  </script>
+
+  <!-- Carrusel de Servicios Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const carousel = document.getElementById('servicesCarousel');
+      const track = carousel.querySelector('.carousel-track');
+      const items = carousel.querySelectorAll('.carousel-item');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const indicatorsContainer = document.getElementById('carouselIndicators');
+      
+      let currentIndex = 0;
+      let itemsPerView = 4; // Número de items visibles por defecto
+      
+      // Función para calcular cuántos items mostrar según el tamaño de pantalla
+      function getItemsPerView() {
+        if (window.innerWidth <= 576) return 1;
+        if (window.innerWidth <= 768) return 2;
+        if (window.innerWidth <= 1200) return 3;
+        return 4;
+      }
+      
+      // Función para actualizar el carrusel
+      function updateCarousel() {
+        itemsPerView = getItemsPerView();
+        const maxIndex = Math.max(0, items.length - itemsPerView);
+        currentIndex = Math.min(currentIndex, maxIndex);
+        
+        const translateX = -(currentIndex * (100 / itemsPerView));
+        track.style.transform = `translateX(${translateX}%)`;
+        
+        // Actualizar botones
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+        
+        // Actualizar indicadores
+        updateIndicators();
+      }
+      
+      // Función para crear indicadores
+      function createIndicators() {
+        const totalPages = Math.ceil(items.length / itemsPerView);
+        indicatorsContainer.innerHTML = '';
+        
+        for (let i = 0; i < totalPages; i++) {
+          const indicator = document.createElement('div');
+          indicator.className = 'carousel-indicator';
+          indicator.addEventListener('click', () => {
+            currentIndex = i * itemsPerView;
+            updateCarousel();
+          });
+          indicatorsContainer.appendChild(indicator);
+        }
+      }
+      
+      // Función para actualizar indicadores
+      function updateIndicators() {
+        const indicators = indicatorsContainer.querySelectorAll('.carousel-indicator');
+        const currentPage = Math.floor(currentIndex / itemsPerView);
+        
+        indicators.forEach((indicator, index) => {
+          indicator.classList.toggle('active', index === currentPage);
+        });
+      }
+      
+      // Event listeners para botones
+      prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        const maxIndex = Math.max(0, items.length - itemsPerView);
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+          updateCarousel();
+        }
+      });
+      
+      // Event listener para redimensionamiento de ventana
+      window.addEventListener('resize', () => {
+        createIndicators();
+        updateCarousel();
+      });
+      
+      // Inicializar carrusel
+      createIndicators();
+      updateCarousel();
+      
+      // Auto-play opcional (descomenta si quieres que se mueva automáticamente)
+      /*
+      setInterval(() => {
+        const maxIndex = Math.max(0, items.length - itemsPerView);
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+        updateCarousel();
+      }, 5000);
+      */
     });
   </script>
 
