@@ -137,9 +137,67 @@
             font-weight: 700;
         }
 
-        .faq-accordion {
-            max-width: 800px;
+        .faq-tabs {
+            max-width: 900px;
             margin: 0 auto;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #2a2a2a;
+            color: #fff;
+            border: 2px solid #333;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn:hover {
+            background: #ff3b3f;
+            border-color: #ff3b3f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 59, 63, 0.3);
+        }
+
+        .tab-btn.active {
+            background: #ff3b3f;
+            border-color: #ff3b3f;
+            color: white;
+        }
+
+        .tab-btn i {
+            font-size: 1rem;
+        }
+
+        .tab-content {
+            position: relative;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .faq-item {
@@ -441,6 +499,17 @@
                 flex: none !important;
             }
             
+            .tab-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
 
         }
     </style>
@@ -463,87 +532,113 @@
         <section id="preguntas-frecuentes" class="help-section">
             <h2>Preguntas Frecuentes</h2>
             
-            <div class="faq-accordion">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Qué servicios ofrecen?</span>
-                        <i class="fas fa-chevron-down"></i>
+            <div class="faq-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showTab('servicios')">
+                        <i class="fas fa-tools"></i>
+                        Servicios
                     </button>
-                    <div class="faq-answer">
-                        <p>Ofrecemos una amplia gama de servicios de limpieza especializada: limpieza de vehículos (interior y exterior), 
-                        limpieza de tapizados y muebles, limpieza de alfombras y colchones, y servicios de vapor. 
-                        Todos nuestros servicios utilizan productos profesionales y técnicas avanzadas.</p>
-                    </div>
+                    <button class="tab-btn" onclick="showTab('horarios')">
+                        <i class="fas fa-clock"></i>
+                        Horarios & Citas
+                    </button>
+                    <button class="tab-btn" onclick="showTab('pagos')">
+                        <i class="fas fa-credit-card"></i>
+                        Pagos & Garantía
+                    </button>
                 </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Cuánto tiempo toma cada servicio?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Los tiempos varían según el servicio y el tamaño del trabajo:</p>
-                        <ul>
-                            <li>Limpieza de vehículo: 2-4 horas</li>
-                            <li>Limpieza de tapizados: 3-6 horas</li>
-                            <li>Limpieza de alfombras: 2-4 horas</li>
-                            <li>Limpieza de colchones: 2-3 horas</li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="tab-content">
+                    <!-- Tab Servicios -->
+                    <div id="servicios" class="tab-pane active">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Qué servicios ofrecen?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Ofrecemos una amplia gama de servicios de limpieza especializada: limpieza de vehículos (interior y exterior), 
+                                limpieza de tapizados y muebles, limpieza de alfombras y colchones, y servicios de vapor. 
+                                Todos nuestros servicios utilizan productos profesionales y técnicas avanzadas.</p>
+                            </div>
+                        </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Los productos que usan son seguros?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sí, utilizamos productos profesionales de alta calidad que son seguros para personas, mascotas y el medio ambiente. 
-                        Todos nuestros productos están certificados y aprobados para uso profesional.</p>
-                    </div>
-                </div>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cuánto tiempo toma cada servicio?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Los tiempos varían según el servicio y el tamaño del trabajo:</p>
+                                <ul>
+                                    <li>Limpieza de vehículo: 2-4 horas</li>
+                                    <li>Limpieza de tapizados: 3-6 horas</li>
+                                    <li>Limpieza de alfombras: 2-4 horas</li>
+                                    <li>Limpieza de colchones: 2-3 horas</li>
+                                </ul>
+                            </div>
+                        </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Ofrecen garantía en sus servicios?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sí, ofrecemos garantía en todos nuestros servicios. Si no estás satisfecho con el resultado, 
-                        nos comprometemos a hacer los ajustes necesarios sin costo adicional.</p>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Los productos que usan son seguros?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, utilizamos productos profesionales de alta calidad que son seguros para personas, mascotas y el medio ambiente. 
+                                Todos nuestros productos están certificados y aprobados para uso profesional.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Puedo cancelar o reprogramar mi cita?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sí, puedes cancelar o reprogramar tu cita hasta 24 horas antes del servicio programado. 
-                        Para cambios de última hora, te recomendamos contactarnos directamente.</p>
+                    <!-- Tab Horarios & Citas -->
+                    <div id="horarios" class="tab-pane">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Trabajan los fines de semana?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, trabajamos de lunes a domingo para brindarte la mayor flexibilidad posible. 
+                                Nuestros horarios son de 8:00 AM a 6:00 PM.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Puedo cancelar o reprogramar mi cita?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, puedes cancelar o reprogramar tu cita hasta 24 horas antes del servicio programado. 
+                                Para cambios de última hora, te recomendamos contactarnos directamente.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Trabajan los fines de semana?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Sí, trabajamos de lunes a domingo para brindarte la mayor flexibilidad posible. 
-                        Nuestros horarios son de 8:00 AM a 6:00 PM.</p>
-                    </div>
-                </div>
+                    <!-- Tab Pagos & Garantía -->
+                    <div id="pagos" class="tab-pane">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Qué métodos de pago aceptan?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Aceptamos efectivo, transferencias bancarias, tarjetas de crédito y débito, 
+                                y también puedes pagar a través de nuestra plataforma online.</p>
+                            </div>
+                        </div>
 
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Qué métodos de pago aceptan?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Aceptamos efectivo, transferencias bancarias, tarjetas de crédito y débito, 
-                        y también puedes pagar a través de nuestra plataforma online.</p>
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Ofrecen garantía en sus servicios?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Sí, ofrecemos garantía en todos nuestros servicios. Si no estás satisfecho con el resultado, 
+                                nos comprometemos a hacer los ajustes necesarios sin costo adicional.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -710,6 +805,24 @@
             // Toggle de la respuesta actual
             answer.classList.toggle('active');
             button.classList.toggle('active');
+        }
+
+        function showTab(tabName) {
+            // Ocultar todos los tabs
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar el tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
         }
     </script>
 
