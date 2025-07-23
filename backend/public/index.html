@@ -530,6 +530,74 @@
       }
     }
     
+    /* Estilos para los tabs de "¿Cómo trabajamos?" */
+    .proceso-tab {
+      background: transparent !important;
+      border: 2px solid #ff3b3f !important;
+      color: #ffffff !important;
+      padding: 12px 24px !important;
+      margin: 0 10px !important;
+      border-radius: 25px !important;
+      font-weight: 600 !important;
+      transition: all 0.3s ease !important;
+      font-size: 1rem !important;
+    }
+    
+    .proceso-tab:hover {
+      background: rgba(255, 59, 63, 0.1) !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 5px 15px rgba(255, 59, 63, 0.3) !important;
+    }
+    
+    .proceso-tab.active {
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%) !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      box-shadow: 0 5px 20px rgba(255, 59, 63, 0.4) !important;
+    }
+    
+    .proceso-tab.active:hover {
+      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.5) !important;
+    }
+    
+    .tab-content {
+      margin-top: 30px;
+    }
+    
+    .tab-pane {
+      transition: all 0.3s ease;
+    }
+    
+    .tab-pane.fade {
+      opacity: 0;
+    }
+    
+    .tab-pane.fade.show {
+      opacity: 1;
+    }
+    
+    /* Responsive para los tabs */
+    @media (max-width: 768px) {
+      .proceso-tab {
+        padding: 10px 20px !important;
+        margin: 0 5px !important;
+        font-size: 0.9rem !important;
+      }
+      
+      .nav-pills {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .proceso-tab {
+        margin: 0 !important;
+      }
+    }
+    
     @media (max-width: 768px) {
       .carousel-item.servicio-card-custom {
         width: 280px !important;
@@ -921,23 +989,213 @@
 
   <!-- CÓMO TRABAJAMOS -->
   <section class="container py-5">
-    <h2 class="text-center text-white mb-5">¿Cómo trabajamos?</h2>
-    <div class="process-timeline">
-      <div class="text-center">
-        <div class="process-step">1</div>
-        <div class="process-desc text-white">Consultanos por WhatsApp y contanos qué necesitás.</div>
+    <div class="text-center mb-5">
+      <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.2rem;">¿Cómo trabajamos?</h2>
+      <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+        Descubrí nuestro proceso profesional paso a paso para cada tipo de servicio
+      </p>
+    </div>
+
+    <!-- Tabs de navegación -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-8">
+        <div class="nav nav-pills justify-content-center" id="proceso-tabs" role="tablist">
+          <button class="nav-link active proceso-tab" id="vehiculos-tab" data-bs-toggle="pill" data-bs-target="#vehiculos-content" type="button" role="tab">
+            <i class="fas fa-car me-2"></i>Vehículos
+          </button>
+          <button class="nav-link proceso-tab" id="tapizados-tab" data-bs-toggle="pill" data-bs-target="#tapizados-content" type="button" role="tab">
+            <i class="fas fa-couch me-2"></i>Tapizados
+          </button>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="process-step">2</div>
-        <div class="process-desc text-white">Realizamos una inspección para presupuestar tu servicio.</div>
+    </div>
+
+    <!-- Contenido de los tabs -->
+    <div class="tab-content" id="proceso-content">
+      <!-- Tab Vehículos -->
+      <div class="tab-pane fade show active" id="vehiculos-content" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+            <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+              <h4 class="text-white fw-bold mb-3">Proceso para Vehículos</h4>
+              <p class="text-light mb-4">Nuestro método profesional para devolverle el brillo a tu auto</p>
+              
+              <div class="mb-4">
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">1</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Evaluación Inicial</strong><br>
+                    <span class="text-light small">Inspeccionamos el estado del vehículo, identificamos manchas específicas y determinamos el nivel de suciedad para elegir el tratamiento adecuado.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">2</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Limpieza Exterior</strong><br>
+                    <span class="text-light small">Lavado con shampoo profesional, desengrasado de llantas, limpieza de vidrios y aplicación de protectores UV en plásticos exteriores.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">3</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Limpieza Interior</strong><br>
+                    <span class="text-light small">Aspirado profundo, limpieza de tapizados con extractor, desinfección de superficies y eliminación de olores persistentes.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">4</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Control de Calidad</strong><br>
+                    <span class="text-light small">Revisión exhaustiva junto al cliente, verificación de resultados y aplicación de protectores finales para mantener la limpieza.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+            <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+              <h4 class="text-white fw-bold mb-3">Tecnología y Equipos</h4>
+              <p class="text-light mb-4">Utilizamos equipos profesionales para resultados excepcionales</p>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-tint" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Extractor Profesional</strong><br>
+                  <span class="text-light small">Eliminación profunda de suciedad y manchas de tapizados</span>
+                </div>
+              </div>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-thermometer-half" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Vapor a Alta Temperatura</strong><br>
+                  <span class="text-light small">Desinfección y eliminación de bacterias y ácaros</span>
+                </div>
+              </div>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-spray-can" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Productos Premium</strong><br>
+                  <span class="text-light small">Shampoos y protectores de marcas reconocidas</span>
+                </div>
+              </div>
+              
+              <div class="d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-shield-alt" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Protección UV</strong><br>
+                  <span class="text-light small">Aplicación de protectores para mantener la limpieza</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="text-center">
-        <div class="process-step">3</div>
-        <div class="process-desc text-white">Ejecutamos el servicio con profesionalismo y calidad.</div>
-      </div>
-      <div class="text-center">
-        <div class="process-step">4</div>
-        <div class="process-desc text-white">Comprobamos juntos el resultado para tu satisfacción.</div>
+
+      <!-- Tab Tapizados -->
+      <div class="tab-pane fade" id="tapizados-content" role="tabpanel">
+        <div class="row g-4">
+          <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+            <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+              <h4 class="text-white fw-bold mb-3">Proceso para Tapizados</h4>
+              <p class="text-light mb-4">Metodología especializada para sillones, colchones y alfombras</p>
+              
+              <div class="mb-4">
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">1</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Diagnóstico Detallado</strong><br>
+                    <span class="text-light small">Analizamos el tipo de tela, identificamos manchas específicas y evaluamos el nivel de deterioro para determinar el tratamiento óptimo.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">2</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Preparación y Protección</strong><br>
+                    <span class="text-light small">Protegemos áreas sensibles, aplicamos pre-tratamientos específicos y preparamos el área de trabajo para evitar daños.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start mb-3">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">3</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Limpieza Profunda</strong><br>
+                    <span class="text-light small">Aplicación de productos especializados, extracción con equipos profesionales y desinfección con vapor a alta temperatura.</span>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-start">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; border: 2px solid #ff3b3f;">
+                    <span class="text-white fw-bold">4</span>
+                  </span>
+                  <div>
+                    <strong class="text-white">Secado y Protección</strong><br>
+                    <span class="text-light small">Secado controlado, aplicación de protectores anti-manchas y verificación final de resultados con el cliente.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+            <div class="bg-dark p-4 rounded-4 h-100" style="border: 2px solid #ff3b3f;">
+              <h4 class="text-white fw-bold mb-3">Especialidades por Material</h4>
+              <p class="text-light mb-4">Tratamientos específicos según el tipo de tapizado</p>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-couch" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Sillones y Sofás</strong><br>
+                  <span class="text-light small">Limpieza profunda de tapizados, eliminación de manchas y protección anti-ácaros</span>
+                </div>
+              </div>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-bed" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Colchones</strong><br>
+                  <span class="text-light small">Desinfección con vapor, eliminación de ácaros y tratamiento anti-alérgico</span>
+                </div>
+              </div>
+              
+              <div class="mb-3 d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-rug" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Alfombras</strong><br>
+                  <span class="text-light small">Limpieza profunda con extractor industrial y protección anti-manchas</span>
+                </div>
+              </div>
+              
+              <div class="d-flex align-items-start">
+                <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-chair" style="color: #ff3b3f;"></i></span>
+                <div>
+                  <strong class="text-white">Sillas y Muebles</strong><br>
+                  <span class="text-light small">Limpieza especializada según el material y tipo de uso</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
