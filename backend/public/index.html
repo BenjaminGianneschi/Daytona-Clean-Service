@@ -181,18 +181,20 @@
     .services-carousel {
       overflow: hidden;
       position: relative;
+      width: 100%;
     }
     
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
       gap: 20px;
+      width: 100%;
     }
     
     .carousel-item {
-      flex: 0 0 calc(25% - 15px);
+      flex: 0 0 280px;
       min-width: 280px;
-      max-width: 320px;
+      max-width: 280px;
     }
     
     .carousel-btn {
@@ -262,14 +264,17 @@
     /* Responsive para el carrusel */
     @media (max-width: 1200px) {
       .carousel-item {
-        flex: 0 0 calc(33.333% - 15px);
+        flex: 0 0 300px;
+        min-width: 300px;
+        max-width: 300px;
       }
     }
     
     @media (max-width: 768px) {
       .carousel-item {
-        flex: 0 0 calc(50% - 10px);
-        min-width: 250px;
+        flex: 0 0 320px;
+        min-width: 320px;
+        max-width: 320px;
       }
       
       .services-carousel-container {
@@ -285,8 +290,9 @@
     
     @media (max-width: 576px) {
       .carousel-item {
-        flex: 0 0 calc(100% - 10px);
+        flex: 0 0 280px;
         min-width: 280px;
+        max-width: 280px;
       }
       
       .services-carousel-container {
@@ -947,10 +953,15 @@
       
       // Función para calcular cuántos items mostrar según el tamaño de pantalla
       function getItemsPerView() {
-        if (window.innerWidth <= 576) return 1;
-        if (window.innerWidth <= 768) return 2;
-        if (window.innerWidth <= 1200) return 3;
-        return 4;
+        const containerWidth = carousel.offsetWidth - 120; // Restar padding de los botones
+        const itemWidth = 280; // Ancho fijo de cada item
+        const gap = 20; // Gap entre items
+        
+        // Calcular cuántos items caben en el contenedor
+        const itemsThatFit = Math.floor(containerWidth / (itemWidth + gap));
+        
+        // Asegurar que al menos se muestre 1 item
+        return Math.max(1, Math.min(4, itemsThatFit));
       }
       
       // Función para actualizar el carrusel
@@ -959,8 +970,12 @@
         const maxIndex = Math.max(0, items.length - itemsPerView);
         currentIndex = Math.min(currentIndex, maxIndex);
         
-        const translateX = -(currentIndex * (100 / itemsPerView));
-        track.style.transform = `translateX(${translateX}%)`;
+        // Calcular el desplazamiento en píxeles
+        const itemWidth = 280; // Ancho fijo de cada item
+        const gap = 20; // Gap entre items
+        const translateX = -(currentIndex * (itemWidth + gap));
+        
+        track.style.transform = `translateX(${translateX}px)`;
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
@@ -1014,13 +1029,18 @@
       
       // Event listener para redimensionamiento de ventana
       window.addEventListener('resize', () => {
-        createIndicators();
-        updateCarousel();
+        // Esperar un poco para que el resize termine
+        setTimeout(() => {
+          createIndicators();
+          updateCarousel();
+        }, 100);
       });
       
       // Inicializar carrusel
-      createIndicators();
-      updateCarousel();
+      setTimeout(() => {
+        createIndicators();
+        updateCarousel();
+      }, 100);
       
       // Auto-play opcional (descomenta si quieres que se mueva automáticamente)
       /*
