@@ -174,14 +174,17 @@
     .services-carousel-container {
       position: relative;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 60px;
+      min-width: 1140px;
     }
     
     .services-carousel {
       overflow: hidden;
       width: 100%;
+      position: relative;
+      min-width: 1140px;
     }
     
     .carousel-track {
@@ -964,6 +967,7 @@
       console.log('Items encontrados:', items.length);
       console.log('Ancho del contenedor:', carousel.offsetWidth);
       console.log('Ancho del track:', track.offsetWidth);
+      console.log('Ancho de ventana:', window.innerWidth);
       
       // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
       function getItemsPerView() {
@@ -991,14 +995,25 @@
         const moveDistance = itemWidth + gap;
         const translateX = -(currentIndex * moveDistance);
         
+        console.log('=== MOVE CARRUSEL ===');
+        console.log('Items por vista:', itemsPerView);
+        console.log('Ancho de item:', itemWidth);
+        console.log('Distancia de movimiento:', moveDistance);
+        console.log('TranslateX:', translateX);
+        console.log('CurrentIndex:', currentIndex);
+        
         track.style.transform = `translateX(${translateX}px)`;
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex >= items.length - itemsPerView;
+        
+        console.log('Botón prev deshabilitado:', prevBtn.disabled);
+        console.log('Botón next deshabilitado:', nextBtn.disabled);
       }
       
       prevBtn.addEventListener('click', () => {
+        console.log('Click en botón prev');
         if (currentIndex > 0) {
           currentIndex--;
           moveCarousel();
@@ -1006,6 +1021,7 @@
       });
       
       nextBtn.addEventListener('click', () => {
+        console.log('Click en botón next');
         const itemsPerView = getItemsPerView();
         if (currentIndex < items.length - itemsPerView) {
           currentIndex++;
@@ -1015,6 +1031,7 @@
       
       // Función para reiniciar el carrusel cuando cambie el tamaño de pantalla
       function handleResize() {
+        console.log('Redimensionando ventana');
         currentIndex = 0;
         moveCarousel();
       }
@@ -1022,13 +1039,16 @@
       // Escuchar cambios de tamaño de ventana
       window.addEventListener('resize', handleResize);
       
-      // Inicializar
-      moveCarousel();
-      
-      // Verificar que todos los items estén presentes
-      items.forEach((item, index) => {
-        console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
-      });
+      // Inicializar con un pequeño retraso para asegurar que todo esté cargado
+      console.log('Inicializando carrusel...');
+      setTimeout(() => {
+        moveCarousel();
+        
+        // Verificar que todos los items estén presentes
+        items.forEach((item, index) => {
+          console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
+        });
+      }, 100);
     });
   </script>
 
