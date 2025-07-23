@@ -7,45 +7,74 @@ const notificationService = require('../services/notificationService');
 const getAvailability = async (req, res) => {
   try {
     const { date } = req.params;
+    const { duration = 120 } = req.query; // Duración por defecto 120 minutos
+    
     if (!date) {
       return res.status(400).json({ success: false, message: 'Fecha requerida' });
     }
+    
     // Validar formato de fecha
     const requestedDate = moment(date, 'YYYY-MM-DD', true);
     if (!requestedDate.isValid()) {
       return res.status(400).json({ success: false, message: 'Formato de fecha inválido. Use YYYY-MM-DD' });
     }
+    
     // Verificar que la fecha no sea en el pasado
     if (requestedDate.isBefore(moment(), 'day')) {
       return res.status(400).json({ success: false, message: 'No se pueden reservar turnos en fechas pasadas' });
     }
+    
     // Consultar disponibilidad usando el modelo
     const { workSchedule, blockedDate } = await appointmentModel.getAvailabilityByDate(date);
+    
     if (workSchedule.length === 0) {
       return res.json({ success: true, data: { date, isWorkingDay: false, availableSlots: [] } });
     }
+    
     if (blockedDate.length > 0) {
       return res.json({ success: true, data: { date, isWorkingDay: false, isBlocked: true, reason: blockedDate[0].reason, availableSlots: [] } });
     }
+    
     const schedule = workSchedule[0];
     const startTime = moment(schedule.start_time, 'HH:mm:ss');
     const endTime = moment(schedule.end_time, 'HH:mm:ss');
     const slotDuration = parseInt(process.env.TURN_DURATION) || 120; // minutos
+    const requestedDuration = parseInt(duration) || slotDuration;
+    
     // Generar slots de tiempo disponibles
     const availableSlots = [];
     let currentTime = startTime.clone();
+    
     while (currentTime.add(slotDuration, 'minutes').isBefore(endTime) || currentTime.isSame(endTime)) {
       const slotStart = currentTime.clone().subtract(slotDuration, 'minutes');
       const slotEnd = currentTime.clone();
-      // Verificar si hay turnos existentes en este horario
-      const count = await appointmentModel.countAppointments(date, slotStart.format('HH:mm:ss'));
+      
+      // Verificar disponibilidad considerando la duración del servicio
+      const isAvailable = await appointmentModel.isTimeSlotAvailable(
+        date, 
+        slotStart.format('HH:mm:ss'), 
+        requestedDuration
+      );
+      
       availableSlots.push({
         startTime: slotStart.format('HH:mm'),
         endTime: slotEnd.format('HH:mm'),
-        available: count === 0
+        available: isAvailable
       });
     }
-    res.json({ success: true, data: { date, isWorkingDay: true, workStart: schedule.start_time, workEnd: schedule.end_time, slotDuration, availableSlots } });
+    
+    res.json({ 
+      success: true, 
+      data: { 
+        date, 
+        isWorkingDay: true, 
+        workStart: schedule.start_time, 
+        workEnd: schedule.end_time, 
+        slotDuration, 
+        requestedDuration,
+        availableSlots 
+      } 
+    });
   } catch (error) {
     console.error('Error obteniendo disponibilidad:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });

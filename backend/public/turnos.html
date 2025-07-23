@@ -1359,6 +1359,7 @@
   // Cargar servicios al iniciar la página
   document.addEventListener('DOMContentLoaded', function() {
     cargarServiciosDesdeBD();
+    cargarServiciosDisponibles(); // Cargar servicios para calcular duraciones
   });
 
   // Función para categorizar servicios
@@ -3639,10 +3640,57 @@
 
   // ===== INTEGRACIÓN CON BACKEND =====
 
-  // Función para obtener disponibilidad de horarios
-  async function obtenerDisponibilidad(fecha) {
+  // Variable global para servicios disponibles
+  let serviciosDisponibles = [];
+
+  // Función para cargar servicios desde el backend
+  async function cargarServiciosDisponibles() {
     try {
-      const response = await apiService.getAvailability(fecha);
+      const response = await fetch('https://daytona-clean-service.onrender.com/api/services');
+      const data = await response.json();
+      if (data.success) {
+        serviciosDisponibles = data.services;
+        console.log('✅ Servicios cargados desde BD:', serviciosDisponibles);
+      } else {
+        throw new Error('Error en respuesta del servidor');
+      }
+    } catch (error) {
+      console.error('❌ Error cargando servicios desde BD:', error);
+      // No usar duraciones hardcodeadas - mostrar error al usuario
+      serviciosDisponibles = [];
+      alert('Error cargando servicios. Por favor recarga la página.');
+    }
+  }
+
+  // Función para calcular duración total de servicios
+  function calcularDuracionServicios(servicios) {
+    let duracionTotal = 0;
+    
+    if (!serviciosDisponibles || serviciosDisponibles.length === 0) {
+      console.warn('⚠️ Servicios no cargados, usando duración por defecto');
+      return 120; // duración por defecto
+    }
+    
+    servicios.forEach(servicio => {
+      // Buscar la duración del servicio en la lista de servicios disponibles
+      const servicioEncontrado = serviciosDisponibles.find(s => s.id === servicio.service_id);
+      if (servicioEncontrado) {
+        duracionTotal += servicioEncontrado.duration * servicio.cantidad;
+        console.log(`📅 Servicio: ${servicioEncontrado.name} - Duración: ${servicioEncontrado.duration}min x ${servicio.cantidad} = ${servicioEncontrado.duration * servicio.cantidad}min`);
+      } else {
+        console.warn(`⚠️ Servicio con ID ${servicio.service_id} no encontrado en BD`);
+        duracionTotal += 120 * servicio.cantidad; // duración por defecto
+      }
+    });
+    
+    console.log(`⏱️ Duración total calculada: ${duracionTotal} minutos (${Math.round(duracionTotal/60*10)/10} horas)`);
+    return duracionTotal;
+  }
+
+  // Función para obtener disponibilidad de horarios
+  async function obtenerDisponibilidad(fecha, duracion = null) {
+    try {
+      const response = await apiService.getAvailability(fecha, duracion);
       
       if (response.success) {
         return response.data;
@@ -3751,7 +3799,42 @@
     select.innerHTML = '<option value="">Cargando horarios...</option>';
     
     try {
-      const disponibilidad = await obtenerDisponibilidad(fecha);
+      // Calcular duración de servicios según la categoría
+      let duracion = 120; // duración por defecto
+      const categorizacion = categorizarServicios();
+      
+      if (selectId === 'hora-vehiculos' && categorizacion.hayVehiculos) {
+        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
+        duracion = calcularDuracionServicios(serviciosVehiculos);
+      } else if (selectId === 'hora-tapizados' && categorizacion.hayTapizados) {
+        const serviciosTapizados = turnosSeparados.tapizados.servicios;
+        duracion = calcularDuracionServicios(serviciosTapizados);
+      } else if (selectId === 'hora') {
+        // Para turno único, calcular duración de todos los servicios
+        const todosLosServicios = carrito.map(item => ({
+          service_id: item.service_id,
+          cantidad: item.cantidad
+        }));
+        duracion = calcularDuracionServicios(todosLosServicios);
+      }
+      
+      console.log(`Calculando disponibilidad para ${selectId} con duración: ${duracion} minutos`);
+      
+      // Mostrar información de duración al usuario
+      const horas = Math.floor(duracion / 60);
+      const minutos = duracion % 60;
+      const tiempoTexto = horas > 0 ? `${horas}h ${minutos}min` : `${minutos}min`;
+      
+      // Actualizar el texto del select para mostrar la duración
+      const select = document.getElementById(selectId);
+      if (select) {
+        const optionActual = select.querySelector('option[selected]');
+        if (optionActual) {
+          optionActual.textContent += ` (${tiempoTexto})`;
+        }
+      }
+      
+      const disponibilidad = await obtenerDisponibilidad(fecha, duracion);
       
       if (!disponibilidad.isWorkingDay) {
         select.innerHTML = '<option value="">No hay horarios disponibles</option>';

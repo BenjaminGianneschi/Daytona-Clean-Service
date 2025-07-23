@@ -42,8 +42,12 @@ class ApiService {
   }
 
   // Obtener disponibilidad para una fecha
-  async getAvailability(date) {
-    return this.request(`/appointments/availability/${date}`);
+  async getAvailability(date, duration = null) {
+    let endpoint = `/appointments/availability/${date}`;
+    if (duration) {
+      endpoint += `?duration=${duration}`;
+    }
+    return this.request(endpoint);
   }
 
   // Crear nuevo turno
