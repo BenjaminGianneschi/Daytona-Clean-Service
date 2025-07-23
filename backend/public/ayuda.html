@@ -673,83 +673,116 @@
             
 
 
-            <div class="tips-grid" style="display: flex; flex-direction: column; gap: 2rem;">
-                <div class="tip-card">
-                    <h4 style="color: #fff; margin-bottom: 1.5rem;">Tu Vehículo Merece Cuidado Constante</h4>
-                    
-                    <div style="display: flex; gap: 2rem;">
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Te ha pasado esto?</p>
-                            <ul>
-                                <li>Llevas meses sin limpiar el auto y cuando lo haces, las manchas ya no salen</li>
-                                <li>Los asientos se ven viejos y desgastados por la suciedad acumulada</li>
-                                <li>El olor del interior te avergüenza cuando llevas pasajeros</li>
-                            </ul>
-                        </div>
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
-                            <p><strong>Plan Mensual Premium:</strong> 2 lavados convencionales + 1 detallado completo por mes. 
-                            Mantén tu auto siempre impecable por menos de lo que cuesta un café diario.</p>
-                        </div>
-                    </div>
+            <div class="maintenance-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showMaintenanceTab('vehiculos')">
+                        <i class="fas fa-car"></i>
+                        Vehículos
+                    </button>
+                    <button class="tab-btn" onclick="showMaintenanceTab('tapizados')">
+                        <i class="fas fa-couch"></i>
+                        Tapizados
+                    </button>
+                    <button class="tab-btn" onclick="showMaintenanceTab('colchones')">
+                        <i class="fas fa-bed"></i>
+                        Colchones
+                    </button>
+                    <button class="tab-btn" onclick="showMaintenanceTab('alfombras')">
+                        <i class="fas fa-rug"></i>
+                        Alfombras
+                    </button>
                 </div>
 
-                <div class="tip-card">
-                    <h4 style="color: #fff; margin-bottom: 1.5rem;">Tapizados que Duran Años, No Meses</h4>
-                    
-                    <div style="display: flex; gap: 2rem;">
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">La realidad que nadie te cuenta:</p>
-                            <ul>
-                                <li>Un tapizado sin mantenimiento se deteriora 3 veces más rápido</li>
-                                <li>Las manchas se vuelven permanentes después de 48 horas</li>
-                                <li>Los ácaros y bacterias se multiplican sin limpieza regular</li>
-                            </ul>
-                        </div>
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
-                            <p><strong>Plan Trimestral Inteligente:</strong> Limpieza profunda cada 3 meses. 
-                            Protege tu inversión y mantén un ambiente saludable para tu familia.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tip-card">
-                    <h4 style="color: #fff; margin-bottom: 1.5rem;">Colchones: Tu Salud Depende de Ellos</h4>
-                    
-                    <div style="display: flex; gap: 2rem;">
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Sabías que pasas 1/3 de tu vida en tu cama?</p>
-                            <ul>
-                                <li>Un colchón sin limpiar puede contener hasta 2 millones de ácaros</li>
-                                <li>Las manchas de sudor crean bacterias que afectan tu respiración</li>
-                                <li>La suciedad acelera el desgaste del colchón</li>
-                            </ul>
-                        </div>
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
-                            <p><strong>Plan Semestral Saludable:</strong> Limpieza profunda cada 6 meses. 
-                            Duerme mejor, respira mejor, vive mejor.</p>
+                <div class="tab-content">
+                    <!-- Tab Vehículos -->
+                    <div id="vehiculos" class="tab-pane active">
+                        <div class="tip-card">
+                            <h4 style="color: #fff; margin-bottom: 1.5rem;">Tu Vehículo Merece Cuidado Constante</h4>
+                            
+                            <div style="display: flex; gap: 2rem;">
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Te ha pasado esto?</p>
+                                    <ul>
+                                        <li>Llevas meses sin limpiar el auto y cuando lo haces, las manchas ya no salen</li>
+                                        <li>Los asientos se ven viejos y desgastados por la suciedad acumulada</li>
+                                        <li>El olor del interior te avergüenza cuando llevas pasajeros</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
+                                    <p><strong>Plan Mensual Premium:</strong> 2 lavados convencionales + 1 detallado completo por mes. 
+                                    Mantén tu auto siempre impecable por menos de lo que cuesta un café diario.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tip-card">
-                    <h4 style="color: #fff; margin-bottom: 1.5rem;">Alfombras: El Corazón de tu Hogar</h4>
-                    
-                    <div style="display: flex; gap: 2rem;">
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Por qué las alfombras se ven viejas tan rápido?</p>
-                            <ul>
-                                <li>La suciedad se acumula en las fibras y las desgasta</li>
-                                <li>Los olores se impregnan y son difíciles de eliminar</li>
-                                <li>Las manchas se vuelven permanentes con el tiempo</li>
-                            </ul>
+                    <!-- Tab Tapizados -->
+                    <div id="tapizados" class="tab-pane">
+                        <div class="tip-card">
+                            <h4 style="color: #fff; margin-bottom: 1.5rem;">Tapizados que Duran Años, No Meses</h4>
+                            
+                            <div style="display: flex; gap: 2rem;">
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">La realidad que nadie te cuenta:</p>
+                                    <ul>
+                                        <li>Un tapizado sin mantenimiento se deteriora 3 veces más rápido</li>
+                                        <li>Las manchas se vuelven permanentes después de 48 horas</li>
+                                        <li>Los ácaros y bacterias se multiplican sin limpieza regular</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
+                                    <p><strong>Plan Trimestral Inteligente:</strong> Limpieza profunda cada 3 meses. 
+                                    Protege tu inversión y mantén un ambiente saludable para tu familia.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div style="flex: 1;">
-                            <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
-                            <p><strong>Plan Cuatrimestral Hogar:</strong> Limpieza profunda cada 4 meses. 
-                            Mantén tu hogar siempre acogedor y saludable.</p>
+                    </div>
+
+                    <!-- Tab Colchones -->
+                    <div id="colchones" class="tab-pane">
+                        <div class="tip-card">
+                            <h4 style="color: #fff; margin-bottom: 1.5rem;">Colchones: Tu Salud Depende de Ellos</h4>
+                            
+                            <div style="display: flex; gap: 2rem;">
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Sabías que pasas 1/3 de tu vida en tu cama?</p>
+                                    <ul>
+                                        <li>Un colchón sin limpiar puede contener hasta 2 millones de ácaros</li>
+                                        <li>Las manchas de sudor crean bacterias que afectan tu respiración</li>
+                                        <li>La suciedad acelera el desgaste del colchón</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
+                                    <p><strong>Plan Semestral Saludable:</strong> Limpieza profunda cada 6 meses. 
+                                    Duerme mejor, respira mejor, vive mejor.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Alfombras -->
+                    <div id="alfombras" class="tab-pane">
+                        <div class="tip-card">
+                            <h4 style="color: #fff; margin-bottom: 1.5rem;">Alfombras: El Corazón de tu Hogar</h4>
+                            
+                            <div style="display: flex; gap: 2rem;">
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">¿Por qué las alfombras se ven viejas tan rápido?</p>
+                                    <ul>
+                                        <li>La suciedad se acumula en las fibras y las desgasta</li>
+                                        <li>Los olores se impregnan y son difíciles de eliminar</li>
+                                        <li>Las manchas se vuelven permanentes con el tiempo</li>
+                                    </ul>
+                                </div>
+                                <div style="flex: 1;">
+                                    <p style="color: #fff; font-weight: 700; margin-bottom: 1rem;">Nuestra Recomendación</p>
+                                    <p><strong>Plan Cuatrimestral Hogar:</strong> Limpieza profunda cada 4 meses. 
+                                    Mantén tu hogar siempre acogedor y saludable.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -817,6 +850,24 @@
             });
             
             tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar el tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showMaintenanceTab(tabName) {
+            // Ocultar todos los tabs de mantenimiento
+            const maintenancePanes = document.querySelectorAll('.maintenance-tabs .tab-pane');
+            const maintenanceButtons = document.querySelectorAll('.maintenance-tabs .tab-btn');
+            
+            maintenancePanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            maintenanceButtons.forEach(btn => {
                 btn.classList.remove('active');
             });
             
