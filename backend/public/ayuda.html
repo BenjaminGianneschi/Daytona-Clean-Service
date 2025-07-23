@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda - Daytona Limpieza</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .help-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .help-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .help-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .help-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .help-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .help-nav a {
+            padding: 0.75rem 1.5rem;
+            background: #f8f9fa;
+            color: #333;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .help-nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .help-nav a.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .help-section {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .help-section h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f8f9fa;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            transition: background 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .contact-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .service-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .service-card h4 {
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tip-card {
+            background: #fff3cd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tip-card h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #5a6fd8;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .help-container {
+                padding: 1rem;
+            }
+            
+            .help-header h1 {
+                font-size: 2rem;
+            }
+            
+            .help-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .help-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="help-container">
+        <div class="help-header">
+            <h1>Centro de Ayuda</h1>
+            <p>Encuentra respuestas a tus preguntas y toda la información que necesitas</p>
+        </div>
+
+        <nav class="help-nav">
+            <a href="#preguntas-frecuentes">Preguntas Frecuentes</a>
+            <a href="#nuestros-servicios">Nuestros Servicios</a>
+            <a href="#como-reservar">Cómo Reservar</a>
+            <a href="#consejos-mantenimiento">Consejos de Mantenimiento</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+
+        <section id="preguntas-frecuentes" class="help-section">
+            <h2>Preguntas Frecuentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">¿Qué servicios ofrecen?</div>
+                <div class="faq-answer">
+                    Ofrecemos una amplia gama de servicios de limpieza especializada: limpieza de vehículos (interior y exterior), 
+                    limpieza de tapizados y muebles, limpieza de alfombras y colchones, y servicios de vapor. 
+                    Todos nuestros servicios utilizan productos profesionales y técnicas avanzadas.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Cuánto tiempo toma cada servicio?</div>
+                <div class="faq-answer">
+                    Los tiempos varían según el servicio y el tamaño del trabajo:
+                    <ul>
+                        <li>Limpieza de vehículo: 2-4 horas</li>
+                        <li>Limpieza de tapizados: 3-6 horas</li>
+                        <li>Limpieza de alfombras: 2-4 horas</li>
+                        <li>Limpieza de colchones: 2-3 horas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Los productos que usan son seguros?</div>
+                <div class="faq-answer">
+                    Sí, utilizamos productos profesionales de alta calidad que son seguros para personas, mascotas y el medio ambiente. 
+                    Todos nuestros productos están certificados y aprobados para uso profesional.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Ofrecen garantía en sus servicios?</div>
+                <div class="faq-answer">
+                    Sí, ofrecemos garantía en todos nuestros servicios. Si no estás satisfecho con el resultado, 
+                    nos comprometemos a hacer los ajustes necesarios sin costo adicional.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Puedo cancelar o reprogramar mi cita?</div>
+                <div class="faq-answer">
+                    Sí, puedes cancelar o reprogramar tu cita hasta 24 horas antes del servicio programado. 
+                    Para cambios de última hora, te recomendamos contactarnos directamente.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Trabajan los fines de semana?</div>
+                <div class="faq-answer">
+                    Sí, trabajamos de lunes a domingo para brindarte la mayor flexibilidad posible. 
+                    Nuestros horarios son de 8:00 AM a 6:00 PM.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Qué métodos de pago aceptan?</div>
+                <div class="faq-answer">
+                    Aceptamos efectivo, transferencias bancarias, tarjetas de crédito y débito, 
+                    y también puedes pagar a través de nuestra plataforma online.
+                </div>
+            </div>
+        </section>
+
+        <section id="nuestros-servicios" class="help-section">
+            <h2>Nuestros Servicios</h2>
+            
+            <div class="service-list">
+                <div class="service-card">
+                    <h4>Limpieza de Vehículos</h4>
+                    <p>Limpieza completa del interior y exterior de tu vehículo, incluyendo asientos, 
+                    alfombras, tablero, ventanas y más. Utilizamos productos especializados para cada superficie.</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>Limpieza de Tapizados</h4>
+                    <p>Limpieza profunda de sofás, sillones, sillas y otros muebles tapizados. 
+                    Eliminamos manchas, olores y alérgenos con técnicas profesionales.</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>Limpieza de Alfombras</h4>
+                    <p>Limpieza y desinfección de alfombras y tapetes. Restauramos el color original 
+                    y eliminamos manchas difíciles con equipos especializados.</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>Limpieza de Colchones</h4>
+                    <p>Limpieza profunda y desinfección de colchones. Eliminamos ácaros, 
+                    manchas y olores para mejorar la calidad del sueño.</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>Servicio de Vapor</h4>
+                    <p>Limpieza con vapor a alta temperatura que elimina bacterias, 
+                    virus y alérgenos sin usar productos químicos agresivos.</p>
+                </div>
+
+                <div class="service-card">
+                    <h4>Limpieza de Oficinas</h4>
+                    <p>Servicios de limpieza especializada para oficinas, incluyendo muebles, 
+                    alfombras y áreas comunes.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="como-reservar" class="help-section">
+            <h2>Cómo Reservar tu Servicio</h2>
+            
+            <div style="background: #e3f2fd; padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h3 style="color: #1976d2; margin-bottom: 1rem;">Proceso Simple en 3 Pasos</h3>
+                <ol style="font-size: 1.1rem; line-height: 1.8;">
+                    <li><strong>Selecciona tu servicio:</strong> Navega por nuestra página web y elige el servicio que necesitas.</li>
+                    <li><strong>Agenda tu cita:</strong> Selecciona la fecha y hora que mejor te convenga en nuestro calendario online.</li>
+                    <li><strong>Confirma tu reserva:</strong> Completa tus datos y confirma tu cita. Recibirás una confirmación por WhatsApp.</li>
+                </ol>
+            </div>
+
+            <div style="background: #f3e5f5; padding: 2rem; border-radius: 10px;">
+                <h3 style="color: #7b1fa2; margin-bottom: 1rem;">¿Necesitas ayuda para reservar?</h3>
+                <p>Si tienes problemas con la reserva online o prefieres hacerlo por teléfono, 
+                no dudes en contactarnos directamente. Estamos aquí para ayudarte.</p>
+            </div>
+        </section>
+
+        <section id="consejos-mantenimiento" class="help-section">
+            <h2>Consejos de Mantenimiento</h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>Para Vehículos</h4>
+                    <ul>
+                        <li>Aspira regularmente el interior</li>
+                        <li>Limpia derrames inmediatamente</li>
+                        <li>Usa protectores para asientos</li>
+                        <li>Mantén las ventanas limpias</li>
+                    </ul>
+                </div>
+
+                <div class="tip-card">
+                    <h4>Para Tapizados</h4>
+                    <ul>
+                        <li>Aspira semanalmente</li>
+                        <li>Trata las manchas rápidamente</li>
+                        <li>Rota los cojines regularmente</li>
+                        <li>Evita la exposición directa al sol</li>
+                    </ul>
+                </div>
+
+                <div class="tip-card">
+                    <h4>Para Alfombras</h4>
+                    <ul>
+                        <li>Aspira diariamente en áreas de alto tráfico</li>
+                        <li>Usa felpudos en las entradas</li>
+                        <li>Rota las alfombras cada 6 meses</li>
+                        <li>Limpia manchas inmediatamente</li>
+                    </ul>
+                </div>
+
+                <div class="tip-card">
+                    <h4>Para Colchones</h4>
+                    <ul>
+                        <li>Usa protector de colchón</li>
+                        <li>Rota el colchón cada 3 meses</li>
+                        <li>Ventila regularmente</li>
+                        <li>Limpia manchas con productos suaves</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="help-section">
+            <h2>Información de Contacto</h2>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <h3>📞 Teléfono</h3>
+                    <p>+54 9 11 1234-5678</p>
+                    <p>Lun-Dom: 8:00 AM - 6:00 PM</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>💬 WhatsApp</h3>
+                    <p>+54 9 11 1234-5678</p>
+                    <p>Respuesta rápida 24/7</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>📧 Email</h3>
+                    <p>info@daytonalimpieza.com</p>
+                    <p>Respuesta en 24 horas</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>📍 Ubicación</h3>
+                    <p>Zona de cobertura: CABA y GBA</p>
+                    <p>Servicio a domicilio</p>
+                </div>
+            </div>
+
+            <div style="background: #fff3cd; padding: 2rem; border-radius: 10px; margin-top: 2rem; text-align: center;">
+                <h3 style="color: #856404; margin-bottom: 1rem;">¿No encontraste lo que buscabas?</h3>
+                <p>Si tienes alguna pregunta específica que no está cubierta aquí, no dudes en contactarnos. 
+                Nuestro equipo está siempre dispuesto a ayudarte.</p>
+                <a href="https://wa.me/5491112345678" style="display: inline-block; background: #25d366; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 25px; margin-top: 1rem; font-weight: bold;">
+                    Contactar por WhatsApp
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <script src="js/include-header.js"></script>
+    <script src="js/include-footer.js"></script>
+    <script src="js/faq-toggle.js"></script>
+</body>
+</html> 
