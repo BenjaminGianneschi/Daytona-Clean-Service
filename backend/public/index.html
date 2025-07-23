@@ -185,7 +185,7 @@
     .services-carousel {
       overflow: hidden;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1070px;
       position: relative;
       display: block;
       margin: 0 auto;
@@ -199,7 +199,7 @@
       width: max-content;
       flex-wrap: nowrap;
       position: relative;
-      justify-content: center;
+      justify-content: flex-start;
     }
     
     .carousel-item {
@@ -356,7 +356,7 @@
       }
       
       .services-carousel {
-        max-width: 1000px;
+        max-width: 940px;
       }
       
       .carousel-item.servicio-card-custom {
@@ -1034,7 +1034,7 @@
         if (window.innerWidth <= 576) return 1;
         if (window.innerWidth <= 768) return 1;
         if (window.innerWidth <= 1200) return 2;
-        return 3;
+        return 3; // Siempre mostrar 3 en desktop
       }
       
       // Función para obtener el ancho de cada tarjeta según el tamaño de pantalla
@@ -1062,8 +1062,14 @@
         const itemsPerView = getItemsPerView();
         const itemWidth = getItemWidth();
         const moveDistance = itemWidth + gap;
-        // Mover de acuerdo al número de items por vista
-        const translateX = -(currentIndex * itemsPerView * moveDistance);
+        
+        // Calcular el centrado inicial
+        const carouselWidth = carousel.offsetWidth;
+        const totalItemsWidth = itemsPerView * itemWidth + (itemsPerView - 1) * gap;
+        const initialOffset = (carouselWidth - totalItemsWidth) / 2;
+        
+        // Mover de acuerdo al número de items por vista con centrado
+        const translateX = initialOffset - (currentIndex * itemsPerView * moveDistance);
         
         console.log('=== MOVE CARRUSEL ===');
         console.log('Items por vista:', itemsPerView);
@@ -1075,6 +1081,9 @@
         console.log('Total de items:', items.length);
         console.log('Ancho del carrusel:', carousel.offsetWidth);
         console.log('Ancho del contenedor:', getCarouselWidth());
+        console.log('Ancho total de items:', totalItemsWidth);
+        console.log('Offset inicial:', initialOffset);
+        console.log('TranslateX final:', translateX);
         
         // Aplicar la transformación
         track.style.transform = `translateX(${translateX}px)`;
