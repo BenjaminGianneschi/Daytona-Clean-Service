@@ -173,7 +173,7 @@
     /* Estilos para el carrusel de servicios */
     .services-carousel-container {
       position: relative;
-      max-width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 60px;
     }
@@ -183,6 +183,7 @@
       position: relative;
       width: 100%;
       border: 2px solid red; /* Temporal para debug */
+      min-height: 400px; /* Asegurar altura mínima */
     }
     
     .carousel-track {
@@ -190,11 +191,12 @@
       transition: transform 0.5s ease-in-out;
       gap: 20px;
       border: 2px solid blue; /* Temporal para debug */
+      width: max-content; /* Permitir que el track se expanda */
     }
     
     .carousel-item {
       flex-shrink: 0;
-      width: 280px;
+      width: 270px;
       border: 2px solid green; /* Temporal para debug */
     }
     
@@ -240,12 +242,20 @@
 
     
     /* Responsive para el carrusel */
+    @media (max-width: 1200px) {
+      .services-carousel-container {
+        max-width: 1000px;
+        padding: 0 60px;
+      }
+    }
+    
     @media (max-width: 768px) {
       .carousel-item {
-        width: 260px;
+        width: 250px;
       }
       
       .services-carousel-container {
+        max-width: 100%;
         padding: 0 50px;
       }
       
@@ -258,7 +268,7 @@
     
     @media (max-width: 576px) {
       .carousel-item {
-        width: 240px;
+        width: 220px;
       }
       
       .services-carousel-container {
@@ -909,7 +919,7 @@
       const nextBtn = document.getElementById('nextBtn');
       
       let currentIndex = 0;
-      const itemWidth = 280;
+      const itemWidth = 270;
       const gap = 20;
       const step = itemWidth + gap;
       
