@@ -179,7 +179,7 @@
       padding: 0 100px;
       overflow: hidden;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
     }
     
     .services-carousel {
@@ -188,7 +188,7 @@
       max-width: 1070px;
       position: relative;
       display: block;
-      margin: 0 auto;
+      margin: 0;
       border-radius: 15px;
     }
     
@@ -271,13 +271,13 @@
     
     .services-carousel {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
     }
     
     .carousel-track {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
     }
     
@@ -1068,8 +1068,15 @@
         const totalItemsWidth = itemsPerView * itemWidth + (itemsPerView - 1) * gap;
         const initialOffset = (carouselWidth - totalItemsWidth) / 2;
         
-        // Mover de acuerdo al número de items por vista con centrado
-        const translateX = initialOffset - (currentIndex * itemsPerView * moveDistance);
+        // Calcular la posición para mostrar las tarjetas centradas
+        // Para el índice 0, mostrar las primeras 3 tarjetas
+        // Para otros índices, mover de acuerdo al número de items por vista
+        let translateX;
+        if (currentIndex === 0) {
+          translateX = 0; // Empezar desde la primera tarjeta
+        } else {
+          translateX = -(currentIndex * itemsPerView * moveDistance);
+        }
         
         console.log('=== MOVE CARRUSEL ===');
         console.log('Items por vista:', itemsPerView);
