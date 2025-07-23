@@ -194,17 +194,20 @@
       transform: none !important;
       width: auto !important;
       flex-wrap: nowrap !important;
+      min-width: 2320px !important; /* 8 tarjetas * 270px + 7 gaps * 20px */
     }
     
     .carousel-item {
       flex: 0 0 270px;
       width: 270px;
       border: 3px solid green; /* Debug */
-      /* FORZAR VISIBILIDAD */
-      display: block !important;
+      /* FORZAR VISIBILIDAD Y ALINEACIÓN HORIZONTAL */
+      display: inline-block !important;
       visibility: visible !important;
       opacity: 1 !important;
-      position: static !important;
+      position: relative !important;
+      float: left !important;
+      margin-right: 20px !important;
     }
     
     .carousel-btn {
@@ -901,14 +904,22 @@
       track.style.transform = 'none';
       track.style.transition = 'none';
       
-      // Agregar números de debug
+      // Agregar números de debug y información de posición
       items.forEach((item, index) => {
         const debugNumber = document.createElement('div');
         debugNumber.style.cssText = 'position: absolute; top: 5px; right: 5px; background: red; color: white; padding: 5px; border-radius: 50%; font-size: 16px; z-index: 1000; font-weight: bold;';
         debugNumber.textContent = index + 1;
         item.style.position = 'relative';
         item.appendChild(debugNumber);
+        
+        // Agregar información de posición
+        const positionInfo = document.createElement('div');
+        positionInfo.style.cssText = 'position: absolute; top: 5px; left: 5px; background: yellow; color: black; padding: 2px 4px; font-size: 10px; z-index: 1000;';
+        positionInfo.textContent = `Pos: ${index}`;
+        item.appendChild(positionInfo);
+        
         console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
+        console.log(`Posición de tarjeta ${index + 1}:`, item.offsetLeft, item.offsetTop);
       });
       
       // DESACTIVAR TEMPORALMENTE EL CARRUSEL PARA DEBUG
