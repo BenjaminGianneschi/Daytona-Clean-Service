@@ -1442,8 +1442,24 @@
     console.log('🔄 Actualizando disponibilidad para paso 3...');
     
     try {
-      // Obtener la fecha seleccionada
-      const fechaInput = document.getElementById('fecha');
+      // Obtener la fecha seleccionada según el tipo de servicio
+      const categorizacion = categorizarServicios();
+      let fechaInput = null;
+      let horaSelect = null;
+      let duracion = 120;
+      
+      if (categorizacion.hayVehiculos) {
+        fechaInput = document.getElementById('fecha-vehiculos');
+        horaSelect = document.getElementById('hora-vehiculos');
+        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
+        duracion = calcularDuracionServicios(serviciosVehiculos);
+      } else if (categorizacion.hayTapizados) {
+        fechaInput = document.getElementById('fecha-tapizados');
+        horaSelect = document.getElementById('hora-tapizados');
+        const serviciosTapizados = turnosSeparados.tapizados.servicios;
+        duracion = calcularDuracionServicios(serviciosTapizados);
+      }
+      
       if (!fechaInput || !fechaInput.value) {
         console.log('⚠️ No hay fecha seleccionada');
         return;
@@ -1451,51 +1467,34 @@
       
       const fecha = fechaInput.value;
       console.log(`📅 Fecha seleccionada: ${fecha}`);
-      
-      // Calcular duración de servicios seleccionados
-      const categorizacion = categorizarServicios();
-      let duracion = 120; // duración por defecto
-      
-      if (categorizacion.hayVehiculos) {
-        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
-        duracion = calcularDuracionServicios(serviciosVehiculos);
-      } else if (categorizacion.hayTapizados) {
-        const serviciosTapizados = turnosSeparados.tapizados.servicios;
-        duracion = calcularDuracionServicios(serviciosTapizados);
-      }
-      
       console.log(`⏱️ Duración calculada: ${duracion} minutos`);
       
       // Obtener disponibilidad del backend
       const disponibilidad = await obtenerDisponibilidad(fecha, duracion);
       
-      if (disponibilidad.isWorkingDay) {
-        // Actualizar el select de horas
-        const horaSelect = document.getElementById('hora');
-        if (horaSelect) {
-          horaSelect.innerHTML = '<option value="">Selecciona una hora</option>';
-          
-          disponibilidad.availableSlots.forEach(slot => {
-            if (slot.available) {
-              const option = document.createElement('option');
-              option.value = slot.startTime;
-              option.textContent = `${slot.startTime} - ${slot.endTime}`;
-              horaSelect.appendChild(option);
-            } else {
-              // Mostrar horarios ocupados como deshabilitados
-              const option = document.createElement('option');
-              option.value = slot.startTime;
-              option.textContent = `${slot.startTime} - ${slot.endTime} (OCUPADO)`;
-              option.disabled = true;
-              option.style.color = '#999';
-              horaSelect.appendChild(option);
-            }
-          });
-          
-          console.log(`✅ Disponibilidad actualizada: ${disponibilidad.availableSlots.filter(s => s.available).length} horarios disponibles`);
-        }
+      if (disponibilidad.isWorkingDay && horaSelect) {
+        horaSelect.innerHTML = '<option value="">Selecciona una hora</option>';
+        
+        disponibilidad.availableSlots.forEach(slot => {
+          if (slot.available) {
+            const option = document.createElement('option');
+            option.value = slot.startTime;
+            option.textContent = `${slot.startTime} - ${slot.endTime}`;
+            horaSelect.appendChild(option);
+          } else {
+            // Mostrar horarios ocupados como deshabilitados
+            const option = document.createElement('option');
+            option.value = slot.startTime;
+            option.textContent = `${slot.startTime} - ${slot.endTime} (OCUPADO)`;
+            option.disabled = true;
+            option.style.color = '#999';
+            horaSelect.appendChild(option);
+          }
+        });
+        
+        console.log(`✅ Disponibilidad actualizada: ${disponibilidad.availableSlots.filter(s => s.available).length} horarios disponibles`);
       } else {
-        console.log('❌ No es día laboral');
+        console.log('❌ No es día laboral o no se encontró el select de hora');
       }
       
     } catch (error) {
@@ -3803,79 +3802,7 @@
     }
   }
 
-  // Función para actualizar el paso 3 con disponibilidad real
-  async function actualizarDisponibilidadPaso3() {
-    const categorizacion = categorizarServicios();
-    const paso3 = document.getElementById('paso-3');
-    
-    if (categorizacion.necesitaTurnosSeparados) {
-      // Mostrar dos secciones para turnos separados
-      paso3.innerHTML = `
-        <div class="row">
-          <div class="col-md-6">
-            <h4><i class="fas fa-car me-2"></i>Turno para Vehículos</h4>
-            <div class="mb-3">
-              <label class="form-label">Fecha:</label>
-              <input type="date" id="fecha-vehiculos" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Hora:</label>
-              <select id="hora-vehiculos" class="form-control" required>
-                <option value="">Selecciona una fecha primero</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h4><i class="fas fa-couch me-2"></i>Turno para Tapizados</h4>
-            <div class="mb-3">
-              <label class="form-label">Fecha:</label>
-              <input type="date" id="fecha-tapizados" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Hora:</label>
-              <select id="hora-tapizados" class="form-control" required>
-                <option value="">Selecciona una fecha primero</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      // Event listeners para fechas
-      document.getElementById('fecha-vehiculos').addEventListener('change', async function() {
-        await cargarHorariosDisponibles(this.value, 'hora-vehiculos');
-      });
-      
-      document.getElementById('fecha-tapizados').addEventListener('change', async function() {
-        await cargarHorariosDisponibles(this.value, 'hora-tapizados');
-      });
-      
-    } else {
-      // Mostrar una sola sección
-      const categoria = categorizacion.hayVehiculos ? 'vehiculos' : 'tapizados';
-      const icono = categorizacion.hayVehiculos ? 'fas fa-car' : 'fas fa-couch';
-      const titulo = categorizacion.hayVehiculos ? 'Turno para Vehículos' : 'Turno para Tapizados';
-      
-      paso3.innerHTML = `
-        <h4><i class="${icono} me-2"></i>${titulo}</h4>
-        <div class="mb-3">
-          <label class="form-label">Fecha:</label>
-          <input type="date" id="fecha-${categoria}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Hora:</label>
-          <select id="hora-${categoria}" class="form-control" required>
-            <option value="">Selecciona una fecha primero</option>
-          </select>
-        </div>
-      `;
-      
-      // Event listener para fecha
-      document.getElementById(`fecha-${categoria}`).addEventListener('change', async function() {
-        await cargarHorariosDisponibles(this.value, `hora-${categoria}`);
-      });
-    }
-  }
+  // Función para actualizar el paso 3 con disponibilidad real (ELIMINADA - DUPLICADA)
 
   // Función para cargar horarios disponibles
   async function cargarHorariosDisponibles(fecha, selectId) {
@@ -4206,11 +4133,11 @@
       }
     }
     // Event listeners para fechas
-    document.getElementById('fecha-vehiculos')?.addEventListener('change', function() {
-      actualizarHorariosDisponibles(this.value, 'hora-vehiculos');
+    document.getElementById('fecha-vehiculos')?.addEventListener('change', async function() {
+      await actualizarDisponibilidadPaso3();
     });
-    document.getElementById('fecha-tapizados')?.addEventListener('change', function() {
-      actualizarHorariosDisponibles(this.value, 'hora-tapizados');
+    document.getElementById('fecha-tapizados')?.addEventListener('change', async function() {
+      await actualizarDisponibilidadPaso3();
     });
 
   // --- Lógica profesional de armado de nombres y búsqueda de precios ---
