@@ -356,6 +356,17 @@ async function updateUserAppointment(id, updateData) {
   `, [appointment_date, appointment_time, notes || null, service_location || null, id]);
 }
 
+// Obtener turnos por fecha
+async function getAppointmentsByDate(date) {
+  const appointments = await query(`
+    SELECT id, appointment_time, duration
+    FROM appointments 
+    WHERE appointment_date = $1 AND status IN ('pending', 'confirmed')
+    ORDER BY appointment_time
+  `, [date]);
+  return appointments;
+}
+
 // Obtener todos los servicios con precios
 async function getAllServices() {
   const services = await query(`
@@ -379,5 +390,6 @@ module.exports = {
   getUserAppointments,
   updateUserAppointment,
   getAllServices,
-  isTimeSlotAvailable
+  isTimeSlotAvailable,
+  getAppointmentsByDate
 };

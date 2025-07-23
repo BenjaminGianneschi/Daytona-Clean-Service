@@ -7,9 +7,7 @@ const notificationService = require('../services/notificationService');
 const getAvailability = async (req, res) => {
   try {
     const { date } = req.params;
-    const { duration = 120 } = req.query; // Duración por defecto 120 minutos
-    
-    console.log(`📅 Solicitando disponibilidad para: ${date} con duración: ${duration}min`);
+    const { duration = 120 } = req.query;
     
     if (!date) {
       return res.status(400).json({ success: false, message: 'Fecha requerida' });
@@ -26,65 +24,54 @@ const getAvailability = async (req, res) => {
       return res.status(400).json({ success: false, message: 'No se pueden reservar turnos en fechas pasadas' });
     }
     
-    // Consultar disponibilidad usando el modelo
-    const { workSchedule, blockedDate } = await appointmentModel.getAvailabilityByDate(date);
+    // Obtener turnos existentes para esa fecha
+    const existingAppointments = await appointmentModel.getAppointmentsByDate(date);
     
-    console.log('📋 Horarios de trabajo:', workSchedule);
-    console.log('🚫 Fechas bloqueadas:', blockedDate);
-    
-    if (workSchedule.length === 0) {
-      console.log('❌ No es día laboral');
-      return res.json({ success: true, data: { date, isWorkingDay: false, availableSlots: [] } });
-    }
-    
-    if (blockedDate.length > 0) {
-      console.log('❌ Día bloqueado:', blockedDate[0].reason);
-      return res.json({ success: true, data: { date, isWorkingDay: false, isBlocked: true, reason: blockedDate[0].reason, availableSlots: [] } });
-    }
-    
-    const schedule = workSchedule[0];
-    const startTime = moment(schedule.start_time, 'HH:mm:ss');
-    const endTime = moment(schedule.end_time, 'HH:mm:ss');
-    const slotDuration = parseInt(process.env.TURN_DURATION) || 120; // minutos
-    const requestedDuration = parseInt(duration) || slotDuration;
-    
-    console.log(`⏰ Horario de trabajo: ${startTime.format('HH:mm')} - ${endTime.format('HH:mm')}`);
-    console.log(`📏 Duración de slot: ${slotDuration}min, Duración solicitada: ${requestedDuration}min`);
-    
-    // Generar slots de tiempo disponibles
+    // Generar horarios disponibles (8:00 a 18:00)
     const availableSlots = [];
-    let currentTime = startTime.clone();
+    const startHour = 8;
+    const endHour = 18;
+    const slotDuration = 120; // 2 horas por slot
     
-    while (currentTime.add(slotDuration, 'minutes').isBefore(endTime) || currentTime.isSame(endTime)) {
-      const slotStart = currentTime.clone().subtract(slotDuration, 'minutes');
-      const slotEnd = currentTime.clone();
+    for (let hour = startHour; hour < endHour; hour += 2) {
+      const slotStart = `${hour.toString().padStart(2, '0')}:00`;
+      const slotEnd = `${(hour + 2).toString().padStart(2, '0')}:00`;
       
-      // Por ahora, marcar todos como disponibles para que funcione
-      const isAvailable = true;
+      // Verificar si hay turnos que se superponen
+      let isAvailable = true;
+      
+      for (const appointment of existingAppointments) {
+        const appStart = appointment.appointment_time;
+        const appEnd = moment(appStart, 'HH:mm:ss').add(appointment.duration || 120, 'minutes').format('HH:mm:ss');
+        
+        // Si hay superposición, marcar como no disponible
+        if (slotStart < appEnd && slotEnd > appStart) {
+          isAvailable = false;
+          break;
+        }
+      }
       
       availableSlots.push({
-        startTime: slotStart.format('HH:mm'),
-        endTime: slotEnd.format('HH:mm'),
+        startTime: slotStart,
+        endTime: slotEnd,
         available: isAvailable
       });
     }
-    
-    console.log(`✅ Generados ${availableSlots.length} slots disponibles`);
     
     res.json({ 
       success: true, 
       data: { 
         date, 
         isWorkingDay: true, 
-        workStart: schedule.start_time, 
-        workEnd: schedule.end_time, 
+        workStart: '08:00:00', 
+        workEnd: '18:00:00', 
         slotDuration, 
-        requestedDuration,
+        requestedDuration: parseInt(duration),
         availableSlots 
       } 
     });
   } catch (error) {
-    console.error('❌ Error obteniendo disponibilidad:', error);
+    console.error('Error obteniendo disponibilidad:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 };

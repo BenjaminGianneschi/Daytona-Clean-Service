@@ -1437,6 +1437,72 @@
     }
   }
 
+  // Función para actualizar disponibilidad en el paso 3
+  async function actualizarDisponibilidadPaso3() {
+    console.log('🔄 Actualizando disponibilidad para paso 3...');
+    
+    try {
+      // Obtener la fecha seleccionada
+      const fechaInput = document.getElementById('fecha');
+      if (!fechaInput || !fechaInput.value) {
+        console.log('⚠️ No hay fecha seleccionada');
+        return;
+      }
+      
+      const fecha = fechaInput.value;
+      console.log(`📅 Fecha seleccionada: ${fecha}`);
+      
+      // Calcular duración de servicios seleccionados
+      const categorizacion = categorizarServicios();
+      let duracion = 120; // duración por defecto
+      
+      if (categorizacion.hayVehiculos) {
+        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
+        duracion = calcularDuracionServicios(serviciosVehiculos);
+      } else if (categorizacion.hayTapizados) {
+        const serviciosTapizados = turnosSeparados.tapizados.servicios;
+        duracion = calcularDuracionServicios(serviciosTapizados);
+      }
+      
+      console.log(`⏱️ Duración calculada: ${duracion} minutos`);
+      
+      // Obtener disponibilidad del backend
+      const disponibilidad = await obtenerDisponibilidad(fecha, duracion);
+      
+      if (disponibilidad.isWorkingDay) {
+        // Actualizar el select de horas
+        const horaSelect = document.getElementById('hora');
+        if (horaSelect) {
+          horaSelect.innerHTML = '<option value="">Selecciona una hora</option>';
+          
+          disponibilidad.availableSlots.forEach(slot => {
+            if (slot.available) {
+              const option = document.createElement('option');
+              option.value = slot.startTime;
+              option.textContent = `${slot.startTime} - ${slot.endTime}`;
+              horaSelect.appendChild(option);
+            } else {
+              // Mostrar horarios ocupados como deshabilitados
+              const option = document.createElement('option');
+              option.value = slot.startTime;
+              option.textContent = `${slot.startTime} - ${slot.endTime} (OCUPADO)`;
+              option.disabled = true;
+              option.style.color = '#999';
+              horaSelect.appendChild(option);
+            }
+          });
+          
+          console.log(`✅ Disponibilidad actualizada: ${disponibilidad.availableSlots.filter(s => s.available).length} horarios disponibles`);
+        }
+      } else {
+        console.log('❌ No es día laboral');
+      }
+      
+    } catch (error) {
+      console.error('❌ Error actualizando disponibilidad:', error);
+    }
+  }
+
   // Cargar servicios al iniciar la página
   document.addEventListener('DOMContentLoaded', function() {
     cargarServiciosDesdeBD();
