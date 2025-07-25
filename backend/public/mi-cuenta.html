@@ -823,8 +823,11 @@
         window.location.href = 'login.html';
         return;
       }
+      
       // Cargar datos del usuario
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+      
+      // Verificar autenticación y cargar datos del usuario
       fetch(`${apiUrl}/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
