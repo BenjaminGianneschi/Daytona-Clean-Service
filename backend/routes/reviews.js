@@ -12,7 +12,7 @@ const {
   updateReviewStatus,
   getReviewStats
 } = require('../controllers/reviewController');
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 
 // Debug: verificar que los controladores son funciones

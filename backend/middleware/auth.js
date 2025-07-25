@@ -84,4 +84,33 @@ const requireAdmin = async (req, res, next) => {
 // Exportar el middleware principal como 'auth' para compatibilidad
 const auth = authenticateUserToken;
 
-module.exports = auth;
+// Crear un middleware requireAdmin que use auth
+const requireAdmin = async (req, res, next) => {
+  try {
+    // Primero verificar que el usuario esté autenticado
+    await auth(req, res, (err) => {
+      if (err) return next(err);
+      
+      // Verificar que el usuario sea admin
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ 
+          success: false, 
+          message: 'Acceso denegado. Se requieren permisos de administrador.' 
+        });
+      }
+      
+      next();
+    });
+  } catch (error) {
+    console.error('Error verificando permisos de admin:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Error interno del servidor' 
+    });
+  }
+};
+
+module.exports = {
+  auth,
+  requireAdmin
+};
