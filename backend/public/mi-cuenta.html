@@ -579,8 +579,15 @@
         </div>
       </div>
 
+      <!-- Botón de debug para reseñas -->
+      <div class="text-center mb-3">
+        <button class="btn btn-outline-info" onclick="toggleReviewsSection()">
+          <i class="fas fa-star me-2"></i>Mostrar/Ocultar Panel de Reseñas
+        </button>
+      </div>
+
       <!-- Gestión de Reseñas Admin -->
-      <div class="admin-appointments-section" id="gestion-resenas">
+      <div class="admin-appointments-section" id="gestion-resenas" style="display: block;">
         <h3><i class="fas fa-star me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Gestión de Reseñas de Clientes</span></h3>
         
         <!-- Estadísticas de reseñas -->
@@ -1542,10 +1549,12 @@
       
       // Cargar funcionalidades de admin
       function loadAdminFeatures() {
+        console.log('🔄 Cargando funcionalidades de admin...');
         document.getElementById('adminPanel').style.display = 'block';
         loadAdminStats();
         loadAllAppointments();
         loadAdminReviews(); // Cargar reseñas también
+        console.log('✅ Funcionalidades de admin cargadas');
       }
 
       // Cargar estadísticas del dashboard
@@ -2203,12 +2212,15 @@
 
     // Cargar funcionalidades de reseñas para admin
     function loadAdminReviews() {
+      console.log('🔄 Cargando reseñas de admin...');
       loadReviewsStats();
       loadAllReviews();
+      console.log('✅ Reseñas de admin cargadas');
     }
 
     // Cargar estadísticas de reseñas
     function loadReviewsStats() {
+      console.log('🔄 Cargando estadísticas de reseñas...');
       fetch('https://daytona-clean-service.onrender.com/api/reviews/admin/stats', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -2216,21 +2228,24 @@
       })
       .then(res => res.json())
       .then(data => {
+        console.log('📊 Estadísticas de reseñas recibidas:', data);
         if (data.success && data.stats) {
           const stats = data.stats;
           document.getElementById('totalReviews').textContent = stats.total_reviews || 0;
           document.getElementById('pendingReviews').textContent = stats.pending_reviews || 0;
           document.getElementById('averageRating').textContent = (stats.average_rating || 0).toFixed(1);
           document.getElementById('fiveStarReviews').textContent = stats.five_star_count || 0;
+          console.log('✅ Estadísticas de reseñas actualizadas');
         }
       })
       .catch(error => {
-        console.error('Error cargando estadísticas de reseñas:', error);
+        console.error('❌ Error cargando estadísticas de reseñas:', error);
       });
     }
 
     // Cargar todas las reseñas para admin
     function loadAllReviews() {
+      console.log('🔄 Cargando todas las reseñas...');
       fetch('https://daytona-clean-service.onrender.com/api/reviews/admin/all', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -2238,16 +2253,19 @@
       })
       .then(res => res.json())
       .then(data => {
+        console.log('📝 Reseñas recibidas:', data);
         if (data.success && data.reviews) {
           currentReviews = data.reviews;
           displayAdminReviews(data.reviews);
+          console.log('✅ Reseñas cargadas y mostradas');
         } else {
           document.getElementById('adminReviewsTableBody').innerHTML = 
             '<tr><td colspan="8" class="text-center">No se encontraron reseñas</td></tr>';
+          console.log('ℹ️ No se encontraron reseñas');
         }
       })
       .catch(error => {
-        console.error('Error cargando reseñas:', error);
+        console.error('❌ Error cargando reseñas:', error);
         document.getElementById('adminReviewsTableBody').innerHTML = 
           '<tr><td colspan="8" class="text-center text-danger">Error cargando reseñas</td></tr>';
       });
@@ -2517,6 +2535,23 @@
       
       return [headers, ...rows].map(row => row.join(',')).join('\n');
     }
+
+    // Función para mostrar/ocultar sección de reseñas
+    window.toggleReviewsSection = function() {
+      const reviewsSection = document.getElementById('gestion-resenas');
+      if (reviewsSection) {
+        const isVisible = reviewsSection.style.display !== 'none';
+        reviewsSection.style.display = isVisible ? 'none' : 'block';
+        console.log('🔄 Sección de reseñas:', isVisible ? 'ocultada' : 'mostrada');
+        
+        if (!isVisible) {
+          // Recargar reseñas cuando se muestra
+          loadAdminReviews();
+        }
+      } else {
+        console.error('❌ No se encontró la sección de reseñas');
+      }
+    };
 
     // Actualizar la función loadAdminFeatures para incluir reseñas
     const originalLoadAdminFeatures = window.loadAdminFeatures;
