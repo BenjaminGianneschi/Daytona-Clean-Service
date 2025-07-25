@@ -111,6 +111,9 @@ function generateHeader(isLoggedIn, user) {
                   <li><a class="dropdown-item" href="${isAdmin ? 'mi-cuenta.html#gestion-turnos' : (window.location.pathname.includes('mi-cuenta.html') ? '#turnos-activos' : 'mi-cuenta.html#turnos-activos')}" style="color: #fff; padding: 10px 16px;">
                     <i class="fas fa-calendar-alt me-2" style="width: 16px;"></i>${isAdmin ? 'Gestión' : 'Mis Turnos'}
                   </a></li>
+                  <li><a class="dropdown-item" href="mis-resenas.html" style="color: #fff; padding: 10px 16px;">
+                    <i class="fas fa-star me-2" style="width: 16px;"></i>Mis Reseñas
+                  </a></li>
                   <li><a class="dropdown-item" href="#" onclick="showNotifications()" style="color: #fff; padding: 10px 16px;">
                     <i class="fas fa-bell me-2" style="width: 16px;"></i>Notificaciones
                     <span class="badge bg-danger ms-2" style="font-size: 10px;">2</span>

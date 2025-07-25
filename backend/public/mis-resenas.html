@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Reseñas - Daytona Clean Service</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components/header.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+  
+  <style>
+    .reviews-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      padding-top: 120px;
+      background: #1a1a1a;
+      min-height: 100vh;
+      color: #fff;
+    }
+    
+    .reviews-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+      border-bottom: 2px solid #333;
+    }
+    
+    .reviews-header h1 {
+      color: #00d4ff;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .review-card {
+      background: #232323;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border: 1px solid #333;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .review-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      border-color: #00d4ff;
+    }
+    
+    .review-card h3 {
+      color: #00d4ff;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #00d4ff;
+      padding-bottom: 0.5rem;
+    }
+    
+    .service-info {
+      background: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #00d4ff;
+    }
+    
+    .rating-stars {
+      font-size: 1.5rem;
+      color: #ffd700;
+      margin: 1rem 0;
+    }
+    
+    .review-comment {
+      background: #2a2a2a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border-left: 4px solid #28a745;
+    }
+    
+    .review-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .btn-edit {
+      background: linear-gradient(135deg, #00d4ff 0%, #00b8e6 100%);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-edit:hover {
+      background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
+      transform: translateY(-1px);
+    }
+    
+    .btn-delete {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-delete:hover {
+      background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+      transform: translateY(-1px);
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .status-pending {
+      background: #ffc107;
+      color: #000;
+    }
+    
+    .status-approved {
+      background: #28a745;
+      color: #fff;
+    }
+    
+    .status-rejected {
+      background: #dc3545;
+      color: #fff;
+    }
+    
+    .loading {
+      text-align: center;
+      color: #888;
+      padding: 2rem;
+    }
+    
+    .no-reviews {
+      text-align: center;
+      color: #888;
+      padding: 3rem;
+    }
+    
+    .no-reviews i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #00d4ff;
+    }
+    
+    /* Modal personalizado */
+    .modal-content {
+      background: #232323 !important;
+      color: #fff !important;
+      border: 1px solid #333;
+    }
+    
+    .modal-header {
+      border-bottom: 1px solid #333;
+    }
+    
+    .modal-title {
+      color: #00d4ff;
+    }
+    
+    .btn-close {
+      filter: invert(1);
+    }
+    
+    .form-control {
+      background: #2a2a2a !important;
+      border: 1px solid #333 !important;
+      color: #fff !important;
+    }
+    
+    .form-control:focus {
+      background: #2a2a2a !important;
+      border-color: #00d4ff !important;
+      color: #fff !important;
+      box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25) !important;
+    }
+    
+    .form-label {
+      color: #fff;
+    }
+    
+    .btn-primary {
+      background: #00d4ff;
+      border-color: #00d4ff;
+    }
+    
+    .btn-primary:hover {
+      background: #00b8e6;
+      border-color: #00b8e6;
+    }
+    
+    .star-rating {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .star-rating input[type="radio"] {
+      display: none;
+    }
+    
+    .star-rating label {
+      font-size: 2rem;
+      color: #666;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input[type="radio"]:checked ~ label {
+      color: #ffd700;
+    }
+    
+    .alert {
+      border-radius: 8px;
+      border: none;
+    }
+    
+    .alert-warning {
+      background: #332701;
+      color: #ffc107;
+      border-left: 4px solid #ffc107;
+    }
+    
+    .alert-danger {
+      background: #331a1a;
+      color: #dc3545;
+      border-left: 4px solid #dc3545;
+    }
+    
+    .alert-success {
+      background: #1a331a;
+      color: #28a745;
+      border-left: 4px solid #28a745;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <div id="header-container"></div>
+
+  <div class="reviews-container">
+    <div class="reviews-header">
+      <h1><i class="fas fa-star me-2"></i>Mis Reseñas</h1>
+      <p>Gestiona las reseñas de tus servicios de vehículos</p>
+    </div>
+    
+    <!-- Alertas -->
+    <div id="alert-container"></div>
+    
+    <!-- Contenido principal -->
+    <div id="reviews-content">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin me-2"></i>Cargando tus reseñas...
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para editar reseña -->
+  <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="editReviewModalLabel">
+            <i class="fas fa-edit me-2"></i>Editar Reseña
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editReviewForm">
+            <input type="hidden" id="editReviewId" />
+            
+            <!-- Información del servicio -->
+            <div class="alert alert-info mb-3">
+              <h6><i class="fas fa-info-circle me-2"></i>Información del Servicio</h6>
+              <div id="editReviewServiceInfo" class="small">
+                <!-- Se llenará dinámicamente -->
+              </div>
+            </div>
+            
+            <!-- Calificación -->
+            <div class="mb-3">
+              <label class="form-label">
+                <i class="fas fa-star me-1"></i>Calificación *
+              </label>
+              <div class="star-rating">
+                <input type="radio" name="rating" value="5" id="star5">
+                <label for="star5">⭐</label>
+                <input type="radio" name="rating" value="4" id="star4">
+                <label for="star4">⭐</label>
+                <input type="radio" name="rating" value="3" id="star3">
+                <label for="star3">⭐</label>
+                <input type="radio" name="rating" value="2" id="star2">
+                <label for="star2">⭐</label>
+                <input type="radio" name="rating" value="1" id="star1">
+                <label for="star1">⭐</label>
+              </div>
+            </div>
+            
+            <!-- Comentario -->
+            <div class="mb-3">
+              <label for="editReviewComment" class="form-label">
+                <i class="fas fa-comment me-1"></i>Comentario
+              </label>
+              <textarea class="form-control" id="editReviewComment" rows="4" placeholder="Comparte tu experiencia con este servicio..."></textarea>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <i class="fas fa-times me-1"></i>Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-1"></i>Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer-container"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/reviews-service.js"></script>
+  <script src="js/include-header.js"></script>
+  <script src="js/include-footer.js"></script>
+
+  <script>
+    let currentReviews = [];
+    let currentAppointments = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Verificar autenticación
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Cargar reseñas del usuario
+      loadUserReviews();
+    });
+
+    // Cargar reseñas del usuario
+    async function loadUserReviews() {
+      try {
+        const reviewsService = new ReviewsService();
+        const response = await reviewsService.getUserReviews();
+        
+        if (response.success) {
+          currentReviews = response.reviews || [];
+          displayUserReviews();
+        } else {
+          showAlert('Error cargando reseñas: ' + (response.message || ''), 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión al cargar reseñas', 'danger');
+      }
+    }
+
+    // Mostrar reseñas del usuario
+    function displayUserReviews() {
+      const content = document.getElementById('reviews-content');
+      
+      if (!currentReviews.length) {
+        content.innerHTML = `
+          <div class="no-reviews">
+            <i class="fas fa-star"></i>
+            <h3>No tienes reseñas aún</h3>
+            <p>Una vez que completes un servicio de vehículo, podrás dejar una reseña aquí.</p>
+            <a href="vehiculos.html" class="btn btn-primary">
+              <i class="fas fa-car me-2"></i>Ver Servicios de Vehículos
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      content.innerHTML = currentReviews.map(review => {
+        const serviceType = getServiceTypeName(review.service_type);
+        const ratingStars = '⭐'.repeat(review.rating);
+        const statusBadge = getReviewStatusBadge(review.is_approved);
+        const statusText = getReviewStatusText(review.is_approved);
+
+        return `
+          <div class="review-card">
+            <h3>
+              <i class="fas fa-tools me-2"></i>${serviceType}
+              ${statusBadge}
+            </h3>
+            
+            <div class="service-info">
+              <div class="row">
+                <div class="col-md-6">
+                  <strong><i class="fas fa-calendar me-2"></i>Fecha del servicio:</strong><br>
+                  ${new Date(review.appointment_date).toLocaleDateString('es-AR')}
+                </div>
+                <div class="col-md-6">
+                  <strong><i class="fas fa-clock me-2"></i>Hora:</strong><br>
+                  ${review.appointment_time || 'No especificada'}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <strong><i class="fas fa-dollar-sign me-2"></i>Total:</strong><br>
+                  ${review.total_price ? `$${parseInt(review.total_price).toLocaleString('es-AR')}` : 'A confirmar'}
+                </div>
+                <div class="col-md-6">
+                  <strong><i class="fas fa-map-marker-alt me-2"></i>Ubicación:</strong><br>
+                  ${review.service_location || 'No especificada'}
+                </div>
+              </div>
+            </div>
+            
+            <div class="rating-stars">
+              ${ratingStars} <span style="color: #fff; font-size: 1rem;">(${review.rating}/5)</span>
+            </div>
+            
+            ${review.comment ? `
+              <div class="review-comment">
+                <strong><i class="fas fa-comment me-2"></i>Tu comentario:</strong><br>
+                ${review.comment}
+              </div>
+            ` : ''}
+            
+            <div class="mt-3">
+              <small class="text-muted">
+                <i class="fas fa-calendar-alt me-1"></i>
+                Reseña creada el ${new Date(review.created_at).toLocaleDateString('es-AR')}
+              </small>
+            </div>
+            
+            <div class="review-actions">
+              ${review.is_approved !== false ? `
+                <button class="btn-edit" onclick="editReview(${review.id})">
+                  <i class="fas fa-edit me-1"></i>Editar
+                </button>
+              ` : ''}
+              <button class="btn-delete" onclick="deleteReview(${review.id})">
+                <i class="fas fa-trash me-1"></i>Eliminar
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Obtener nombre del tipo de servicio
+    function getServiceTypeName(serviceType) {
+      const serviceNames = {
+        'limpieza-auto': 'Limpieza de Auto',
+        'limpieza-pickup': 'Limpieza de Pickup',
+        'limpieza-suv': 'Limpieza de SUV',
+        'limpieza-detallada-auto': 'Limpieza Detallada Auto',
+        'limpieza-detallada-suv': 'Limpieza Detallada SUV',
+        'limpieza-detallada-pickup': 'Limpieza Detallada Pickup',
+        'restauracion-motor': 'Restauración de Motor'
+      };
+      return serviceNames[serviceType] || serviceType;
+    }
+
+    // Obtener badge de estado de reseña
+    function getReviewStatusBadge(isApproved) {
+      if (isApproved === null) {
+        return '<span class="status-badge status-pending">Pendiente</span>';
+      } else if (isApproved) {
+        return '<span class="status-badge status-approved">Aprobada</span>';
+      } else {
+        return '<span class="status-badge status-rejected">Rechazada</span>';
+      }
+    }
+
+    // Obtener texto de estado de reseña
+    function getReviewStatusText(isApproved) {
+      if (isApproved === null) {
+        return 'Tu reseña está pendiente de revisión por el administrador.';
+      } else if (isApproved) {
+        return 'Tu reseña ha sido aprobada y está visible en el sitio web.';
+      } else {
+        return 'Tu reseña fue rechazada por el administrador.';
+      }
+    }
+
+    // Editar reseña
+    window.editReview = function(reviewId) {
+      const review = currentReviews.find(r => r.id === reviewId);
+      if (!review) {
+        showAlert('No se encontró la reseña', 'danger');
+        return;
+      }
+
+      // Llenar información del servicio
+      const serviceType = getServiceTypeName(review.service_type);
+      document.getElementById('editReviewServiceInfo').innerHTML = `
+        <div class="row">
+          <div class="col-md-6">
+            <strong>Servicio:</strong> ${serviceType}<br>
+            <strong>Fecha:</strong> ${new Date(review.appointment_date).toLocaleDateString('es-AR')}<br>
+            <strong>Hora:</strong> ${review.appointment_time || 'No especificada'}
+          </div>
+          <div class="col-md-6">
+            <strong>Total:</strong> ${review.total_price ? `$${parseInt(review.total_price).toLocaleString('es-AR')}` : 'A confirmar'}<br>
+            <strong>Ubicación:</strong> ${review.service_location || 'No especificada'}
+          </div>
+        </div>
+      `;
+
+      // Llenar formulario
+      document.getElementById('editReviewId').value = review.id;
+      document.getElementById('editReviewComment').value = review.comment || '';
+      
+      // Seleccionar calificación actual
+      document.querySelector(`input[name="rating"][value="${review.rating}"]`).checked = true;
+
+      // Mostrar modal
+      const modal = new bootstrap.Modal(document.getElementById('editReviewModal'));
+      modal.show();
+    };
+
+    // Manejar envío del formulario de edición
+    document.getElementById('editReviewForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const reviewId = document.getElementById('editReviewId').value;
+      const rating = document.querySelector('input[name="rating"]:checked')?.value;
+      const comment = document.getElementById('editReviewComment').value.trim();
+      
+      if (!rating) {
+        showAlert('Por favor selecciona una calificación', 'warning');
+        return;
+      }
+      
+      // Mostrar loading
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Guardando...';
+      submitBtn.disabled = true;
+      
+      try {
+        const reviewsService = new ReviewsService();
+        const response = await reviewsService.updateReview(reviewId, {
+          rating: parseInt(rating),
+          comment: comment
+        });
+        
+        if (response.success) {
+          showAlert('Reseña actualizada exitosamente', 'success');
+          
+          // Cerrar modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('editReviewModal'));
+          modal.hide();
+          
+          // Recargar reseñas
+          loadUserReviews();
+        } else {
+          showAlert('Error actualizando reseña: ' + (response.message || ''), 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión al actualizar reseña', 'danger');
+      } finally {
+        // Restaurar botón
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Eliminar reseña
+    window.deleteReview = function(reviewId) {
+      if (confirm('¿Estás seguro de que quieres eliminar esta reseña? Esta acción no se puede deshacer.')) {
+        const reviewsService = new ReviewsService();
+        reviewsService.deleteReview(reviewId)
+          .then(response => {
+            if (response.success) {
+              showAlert('Reseña eliminada exitosamente', 'success');
+              loadUserReviews();
+            } else {
+              showAlert('Error eliminando reseña: ' + (response.message || ''), 'danger');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            showAlert('Error de conexión al eliminar reseña', 'danger');
+          });
+      }
+    };
+
+    // Función para mostrar alertas
+    function showAlert(message, type, duration = 5000) {
+      const alertContainer = document.getElementById('alert-container');
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      `;
+      alertContainer.appendChild(alertDiv);
+      
+      // Auto-remover después del tiempo especificado
+      setTimeout(() => {
+        if (alertDiv.parentNode) {
+          alertDiv.remove();
+        }
+      }, duration);
+    }
+  </script>
+</body>
+</html> 

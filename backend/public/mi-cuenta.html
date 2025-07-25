@@ -578,6 +578,115 @@
           </table>
         </div>
       </div>
+
+      <!-- Gestión de Reseñas Admin -->
+      <div class="admin-appointments-section" id="gestion-resenas">
+        <h3><i class="fas fa-star me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Gestión de Reseñas de Clientes</span></h3>
+        
+        <!-- Estadísticas de reseñas -->
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="admin-stat-card bg-primary text-white">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h4 id="totalReviews">0</h4>
+                  <p class="mb-0">Total Reseñas</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-star fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="admin-stat-card bg-warning text-white">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h4 id="pendingReviews">0</h4>
+                  <p class="mb-0">Pendientes</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-clock fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="admin-stat-card bg-success text-white">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h4 id="averageRating">0.0</h4>
+                  <p class="mb-0">Promedio</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-star-half-alt fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="admin-stat-card bg-info text-white">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h4 id="fiveStarReviews">0</h4>
+                  <p class="mb-0">5 Estrellas</p>
+                </div>
+                <div class="align-self-center">
+                  <i class="fas fa-star fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtros de reseñas -->
+        <div class="row mb-4">
+          <div class="col-md-8">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-primary" onclick="filterAdminReviews('all')">Todas</button>
+              <button type="button" class="btn btn-outline-warning" onclick="filterAdminReviews('pending')">Pendientes</button>
+              <button type="button" class="btn btn-outline-success" onclick="filterAdminReviews('approved')">Aprobadas</button>
+              <button type="button" class="btn btn-outline-danger" onclick="filterAdminReviews('rejected')">Rechazadas</button>
+            </div>
+            <button type="button" class="btn btn-outline-secondary ms-3" onclick="exportReviews()">
+              <i class="fas fa-download me-2"></i>Exportar Reseñas
+            </button>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" class="form-control" id="searchReviewsInput" placeholder="Buscar reseñas...">
+              <button class="btn btn-outline-secondary" type="button" onclick="searchAdminReviews()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de reseñas -->
+        <div class="table-responsive">
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">ID</span></th>
+                <th><i class="fas fa-user me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Cliente</span></th>
+                <th><i class="fas fa-tools me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Servicio</span></th>
+                <th><i class="fas fa-star me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Calificación</span></th>
+                <th><i class="fas fa-comment me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Comentario</span></th>
+                <th><i class="fas fa-calendar me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Fecha</span></th>
+                <th><i class="fas fa-flag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Estado</span></th>
+                <th><i class="fas fa-cogs me-1" style="color:#adb5bd;"></i><span style="font-weight:bold;color:#fff;">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody id="adminReviewsTableBody">
+              <tr>
+                <td colspan="8" class="text-center">
+                  <i class="fas fa-spinner fa-spin me-2"></i>Cargando reseñas...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1436,6 +1545,7 @@
         document.getElementById('adminPanel').style.display = 'block';
         loadAdminStats();
         loadAllAppointments();
+        loadAdminReviews(); // Cargar reseñas también
       }
 
       // Cargar estadísticas del dashboard
@@ -2086,6 +2196,336 @@
       // Por defecto, para tapizados u otros servicios
       return `<strong>Dirección:</strong> ${direccion}`;
     }
+
+    // ===== FUNCIONES DE GESTIÓN DE RESEÑAS =====
+    
+    let currentReviews = [];
+
+    // Cargar funcionalidades de reseñas para admin
+    function loadAdminReviews() {
+      loadReviewsStats();
+      loadAllReviews();
+    }
+
+    // Cargar estadísticas de reseñas
+    function loadReviewsStats() {
+      fetch('https://daytona-clean-service.onrender.com/api/reviews/admin/stats', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.stats) {
+          const stats = data.stats;
+          document.getElementById('totalReviews').textContent = stats.total_reviews || 0;
+          document.getElementById('pendingReviews').textContent = stats.pending_reviews || 0;
+          document.getElementById('averageRating').textContent = (stats.average_rating || 0).toFixed(1);
+          document.getElementById('fiveStarReviews').textContent = stats.five_star_count || 0;
+        }
+      })
+      .catch(error => {
+        console.error('Error cargando estadísticas de reseñas:', error);
+      });
+    }
+
+    // Cargar todas las reseñas para admin
+    function loadAllReviews() {
+      fetch('https://daytona-clean-service.onrender.com/api/reviews/admin/all', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.reviews) {
+          currentReviews = data.reviews;
+          displayAdminReviews(data.reviews);
+        } else {
+          document.getElementById('adminReviewsTableBody').innerHTML = 
+            '<tr><td colspan="8" class="text-center">No se encontraron reseñas</td></tr>';
+        }
+      })
+      .catch(error => {
+        console.error('Error cargando reseñas:', error);
+        document.getElementById('adminReviewsTableBody').innerHTML = 
+          '<tr><td colspan="8" class="text-center text-danger">Error cargando reseñas</td></tr>';
+      });
+    }
+
+    // Mostrar reseñas en tabla de admin
+    function displayAdminReviews(reviews) {
+      const tbody = document.getElementById('adminReviewsTableBody');
+      
+      if (!reviews.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">No se encontraron reseñas</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = reviews.map(review => {
+        const serviceType = getServiceTypeName(review.service_type);
+        const ratingStars = '⭐'.repeat(review.rating);
+        const statusBadge = getReviewStatusBadge(review.is_approved);
+        const comment = review.comment ? (review.comment.length > 50 ? review.comment.substring(0, 50) + '...' : review.comment) : 'Sin comentario';
+
+        return `
+          <tr>
+            <td><i class='fas fa-hashtag me-1' style='color:#00d4ff;'></i>#${review.id}</td>
+            <td>
+              <div style="margin-bottom: 6px;"><i class='fas fa-user me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Nombre:</span> <span style='font-weight:normal;color:#fff;'>${review.user_name || 'N/A'}</span></div>
+              <div><i class='fas fa-calendar me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Servicio:</span> <span style='font-weight:normal;color:#fff;'>${new Date(review.appointment_date).toLocaleDateString('es-AR')}</span></div>
+            </td>
+            <td>
+              <div><i class='fas fa-tools me-1' style='color:#00d4ff;'></i><span style='font-weight:normal;color:#fff;'>${serviceType}</span></div>
+              <small style="color: #888;">${review.service_type}</small>
+            </td>
+            <td>
+              <div style="font-size: 14px; color: #ffd700;">${ratingStars}</div>
+              <small style="color: #888;">${review.rating}/5</small>
+            </td>
+            <td>
+              <div style="max-width: 200px; word-wrap: break-word;">${comment}</div>
+              ${review.comment && review.comment.length > 50 ? `
+                <button class="btn btn-sm btn-outline-info mt-1" onclick="viewFullComment(${review.id})">
+                  <i class="fas fa-eye"></i> Ver completo
+                </button>
+              ` : ''}
+            </td>
+            <td>${new Date(review.created_at).toLocaleDateString('es-AR')}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-cogs me-1" style="color:#adb5bd;"></i>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-primary" onclick="viewAdminReview(${review.id})" title="Ver detalles">
+                    <i class="fas fa-eye" style="color:#adb5bd;"></i>
+                  </button>
+                  ${review.is_approved === null ? `
+                    <button class="btn btn-outline-success" onclick="approveReview(${review.id})" title="Aprobar">
+                      <i class="fas fa-check" style="color:#adb5bd;"></i>
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="rejectReview(${review.id})" title="Rechazar">
+                      <i class="fas fa-times" style="color:#adb5bd;"></i>
+                    </button>
+                  ` : review.is_approved ? `
+                    <button class="btn btn-outline-warning" onclick="rejectReview(${review.id})" title="Rechazar">
+                      <i class="fas fa-ban" style="color:#adb5bd;"></i>
+                    </button>
+                  ` : `
+                    <button class="btn btn-outline-success" onclick="approveReview(${review.id})" title="Aprobar">
+                      <i class="fas fa-check" style="color:#adb5bd;"></i>
+                    </button>
+                  `}
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Obtener nombre del tipo de servicio
+    function getServiceTypeName(serviceType) {
+      const serviceNames = {
+        'limpieza-auto': 'Limpieza de Auto',
+        'limpieza-pickup': 'Limpieza de Pickup',
+        'limpieza-suv': 'Limpieza de SUV',
+        'limpieza-detallada-auto': 'Limpieza Detallada Auto',
+        'limpieza-detallada-suv': 'Limpieza Detallada SUV',
+        'limpieza-detallada-pickup': 'Limpieza Detallada Pickup',
+        'restauracion-motor': 'Restauración de Motor'
+      };
+      return serviceNames[serviceType] || serviceType;
+    }
+
+    // Obtener badge de estado de reseña
+    function getReviewStatusBadge(isApproved) {
+      if (isApproved === null) {
+        return '<span class="badge bg-warning">Pendiente</span>';
+      } else if (isApproved) {
+        return '<span class="badge bg-success">Aprobada</span>';
+      } else {
+        return '<span class="badge bg-danger">Rechazada</span>';
+      }
+    }
+
+    // Filtrar reseñas de admin
+    window.filterAdminReviews = function(filter) {
+      if (!currentReviews.length) return;
+      
+      let filteredReviews = currentReviews;
+      
+      if (filter !== 'all') {
+        filteredReviews = currentReviews.filter(review => {
+          if (filter === 'pending') return review.is_approved === null;
+          if (filter === 'approved') return review.is_approved === true;
+          if (filter === 'rejected') return review.is_approved === false;
+          return true;
+        });
+      }
+      
+      displayAdminReviews(filteredReviews);
+    };
+
+    // Buscar reseñas de admin
+    window.searchAdminReviews = function() {
+      const searchTerm = document.getElementById('searchReviewsInput').value.toLowerCase();
+      
+      if (!currentReviews.length) return;
+      
+      const filteredReviews = currentReviews.filter(review => 
+        review.user_name?.toLowerCase().includes(searchTerm) ||
+        review.service_type?.toLowerCase().includes(searchTerm) ||
+        review.comment?.toLowerCase().includes(searchTerm) ||
+        review.id.toString().includes(searchTerm)
+      );
+      
+      displayAdminReviews(filteredReviews);
+    };
+
+    // Ver detalles de reseña (admin)
+    window.viewAdminReview = function(reviewId) {
+      const review = currentReviews?.find(r => r.id === reviewId);
+      if (!review) {
+        showAlert('No se encontró la reseña', 'danger');
+        return;
+      }
+
+      const serviceType = getServiceTypeName(review.service_type);
+      const ratingStars = '⭐'.repeat(review.rating);
+      const statusBadge = getReviewStatusBadge(review.is_approved);
+
+      const html = `
+        <div class="mb-2"><strong>ID:</strong> #${review.id}</div>
+        <div class="mb-2"><strong>Cliente:</strong> ${review.user_name || 'N/A'}</div>
+        <div class="mb-2"><strong>Servicio:</strong> ${serviceType}</div>
+        <div class="mb-2"><strong>Fecha del servicio:</strong> ${new Date(review.appointment_date).toLocaleDateString('es-AR')}</div>
+        <div class="mb-2"><strong>Calificación:</strong> ${ratingStars} (${review.rating}/5)</div>
+        <div class="mb-2"><strong>Comentario:</strong> ${review.comment || 'Sin comentario'}</div>
+        <div class="mb-2"><strong>Fecha de reseña:</strong> ${new Date(review.created_at).toLocaleDateString('es-AR')}</div>
+        <div class="mb-2"><strong>Estado:</strong> ${statusBadge}</div>
+      `;
+      showAlert(html, 'info', 0, true);
+    };
+
+    // Ver comentario completo
+    window.viewFullComment = function(reviewId) {
+      const review = currentReviews?.find(r => r.id === reviewId);
+      if (!review) {
+        showAlert('No se encontró la reseña', 'danger');
+        return;
+      }
+
+      const html = `
+        <div class="mb-2"><strong>Comentario completo:</strong></div>
+        <div class="alert alert-info">${review.comment}</div>
+      `;
+      showAlert(html, 'info', 0, true);
+    };
+
+    // Aprobar reseña
+    window.approveReview = function(reviewId) {
+      if (confirm('¿Aprobar esta reseña?')) {
+        fetch(`https://daytona-clean-service.onrender.com/api/reviews/admin/${reviewId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ isApproved: true })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Reseña aprobada exitosamente', 'success');
+            loadAllReviews();
+            loadReviewsStats();
+          } else {
+            showAlert('Error aprobando reseña: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('Error de conexión al aprobar reseña', 'danger');
+        });
+      }
+    };
+
+    // Rechazar reseña
+    window.rejectReview = function(reviewId) {
+      const action = currentReviews?.find(r => r.id === reviewId)?.is_approved ? 'rechazar' : 'rechazar';
+      if (confirm(`¿${action.charAt(0).toUpperCase() + action.slice(1)} esta reseña?`)) {
+        fetch(`https://daytona-clean-service.onrender.com/api/reviews/admin/${reviewId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ isApproved: false })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert(`Reseña ${action}da exitosamente`, 'success');
+            loadAllReviews();
+            loadReviewsStats();
+          } else {
+            showAlert(`Error ${action}ndo reseña: ` + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert(`Error de conexión al ${action} reseña`, 'danger');
+        });
+      }
+    };
+
+    // Exportar reseñas
+    window.exportReviews = function() {
+      fetch('https://daytona-clean-service.onrender.com/api/reviews/admin/all', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.reviews) {
+          // Crear CSV
+          const csvContent = createReviewsCSV(data.reviews);
+          downloadCSV(csvContent, 'reseñas_export.csv');
+          showAlert('Exportación de reseñas completada', 'success');
+        }
+      })
+      .catch(error => {
+        console.error('Error exportando reseñas:', error);
+        showAlert('Error al exportar reseñas', 'danger');
+      });
+    };
+
+    // Crear contenido CSV para reseñas
+    function createReviewsCSV(reviews) {
+      const headers = ['ID', 'Cliente', 'Servicio', 'Calificación', 'Comentario', 'Fecha Reseña', 'Estado'];
+      const rows = reviews.map(r => [
+        r.id,
+        r.user_name || 'N/A',
+        getServiceTypeName(r.service_type),
+        r.rating,
+        r.comment || 'Sin comentario',
+        new Date(r.created_at).toLocaleDateString('es-AR'),
+        r.is_approved === null ? 'Pendiente' : r.is_approved ? 'Aprobada' : 'Rechazada'
+      ]);
+      
+      return [headers, ...rows].map(row => row.join(',')).join('\n');
+    }
+
+    // Actualizar la función loadAdminFeatures para incluir reseñas
+    const originalLoadAdminFeatures = window.loadAdminFeatures;
+    window.loadAdminFeatures = function() {
+      if (originalLoadAdminFeatures) {
+        originalLoadAdminFeatures();
+      }
+      loadAdminReviews();
+    };
   </script>
 </body>
 </html>

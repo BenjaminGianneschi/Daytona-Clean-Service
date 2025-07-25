@@ -404,35 +404,68 @@
     <!-- TESTIMONIOS DE CLIENTES -->
     <section class="testimonios-section py-5">
       <h2 class="text-center text-white mb-5">Lo que dicen nuestros clientes</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Mi auto quedó como nuevo! Servicio rápido y muy profesional. Volveré sin dudas."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">Juan P.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
+      
+      <!-- Estadísticas de reseñas -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+          <div class="review-stats-container text-center">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="stat-item">
+                  <div class="stat-number text-white fw-bold" id="totalReviews">0</div>
+                  <div class="stat-label text-light">Reseñas totales</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-item">
+                  <div class="stat-number text-white fw-bold" id="averageRating">0.0</div>
+                  <div class="stat-label text-light">Calificación promedio</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-item">
+                  <div class="stat-number text-white fw-bold" id="fiveStarCount">0</div>
+                  <div class="stat-label text-light">5 estrellas</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-item">
+                  <div class="stat-number text-white fw-bold" id="verifiedReviews">✓</div>
+                  <div class="stat-label text-light">Reseñas verificadas</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Excelente atención y resultados impecables. Recomiendo Daytona a todos mis amigos."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">María G.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
-            </div>
+      </div>
+
+      <!-- Contenedor de reseñas dinámicas -->
+      <div class="row justify-content-center" id="reviewsContainer">
+        <!-- Las reseñas se cargarán dinámicamente aquí -->
+        <div class="col-12 text-center">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin text-white" style="font-size: 2rem;"></i>
+            <p class="text-light mt-2">Cargando reseñas...</p>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Muy puntuales y detallistas. El interior del auto quedó perfecto y sin olores."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">Carlos R.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
-            </div>
+      </div>
+
+      <!-- Botón para cargar más reseñas -->
+      <div class="row justify-content-center mt-4" id="loadMoreContainer" style="display: none;">
+        <div class="col-md-4 text-center">
+          <button class="btn btn-outline-light" id="loadMoreReviews">
+            <i class="fas fa-plus me-2"></i>Cargar más reseñas
+          </button>
+        </div>
+      </div>
+
+      <!-- Mensaje cuando no hay reseñas -->
+      <div class="row justify-content-center" id="noReviewsMessage" style="display: none;">
+        <div class="col-md-6 text-center">
+          <div class="no-reviews-message">
+            <i class="fas fa-comments text-white" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h4 class="text-white">Aún no hay reseñas</h4>
+            <p class="text-light">Sé el primero en compartir tu experiencia con nuestros servicios.</p>
           </div>
         </div>
       </div>
@@ -483,6 +516,9 @@
   <script src="js/whatsapp-float.js"></script>
 
   <script src="js/send-whatsapp.js"></script>
+
+  <!-- Servicio de reseñas -->
+  <script src="js/reviews-service.js"></script>
 
   <!-- Estilos para el carrusel y modal -->
   <style>
@@ -880,6 +916,104 @@
         padding: 20px;
       }
     }
+
+    /* Estilos para las reseñas dinámicas */
+    .review-stats-container {
+      background: rgba(33, 37, 41, 0.8);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-item {
+      padding: 15px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      background: rgba(255, 59, 63, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .loading-spinner {
+      padding: 40px;
+    }
+
+    .no-reviews-message {
+      padding: 40px;
+      background: rgba(33, 37, 41, 0.8);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .error-message {
+      padding: 40px;
+      background: rgba(33, 37, 41, 0.8);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .testimonial-details {
+      opacity: 0.7;
+      font-size: 0.8rem;
+    }
+
+    #loadMoreReviews {
+      transition: all 0.3s ease;
+    }
+
+    #loadMoreReviews:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Animaciones para las reseñas */
+    .testimonial-elegant-card {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive para reseñas */
+    @media (max-width: 768px) {
+      .review-stats-container {
+        padding: 15px;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+      }
+
+      .testimonial-elegant-card {
+        margin-bottom: 20px;
+      }
+    }
   </style>
 
   <!-- Formulario Mejorado -->
@@ -950,6 +1084,195 @@
       
       // Cambiar slide cada 3 segundos
       setInterval(nextSlide, 3000);
+    });
+  </script>
+
+  <!-- Script para cargar reseñas dinámicas -->
+  <script>
+    // Variables globales para las reseñas
+    let currentReviewsOffset = 0;
+    const reviewsPerPage = 6;
+    let allReviews = [];
+    let reviewStats = {};
+
+    // Función para convertir rating a estrellas
+    function ratingToStars(rating) {
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 !== 0;
+      let stars = '';
+      
+      for (let i = 0; i < fullStars; i++) {
+        stars += '★';
+      }
+      
+      if (hasHalfStar) {
+        stars += '☆';
+      }
+      
+      const emptyStars = 5 - Math.ceil(rating);
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '☆';
+      }
+      
+      return stars;
+    }
+
+    // Función para formatear fecha
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-AR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    // Función para obtener el nombre del servicio
+    function getServiceDisplayName(serviceType) {
+      const serviceNames = {
+        'limpieza-auto': 'Limpieza de Auto',
+        'limpieza-pickup': 'Limpieza de Pickup',
+        'limpieza-suv': 'Limpieza de SUV',
+        'limpieza-detallada-auto': 'Limpieza Detallada de Auto',
+        'limpieza-detallada-suv': 'Limpieza Detallada de SUV',
+        'limpieza-detallada-pickup': 'Limpieza Detallada de Pickup',
+        'restauracion-motor': 'Restauración de Motor'
+      };
+      return serviceNames[serviceType] || serviceType;
+    }
+
+    // Función para crear una tarjeta de reseña
+    function createReviewCard(review) {
+      const stars = ratingToStars(review.rating);
+      const formattedDate = formatDate(review.created_at);
+      const serviceName = getServiceDisplayName(review.service_type);
+      
+      return `
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
+            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
+            <p class="testimonial-quote text-light mb-3">"${review.comment || 'Excelente servicio, muy recomendado.'}"</p>
+            <div class="testimonial-footer" style="margin-top: auto;">
+              <div class="testimonial-author text-warning fw-bold">${review.user_name}</div>
+              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">${stars}</div>
+              <div class="testimonial-details text-light small mt-2">
+                <div>${serviceName}</div>
+                <div>${formattedDate}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Función para actualizar estadísticas
+    function updateReviewStats(stats) {
+      document.getElementById('totalReviews').textContent = stats.total_reviews || 0;
+      document.getElementById('averageRating').textContent = (stats.average_rating || 0).toFixed(1);
+      document.getElementById('fiveStarCount').textContent = stats.five_star_count || 0;
+    }
+
+    // Función para cargar reseñas
+    async function loadReviews(offset = 0, append = false) {
+      try {
+        const response = await window.reviewsService.getApprovedReviews(reviewsPerPage, offset);
+        
+        if (response.success) {
+          const { reviews, stats } = response.data;
+          
+          // Actualizar estadísticas
+          if (stats) {
+            reviewStats = stats;
+            updateReviewStats(stats);
+          }
+          
+          // Si es la primera carga, reemplazar contenido
+          if (!append) {
+            allReviews = reviews;
+            currentReviewsOffset = 0;
+          } else {
+            allReviews = allReviews.concat(reviews);
+            currentReviewsOffset += reviews.length;
+          }
+          
+          // Mostrar reseñas
+          displayReviews(allReviews);
+          
+          // Mostrar/ocultar botón de cargar más
+          const loadMoreContainer = document.getElementById('loadMoreContainer');
+          if (reviews.length === reviewsPerPage) {
+            loadMoreContainer.style.display = 'block';
+          } else {
+            loadMoreContainer.style.display = 'none';
+          }
+          
+          // Mostrar mensaje si no hay reseñas
+          const noReviewsMessage = document.getElementById('noReviewsMessage');
+          if (allReviews.length === 0) {
+            noReviewsMessage.style.display = 'block';
+          } else {
+            noReviewsMessage.style.display = 'none';
+          }
+          
+        } else {
+          console.error('Error cargando reseñas:', response.message);
+          showErrorMessage('Error cargando reseñas');
+        }
+      } catch (error) {
+        console.error('Error cargando reseñas:', error);
+        showErrorMessage('Error cargando reseñas');
+      }
+    }
+
+    // Función para mostrar reseñas
+    function displayReviews(reviews) {
+      const container = document.getElementById('reviewsContainer');
+      
+      if (reviews.length === 0) {
+        container.innerHTML = `
+          <div class="col-12 text-center">
+            <div class="no-reviews-message">
+              <i class="fas fa-comments text-white" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+              <h4 class="text-white">Aún no hay reseñas</h4>
+              <p class="text-light">Sé el primero en compartir tu experiencia con nuestros servicios.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      const reviewsHTML = reviews.map(review => createReviewCard(review)).join('');
+      container.innerHTML = reviewsHTML;
+    }
+
+    // Función para mostrar mensaje de error
+    function showErrorMessage(message) {
+      const container = document.getElementById('reviewsContainer');
+      container.innerHTML = `
+        <div class="col-12 text-center">
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p class="text-light">${message}</p>
+            <button class="btn btn-outline-light btn-sm" onclick="loadReviews()">
+              <i class="fas fa-redo me-2"></i>Reintentar
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Función para cargar más reseñas
+    function loadMoreReviews() {
+      loadReviews(currentReviewsOffset + reviewsPerPage, true);
+    }
+
+    // Cargar reseñas cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cargar reseñas iniciales
+      loadReviews();
+      
+      // Event listener para el botón de cargar más
+      document.getElementById('loadMoreReviews').addEventListener('click', loadMoreReviews);
     });
   </script>
 
