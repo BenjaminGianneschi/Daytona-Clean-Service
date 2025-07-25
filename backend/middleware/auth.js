@@ -84,8 +84,4 @@ const requireAdmin = async (req, res, next) => {
 // Exportar el middleware principal como 'auth' para compatibilidad
 const auth = authenticateUserToken;
 
-module.exports = {
-  authenticateUserToken,
-  requireAdmin,
-  auth
-};
+module.exports = auth;
