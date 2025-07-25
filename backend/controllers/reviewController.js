@@ -87,7 +87,7 @@ const getUserReviews = async (req, res) => {
 
     res.json({
       success: true,
-      data: reviews
+      reviews: reviews
     });
 
   } catch (error) {
@@ -183,7 +183,7 @@ const getAllReviews = async (req, res) => {
 
     res.json({
       success: true,
-      data: reviews
+      reviews: reviews
     });
 
   } catch (error) {
