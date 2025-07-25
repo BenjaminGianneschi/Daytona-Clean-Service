@@ -404,39 +404,68 @@
     <!-- TESTIMONIOS DE CLIENTES -->
     <section class="testimonios-section py-5">
       <h2 class="text-center text-white mb-5">Lo que dicen nuestros clientes</h2>
+      
+      <!-- Botón para dejar testimonio (solo usuarios logueados) -->
+      <div class="text-center mb-4" id="reviewButtonContainer" style="display: none;">
+        <button class="btn btn-warning btn-lg" onclick="showReviewForm()">
+          <i class="fas fa-star me-2"></i>
+          Dejar mi testimonio
+        </button>
+      </div>
+      
       <div class="row justify-content-center">
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Mi auto quedó como nuevo! Servicio rápido y muy profesional. Volveré sin dudas."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">Juan P.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
-            </div>
+        <!-- Los testimonios se cargarán dinámicamente aquí -->
+      </div>
+    </section>
+
+    <!-- Modal para crear reseña -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-light">
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title" id="reviewModalLabel">
+              <i class="fas fa-star text-warning me-2"></i>
+              Dejar mi testimonio
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Excelente atención y resultados impecables. Recomiendo Daytona a todos mis amigos."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">María G.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
-            </div>
+          <div class="modal-body">
+            <form id="reviewForm">
+              <div class="mb-3">
+                <label for="appointmentSelect" class="form-label">Seleccionar turno:</label>
+                <select class="form-select bg-dark text-light border-secondary" id="appointmentSelect" required>
+                  <option value="">Selecciona un turno completado...</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Calificación:</label>
+                <div class="rating-stars">
+                  <i class="fas fa-star star-rating" data-rating="1"></i>
+                  <i class="fas fa-star star-rating" data-rating="2"></i>
+                  <i class="fas fa-star star-rating" data-rating="3"></i>
+                  <i class="fas fa-star star-rating" data-rating="4"></i>
+                  <i class="fas fa-star star-rating" data-rating="5"></i>
+                </div>
+                <input type="hidden" id="ratingValue" name="rating" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="reviewComment" class="form-label">Comentario (opcional):</label>
+                <textarea class="form-control bg-dark text-light border-secondary" id="reviewComment" name="comment" rows="4" placeholder="Comparte tu experiencia con nuestro servicio..."></textarea>
+              </div>
+            </form>
           </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="testimonial-elegant-card bg-dark p-4 rounded-4 h-100 text-center">
-            <i class="fas fa-award" style="color: #ff3b3f; font-size: 2rem; margin-bottom: 0.5rem;"></i>
-            <p class="testimonial-quote text-light mb-3">"Muy puntuales y detallistas. El interior del auto quedó perfecto y sin olores."</p>
-            <div class="testimonial-footer" style="margin-top: auto;">
-              <div class="testimonial-author text-warning fw-bold">Carlos R.</div>
-              <div class="testimonial-stars" style="color: #ffd700; font-size: 1.2rem; margin-top: 0.2rem;">★★★★★</div>
-            </div>
+          <div class="modal-footer border-secondary">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-warning" onclick="submitReview()">
+              <i class="fas fa-paper-plane me-2"></i>
+              Enviar testimonio
+            </button>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
 
 
@@ -484,8 +513,31 @@
 
   <script src="js/send-whatsapp.js"></script>
 
+  <!-- Scripts para testimonios dinámicos -->
+  <script src="js/reviews-service.js"></script>
+  <script src="js/testimonials-loader.js"></script>
+  <script src="js/review-form.js"></script>
+
   <!-- Estilos para el carrusel y modal -->
   <style>
+    /* Estilos para estrellas de rating */
+    .rating-stars {
+      display: inline-flex;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    
+    .star-rating {
+      font-size: 1.5rem;
+      color: #6c757d;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    
+    .star-rating:hover {
+      color: #ffd700;
+    }
+    
     /* Estilos para el carrusel de servicios - VERSIÓN MEJORADA */
     .services-carousel-container {
       position: relative;
