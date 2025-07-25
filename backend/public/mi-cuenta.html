@@ -935,24 +935,39 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Verificar autenticación y cargar datos
       const token = localStorage.getItem('token');
+      console.log('🔍 Token encontrado:', token ? 'Sí' : 'No');
+      
       if (!token) {
+        console.log('❌ No hay token, redirigiendo a login');
         window.location.href = 'login.html';
         return;
       }
+      
       // Cargar datos del usuario
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
+      console.log('🌐 Haciendo petición a:', `${apiUrl}/users/me`);
+      
       fetch(`${apiUrl}/users/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(res => res.json())
+      .then(res => {
+        console.log('📡 Respuesta del servidor:', res.status, res.statusText);
+        return res.json();
+      })
       .then(data => {
+        console.log('📊 Datos recibidos:', data);
+        
         if (data.success) {
           const user = data.user;
           const isAdmin = user.role === 'admin';
+          console.log('👤 Usuario:', user.name, 'Rol:', user.role, 'Es admin:', isAdmin);
+          
           localStorage.setItem('userData', JSON.stringify(user));
+          
           if (isAdmin) {
+            console.log('🔧 Cargando panel de admin...');
             document.getElementById('adminPanel').style.display = 'block';
             hideUserSectionsForAdmin();
             // Ocultar encabezado solo para admin
@@ -960,6 +975,7 @@
             if (header) header.style.display = 'none';
             loadAdminFeatures();
           } else {
+            console.log('👤 Cargando panel de usuario normal...');
             document.getElementById('adminPanel').style.display = 'none';
             showUserSectionsForNormal();
             // Mostrar encabezado para usuario normal
@@ -968,11 +984,13 @@
             loadAppointments();
           }
         } else {
+          console.log('❌ Error en respuesta:', data.message);
           localStorage.removeItem('token');
           window.location.href = 'login.html';
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('❌ Error en petición:', error);
         localStorage.removeItem('token');
         window.location.href = 'login.html';
       });
