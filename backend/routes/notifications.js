@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateUserToken } = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const notificationService = require('../services/notificationService');
 
 // Verificar notificaciones nuevas (para polling)
-router.get('/check', authenticateUserToken, async (req, res) => {
+router.get('/check', auth, async (req, res) => {
   try {
     // Por ahora retornamos un array vacío
     // En el futuro se implementará con base de datos
@@ -19,7 +19,7 @@ router.get('/check', authenticateUserToken, async (req, res) => {
 });
 
 // Marcar notificación como leída
-router.put('/:id/read', authenticateUserToken, async (req, res) => {
+router.put('/:id/read', auth, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -34,7 +34,7 @@ router.put('/:id/read', authenticateUserToken, async (req, res) => {
 });
 
 // Probar sistema de notificaciones
-router.post('/test', authenticateUserToken, async (req, res) => {
+router.post('/test', auth, async (req, res) => {
   try {
     const { phone } = req.body;
     

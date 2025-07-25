@@ -14,7 +14,7 @@ const {
   getAllServices,
   sendManualReminder
 } = require('../controllers/appointmentController');
-const { authenticateUserToken, requireAdmin } = require('../middleware/auth');
+const { auth, requireAdmin } = require('../middleware/auth');
 
 // Rutas públicas (para clientes)
 router.get('/availability/:date', getAvailability);
@@ -24,9 +24,9 @@ router.post('/', createAppointment); // Permitir crear turno sin autenticación
 router.get('/services', getAllServices);
 
 // Rutas para usuarios logueados
-router.get('/user/appointments', authenticateUserToken, getUserAppointments);
-router.put('/users/appointments/:id', authenticateUserToken, updateUserAppointment);
-router.post('/users/appointments/:id/cancel', authenticateUserToken, cancelUserAppointment);
+router.get('/user/appointments', auth, getUserAppointments);
+router.put('/users/appointments/:id', auth, updateUserAppointment);
+router.post('/users/appointments/:id/cancel', auth, cancelUserAppointment);
 
 // Rutas protegidas (para administradores) - se usarán desde el perfil de usuario
 router.get('/admin/all', requireAdmin, getAllAppointments);

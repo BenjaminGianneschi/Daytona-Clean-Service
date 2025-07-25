@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateUserToken } = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const bcrypt = require('bcrypt');
 const { query } = require('../config/database');
 
 // Obtener datos del usuario autenticado (requiere sesión)
-router.get('/me', authenticateUserToken, (req, res) => {
+router.get('/me', auth, (req, res) => {
   if (!req.user) {
     return res.status(401).json({ success: false, message: 'No autenticado' });
   }
@@ -22,7 +22,7 @@ router.get('/me', authenticateUserToken, (req, res) => {
 });
 
 // Actualizar perfil del usuario
-router.put('/profile', authenticateUserToken, async (req, res) => {
+router.put('/profile', auth, async (req, res) => {
   try {
     console.log('🔧 Actualizando perfil para usuario:', req.user.id);
     console.log('📝 Datos recibidos:', req.body);
