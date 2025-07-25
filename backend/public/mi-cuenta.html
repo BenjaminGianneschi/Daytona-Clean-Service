@@ -579,10 +579,13 @@
         </div>
       </div>
 
-      <!-- Botón de debug para reseñas -->
+      <!-- Botones de debug -->
       <div class="text-center mb-3">
-        <button class="btn btn-outline-info" onclick="toggleReviewsSection()">
+        <button class="btn btn-outline-info me-2" onclick="toggleReviewsSection()">
           <i class="fas fa-star me-2"></i>Mostrar/Ocultar Panel de Reseñas
+        </button>
+        <button class="btn btn-outline-warning" onclick="debugToken()">
+          <i class="fas fa-bug me-2"></i>Debug Token
         </button>
       </div>
 
@@ -936,6 +939,7 @@
       // Verificar autenticación y cargar datos
       const token = localStorage.getItem('token');
       console.log('🔍 Token encontrado:', token ? 'Sí' : 'No');
+      console.log('🔑 Token completo:', token);
       
       if (!token) {
         console.log('❌ No hay token, redirigiendo a login');
@@ -946,6 +950,10 @@
       // Cargar datos del usuario
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
       console.log('🌐 Haciendo petición a:', `${apiUrl}/users/me`);
+      
+      console.log('🌐 Headers de la petición:', {
+        'Authorization': `Bearer ${token}`
+      });
       
       fetch(`${apiUrl}/users/me`, {
         headers: {
@@ -991,6 +999,11 @@
       })
       .catch((error) => {
         console.error('❌ Error en petición:', error);
+        console.error('❌ Detalles del error:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
         localStorage.removeItem('token');
         window.location.href = 'login.html';
       });
@@ -2553,6 +2566,28 @@
       
       return [headers, ...rows].map(row => row.join(',')).join('\n');
     }
+
+    // Función para debuggear el token
+    window.debugToken = function() {
+      const token = localStorage.getItem('token');
+      console.log('🔍 DEBUG TOKEN:');
+      console.log('Token existe:', !!token);
+      console.log('Token completo:', token);
+      console.log('Token length:', token ? token.length : 0);
+      
+      if (token) {
+        try {
+          // Intentar decodificar el token (sin verificar firma)
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          console.log('Token payload:', payload);
+          console.log('Token exp:', new Date(payload.exp * 1000));
+          console.log('Token iat:', new Date(payload.iat * 1000));
+          console.log('Token expirado:', Date.now() > payload.exp * 1000);
+        } catch (e) {
+          console.log('Error decodificando token:', e);
+        }
+      }
+    };
 
     // Función para mostrar/ocultar sección de reseñas
     window.toggleReviewsSection = function() {
