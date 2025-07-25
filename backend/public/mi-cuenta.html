@@ -584,8 +584,11 @@
         <button class="btn btn-outline-info me-2" onclick="toggleReviewsSection()">
           <i class="fas fa-star me-2"></i>Mostrar/Ocultar Panel de Reseñas
         </button>
-        <button class="btn btn-outline-warning" onclick="debugToken()">
+        <button class="btn btn-outline-warning me-2" onclick="debugToken()">
           <i class="fas fa-bug me-2"></i>Debug Token
+        </button>
+        <button class="btn btn-outline-danger" onclick="toggleDebugMode()">
+          <i class="fas fa-cog me-2"></i>Toggle Debug Mode
         </button>
       </div>
 
@@ -936,24 +939,53 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      // Sistema de debug persistente
+      const debugMode = localStorage.getItem('debugMode') === 'true';
+      if (debugMode) {
+        console.log('🐛 MODO DEBUG ACTIVADO');
+        console.log('🔧 Para desactivar debug: localStorage.setItem("debugMode", "false")');
+      } else {
+        console.log('💡 Para activar debug: Haz clic en "Toggle Debug Mode" o ejecuta: localStorage.setItem("debugMode", "true")');
+      }
+      
       // Verificar autenticación y cargar datos
       const token = localStorage.getItem('token');
-      console.log('🔍 Token encontrado:', token ? 'Sí' : 'No');
-      console.log('🔑 Token completo:', token);
+      if (debugMode) {
+        console.log('🔍 Token encontrado:', token ? 'Sí' : 'No');
+        console.log('🔑 Token completo:', token);
+      }
       
       if (!token) {
         console.log('❌ No hay token, redirigiendo a login');
-        window.location.href = 'login.html';
+        // Mostrar mensaje de error en la página en lugar de redirigir inmediatamente
+        document.body.innerHTML = `
+          <div class="container mt-5">
+            <div class="alert alert-danger">
+              <h4>❌ Error de Autenticación</h4>
+              <p>No se encontró token de autenticación.</p>
+              <p><strong>Debug info:</strong></p>
+              <ul>
+                <li>localStorage.token: ${localStorage.getItem('token')}</li>
+                <li>localStorage.userData: ${localStorage.getItem('userData')}</li>
+                <li>URL actual: ${window.location.href}</li>
+              </ul>
+              <button class="btn btn-primary" onclick="window.location.href='login.html'">
+                Ir al Login
+              </button>
+            </div>
+          </div>
+        `;
         return;
       }
       
       // Cargar datos del usuario
       const apiUrl = window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api';
-      console.log('🌐 Haciendo petición a:', `${apiUrl}/users/me`);
-      
-      console.log('🌐 Headers de la petición:', {
-        'Authorization': `Bearer ${token}`
-      });
+      if (debugMode) {
+        console.log('🌐 Haciendo petición a:', `${apiUrl}/users/me`);
+        console.log('🌐 Headers de la petición:', {
+          'Authorization': `Bearer ${token}`
+        });
+      }
       
       fetch(`${apiUrl}/users/me`, {
         headers: {
@@ -961,21 +993,29 @@
         }
       })
       .then(res => {
-        console.log('📡 Respuesta del servidor:', res.status, res.statusText);
+        if (debugMode) {
+          console.log('📡 Respuesta del servidor:', res.status, res.statusText);
+        }
         return res.json();
       })
       .then(data => {
-        console.log('📊 Datos recibidos:', data);
+        if (debugMode) {
+          console.log('📊 Datos recibidos:', data);
+        }
         
-        if (data.success) {
-          const user = data.user;
-          const isAdmin = user.role === 'admin';
-          console.log('👤 Usuario:', user.name, 'Rol:', user.role, 'Es admin:', isAdmin);
+                  if (data.success) {
+            const user = data.user;
+            const isAdmin = user.role === 'admin';
+            if (debugMode) {
+              console.log('👤 Usuario:', user.name, 'Rol:', user.role, 'Es admin:', isAdmin);
+            }
           
           localStorage.setItem('userData', JSON.stringify(user));
           
           if (isAdmin) {
-            console.log('🔧 Cargando panel de admin...');
+            if (debugMode) {
+              console.log('🔧 Cargando panel de admin...');
+            }
             document.getElementById('adminPanel').style.display = 'block';
             hideUserSectionsForAdmin();
             // Ocultar encabezado solo para admin
@@ -983,7 +1023,9 @@
             if (header) header.style.display = 'none';
             loadAdminFeatures();
           } else {
-            console.log('👤 Cargando panel de usuario normal...');
+            if (debugMode) {
+              console.log('👤 Cargando panel de usuario normal...');
+            }
             document.getElementById('adminPanel').style.display = 'none';
             showUserSectionsForNormal();
             // Mostrar encabezado para usuario normal
@@ -993,8 +1035,24 @@
           }
         } else {
           console.log('❌ Error en respuesta:', data.message);
-          localStorage.removeItem('token');
-          window.location.href = 'login.html';
+          // Mostrar error en la página en lugar de redirigir inmediatamente
+          document.body.innerHTML = `
+            <div class="container mt-5">
+              <div class="alert alert-danger">
+                <h4>❌ Error de Autenticación</h4>
+                <p>Error en la respuesta del servidor: ${data.message}</p>
+                <p><strong>Debug info:</strong></p>
+                <ul>
+                  <li>Respuesta completa: ${JSON.stringify(data)}</li>
+                  <li>Token: ${token.substring(0, 20)}...</li>
+                  <li>URL: ${apiUrl}/users/me</li>
+                </ul>
+                <button class="btn btn-primary" onclick="window.location.href='login.html'">
+                  Ir al Login
+                </button>
+              </div>
+            </div>
+          `;
         }
       })
       .catch((error) => {
@@ -1004,8 +1062,25 @@
           message: error.message,
           stack: error.stack
         });
-        localStorage.removeItem('token');
-        window.location.href = 'login.html';
+        // Mostrar error en la página en lugar de redirigir inmediatamente
+        document.body.innerHTML = `
+          <div class="container mt-5">
+            <div class="alert alert-danger">
+              <h4>❌ Error de Conexión</h4>
+              <p>Error al conectar con el servidor: ${error.message}</p>
+              <p><strong>Debug info:</strong></p>
+              <ul>
+                <li>Error name: ${error.name}</li>
+                <li>Error message: ${error.message}</li>
+                <li>Token: ${token ? token.substring(0, 20) + '...' : 'No hay token'}</li>
+                <li>URL: ${apiUrl}/users/me</li>
+              </ul>
+              <button class="btn btn-primary" onclick="window.location.href='login.html'">
+                Ir al Login
+              </button>
+            </div>
+          </div>
+        `;
       });
 
       // Cargar turnos y separarlos en activos e historial
@@ -2566,6 +2641,23 @@
       
       return [headers, ...rows].map(row => row.join(',')).join('\n');
     }
+
+    // Función para activar/desactivar modo debug
+    window.toggleDebugMode = function() {
+      const currentMode = localStorage.getItem('debugMode') === 'true';
+      const newMode = !currentMode;
+      localStorage.setItem('debugMode', newMode.toString());
+      
+      console.log(`🐛 Modo debug ${newMode ? 'ACTIVADO' : 'DESACTIVADO'}`);
+      alert(`Modo debug ${newMode ? 'ACTIVADO' : 'DESACTIVADO'}. Recarga la página para aplicar.`);
+      
+      if (newMode) {
+        console.log('🔧 Comandos útiles:');
+        console.log('- debugToken() - Analizar token');
+        console.log('- localStorage.getItem("token") - Ver token');
+        console.log('- localStorage.getItem("userData") - Ver datos de usuario');
+      }
+    };
 
     // Función para debuggear el token
     window.debugToken = function() {
