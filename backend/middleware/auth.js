@@ -55,36 +55,10 @@ const authenticateUserToken = async (req, res, next) => {
 
 
 
-// Middleware para verificar permisos de administrador
-const requireAdmin = async (req, res, next) => {
-  try {
-    // Primero verificar que el usuario esté autenticado
-    await authenticateUserToken(req, res, (err) => {
-      if (err) return next(err);
-      
-      // Verificar que el usuario sea admin
-      if (req.user.role !== 'admin') {
-        return res.status(403).json({ 
-          success: false, 
-          message: 'Acceso denegado. Se requieren permisos de administrador.' 
-        });
-      }
-      
-      next();
-    });
-  } catch (error) {
-    console.error('Error verificando permisos de admin:', error);
-    return res.status(500).json({ 
-      success: false, 
-      message: 'Error interno del servidor' 
-    });
-  }
-};
-
 // Exportar el middleware principal como 'auth' para compatibilidad
 const auth = authenticateUserToken;
 
-// Crear un middleware requireAdmin que use auth
+// Middleware para verificar permisos de administrador
 const requireAdmin = async (req, res, next) => {
   try {
     // Primero verificar que el usuario esté autenticado
