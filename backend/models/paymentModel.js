@@ -1,14 +1,27 @@
 const { query } = require('../config/database');
 const mercadopago = require('mercadopago');
 
-// Configurar Mercado Pago
-mercadopago.configure({
-  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-});
+// Función para configurar Mercado Pago
+function configureMercadoPago() {
+  if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
+    console.warn('⚠️ MERCADOPAGO_ACCESS_TOKEN no configurado');
+    return false;
+  }
+  
+  mercadopago.configure({
+    access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+  });
+  return true;
+}
 
 // Crear preferencia de pago
 async function createPaymentPreference(paymentData) {
   const { appointmentId, userId, amount, title, description, payerEmail } = paymentData;
+
+  // Configurar Mercado Pago
+  if (!configureMercadoPago()) {
+    throw new Error('Mercado Pago no está configurado. Contacta al administrador.');
+  }
 
   try {
     // Crear preferencia en Mercado Pago
@@ -61,6 +74,11 @@ async function createPaymentPreference(paymentData) {
 
 // Procesar webhook de Mercado Pago
 async function processWebhook(webhookData) {
+  // Configurar Mercado Pago
+  if (!configureMercadoPago()) {
+    throw new Error('Mercado Pago no está configurado. Contacta al administrador.');
+  }
+
   try {
     const { data } = webhookData;
     
@@ -195,6 +213,11 @@ async function getPaymentStats() {
 
 // Verificar estado de pago en Mercado Pago
 async function checkPaymentStatus(paymentId) {
+  // Configurar Mercado Pago
+  if (!configureMercadoPago()) {
+    throw new Error('Mercado Pago no está configurado. Contacta al administrador.');
+  }
+
   try {
     const payment = await mercadopago.payment.findById(paymentId);
     return payment.body;
@@ -254,6 +277,11 @@ async function refundPayment(paymentId, amount = null) {
     }
 
     if (payment.mercadopago_payment_id) {
+      // Configurar Mercado Pago
+      if (!configureMercadoPago()) {
+        throw new Error('Mercado Pago no está configurado. Contacta al administrador.');
+      }
+
       // Reembolso en Mercado Pago
       const refund = await mercadopago.refund.create({
         payment_id: payment.mercadopago_payment_id,
