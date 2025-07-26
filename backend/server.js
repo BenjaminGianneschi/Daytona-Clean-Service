@@ -18,6 +18,7 @@ const appointmentRoutes = require('./routes/appointments');
 const userRoutes = require('./routes/users');
 const notificationRoutes = require('./routes/notifications');
 const reviewRoutes = require('./routes/reviews');
+const paymentRoutes = require('./routes/payments');
 
 // Importar servicios
 const reminderCron = require('./scripts/reminderCron');
@@ -79,6 +80,7 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Ruta directa para servicios (para compatibilidad con frontend)
 app.get('/api/services', async (req, res) => {
