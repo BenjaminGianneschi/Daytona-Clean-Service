@@ -111,7 +111,45 @@ async function getPayment(req, res) {
     logger.error('Error obteniendo pago:', error);
     res.status(500).json({
       success: false,
-      message: 'Error interno del servidor'
+      message: error.message || 'Error interno del servidor'
+    });
+  }
+}
+
+// Obtener detalles del turno por preference_id
+async function getAppointmentByPreference(req, res) {
+  try {
+    const { preferenceId } = req.params;
+
+    const payment = await paymentModel.getPaymentByPreferenceId(preferenceId);
+
+    if (!payment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pago no encontrado'
+      });
+    }
+
+    // Obtener detalles del turno
+    const appointment = await appointmentModel.getAppointmentById(payment.appointment_id);
+
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Turno no encontrado'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: appointment
+    });
+
+  } catch (error) {
+    logger.error('Error obteniendo turno por preference:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Error interno del servidor'
     });
   }
 }
@@ -342,6 +380,7 @@ module.exports = {
   createPaymentPreference,
   processWebhook,
   getPayment,
+  getAppointmentByPreference,
   getPaymentByAppointment,
   getUserPayments,
   getAllPayments,

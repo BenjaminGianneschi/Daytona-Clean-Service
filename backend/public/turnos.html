@@ -3931,6 +3931,7 @@
     // --- FIN NUEVO ---
     // --- Enviar al backend ---
     console.log('Turno enviado al backend:', turnoParaBackend);
+    let appointmentId;
     try {
       const response = await fetch('https://daytona-clean-service.onrender.com/api/appointments', {
         method: 'POST',
@@ -3945,11 +3946,52 @@
         mostrarError('Error al guardar el turno: ' + (data.message || '')); 
         return;
       }
+      appointmentId = data.data.id;
     } catch (err) {
       mostrarError('Error de conexión al guardar el turno');
       return;
     }
-    // ... existing code ...
+
+    // --- Crear preferencia de pago ---
+    try {
+      const paymentData = {
+        appointmentId: appointmentId,
+        userId: turnoParaBackend.userId || null,
+        amount: total,
+        title: `Servicio ${tipo} - Daytona Clean Service`,
+        description: `Servicios: ${servicios.map(s => s.nombre).join(', ')}`,
+        payerEmail: turno.email
+      };
+
+      const paymentResponse = await fetch('https://daytona-clean-service.onrender.com/api/payments/create-preference', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem('token') ? { 'Authorization': `Bearer ${localStorage.getItem('token')}` } : {})
+        },
+        body: JSON.stringify(paymentData)
+      });
+
+      const paymentResult = await paymentResponse.json();
+      
+      if (!paymentResult.success) {
+        mostrarError('Error al crear el pago: ' + (paymentResult.message || ''));
+        return;
+      }
+
+      // --- Redirigir a Mercado Pago ---
+      const initPoint = paymentResult.data.initPoint || paymentResult.data.sandboxInitPoint;
+      if (initPoint) {
+        window.location.href = initPoint;
+      } else {
+        mostrarError('Error al obtener el enlace de pago');
+      }
+
+    } catch (err) {
+      console.error('Error creando pago:', err);
+      mostrarError('Error al procesar el pago');
+      return;
+    }
   }
 
   // Función para obtener ID del servicio por nombre

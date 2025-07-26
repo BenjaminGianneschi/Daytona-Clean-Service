@@ -4,6 +4,7 @@ const {
   createPaymentPreference,
   processWebhook,
   getPayment,
+  getAppointmentByPreference,
   getPaymentByAppointment,
   getUserPayments,
   getAllPayments,
@@ -18,6 +19,7 @@ const { auth, requireAdmin } = require('../middleware/auth');
 // Rutas públicas (sin autenticación)
 router.post('/webhook', processWebhook); // Webhook de Mercado Pago
 router.get('/methods', getPaymentMethods); // Métodos de pago disponibles
+router.get('/preference/:preferenceId', getAppointmentByPreference); // Obtener turno por preference_id
 
 // Rutas para usuarios autenticados
 router.post('/create-preference', auth, createPaymentPreference); // Crear preferencia de pago

@@ -178,6 +178,16 @@ async function getPaymentByAppointmentId(appointmentId) {
   return payments[0] || null;
 }
 
+// Obtener pago por preference ID
+async function getPaymentByPreferenceId(preferenceId) {
+  const payments = await query(
+    `SELECT * FROM payments_with_details WHERE mercadopago_preference_id = $1`,
+    [preferenceId]
+  );
+  
+  return payments[0] || null;
+}
+
 // Obtener pagos de un usuario
 async function getUserPayments(userId, limit = 10, offset = 0) {
   const payments = await query(
@@ -322,6 +332,7 @@ module.exports = {
   processWebhook,
   getPaymentById,
   getPaymentByAppointmentId,
+  getPaymentByPreferenceId,
   getUserPayments,
   getAllPayments,
   getPaymentStats,
