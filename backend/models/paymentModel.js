@@ -161,7 +161,7 @@ async function processWebhook(webhookData) {
 // Obtener pago por ID
 async function getPaymentById(paymentId) {
   const payments = await query(
-    `SELECT * FROM payments_with_details WHERE id = $1`,
+    `SELECT * FROM payments WHERE id = $1`,
     [paymentId]
   );
   
@@ -171,7 +171,7 @@ async function getPaymentById(paymentId) {
 // Obtener pago por appointment ID
 async function getPaymentByAppointmentId(appointmentId) {
   const payments = await query(
-    `SELECT * FROM payments_with_details WHERE appointment_id = $1`,
+    `SELECT * FROM payments WHERE appointment_id = $1`,
     [appointmentId]
   );
   
@@ -181,7 +181,7 @@ async function getPaymentByAppointmentId(appointmentId) {
 // Obtener pago por preference ID
 async function getPaymentByPreferenceId(preferenceId) {
   const payments = await query(
-    `SELECT * FROM payments_with_details WHERE mercadopago_preference_id = $1`,
+    `SELECT * FROM payments WHERE mercadopago_preference_id = $1`,
     [preferenceId]
   );
   
@@ -191,7 +191,7 @@ async function getPaymentByPreferenceId(preferenceId) {
 // Obtener pagos de un usuario
 async function getUserPayments(userId, limit = 10, offset = 0) {
   const payments = await query(
-    `SELECT * FROM payments_with_details 
+    `SELECT * FROM payments 
      WHERE user_id = $1 
      ORDER BY created_at DESC 
      LIMIT $2 OFFSET $3`,
@@ -203,11 +203,11 @@ async function getUserPayments(userId, limit = 10, offset = 0) {
 
 // Obtener todos los pagos (admin)
 async function getAllPayments(limit = 50, offset = 0, status = null) {
-  let sql = `SELECT * FROM payments_with_details ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
+  let sql = `SELECT * FROM payments ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
   let params = [limit, offset];
   
   if (status) {
-    sql = `SELECT * FROM payments_with_details WHERE status = $3 ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
+    sql = `SELECT * FROM payments WHERE status = $3 ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
     params.push(status);
   }
   
@@ -217,7 +217,15 @@ async function getAllPayments(limit = 50, offset = 0, status = null) {
 
 // Obtener estadísticas de pagos
 async function getPaymentStats() {
-  const stats = await query('SELECT * FROM get_payment_stats()');
+  const stats = await query(`
+    SELECT 
+      COUNT(*) as total_payments,
+      COUNT(CASE WHEN status = 'approved' THEN 1 END) as approved_payments,
+      COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending_payments,
+      COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected_payments,
+      SUM(CASE WHEN status = 'approved' THEN amount ELSE 0 END) as total_amount
+    FROM payments
+  `);
   return stats[0];
 }
 
