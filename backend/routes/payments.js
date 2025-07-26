@@ -16,6 +16,20 @@ const {
 } = require('../controllers/paymentController');
 const { auth, requireAdmin } = require('../middleware/auth');
 
+// Ruta de prueba para verificar variables de entorno
+router.get('/test-config', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      hasAccessToken: !!process.env.MERCADOPAGO_ACCESS_TOKEN,
+      hasPublicKey: !!process.env.MERCADOPAGO_PUBLIC_KEY,
+      hasFrontendUrl: !!process.env.FRONTEND_URL,
+      hasBackendUrl: !!process.env.BACKEND_URL,
+      accessTokenPrefix: process.env.MERCADOPAGO_ACCESS_TOKEN ? process.env.MERCADOPAGO_ACCESS_TOKEN.substring(0, 4) : 'N/A'
+    }
+  });
+});
+
 // Rutas públicas (sin autenticación)
 router.post('/webhook', processWebhook); // Webhook de Mercado Pago
 router.get('/methods', getPaymentMethods); // Métodos de pago disponibles
