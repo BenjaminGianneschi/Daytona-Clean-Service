@@ -158,8 +158,8 @@ async function createAppointment(appointmentData) {
   // Guardar los servicios en appointment_services
   for (const s of services) {
     await query(
-      `INSERT INTO appointment_services (appointment_id, service_id, quantity, price, created_at)
-       VALUES ($1, $2, $3, (SELECT price FROM services WHERE id = $2), CURRENT_TIMESTAMP)`,
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity, created_at)
+       VALUES ($1, $2, $3, CURRENT_TIMESTAMP)`,
       [appointmentId, s.service_id, s.quantity]
     );
   }
@@ -192,9 +192,9 @@ async function addAppointmentServices(appointmentId, services) {
     });
     
     await query(
-      `INSERT INTO appointment_services (appointment_id, service_id, quantity, price)
-       VALUES ($1, $2, $3, $4)`,
-      [appointmentId, s.service_id, s.quantity, precioReal]
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity)
+       VALUES ($1, $2, $3)`,
+      [appointmentId, s.service_id, s.quantity]
     );
   }
   
