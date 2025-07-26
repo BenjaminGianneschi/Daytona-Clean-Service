@@ -158,8 +158,8 @@ async function createAppointment(appointmentData) {
   // Guardar los servicios en appointment_services
   for (const s of services) {
     await query(
-      `INSERT INTO appointment_services (appointment_id, service_id, quantity, created_at)
-       VALUES ($1, $2, $3, CURRENT_TIMESTAMP)`,
+      `INSERT INTO appointment_services (appointment_id, service_id, quantity)
+       VALUES ($1, $2, $3)`,
       [appointmentId, s.service_id, s.quantity]
     );
   }
@@ -167,43 +167,10 @@ async function createAppointment(appointmentData) {
   return appointmentId;
 }
 
-// Insertar servicios en appointment_services
-async function addAppointmentServices(appointmentId, services) {
-  console.log('addAppointmentServices llamado con:', { appointmentId, services });
-  let totalCalculado = 0;
-  
-  for (const s of services) {
-    // Obtener precio real desde la base de datos
-    const serviceResult = await query('SELECT price FROM services WHERE id = $1', [s.service_id]);
-    if (serviceResult.length === 0) {
-      throw new Error(`Servicio con ID ${s.service_id} no encontrado`);
-    }
-    
-    const precioReal = serviceResult[0].price;
-    const subtotal = precioReal * s.quantity;
-    totalCalculado += subtotal;
-    
-    console.log('Insertando en appointment_services:', { 
-      appointmentId, 
-      service_id: s.service_id, 
-      quantity: s.quantity,
-      price: precioReal,
-      subtotal: subtotal
-    });
-    
-    await query(
-      `INSERT INTO appointment_services (appointment_id, service_id, quantity)
-       VALUES ($1, $2, $3)`,
-      [appointmentId, s.service_id, s.quantity]
-    );
-  }
-  
-  // Actualizar el total del turno con el precio real calculado
-  await query('UPDATE appointments SET total_price = $1 WHERE id = $2', [totalCalculado, appointmentId]);
-  
-  console.log('Total calculado desde BD:', totalCalculado);
-  return totalCalculado;
-}
+// Función comentada - ya no se usa appointment_services
+// async function addAppointmentServices(appointmentId, services) {
+//   // Esta función ya no se usa porque guardamos los servicios en el campo notes
+// }
 
 // Eliminar turno y sus servicios asociados
 async function deleteAppointment(appointmentId) {
