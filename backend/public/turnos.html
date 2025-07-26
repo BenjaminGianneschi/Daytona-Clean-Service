@@ -3804,23 +3804,22 @@
     try {
       const paymentData = {
         appointmentId: appointmentId,
-        userId: turnoParaBackend.userId || null,
         amount: total,
         title: `Servicio ${tipo} - Daytona Clean Service`,
-        description: `Servicios: ${servicios.map(s => s.nombre).join(', ')}`,
-        payerEmail: turno.email
+        description: `Servicios: ${servicios.map(s => s.nombre).join(', ')}`
       };
 
-      const paymentResponse = await fetch('https://daytona-clean-service.onrender.com/api/payments/create-preference', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(localStorage.getItem('token') ? { 'Authorization': `Bearer ${localStorage.getItem('token')}` } : {})
-        },
-        body: JSON.stringify(paymentData)
-      });
-
-      const paymentResult = await paymentResponse.json();
+      // Verificar si el usuario está autenticado
+      const token = localStorage.getItem('token');
+      let paymentResult;
+      
+      if (token) {
+        // Usar ruta autenticada
+        paymentResult = await window.apiService.createPaymentPreference(paymentData);
+      } else {
+        // Usar ruta pública
+        paymentResult = await window.apiService.createPaymentPreferencePublic(paymentData);
+      }
       
       if (!paymentResult.success) {
         mostrarError('Error al crear el pago: ' + (paymentResult.message || ''));
@@ -3837,7 +3836,7 @@
 
     } catch (err) {
       console.error('Error creando pago:', err);
-      mostrarError('Error al procesar el pago');
+      mostrarError('Error al procesar el pago: ' + (err.message || ''));
       return;
     }
   }

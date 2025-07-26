@@ -58,6 +58,22 @@ class ApiService {
     });
   }
 
+  // Crear preferencia de pago para Mercado Pago
+  async createPaymentPreference(paymentData) {
+    return this.request('/payments/create-preference', {
+      method: 'POST',
+      body: JSON.stringify(paymentData)
+    });
+  }
+
+  // Crear preferencia de pago pública (sin autenticación)
+  async createPaymentPreferencePublic(paymentData) {
+    return this.request('/payments/create-preference-public', {
+      method: 'POST',
+      body: JSON.stringify(paymentData)
+    });
+  }
+
 
 
   // Verificar token

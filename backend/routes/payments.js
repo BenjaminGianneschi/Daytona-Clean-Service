@@ -36,7 +36,8 @@ router.get('/methods', getPaymentMethods); // Métodos de pago disponibles
 router.get('/preference/:preferenceId', getAppointmentByPreference); // Obtener turno por preference_id
 
 // Rutas para usuarios autenticados
-router.post('/create-preference', auth, createPaymentPreference); // Crear preferencia de pago
+router.post('/create-preference', auth, createPaymentPreference); // Crear preferencia de pago (con autenticación)
+router.post('/create-preference-public', createPaymentPreference); // Crear preferencia de pago (sin autenticación)
 router.get('/user', auth, getUserPayments); // Obtener pagos del usuario
 router.get('/appointment/:appointmentId', auth, getPaymentByAppointment); // Obtener pago por turno
 router.get('/status/:paymentId', auth, checkPaymentStatus); // Verificar estado de pago

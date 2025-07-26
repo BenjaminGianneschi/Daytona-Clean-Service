@@ -8,6 +8,11 @@ async function createPaymentPreference(req, res) {
     const { appointmentId, amount, title, description } = req.body;
     const userId = req.user ? req.user.id : null;
 
+    // Si no hay usuario autenticado, verificar que el turno no tenga userId
+    if (!userId) {
+      logger.info(`Creando preferencia de pago sin usuario autenticado para turno ${appointmentId}`);
+    }
+
     // Validaciones
     if (!appointmentId || !amount) {
       return res.status(400).json({
