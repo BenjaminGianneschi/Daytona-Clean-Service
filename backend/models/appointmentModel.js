@@ -348,7 +348,6 @@ module.exports = {
   getAvailabilityByDate,
   countAppointments,
   createAppointment,
-  addAppointmentServices,
   deleteAppointment,
   getAllAppointments,
   getAppointmentById,
