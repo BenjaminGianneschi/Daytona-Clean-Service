@@ -54,7 +54,8 @@ async function createPaymentPreference(req, res) {
     });
 
   } catch (error) {
-    logger.error('Error creando preferencia de pago:', error);
+    console.error('Error creando preferencia de pago:', error);
+    logger.error('Error creando preferencia de pago:', error.message || error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error interno del servidor'
