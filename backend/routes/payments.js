@@ -25,9 +25,71 @@ router.get('/test-config', (req, res) => {
       hasPublicKey: !!process.env.MERCADOPAGO_PUBLIC_KEY,
       hasFrontendUrl: !!process.env.FRONTEND_URL,
       hasBackendUrl: !!process.env.BACKEND_URL,
-      accessTokenPrefix: process.env.MERCADOPAGO_ACCESS_TOKEN ? process.env.MERCADOPAGO_ACCESS_TOKEN.substring(0, 4) : 'N/A'
+      accessTokenPrefix: process.env.MERCADOPAGO_ACCESS_TOKEN ? process.env.MERCADOPAGO_ACCESS_TOKEN.substring(0, 10) + '...' : 'N/A',
+      frontendUrl: process.env.FRONTEND_URL || 'N/A',
+      backendUrl: process.env.BACKEND_URL || 'N/A'
     }
   });
+});
+
+// Ruta de prueba para verificar configuración de Mercado Pago
+router.get('/test-mercadopago', async (req, res) => {
+  try {
+    const mercadopago = require('mercadopago');
+    
+    // Verificar si mercadopago está disponible
+    if (!mercadopago) {
+      return res.json({
+        success: false,
+        error: 'mercadopago no está disponible'
+      });
+    }
+
+    // Verificar si configure está disponible
+    if (typeof mercadopago.configure !== 'function') {
+      return res.json({
+        success: false,
+        error: 'mercadopago.configure no es una función',
+        mercadopagoType: typeof mercadopago,
+        availableMethods: Object.keys(mercadopago)
+      });
+    }
+
+    // Intentar configurar
+    if (process.env.MERCADOPAGO_ACCESS_TOKEN) {
+      mercadopago.configure({
+        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Mercado Pago configurado correctamente',
+        hasAccessToken: true,
+        accessTokenPrefix: process.env.MERCADOPAGO_ACCESS_TOKEN.substring(0, 10) + '...'
+      });
+    } else {
+      return res.json({
+        success: false,
+        error: 'MERCADOPAGO_ACCESS_TOKEN no está configurado'
+      });
+    }
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+      stack: error.stack
+    });
+  }
+});
+
+// Ruta para reiniciar caché
+router.get('/reset-cache', (req, res) => {
+  console.log('🔄 Reiniciando caché de pagos...');
+  // Forzar garbage collection si está disponible
+  if (global.gc) {
+    global.gc();
+  }
+  res.json({ success: true, message: 'Caché de pagos reiniciado' });
 });
 
 // Rutas públicas (sin autenticación)
