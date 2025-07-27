@@ -1,6 +1,21 @@
 const paymentModel = require('../models/paymentModel');
 const appointmentModel = require('../models/appointmentModel');
-const { logger } = require('../utils/logger');
+
+// Importar logger de manera segura
+let logger;
+try {
+  logger = require('../utils/logger');
+} catch (error) {
+  console.error('Error importando logger:', error.message);
+  // Crear un logger de fallback
+  logger = {
+    info: (msg, data) => console.log(`[INFO] ${msg}`, data || ''),
+    error: (msg, error) => console.error(`[ERROR] ${msg}`, error || ''),
+    warn: (msg, data) => console.warn(`[WARN] ${msg}`, data || ''),
+    debug: (msg, data) => console.log(`[DEBUG] ${msg}`, data || ''),
+    success: (msg, data) => console.log(`[SUCCESS] ${msg}`, data || '')
+  };
+}
 
 // Crear preferencia de pago
 async function createPaymentPreference(req, res) {

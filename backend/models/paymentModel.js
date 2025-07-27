@@ -1,17 +1,35 @@
 const { query } = require('../config/database');
-const mercadopago = require('mercadopago');
+
+// Importar mercadopago de manera segura
+let mercadopago;
+try {
+  mercadopago = require('mercadopago');
+} catch (error) {
+  console.error('Error importando mercadopago:', error.message);
+  mercadopago = null;
+}
 
 // Función para configurar Mercado Pago
 function configureMercadoPago() {
+  if (!mercadopago) {
+    console.error('❌ mercadopago no está disponible');
+    return false;
+  }
+  
   if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
     console.warn('⚠️ MERCADOPAGO_ACCESS_TOKEN no configurado');
     return false;
   }
   
-  mercadopago.configure({
-    access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-  });
-  return true;
+  try {
+    mercadopago.configure({
+      access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+    });
+    return true;
+  } catch (error) {
+    console.error('Error configurando mercadopago:', error.message);
+    return false;
+  }
 }
 
 // Crear preferencia de pago
