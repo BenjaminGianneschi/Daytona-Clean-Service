@@ -59,9 +59,9 @@ async function isTimeSlotAvailable(date, appointmentTime, duration, excludeId = 
 
     for (const app of appointments) {
       const appStart = parseInt(app.appointment_time.split(':')[0]) * 60 + parseInt(app.appointment_time.split(':')[1]);
-      const appEnd = appStart + (app.duration || 120); // Usar duración del turno o 120min por defecto
+      const appEnd = appStart + app.duration; // Usar la duración real del turno
       
-      console.log(`🔍 Comparando con turno ${app.id}: ${app.appointment_time} (${appStart}min - ${appEnd}min)`);
+      console.log(`🔍 Comparando con turno ${app.id}: ${app.appointment_time} (${appStart}min - ${appEnd}min) - Duración: ${app.duration}min`);
       
       // Si hay solapamiento, no está disponible
       if (requestedStart < appEnd && requestedEnd > appStart) {
