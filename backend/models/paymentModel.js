@@ -2,17 +2,28 @@ const { query } = require('../config/database');
 
 // Importar mercadopago de manera segura
 let mercadopago;
+let MercadoPagoConfig;
+let Preference;
 try {
   mercadopago = require('mercadopago');
+  MercadoPagoConfig = mercadopago.MercadoPagoConfig;
+  Preference = mercadopago.Preference;
+  console.log('✅ mercadopago importado correctamente');
+  console.log('📦 Versión:', require('mercadopago/package.json').version);
+  console.log('🔧 Tipo:', typeof mercadopago);
+  console.log('📋 Métodos disponibles:', Object.keys(mercadopago));
 } catch (error) {
-  console.error('Error importando mercadopago:', error.message);
+  console.error('❌ Error importando mercadopago:', error.message);
   mercadopago = null;
 }
 
+// Variable global para la instancia de Mercado Pago
+let mercadopagoClient = null;
+
 // Función para configurar Mercado Pago
 function configureMercadoPago() {
-  if (!mercadopago) {
-    console.error('❌ mercadopago no está disponible');
+  if (!mercadopago || !MercadoPagoConfig) {
+    console.error('❌ mercadopago o MercadoPagoConfig no está disponible');
     return false;
   }
   
@@ -22,30 +33,18 @@ function configureMercadoPago() {
   }
   
   try {
-    // Verificar qué métodos están disponibles
-    console.log('🔧 Métodos disponibles en mercadopago:', Object.keys(mercadopago));
+    console.log('🔧 Configurando Mercado Pago con nueva API...');
     
-    // Intentar diferentes formas de configuración
-    if (typeof mercadopago.configure === 'function') {
-      mercadopago.configure({
-        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-      });
-      console.log('✅ Mercado Pago configurado con configure()');
-      return true;
-    } else if (typeof mercadopago.setAccessToken === 'function') {
-      mercadopago.setAccessToken(process.env.MERCADOPAGO_ACCESS_TOKEN);
-      console.log('✅ Mercado Pago configurado con setAccessToken()');
-      return true;
-    } else if (mercadopago.preferences && typeof mercadopago.preferences.create === 'function') {
-      // Si no hay método de configuración, intentar usar directamente
-      console.log('✅ Mercado Pago disponible sin configuración explícita');
-      return true;
-    } else {
-      console.error('❌ No se encontró método de configuración válido');
-      return false;
-    }
+    // Crear instancia de configuración
+    mercadopagoClient = new MercadoPagoConfig({
+      accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
+    });
+    
+    console.log('✅ Mercado Pago configurado correctamente con nueva API');
+    return true;
   } catch (error) {
-    console.error('Error configurando mercadopago:', error.message);
+    console.error('❌ Error configurando mercadopago:', error.message);
+    console.error('📋 Stack:', error.stack);
     return false;
   }
 }
@@ -53,6 +52,9 @@ function configureMercadoPago() {
 // Crear preferencia de pago
 async function createPaymentPreference(paymentData) {
   const { appointmentId, userId, amount, title, description, payerEmail } = paymentData;
+
+  console.log('💰 Iniciando creación de preferencia de pago...');
+  console.log('📋 Datos de pago:', paymentData);
 
   // Configurar Mercado Pago
   if (!configureMercadoPago()) {
@@ -87,8 +89,11 @@ async function createPaymentPreference(paymentData) {
 
     console.log('📋 Creando preferencia con datos:', preference);
 
-    // Usar la nueva API de preferencias
-    const response = await mercadopago.preferences.create(preference);
+    // Crear instancia de Preference con la configuración
+    const preferenceClient = new Preference(mercadopagoClient);
+    
+    // Crear la preferencia
+    const response = await preferenceClient.create({ body: preference });
 
     console.log('✅ Preferencia creada:', response);
 
@@ -97,19 +102,20 @@ async function createPaymentPreference(paymentData) {
       `INSERT INTO payments (appointment_id, user_id, mercadopago_preference_id, amount, status, created_at, updated_at)
        VALUES ($1, $2, $3, $4, 'pending', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
        RETURNING id`,
-      [appointmentId, userId, response.body.id, amount]
+      [appointmentId, userId, response.id, amount]
     );
 
     return {
       paymentId: result[0].id,
-      preferenceId: response.body.id,
-      initPoint: response.body.init_point,
-      sandboxInitPoint: response.body.sandbox_init_point
+      preferenceId: response.id,
+      initPoint: response.init_point,
+      sandboxInitPoint: response.sandbox_init_point
     };
 
   } catch (error) {
-    console.error('Error creando preferencia de pago:', error);
-    throw new Error('Error al crear la preferencia de pago');
+    console.error('❌ Error creando preferencia de pago:', error);
+    console.error('📋 Stack:', error.stack);
+    throw new Error('Error al crear la preferencia de pago: ' + error.message);
   }
 }
 
@@ -127,7 +133,9 @@ async function processWebhook(webhookData) {
       const paymentId = data.data.id;
       
       // Obtener información del pago desde Mercado Pago
-      const payment = await mercadopago.payment.findById(paymentId);
+      const Payment = mercadopago.Payment;
+      const paymentClient = new Payment(mercadopagoClient);
+      const payment = await paymentClient.get({ id: paymentId });
       
       // Guardar webhook en base de datos
       await query(
@@ -137,8 +145,8 @@ async function processWebhook(webhookData) {
       );
 
       // Actualizar pago en base de datos
-      const paymentStatus = payment.body.status;
-      const appointmentId = payment.body.external_reference;
+      const paymentStatus = payment.status;
+      const appointmentId = payment.external_reference;
       
       await query(
         `UPDATE payments 
@@ -153,10 +161,10 @@ async function processWebhook(webhookData) {
         [
           paymentId,
           paymentStatus,
-          payment.body.payment_type_id,
-          payment.body.installments || 1,
-          JSON.stringify(payment.body),
-          payment.body.preference_id
+          payment.payment_type_id,
+          payment.installments || 1,
+          JSON.stringify(payment),
+          payment.preference_id
         ]
       );
 
@@ -278,8 +286,10 @@ async function checkPaymentStatus(paymentId) {
   }
 
   try {
-    const payment = await mercadopago.payment.findById(paymentId);
-    return payment.body;
+    const Payment = mercadopago.Payment;
+    const paymentClient = new Payment(mercadopagoClient);
+    const payment = await paymentClient.get({ id: paymentId });
+    return payment;
   } catch (error) {
     console.error('Error verificando estado de pago:', error);
     throw new Error('Error al verificar el estado del pago');
@@ -342,9 +352,13 @@ async function refundPayment(paymentId, amount = null) {
       }
 
       // Reembolso en Mercado Pago
-      const refund = await mercadopago.refund.create({
-        payment_id: payment.mercadopago_payment_id,
-        amount: amount || payment.amount
+      const PaymentRefund = mercadopago.PaymentRefund;
+      const refundClient = new PaymentRefund(mercadopagoClient);
+      const refund = await refundClient.create({
+        body: {
+          payment_id: payment.mercadopago_payment_id,
+          amount: amount || payment.amount
+        }
       });
 
       // Actualizar estado en base de datos
@@ -356,7 +370,7 @@ async function refundPayment(paymentId, amount = null) {
         [paymentId]
       );
 
-      return refund.body;
+      return refund;
     } else {
       // Reembolso manual para pagos en efectivo
       await query(
