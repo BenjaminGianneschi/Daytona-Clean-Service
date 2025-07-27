@@ -1,12 +1,12 @@
 const { query } = require('../config/database');
 
 // Importar mercadopago de manera segura
-let MercadoPago;
+let mercadopago;
 try {
-  MercadoPago = require('mercadopago');
+  mercadopago = require('mercadopago');
 } catch (error) {
   console.error('Error importando mercadopago:', error.message);
-  MercadoPago = null;
+  mercadopago = null;
 }
 
 // Variable global para la instancia de Mercado Pago
@@ -14,7 +14,7 @@ let mercadopagoInstance = null;
 
 // Función para configurar Mercado Pago
 function configureMercadoPago() {
-  if (!MercadoPago) {
+  if (!mercadopago) {
     console.error('❌ mercadopago no está disponible');
     return false;
   }
@@ -25,9 +25,9 @@ function configureMercadoPago() {
   }
   
   try {
-    // Nueva forma de configurar Mercado Pago (versión 2.x)
-    mercadopagoInstance = new MercadoPago({
-      accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
+    // Nueva forma de configurar Mercado Pago (versión 2.8.0)
+    mercadopago.configure({
+      access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
     });
     console.log('✅ Mercado Pago configurado correctamente');
     return true;
@@ -73,21 +73,21 @@ async function createPaymentPreference(paymentData) {
     };
 
     // Usar la nueva API de preferencias
-    const response = await mercadopagoInstance.preferences.create({ body: preference });
+    const response = await mercadopago.preferences.create(preference);
 
     // Guardar en base de datos
     const result = await query(
       `INSERT INTO payments (appointment_id, user_id, mercadopago_preference_id, amount, status, created_at, updated_at)
        VALUES ($1, $2, $3, $4, 'pending', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
        RETURNING id`,
-      [appointmentId, userId, response.id, amount]
+      [appointmentId, userId, response.body.id, amount]
     );
 
     return {
       paymentId: result[0].id,
-      preferenceId: response.id,
-      initPoint: response.init_point,
-      sandboxInitPoint: response.sandbox_init_point
+      preferenceId: response.body.id,
+      initPoint: response.body.init_point,
+      sandboxInitPoint: response.body.sandbox_init_point
     };
 
   } catch (error) {
@@ -110,7 +110,7 @@ async function processWebhook(webhookData) {
       const paymentId = data.data.id;
       
       // Obtener información del pago desde Mercado Pago
-      const payment = await mercadopagoInstance.payment.get({ id: paymentId });
+      const payment = await mercadopago.payment.findById(paymentId);
       
       // Guardar webhook en base de datos
       await query(
@@ -120,8 +120,8 @@ async function processWebhook(webhookData) {
       );
 
       // Actualizar pago en base de datos
-      const paymentStatus = payment.status;
-      const appointmentId = payment.external_reference;
+      const paymentStatus = payment.body.status;
+      const appointmentId = payment.body.external_reference;
       
       await query(
         `UPDATE payments 
@@ -136,10 +136,10 @@ async function processWebhook(webhookData) {
         [
           paymentId,
           paymentStatus,
-          payment.payment_type_id,
-          payment.installments || 1,
-          JSON.stringify(payment),
-          payment.preference_id
+          payment.body.payment_type_id,
+          payment.body.installments || 1,
+          JSON.stringify(payment.body),
+          payment.body.preference_id
         ]
       );
 
@@ -261,8 +261,8 @@ async function checkPaymentStatus(paymentId) {
   }
 
   try {
-    const payment = await mercadopagoInstance.payment.get({ id: paymentId });
-    return payment;
+    const payment = await mercadopago.payment.findById(paymentId);
+    return payment.body;
   } catch (error) {
     console.error('Error verificando estado de pago:', error);
     throw new Error('Error al verificar el estado del pago');
@@ -325,11 +325,9 @@ async function refundPayment(paymentId, amount = null) {
       }
 
       // Reembolso en Mercado Pago
-      const refund = await mercadopagoInstance.refund.create({
-        body: {
-          payment_id: payment.mercadopago_payment_id,
-          amount: amount || payment.amount
-        }
+      const refund = await mercadopago.refund.create({
+        payment_id: payment.mercadopago_payment_id,
+        amount: amount || payment.amount
       });
 
       // Actualizar estado en base de datos
@@ -341,7 +339,7 @@ async function refundPayment(paymentId, amount = null) {
         [paymentId]
       );
 
-      return refund;
+      return refund.body;
     } else {
       // Reembolso manual para pagos en efectivo
       await query(

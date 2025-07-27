@@ -12,32 +12,25 @@ console.log('- BACKEND_URL:', process.env.BACKEND_URL || '❌ No configurado');
 // Verificar instalación de mercadopago
 console.log('\n📦 Verificando instalación de mercadopago...');
 try {
-  const MercadoPago = require('mercadopago');
+  const mercadopago = require('mercadopago');
   console.log('✅ mercadopago importado correctamente');
   console.log('- Versión:', require('mercadopago/package.json').version);
-  console.log('- Tipo:', typeof MercadoPago);
+  console.log('- Tipo:', typeof mercadopago);
   
-  // Verificar si es un constructor
-  if (typeof MercadoPago === 'function') {
-    console.log('✅ MercadoPago es un constructor');
-  } else {
-    console.log('❌ MercadoPago NO es un constructor');
-  }
+  // Verificar métodos disponibles
+  console.log('\n🔧 Métodos disponibles:');
+  console.log('- configure:', typeof mercadopago.configure);
+  console.log('- preferences:', typeof mercadopago.preferences);
+  console.log('- payment:', typeof mercadopago.payment);
   
   // Intentar configurar
   if (process.env.MERCADOPAGO_ACCESS_TOKEN) {
     console.log('\n⚙️ Intentando configurar Mercado Pago...');
     try {
-      const mercadopago = new MercadoPago({
-        accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
+      mercadopago.configure({
+        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
       });
       console.log('✅ Configuración exitosa');
-      
-      // Verificar métodos disponibles
-      console.log('\n🔧 Métodos disponibles:');
-      console.log('- preferences:', typeof mercadopago.preferences);
-      console.log('- payment:', typeof mercadopago.payment);
-      console.log('- refund:', typeof mercadopago.refund);
       
       // Probar creación de preferencia
       console.log('\n🧪 Probando creación de preferencia...');
@@ -55,10 +48,10 @@ try {
         }
       };
       
-      const response = await mercadopago.preferences.create({ body: testPreference });
+      const response = await mercadopago.preferences.create(testPreference);
       console.log('✅ Preferencia creada exitosamente');
-      console.log('- Preference ID:', response.id);
-      console.log('- Init Point:', response.init_point);
+      console.log('- Preference ID:', response.body.id);
+      console.log('- Init Point:', response.body.init_point);
       
     } catch (configError) {
       console.error('❌ Error en configuración:', configError.message);
