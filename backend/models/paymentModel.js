@@ -9,9 +9,6 @@ try {
   mercadopago = null;
 }
 
-// Variable global para la instancia de Mercado Pago
-let mercadopagoInstance = null;
-
 // Función para configurar Mercado Pago
 function configureMercadoPago() {
   if (!mercadopago) {
@@ -25,12 +22,28 @@ function configureMercadoPago() {
   }
   
   try {
-    // Nueva forma de configurar Mercado Pago (versión 2.8.0)
-    mercadopago.configure({
-      access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-    });
-    console.log('✅ Mercado Pago configurado correctamente');
-    return true;
+    // Verificar qué métodos están disponibles
+    console.log('🔧 Métodos disponibles en mercadopago:', Object.keys(mercadopago));
+    
+    // Intentar diferentes formas de configuración
+    if (typeof mercadopago.configure === 'function') {
+      mercadopago.configure({
+        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+      });
+      console.log('✅ Mercado Pago configurado con configure()');
+      return true;
+    } else if (typeof mercadopago.setAccessToken === 'function') {
+      mercadopago.setAccessToken(process.env.MERCADOPAGO_ACCESS_TOKEN);
+      console.log('✅ Mercado Pago configurado con setAccessToken()');
+      return true;
+    } else if (mercadopago.preferences && typeof mercadopago.preferences.create === 'function') {
+      // Si no hay método de configuración, intentar usar directamente
+      console.log('✅ Mercado Pago disponible sin configuración explícita');
+      return true;
+    } else {
+      console.error('❌ No se encontró método de configuración válido');
+      return false;
+    }
   } catch (error) {
     console.error('Error configurando mercadopago:', error.message);
     return false;
@@ -72,8 +85,12 @@ async function createPaymentPreference(paymentData) {
       expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 horas
     };
 
+    console.log('📋 Creando preferencia con datos:', preference);
+
     // Usar la nueva API de preferencias
     const response = await mercadopago.preferences.create(preference);
+
+    console.log('✅ Preferencia creada:', response);
 
     // Guardar en base de datos
     const result = await query(
