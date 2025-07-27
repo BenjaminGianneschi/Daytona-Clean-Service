@@ -1,71 +1,66 @@
-// Script para diagnosticar Mercado Pago
-const mercadopago = require('mercadopago');
+require('dotenv').config();
 
-console.log('🔍 Diagnóstico de Mercado Pago...\n');
+console.log('🔍 Diagnóstico de Mercado Pago');
+console.log('================================');
 
-// 1. Verificar variables de entorno
-console.log('1. Variables de entorno:');
-console.log('MERCADOPAGO_ACCESS_TOKEN:', process.env.MERCADOPAGO_ACCESS_TOKEN ? '✅ Configurado' : '❌ No configurado');
-console.log('MERCADOPAGO_PUBLIC_KEY:', process.env.MERCADOPAGO_PUBLIC_KEY ? '✅ Configurado' : '❌ No configurado');
+// Verificar variables de entorno
+console.log('📋 Variables de entorno:');
+console.log('- MERCADOPAGO_ACCESS_TOKEN:', process.env.MERCADOPAGO_ACCESS_TOKEN ? '✅ Configurado' : '❌ No configurado');
+console.log('- FRONTEND_URL:', process.env.FRONTEND_URL || '❌ No configurado');
+console.log('- BACKEND_URL:', process.env.BACKEND_URL || '❌ No configurado');
 
-if (process.env.MERCADOPAGO_ACCESS_TOKEN) {
-  console.log('   Token (primeros 10 chars):', process.env.MERCADOPAGO_ACCESS_TOKEN.substring(0, 10) + '...');
-}
-if (process.env.MERCADOPAGO_PUBLIC_KEY) {
-  console.log('   Public Key:', process.env.MERCADOPAGO_PUBLIC_KEY);
-}
-
-// 2. Intentar configurar Mercado Pago
-console.log('\n2. Configurando Mercado Pago...');
+// Verificar instalación de mercadopago
+console.log('\n📦 Verificando instalación de mercadopago...');
 try {
-  mercadopago.configure({
-    access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-  });
-  console.log('✅ Mercado Pago configurado correctamente');
-} catch (error) {
-  console.error('❌ Error configurando Mercado Pago:', error.message);
-  process.exit(1);
-}
-
-// 3. Probar creación de preferencia simple
-console.log('\n3. Probando creación de preferencia...');
-async function testPreference() {
-  try {
-    const preference = {
-      items: [
-        {
-          title: 'Test Item',
-          unit_price: 100,
-          quantity: 1,
+  const mercadopago = require('mercadopago');
+  console.log('✅ mercadopago importado correctamente');
+  console.log('- Versión:', require('mercadopago/package.json').version);
+  console.log('- Tipo:', typeof mercadopago);
+  
+  // Verificar métodos disponibles
+  console.log('\n🔧 Métodos disponibles:');
+  console.log('- configure:', typeof mercadopago.configure);
+  console.log('- preferences:', typeof mercadopago.preferences);
+  console.log('- payment:', typeof mercadopago.payment);
+  
+  // Intentar configurar
+  if (process.env.MERCADOPAGO_ACCESS_TOKEN) {
+    console.log('\n⚙️ Intentando configurar Mercado Pago...');
+    try {
+      mercadopago.configure({
+        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+      });
+      console.log('✅ Configuración exitosa');
+      
+      // Probar creación de preferencia
+      console.log('\n🧪 Probando creación de preferencia...');
+      const testPreference = {
+        items: [
+          {
+            title: 'Test Service',
+            unit_price: 100,
+            quantity: 1
+          }
+        ],
+        back_urls: {
+          success: 'https://example.com/success',
+          failure: 'https://example.com/failure'
         }
-      ],
-      back_urls: {
-        success: "https://daytona-clean-service.onrender.com/payment-success.html",
-        failure: "https://daytona-clean-service.onrender.com/payment-failure.html",
-        pending: "https://daytona-clean-service.onrender.com/payment-pending.html"
-      },
-      auto_return: "approved",
-    };
-
-    const response = await mercadopago.preferences.create(preference);
-    console.log('✅ Preferencia creada exitosamente');
-    console.log('   Preference ID:', response.body.id);
-    console.log('   Init Point:', response.body.init_point);
-    return response.body;
-  } catch (error) {
-    console.error('❌ Error creando preferencia:', error.message);
-    if (error.response) {
-      console.error('   Status:', error.response.status);
-      console.error('   Data:', error.response.data);
+      };
+      
+      const response = await mercadopago.preferences.create(testPreference);
+      console.log('✅ Preferencia creada exitosamente');
+      console.log('- Preference ID:', response.body.id);
+      
+    } catch (configError) {
+      console.error('❌ Error en configuración:', configError.message);
     }
-    return null;
+  } else {
+    console.log('⚠️ No se puede probar configuración sin ACCESS_TOKEN');
   }
+  
+} catch (importError) {
+  console.error('❌ Error importando mercadopago:', importError.message);
 }
 
-testPreference().then(() => {
-  console.log('\n🎉 Diagnóstico completado');
-  process.exit(0);
-}).catch(error => {
-  console.error('\n💥 Error en diagnóstico:', error);
-  process.exit(1);
-}); 
+console.log('\n🏁 Diagnóstico completado'); 

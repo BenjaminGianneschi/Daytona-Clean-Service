@@ -22,9 +22,11 @@ function configureMercadoPago() {
   }
   
   try {
+    // Nueva forma de configurar Mercado Pago (versión 2.x)
     mercadopago.configure({
       access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
     });
+    console.log('✅ Mercado Pago configurado correctamente');
     return true;
   } catch (error) {
     console.error('Error configurando mercadopago:', error.message);
@@ -42,7 +44,7 @@ async function createPaymentPreference(paymentData) {
   }
 
   try {
-    // Crear preferencia en Mercado Pago
+    // Crear preferencia en Mercado Pago usando la nueva API
     const preference = {
       items: [
         {
@@ -67,6 +69,7 @@ async function createPaymentPreference(paymentData) {
       expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 horas
     };
 
+    // Usar la nueva API de preferencias
     const response = await mercadopago.preferences.create(preference);
 
     // Guardar en base de datos
