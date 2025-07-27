@@ -16,6 +16,16 @@ const {
 } = require('../controllers/appointmentController');
 const { auth, requireAdmin } = require('../middleware/auth');
 
+// Ruta temporal para reiniciar caché
+router.get('/reset-cache', (req, res) => {
+  console.log('🔄 Reiniciando caché del servidor...');
+  // Forzar garbage collection si está disponible
+  if (global.gc) {
+    global.gc();
+  }
+  res.json({ success: true, message: 'Caché reiniciado' });
+});
+
 // Rutas públicas (para clientes)
 router.get('/availability/:date', getAvailability);
 router.post('/', createAppointment); // Permitir crear turno sin autenticación

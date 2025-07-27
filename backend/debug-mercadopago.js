@@ -12,25 +12,32 @@ console.log('- BACKEND_URL:', process.env.BACKEND_URL || '❌ No configurado');
 // Verificar instalación de mercadopago
 console.log('\n📦 Verificando instalación de mercadopago...');
 try {
-  const mercadopago = require('mercadopago');
+  const MercadoPago = require('mercadopago');
   console.log('✅ mercadopago importado correctamente');
   console.log('- Versión:', require('mercadopago/package.json').version);
-  console.log('- Tipo:', typeof mercadopago);
+  console.log('- Tipo:', typeof MercadoPago);
   
-  // Verificar métodos disponibles
-  console.log('\n🔧 Métodos disponibles:');
-  console.log('- configure:', typeof mercadopago.configure);
-  console.log('- preferences:', typeof mercadopago.preferences);
-  console.log('- payment:', typeof mercadopago.payment);
+  // Verificar si es un constructor
+  if (typeof MercadoPago === 'function') {
+    console.log('✅ MercadoPago es un constructor');
+  } else {
+    console.log('❌ MercadoPago NO es un constructor');
+  }
   
   // Intentar configurar
   if (process.env.MERCADOPAGO_ACCESS_TOKEN) {
     console.log('\n⚙️ Intentando configurar Mercado Pago...');
     try {
-      mercadopago.configure({
-        access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+      const mercadopago = new MercadoPago({
+        accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
       });
       console.log('✅ Configuración exitosa');
+      
+      // Verificar métodos disponibles
+      console.log('\n🔧 Métodos disponibles:');
+      console.log('- preferences:', typeof mercadopago.preferences);
+      console.log('- payment:', typeof mercadopago.payment);
+      console.log('- refund:', typeof mercadopago.refund);
       
       // Probar creación de preferencia
       console.log('\n🧪 Probando creación de preferencia...');
@@ -48,12 +55,14 @@ try {
         }
       };
       
-      const response = await mercadopago.preferences.create(testPreference);
+      const response = await mercadopago.preferences.create({ body: testPreference });
       console.log('✅ Preferencia creada exitosamente');
-      console.log('- Preference ID:', response.body.id);
+      console.log('- Preference ID:', response.id);
+      console.log('- Init Point:', response.init_point);
       
     } catch (configError) {
       console.error('❌ Error en configuración:', configError.message);
+      console.error('Stack:', configError.stack);
     }
   } else {
     console.log('⚠️ No se puede probar configuración sin ACCESS_TOKEN');
@@ -61,6 +70,7 @@ try {
   
 } catch (importError) {
   console.error('❌ Error importando mercadopago:', importError.message);
+  console.error('Stack:', importError.stack);
 }
 
 console.log('\n🏁 Diagnóstico completado'); 
