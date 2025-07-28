@@ -565,6 +565,43 @@
       }
     }
 
+    /* Estilos para las tarjetas de servicios */
+    .servicio-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border: 2px solid #333;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .servicio-card:hover {
+      border-color: #ff3b3f;
+      transform: translateX(5px);
+    }
+
+    .servicio-card.selected {
+      border-color: #ff3b3f;
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
+      color: white;
+    }
+
+    .servicio-card.selected .servicio-icon {
+      color: white;
+    }
+
+    .servicio-card.selected .servicio-details p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .servicio-card.selected .servicio-precio {
+      color: white;
+    }
+
     /* Servicios seleccionados */
     .servicio-seleccionado {
       background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
@@ -4000,6 +4037,7 @@
   // Variables globales para el sistema de servicios
   let categoriaSeleccionada = null;
   let serviciosSeleccionados = [];
+  let todosLosServicios = [];
 
   // Función para seleccionar categoría
   function seleccionarCategoria(categoria) {
@@ -4011,8 +4049,122 @@
     // Mostrar servicios de la categoría seleccionada
     document.getElementById(`servicios-${categoria}`).style.display = 'block';
     
+    // Cargar servicios desde la base de datos para la categoría seleccionada
+    cargarServiciosDesdeBD(categoria);
+    
     // Actualizar botón siguiente
     document.getElementById('btn-siguiente-fijo').style.display = 'block';
+  }
+
+  // Función para cargar todos los servicios desde la base de datos
+  async function cargarTodosLosServicios() {
+    try {
+      console.log('📡 Cargando servicios desde la API...');
+      const response = await fetch('/api/appointments/services');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('📋 Respuesta de la API:', data);
+      
+      if (data.success && data.services) {
+        todosLosServicios = data.services;
+        console.log('✅ Servicios cargados:', todosLosServicios.length);
+      } else {
+        console.error('❌ Error en la respuesta de la API:', data.message);
+        mostrarError('Error cargando servicios: ' + (data.message || 'Respuesta inválida'));
+      }
+    } catch (error) {
+      console.error('❌ Error cargando servicios:', error);
+      mostrarError('Error de conexión: ' + error.message);
+    }
+  }
+
+  // Función para cargar servicios de una categoría específica
+  function cargarServiciosDesdeBD(categoria) {
+    const container = document.getElementById(`lista-servicios-${categoria}`);
+    if (!container) {
+      console.error('❌ Contenedor no encontrado para categoría:', categoria);
+      return;
+    }
+    
+    // Filtrar servicios por categoría
+    const serviciosCategoria = todosLosServicios.filter(servicio => 
+      servicio.category === categoria
+    );
+    
+    console.log(`🎯 Cargando ${serviciosCategoria.length} servicios para ${categoria}`);
+    
+    // Limpiar contenedor
+    container.innerHTML = '';
+    
+    if (serviciosCategoria.length === 0) {
+      container.innerHTML = '<div class="text-muted">No hay servicios disponibles para esta categoría.</div>';
+      return;
+    }
+    
+    // Crear elementos para cada servicio
+    serviciosCategoria.forEach(servicio => {
+      const servicioElement = document.createElement('div');
+      servicioElement.className = 'servicio-card';
+      servicioElement.dataset.servicioId = servicio.id;
+      servicioElement.dataset.nombre = servicio.name;
+      servicioElement.dataset.precio = servicio.price;
+      servicioElement.dataset.duracion = servicio.duration;
+      
+      servicioElement.innerHTML = `
+        <div class="servicio-info">
+          <div class="servicio-icon">
+            <i class="fas ${getServiceIcon(servicio.name)}"></i>
+          </div>
+          <div class="servicio-details">
+            <h6>${servicio.name}</h6>
+            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
+            <small class="text-muted">Duración: ${servicio.duration} min</small>
+          </div>
+        </div>
+        <div class="servicio-precio">
+          $${servicio.price.toLocaleString()}
+        </div>
+      `;
+      
+      servicioElement.addEventListener('click', () => {
+        console.log('🖱️ Click en servicio:', servicio.name);
+        seleccionarServicio(servicioElement);
+      });
+      
+      container.appendChild(servicioElement);
+    });
+  }
+
+  // Función para obtener el icono del servicio
+  function getServiceIcon(serviceName) {
+    const name = serviceName.toLowerCase();
+    if (name.includes('auto') || name.includes('car') || name.includes('vehículo')) return 'fa-car';
+    if (name.includes('pickup')) return 'fa-truck-pickup';
+    if (name.includes('suv')) return 'fa-car-side';
+    if (name.includes('motor')) return 'fa-cog';
+    if (name.includes('sillón') || name.includes('sillon')) return 'fa-couch';
+    if (name.includes('silla')) return 'fa-chair';
+    if (name.includes('alfombra')) return 'fa-rug';
+    if (name.includes('colchón') || name.includes('colchon')) return 'fa-bed';
+    return 'fa-tools';
+  }
+
+  // Función para mostrar errores
+  function mostrarError(mensaje) {
+    const container = document.querySelector('.step-content');
+    if (container) {
+      container.innerHTML = `
+        <div class="alert alert-danger">
+          <h4>Error</h4>
+          <p>${mensaje}</p>
+          <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+        </div>
+      `;
+    }
   }
 
   // Función para cambiar de categoría
@@ -4231,19 +4383,25 @@
 
   // Event listeners para las categorías
   document.addEventListener('DOMContentLoaded', async function() {
-    // Cargar servicios desde la base de datos
-    const servicios = await cargarServiciosDesdeBD();
-    const categorias = categorizarServicios(servicios);
+    console.log('🚀 Iniciando sistema de turnos...');
+    
+    // Cargar todos los servicios desde la base de datos
+    await cargarTodosLosServicios();
     
     // Event listeners para categorías
     document.getElementById('categoria-vehiculos').addEventListener('click', function() {
       seleccionarCategoria('vehiculos');
-      renderizarServicios('vehiculos', categorias.vehiculos);
     });
     
     document.getElementById('categoria-tapizados').addEventListener('click', function() {
       seleccionarCategoria('tapizados');
-      renderizarServicios('tapizados', categorias.tapizados);
+    });
+    
+    // Event listener para el botón siguiente
+    document.getElementById('btn-siguiente-fijo').addEventListener('click', function() {
+      if (serviciosSeleccionados.length > 0) {
+        showStep(2); // Ir al siguiente paso
+      }
     });
     
     // Ocultar botón siguiente inicialmente
