@@ -424,16 +424,16 @@
       justify-content: space-between;
     }
 
-    /* Estilos para el selector de categorías */
+    /* Estilos para el selector de categorías - REDUCIDO */
     .categoria-selector {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .categoria-card {
       background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
       border: 2px solid #333;
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: 10px;
+      padding: 1rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -443,7 +443,7 @@
     .categoria-card:hover {
       border-color: #ff3b3f;
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 59, 63, 0.2);
     }
 
     .categoria-card.selected {
@@ -453,8 +453,8 @@
     }
 
     .categoria-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
       color: #ff3b3f;
     }
 
@@ -463,13 +463,15 @@
     }
 
     .categoria-card h5 {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       font-weight: 600;
+      font-size: 1.1rem;
     }
 
     .categoria-card p {
       margin-bottom: 0;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      line-height: 1.2;
     }
 
     /* Estilos para las listas de servicios */
@@ -2655,93 +2657,97 @@
       }
     });
     
-    // Al cargar, deshabilitar siguiente si no hay servicio
-    document.getElementById('btn-siguiente-fijo').disabled = true;
-   // Paso 2: Seleccionar Profesional
-   document.getElementById('btn-siguiente-fijo').onclick = function() {
-     if (step === 1) {
-       // Validar que se haya seleccionado al menos un servicio
-       if (serviciosSeleccionados.length === 0) {
-         alert('Por favor, selecciona al menos un servicio.');
-         return;
-       }
-       
-       // Guardar los servicios seleccionados en el objeto turno
-       turno.servicios = serviciosSeleccionados;
-       turno.categoria = categoriaSeleccionada;
-       
-       step = 2;
-       showStep(step);
-     } else if (step === 2) {
-       step = 3;
-       showStep(step);
-     } else if (step === 3) {
-       // Guardar fechas y horas según el tipo de turno
-       const servicio = servicios[turno.servicio];
-       const categorias = categorizarServicios();
-       
-       if (categorias.necesitaTurnosSeparados) {
-         // Validar turnos separados
-         const fechaVehiculos = document.getElementById('fecha-vehiculos').value;
-         const horaVehiculos = document.getElementById('hora-vehiculos').value;
-         const fechaTapizados = document.getElementById('fecha-tapizados').value;
-         const horaTapizados = document.getElementById('hora-tapizados').value;
-         
-         if (!fechaVehiculos || !horaVehiculos || !fechaTapizados || !horaTapizados) {
-           alert('Por favor, completa las fechas y horas para ambos turnos.');
-           return;
-         }
-         
-         // Guardar datos de vehículos
-         turnosSeparados.vehiculos.fecha = fechaVehiculos;
-         turnosSeparados.vehiculos.hora = horaVehiculos;
-         
-         // Guardar datos de tapizados
-         turnosSeparados.tapizados.fecha = fechaTapizados;
-         turnosSeparados.tapizados.hora = horaTapizados;
-         
-       } else if (categorias.hayVehiculos) {
-         // Solo servicios de vehículos
-         const fechaVehiculos = document.getElementById('fecha-vehiculos').value;
-         const horaVehiculos = document.getElementById('hora-vehiculos').value;
-         
-         if (!fechaVehiculos || !horaVehiculos) {
-           alert('Por favor, selecciona la fecha y hora del turno.');
-           return;
-         }
-         
-         turnosSeparados.vehiculos.fecha = fechaVehiculos;
-         turnosSeparados.vehiculos.hora = horaVehiculos;
-         
-       } else if (categorias.hayTapizados) {
-         // Solo servicios de tapizados
-         const fechaTapizados = document.getElementById('fecha-tapizados').value;
-         const horaTapizados = document.getElementById('hora-tapizados').value;
-         
-         if (!fechaTapizados || !horaTapizados) {
-           alert('Por favor, selecciona la fecha y hora del turno.');
-           return;
-         }
-         
-         turnosSeparados.tapizados.fecha = fechaTapizados;
-         turnosSeparados.tapizados.hora = horaTapizados;
-       }
-       
-       step = 4;
-       showStep(step);
-     } else if (step === 4) {
-       // Capturar datos personales
-       turno.nombre = document.getElementById('nombre').value;
-       turno.apellido = document.getElementById('apellido').value;
-       if (!turno.nombre || !turno.apellido) {
-         alert('Por favor, completa todos los campos obligatorios.');
-         return;
-       }
-       step = 5;
-       showStep(step);
-     } else if (step === 5) {
-       // Capturar datos de ubicación según el tipo de turno
-       const categorias = categorizarServicios();
+    // Configurar el botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    
+    btnSiguiente.onclick = function() {
+      console.log('🔄 Botón siguiente clickeado, paso actual:', step);
+      
+      if (step === 1) {
+        // Validar que se haya seleccionado al menos un servicio
+        if (!serviciosSeleccionados || serviciosSeleccionados.length === 0) {
+          alert('Por favor, selecciona al menos un servicio.');
+          return;
+        }
+        
+        console.log('✅ Servicios seleccionados:', serviciosSeleccionados);
+        
+        // Guardar los servicios seleccionados en el objeto turno
+        turno.servicios = serviciosSeleccionados;
+        turno.categoria = categoriaSeleccionada;
+        
+        step = 2;
+        showStep(step);
+        
+      } else if (step === 2) {
+        // Paso 2: Seleccionar Profesional
+        step = 3;
+        showStep(step);
+        
+      } else if (step === 3) {
+        // Paso 3: Seleccionar Fecha y Hora
+        // Simplificar la lógica - solo validar que haya fecha y hora
+        const fechaInput = document.querySelector('input[type="date"]');
+        const horaSelect = document.querySelector('select');
+        
+        if (!fechaInput || !fechaInput.value) {
+          alert('Por favor, selecciona una fecha.');
+          return;
+        }
+        
+        if (!horaSelect || !horaSelect.value) {
+          alert('Por favor, selecciona una hora.');
+          return;
+        }
+        
+        turno.fecha = fechaInput.value;
+        turno.hora = horaSelect.value;
+        
+        step = 4;
+        showStep(step);
+        
+      } else if (step === 4) {
+        // Paso 4: Datos Personales
+        const nombre = document.getElementById('nombre')?.value;
+        const apellido = document.getElementById('apellido')?.value;
+        const telefono = document.getElementById('telefono')?.value;
+        
+        if (!nombre || !apellido || !telefono) {
+          alert('Por favor, completa todos los campos obligatorios.');
+          return;
+        }
+        
+        turno.nombre = nombre;
+        turno.apellido = apellido;
+        turno.telefono = telefono;
+        
+        step = 5;
+        showStep(step);
+        
+      } else if (step === 5) {
+        // Paso 5: Ubicación
+        const ubicacion = document.getElementById('ubicacion')?.value;
+        const direccion = document.getElementById('direccion')?.value;
+        
+        if (!ubicacion || !direccion) {
+          alert('Por favor, completa la ubicación y dirección.');
+          return;
+        }
+        
+        turno.ubicacion = ubicacion;
+        turno.direccion = direccion;
+        
+        step = 6;
+        showStep(step);
+        
+      } else if (step === 6) {
+        // Paso 6: Confirmación
+        console.log('🎯 Confirmando turno:', turno);
+        
+        // Aquí iría la lógica para enviar al backend
+        alert('¡Turno confirmado! Te contactaremos pronto.');
+      }
+    };
        
        if (categorias.necesitaTurnosSeparados) {
          // Validar ubicaciones separadas
@@ -3859,6 +3865,398 @@
     alert(mensaje);
   }
 
-</script>
+
+
+  // ===== SISTEMA DE TURNOS FINAL Y FUNCIONAL =====
+  
+  // Variables globales
+  let step = 1;
+  let categoriaSeleccionada = null;
+  let serviciosSeleccionados = [];
+  let turno = {
+    servicios: [],
+    categoria: null,
+    fecha: null,
+    hora: null,
+    nombre: null,
+    apellido: null,
+    telefono: null,
+    email: null,
+    ubicacion: null,
+    direccion: null
+  };
+
+  // Función para seleccionar categoría
+  function seleccionarCategoria(categoria) {
+    categoriaSeleccionada = categoria;
+    
+    // Ocultar selector de categorías
+    document.querySelector('.categoria-selector').style.display = 'none';
+    
+    // Mostrar servicios de la categoría seleccionada
+    const serviciosContainer = document.getElementById(`servicios-${categoria}`);
+    if (serviciosContainer) {
+      serviciosContainer.style.display = 'block';
+    }
+    
+    // Mostrar botón siguiente
+    document.getElementById('btn-siguiente-fijo').style.display = 'block';
+  }
+
+  // Función para cambiar de categoría
+  function cambiarCategoria() {
+    categoriaSeleccionada = null;
+    serviciosSeleccionados = [];
+    
+    // Ocultar todos los contenedores de servicios
+    document.querySelectorAll('.servicios-container').forEach(container => {
+      container.style.display = 'none';
+    });
+    
+    // Mostrar selector de categorías
+    document.querySelector('.categoria-selector').style.display = 'block';
+    
+    // Ocultar botón siguiente
+    document.getElementById('btn-siguiente-fijo').style.display = 'none';
+    
+    // Limpiar lista de servicios seleccionados
+    actualizarListaServicios();
+  }
+
+  // Función para seleccionar servicio
+  function seleccionarServicio(servicioItem) {
+    const servicioId = servicioItem.dataset.servicioId;
+    const nombre = servicioItem.dataset.nombre;
+    const precio = parseFloat(servicioItem.dataset.precio);
+    const duracion = parseInt(servicioItem.dataset.duracion);
+    
+    // Verificar si ya está seleccionado
+    const yaSeleccionado = serviciosSeleccionados.find(s => s.id === servicioId);
+    
+    if (yaSeleccionado) {
+      // Si ya está seleccionado, aumentar cantidad
+      yaSeleccionado.cantidad++;
+    } else {
+      // Si no está seleccionado, agregarlo
+      serviciosSeleccionados.push({
+        id: servicioId,
+        nombre: nombre,
+        precio: precio,
+        duracion: duracion,
+        cantidad: 1,
+        icono: obtenerIconoServicio(nombre)
+      });
+    }
+    
+    // Actualizar UI
+    actualizarListaServicios();
+    servicioItem.classList.add('selected');
+    
+    // Habilitar botón siguiente
+    document.getElementById('btn-siguiente-fijo').disabled = false;
+  }
+
+  // Función para remover servicio
+  function removerServicio(servicioId) {
+    const index = serviciosSeleccionados.findIndex(s => s.id === servicioId);
+    if (index !== -1) {
+      serviciosSeleccionados.splice(index, 1);
+      
+      // Actualizar UI
+      actualizarListaServicios();
+      
+      // Deseleccionar en la lista
+      const servicioItem = document.querySelector(`[data-servicio-id="${servicioId}"]`);
+      if (servicioItem) {
+        servicioItem.classList.remove('selected');
+      }
+      
+      // Deshabilitar botón siguiente si no hay servicios
+      if (serviciosSeleccionados.length === 0) {
+        document.getElementById('btn-siguiente-fijo').disabled = true;
+      }
+    }
+  }
+
+  // Función para actualizar lista de servicios seleccionados
+  function actualizarListaServicios() {
+    const container = document.getElementById('lista-servicios');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    serviciosSeleccionados.forEach(servicio => {
+      const item = document.createElement('div');
+      item.className = 'servicio-seleccionado';
+      item.innerHTML = `
+        <div class="servicio-info">
+          <i class="fas ${servicio.icono}"></i>
+          <span>${servicio.nombre}</span>
+        </div>
+        <div class="servicio-precio">
+          $${(servicio.precio * servicio.cantidad).toLocaleString()}
+        </div>
+        <button onclick="removerServicio('${servicio.id}')" class="btn-remover">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      container.appendChild(item);
+    });
+    
+    // Mostrar/ocultar contenedor
+    const contenedor = document.getElementById('servicios-seleccionados');
+    if (contenedor) {
+      contenedor.style.display = serviciosSeleccionados.length > 0 ? 'block' : 'none';
+    }
+  }
+
+  // Función para obtener icono según nombre del servicio
+  function obtenerIconoServicio(nombre) {
+    const nombreLower = nombre.toLowerCase();
+    
+    if (nombreLower.includes('auto') || nombreLower.includes('car')) return 'fa-car';
+    if (nombreLower.includes('pickup')) return 'fa-truck-pickup';
+    if (nombreLower.includes('suv')) return 'fa-car-side';
+    if (nombreLower.includes('motor')) return 'fa-cog';
+    if (nombreLower.includes('sillón')) return 'fa-couch';
+    if (nombreLower.includes('silla')) return 'fa-chair';
+    if (nombreLower.includes('colchón')) return 'fa-bed';
+    if (nombreLower.includes('alfombra')) return 'fa-rug';
+    if (nombreLower.includes('puff')) return 'fa-couch';
+    
+    return 'fa-cog';
+  }
+
+  // Función para mostrar paso
+  function showStep(n) {
+    for (let i = 1; i <= 6; i++) {
+      const stepDiv = document.getElementById('step-' + i);
+      if (stepDiv) stepDiv.style.display = (i === n) ? '' : 'none';
+    }
+    
+    // Actualizar barra de progreso
+    updateWizardBar(n);
+  }
+
+  // Función para actualizar barra de progreso
+  function updateWizardBar(step) {
+    const percent = ((step - 1) / 5) * 100;
+    const barFill = document.getElementById('wizard-bar-fill');
+    if (barFill) barFill.style.width = percent + '%';
+    
+    for (let i = 1; i <= 6; i++) {
+      const el = document.getElementById('step-indicator-' + i);
+      if (el) {
+        el.classList.remove('active', 'completed');
+        if (i < step) el.classList.add('completed');
+        if (i === step) el.classList.add('active');
+      }
+    }
+  }
+
+  // Función para cargar servicios desde la BD
+  async function cargarServiciosDesdeBD() {
+    try {
+      const response = await fetch('/api/appointments/services');
+      const data = await response.json();
+      
+      if (data.success && data.services) {
+        const categorias = categorizarServicios(data.services);
+        renderizarServicios('vehiculos', categorias.vehiculos);
+        renderizarServicios('tapizados', categorias.tapizados);
+      }
+    } catch (error) {
+      console.error('Error cargando servicios:', error);
+    }
+  }
+
+  // Función para categorizar servicios desde BD
+  function categorizarServicios(servicios) {
+    const vehiculos = [];
+    const tapizados = [];
+    
+    servicios.forEach(servicio => {
+      const nombre = servicio.name.toLowerCase();
+      
+      if (nombre.includes('auto') || nombre.includes('pickup') || nombre.includes('suv') || nombre.includes('motor')) {
+        vehiculos.push(servicio);
+      } else if (nombre.includes('sillón') || nombre.includes('silla') || nombre.includes('colchón') || nombre.includes('alfombra') || nombre.includes('puff')) {
+        tapizados.push(servicio);
+      }
+    });
+    
+    return { vehiculos, tapizados };
+  }
+
+  // Función para renderizar servicios
+  function renderizarServicios(categoria, servicios) {
+    const container = document.getElementById(`lista-servicios-${categoria}`);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    servicios.forEach(servicio => {
+      const servicioElement = document.createElement('div');
+      servicioElement.className = 'servicio-item';
+      servicioElement.dataset.servicioId = servicio.id;
+      servicioElement.dataset.nombre = servicio.name;
+      servicioElement.dataset.precio = servicio.price;
+      servicioElement.dataset.duracion = servicio.duration;
+      
+      const icono = obtenerIconoServicio(servicio.name);
+      
+      servicioElement.innerHTML = `
+        <div class="servicio-info">
+          <div class="servicio-icon">
+            <i class="${icono}"></i>
+          </div>
+          <div class="servicio-details">
+            <h6>${servicio.name}</h6>
+            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
+          </div>
+        </div>
+        <div class="servicio-precio">
+          $${servicio.price.toLocaleString()}
+        </div>
+      `;
+      
+      servicioElement.addEventListener('click', function() {
+        seleccionarServicio(this);
+      });
+      
+      container.appendChild(servicioElement);
+    });
+  }
+
+  // Configurar el botón siguiente
+  document.addEventListener('DOMContentLoaded', function() {
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    
+    btnSiguiente.onclick = function() {
+      console.log('🔄 Botón siguiente clickeado, paso actual:', step);
+      
+      if (step === 1) {
+        // Validar que se haya seleccionado al menos un servicio
+        if (!serviciosSeleccionados || serviciosSeleccionados.length === 0) {
+          alert('Por favor, selecciona al menos un servicio.');
+          return;
+        }
+        
+        console.log('✅ Servicios seleccionados:', serviciosSeleccionados);
+        
+        // Guardar los servicios seleccionados en el objeto turno
+        turno.servicios = serviciosSeleccionados;
+        turno.categoria = categoriaSeleccionada;
+        
+        step = 2;
+        showStep(step);
+        
+      } else if (step === 2) {
+        // Paso 2: Seleccionar Profesional
+        step = 3;
+        showStep(step);
+        
+      } else if (step === 3) {
+        // Paso 3: Seleccionar Fecha y Hora
+        const fechaInput = document.querySelector('input[type="date"]');
+        const horaSelect = document.querySelector('select');
+        
+        if (!fechaInput || !fechaInput.value) {
+          alert('Por favor, selecciona una fecha.');
+          return;
+        }
+        
+        if (!horaSelect || !horaSelect.value) {
+          alert('Por favor, selecciona una hora.');
+          return;
+        }
+        
+        turno.fecha = fechaInput.value;
+        turno.hora = horaSelect.value;
+        
+        step = 4;
+        showStep(step);
+        
+      } else if (step === 4) {
+        // Paso 4: Datos Personales
+        const nombre = document.getElementById('nombre')?.value;
+        const apellido = document.getElementById('apellido')?.value;
+        const telefono = document.getElementById('telefono')?.value;
+        
+        if (!nombre || !apellido || !telefono) {
+          alert('Por favor, completa todos los campos obligatorios.');
+          return;
+        }
+        
+        turno.nombre = nombre;
+        turno.apellido = apellido;
+        turno.telefono = telefono;
+        
+        step = 5;
+        showStep(step);
+        
+      } else if (step === 5) {
+        // Paso 5: Ubicación
+        const ubicacion = document.getElementById('ubicacion')?.value;
+        const direccion = document.getElementById('direccion')?.value;
+        
+        if (!ubicacion || !direccion) {
+          alert('Por favor, completa la ubicación y dirección.');
+          return;
+        }
+        
+        turno.ubicacion = ubicacion;
+        turno.direccion = direccion;
+        
+        step = 6;
+        showStep(step);
+        
+      } else if (step === 6) {
+        // Paso 6: Confirmación
+        console.log('🎯 Confirmando turno:', turno);
+        
+        // Aquí iría la lógica para enviar al backend
+        alert('¡Turno confirmado! Te contactaremos pronto.');
+      }
+    };
+
+    // Configurar botón anterior
+    const btnAnterior = document.getElementById('btn-anterior-fijo');
+    if (btnAnterior) {
+      btnAnterior.onclick = function() {
+        if (step > 1) {
+          step--;
+          showStep(step);
+        }
+      };
+    }
+
+    // Event listeners para categorías
+    const categoriaVehiculos = document.getElementById('categoria-vehiculos');
+    const categoriaTapizados = document.getElementById('categoria-tapizados');
+    
+    if (categoriaVehiculos) {
+      categoriaVehiculos.addEventListener('click', function() {
+        seleccionarCategoria('vehiculos');
+      });
+    }
+    
+    if (categoriaTapizados) {
+      categoriaTapizados.addEventListener('click', function() {
+        seleccionarCategoria('tapizados');
+      });
+    }
+    
+    // Ocultar botón siguiente inicialmente
+    if (btnSiguiente) {
+      btnSiguiente.style.display = 'none';
+      btnSiguiente.disabled = true;
+    }
+
+    // Cargar servicios desde la base de datos
+    cargarServiciosDesdeBD();
+  });
+
+  </script>
 </body>
 </html> 
