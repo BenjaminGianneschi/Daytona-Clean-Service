@@ -423,6 +423,183 @@
     .turnero-botones-fijos {
       justify-content: space-between;
     }
+
+    /* Estilos para el selector de categorías */
+    .categoria-selector {
+      margin-bottom: 2rem;
+    }
+
+    .categoria-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .categoria-card:hover {
+      border-color: #ff3b3f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.2);
+    }
+
+    .categoria-card.selected {
+      border-color: #ff3b3f;
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
+      color: white;
+    }
+
+    .categoria-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ff3b3f;
+    }
+
+    .categoria-card.selected .categoria-icon {
+      color: white;
+    }
+
+    .categoria-card h5 {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .categoria-card p {
+      margin-bottom: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Estilos para las tarjetas de servicios */
+    .servicios-container {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .servicio-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .servicio-card:hover {
+      border-color: #ff3b3f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.2);
+    }
+
+    .servicio-card.selected {
+      border-color: #ff3b3f;
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
+      color: white;
+    }
+
+    .servicio-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #28a745;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .servicio-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .servicio-header i {
+      font-size: 1.5rem;
+      margin-right: 0.75rem;
+      color: #ff3b3f;
+    }
+
+    .servicio-card.selected .servicio-header i {
+      color: white;
+    }
+
+    .servicio-header h6 {
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .servicio-desc {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .servicio-card.selected .servicio-desc {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .servicio-precio {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff3b3f;
+    }
+
+    .servicio-card.selected .servicio-precio {
+      color: white;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Servicios seleccionados */
+    .servicio-seleccionado {
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
+      border: 2px solid #ff3b3f;
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .servicio-seleccionado .btn-remove {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .servicio-seleccionado .btn-remove:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -471,38 +648,264 @@
       <div id="wizard-content">
         <!-- Paso 1: Seleccionar Servicio -->
         <div id="step-1">
-          <h3 class="mb-3">Seleccionar Servicio</h3>
-          <div class="mb-3">
-            <label for="servicio-select" class="form-label">Servicio *</label>
-            <select class="form-select servicio-dropdown" id="servicio-select" required>
-              <option value="" data-icon="">Selecciona un servicio</option>
+          <h3 class="mb-4">¿Qué tipo de servicio necesitas?</h3>
+          
+          <!-- Selector de categoría principal -->
+          <div class="categoria-selector mb-4">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="categoria-card" id="categoria-vehiculos" data-categoria="vehiculos">
+                  <div class="categoria-icon">
+                    <i class="fas fa-car"></i>
+                  </div>
+                  <h5>Vehículos</h5>
+                  <p class="text-muted">Lavado, limpieza y tapizado de autos, pickups y SUVs</p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="categoria-card" id="categoria-tapizados" data-categoria="tapizados">
+                  <div class="categoria-icon">
+                    <i class="fas fa-couch"></i>
+                  </div>
+                  <h5>Tapizados</h5>
+                  <p class="text-muted">Limpieza de sillones, sillas, colchones y alfombras</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Servicios de Vehículos -->
+          <div id="servicios-vehiculos" class="servicios-container" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4><i class="fas fa-car me-2"></i>Servicios de Vehículos</h4>
+              <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCategoria()">
+                <i class="fas fa-arrow-left me-1"></i>Cambiar categoría
+              </button>
+            </div>
+            
+            <div class="row g-3">
+              <!-- Lavado de Vehículos -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="lavado-auto" data-tipo="vehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-car-wash"></i>
+                    <h6>Lavado de Auto</h6>
+                  </div>
+                  <p class="servicio-desc">Lavado completo exterior e interior</p>
+                  <div class="servicio-precio">$8,000</div>
+                </div>
+              </div>
               
-              <!-- VEHÍCULOS -->
-              <optgroup label="🚗 Servicios de Vehículos">
-                <option value="Lavado de Auto">Lavado de Auto</option>
-                <option value="Lavado de Pickup">Lavado de Pickup</option>
-                <option value="Lavado de SUV">Lavado de SUV</option>
-                <option value="Limpieza de Motor">Limpieza de Motor</option>
-                <option value="Tapizado de Auto">Tapizado de Auto</option>
-                <option value="Tapizado de Pickup">Tapizado de Pickup</option>
-                <option value="Tapizado de SUV">Tapizado de SUV</option>
-              </optgroup>
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="lavado-pickup" data-tipo="vehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-truck-pickup"></i>
+                    <h6>Lavado de Pickup</h6>
+                  </div>
+                  <p class="servicio-desc">Lavado completo de pickup</p>
+                  <div class="servicio-precio">$10,000</div>
+                </div>
+              </div>
               
-              <!-- TAPIZADOS -->
-              <optgroup label="🛋️ Servicios de Tapizados">
-                <option value="Sillón 1 Cuerpo">Sillón 1 Cuerpo</option>
-                <option value="Sillón 2 Cuerpos">Sillón 2 Cuerpos</option>
-                <option value="Sillón 3 Cuerpos">Sillón 3 Cuerpos</option>
-                <option value="Silla Simple">Silla Simple</option>
-                <option value="Silla Comedor">Silla Comedor</option>
-                <option value="Colchón 1 Plaza">Colchón 1 Plaza</option>
-                <option value="Colchón 2 Plazas">Colchón 2 Plazas</option>
-                <option value="Limpieza de Alfombra">Limpieza de Alfombra</option>
-                <option value="Puff Simple">Puff Simple</option>
-                <option value="Puff Grande">Puff Grande</option>
-                <option value="Respaldo de Cama">Respaldo de Cama</option>
-              </optgroup>
-            </select>
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="lavado-suv" data-tipo="vehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-car-side"></i>
+                    <h6>Lavado de SUV</h6>
+                  </div>
+                  <p class="servicio-desc">Lavado completo de SUV</p>
+                  <div class="servicio-precio">$12,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="limpieza-motor" data-tipo="motor">
+                  <div class="servicio-header">
+                    <i class="fas fa-cog"></i>
+                    <h6>Limpieza de Motor</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda del motor</p>
+                  <div class="servicio-precio">$12,000</div>
+                </div>
+              </div>
+              
+              <!-- Tapizado de Vehículos -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="tapizado-auto" data-tipo="tapizadoVehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-car-seat"></i>
+                    <h6>Tapizado de Auto</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de tapizados de auto</p>
+                  <div class="servicio-precio">$20,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="tapizado-pickup" data-tipo="tapizadoVehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-truck"></i>
+                    <h6>Tapizado de Pickup</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de tapizados de pickup</p>
+                  <div class="servicio-precio">$25,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="tapizado-suv" data-tipo="tapizadoVehiculo">
+                  <div class="servicio-header">
+                    <i class="fas fa-car-side"></i>
+                    <h6>Tapizado de SUV</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de tapizados de SUV</p>
+                  <div class="servicio-precio">$30,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Servicios de Tapizados -->
+          <div id="servicios-tapizados" class="servicios-container" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4><i class="fas fa-couch me-2"></i>Servicios de Tapizados</h4>
+              <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCategoria()">
+                <i class="fas fa-arrow-left me-1"></i>Cambiar categoría
+              </button>
+            </div>
+            
+            <div class="row g-3">
+              <!-- Sillones -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="sillon-1cuerpo" data-tipo="sillon">
+                  <div class="servicio-header">
+                    <i class="fas fa-couch"></i>
+                    <h6>Sillón 1 Cuerpo</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda de sillón</p>
+                  <div class="servicio-precio">$15,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="sillon-2cuerpos" data-tipo="sillon">
+                  <div class="servicio-header">
+                    <i class="fas fa-couch"></i>
+                    <h6>Sillón 2 Cuerpos</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda de sillón</p>
+                  <div class="servicio-precio">$20,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="sillon-3cuerpos" data-tipo="sillon">
+                  <div class="servicio-header">
+                    <i class="fas fa-couch"></i>
+                    <h6>Sillón 3 Cuerpos</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda de sillón</p>
+                  <div class="servicio-precio">$25,000</div>
+                </div>
+              </div>
+              
+              <!-- Sillas -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="silla-simple" data-tipo="silla">
+                  <div class="servicio-header">
+                    <i class="fas fa-chair"></i>
+                    <h6>Silla Simple</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de silla</p>
+                  <div class="servicio-precio">$8,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="silla-comedor" data-tipo="silla">
+                  <div class="servicio-header">
+                    <i class="fas fa-chair"></i>
+                    <h6>Silla Comedor</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de silla de comedor</p>
+                  <div class="servicio-precio">$10,000</div>
+                </div>
+              </div>
+              
+              <!-- Colchones -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="colchon-1plaza" data-tipo="colchon">
+                  <div class="servicio-header">
+                    <i class="fas fa-bed"></i>
+                    <h6>Colchón 1 Plaza</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda de colchón</p>
+                  <div class="servicio-precio">$12,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="colchon-2plazas" data-tipo="colchon">
+                  <div class="servicio-header">
+                    <i class="fas fa-bed"></i>
+                    <h6>Colchón 2 Plazas</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza profunda de colchón</p>
+                  <div class="servicio-precio">$18,000</div>
+                </div>
+              </div>
+              
+              <!-- Otros -->
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="alfombra" data-tipo="alfombra">
+                  <div class="servicio-header">
+                    <i class="fas fa-rug"></i>
+                    <h6>Limpieza de Alfombra</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza por metro cuadrado</p>
+                  <div class="servicio-precio">$1,500/m²</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="puff-simple" data-tipo="puff">
+                  <div class="servicio-header">
+                    <i class="fas fa-couch"></i>
+                    <h6>Puff Simple</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de puff</p>
+                  <div class="servicio-precio">$8,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="puff-grande" data-tipo="puff">
+                  <div class="servicio-header">
+                    <i class="fas fa-couch"></i>
+                    <h6>Puff Grande</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de puff grande</p>
+                  <div class="servicio-precio">$12,000</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="servicio-card" data-servicio="respaldo-cama" data-tipo="respaldo">
+                  <div class="servicio-header">
+                    <i class="fas fa-bed"></i>
+                    <h6>Respaldo de Cama</h6>
+                  </div>
+                  <p class="servicio-desc">Limpieza de respaldo</p>
+                  <div class="servicio-precio">$10,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Servicios seleccionados -->
+          <div id="servicios-seleccionados" class="mt-4" style="display: none;">
+            <h5>Servicios seleccionados:</h5>
+            <div id="lista-servicios" class="row g-2"></div>
           </div>
 
           <!-- Botones de tipo de sillón (aparecen solo cuando se selecciona Limpieza de Sillones) -->
@@ -3408,29 +3811,15 @@
    // Paso 2: Seleccionar Profesional
    document.getElementById('btn-siguiente-fijo').onclick = function() {
      if (step === 1) {
-       // Verificar que hay un servicio seleccionado
-       const servicioSeleccionado = document.getElementById('servicio-select').value;
-       if (!servicioSeleccionado) {
-         alert('Por favor, selecciona un servicio.');
+       // Validar que se haya seleccionado al menos un servicio
+       if (serviciosSeleccionados.length === 0) {
+         alert('Por favor, selecciona al menos un servicio.');
          return;
        }
        
-       // Verificar que se seleccionó un tipo de servicio
-       const tipoSeleccionado = document.querySelector('input[name="tipo-servicio"]:checked');
-       if (!tipoSeleccionado) {
-         alert('Por favor, selecciona el tipo de servicio (Estándar o Especial).');
-         return;
-       }
-       
-       // Verificar metros si es necesario
-       const servicio = servicios[servicioSeleccionado];
-       if (servicio.porMetro) {
-         const metros = document.getElementById('metros-input').value;
-         if (!metros || parseFloat(metros) <= 0) {
-           alert('Por favor, ingresa los metros cuadrados.');
-           return;
-         }
-       }
+       // Guardar los servicios seleccionados en el objeto turno
+       turno.servicios = serviciosSeleccionados;
+       turno.categoria = categoriaSeleccionada;
        
        step = 2;
        showStep(step);
@@ -3440,6 +3829,7 @@
      } else if (step === 3) {
        // Guardar fechas y horas según el tipo de turno
        const servicio = servicios[turno.servicio];
+       const categorias = categorizarServicios();
        
        if (categorias.necesitaTurnosSeparados) {
          // Validar turnos separados
@@ -3761,7 +4151,8 @@
    const totalAlfombrasSpan = document.getElementById('alfombras-total');
 
    // Cuando se ingresa metros cuadrados de alfombra
-   alfombraMetrosInput.addEventListener('input', function() {
+   if (alfombraMetrosInput) {
+     alfombraMetrosInput.addEventListener('input', function() {
      const metrosCuadrados = parseFloat(this.value) || 0;
      
      if (metrosCuadrados > 0) {
@@ -3785,6 +4176,7 @@
        actualizarTotalAlfombras();
      }
    });
+   }
 
    // Event listeners para los botones de tipo de puff
    const puffTipos = document.querySelectorAll('input[name="puff-tipo"]');
@@ -3792,7 +4184,8 @@
    const totalPuffsSpan = document.getElementById('puffs-total');
 
    // Cuando se selecciona un tipo de puff
-   puffTipos.forEach(radio => {
+   if (puffTipos.length > 0) {
+     puffTipos.forEach(radio => {
      radio.addEventListener('change', function() {
        const tipoSeleccionado = this.value;
        
@@ -3813,6 +4206,7 @@
        this.checked = false;
      });
    });
+   }
 
    // Event listeners para los botones de tipo de tapizado de vehículo
    const tapizadovehiculoTipos = document.querySelectorAll('input[name="tapizadovehiculo-tipo"]');
@@ -3820,7 +4214,8 @@
    const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
 
    // Cuando se selecciona un tipo de tapizado de vehículo
-   tapizadovehiculoTipos.forEach(radio => {
+   if (tapizadovehiculoTipos.length > 0) {
+     tapizadovehiculoTipos.forEach(radio => {
      radio.addEventListener('change', function() {
        const tipoSeleccionado = this.value;
        // Verificar si ya existe este tipo
@@ -3835,6 +4230,7 @@
        this.checked = false;
      });
    });
+   }
 
   // ===== INTEGRACIÓN CON BACKEND =====
 
@@ -4333,6 +4729,166 @@
 
   // Inicializar servicio de turnos
   const turnosService = new TurnosService();
+
+  // Variables globales para el sistema de servicios
+  let categoriaSeleccionada = null;
+  let serviciosSeleccionados = [];
+
+  // Función para seleccionar categoría
+  function seleccionarCategoria(categoria) {
+    categoriaSeleccionada = categoria;
+    
+    // Ocultar selector de categorías
+    document.querySelector('.categoria-selector').style.display = 'none';
+    
+    // Mostrar servicios de la categoría seleccionada
+    document.getElementById(`servicios-${categoria}`).style.display = 'block';
+    
+    // Actualizar botón siguiente
+    document.getElementById('btn-siguiente-fijo').style.display = 'block';
+  }
+
+  // Función para cambiar de categoría
+  function cambiarCategoria() {
+    categoriaSeleccionada = null;
+    serviciosSeleccionados = [];
+    
+    // Ocultar todos los contenedores de servicios
+    document.querySelectorAll('.servicios-container').forEach(container => {
+      container.style.display = 'none';
+    });
+    
+    // Mostrar selector de categorías
+    document.querySelector('.categoria-selector').style.display = 'block';
+    
+    // Ocultar servicios seleccionados
+    document.getElementById('servicios-seleccionados').style.display = 'none';
+    
+    // Ocultar botón siguiente
+    document.getElementById('btn-siguiente-fijo').style.display = 'none';
+    
+    // Limpiar selecciones
+    document.querySelectorAll('.servicio-card.selected').forEach(card => {
+      card.classList.remove('selected');
+    });
+  }
+
+  // Función para seleccionar servicio
+  function seleccionarServicio(servicioCard) {
+    const servicio = servicioCard.dataset.servicio;
+    const tipo = servicioCard.dataset.tipo;
+    const nombre = servicioCard.querySelector('h6').textContent;
+    const precio = servicioCard.querySelector('.servicio-precio').textContent;
+    
+    // Verificar si ya está seleccionado
+    const yaSeleccionado = serviciosSeleccionados.find(s => s.servicio === servicio);
+    
+    if (yaSeleccionado) {
+      // Deseleccionar
+      servicioCard.classList.remove('selected');
+      serviciosSeleccionados = serviciosSeleccionados.filter(s => s.servicio !== servicio);
+    } else {
+      // Seleccionar
+      servicioCard.classList.add('selected');
+      serviciosSeleccionados.push({
+        servicio,
+        tipo,
+        nombre,
+        precio,
+        cantidad: 1
+      });
+    }
+    
+    // Actualizar lista de servicios seleccionados
+    actualizarListaServicios();
+    
+    // Mostrar/ocultar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (serviciosSeleccionados.length > 0) {
+      btnSiguiente.style.display = 'block';
+    } else {
+      btnSiguiente.style.display = 'none';
+    }
+  }
+
+  // Función para actualizar la lista de servicios seleccionados
+  function actualizarListaServicios() {
+    const container = document.getElementById('lista-servicios');
+    const contenedor = document.getElementById('servicios-seleccionados');
+    
+    if (serviciosSeleccionados.length === 0) {
+      contenedor.style.display = 'none';
+      return;
+    }
+    
+    contenedor.style.display = 'block';
+    container.innerHTML = '';
+    
+    serviciosSeleccionados.forEach((servicio, index) => {
+      const servicioElement = document.createElement('div');
+      servicioElement.className = 'col-12';
+      servicioElement.innerHTML = `
+        <div class="servicio-seleccionado">
+          <div>
+            <strong>${servicio.nombre}</strong>
+            <br>
+            <small>${servicio.precio}</small>
+          </div>
+          <button class="btn-remove" onclick="removerServicio(${index})">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `;
+      container.appendChild(servicioElement);
+    });
+  }
+
+  // Función para remover servicio
+  function removerServicio(index) {
+    const servicio = serviciosSeleccionados[index];
+    
+    // Remover de la lista
+    serviciosSeleccionados.splice(index, 1);
+    
+    // Deseleccionar la tarjeta
+    const servicioCard = document.querySelector(`[data-servicio="${servicio.servicio}"]`);
+    if (servicioCard) {
+      servicioCard.classList.remove('selected');
+    }
+    
+    // Actualizar lista
+    actualizarListaServicios();
+    
+    // Mostrar/ocultar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    if (serviciosSeleccionados.length > 0) {
+      btnSiguiente.style.display = 'block';
+    } else {
+      btnSiguiente.style.display = 'none';
+    }
+  }
+
+  // Event listeners para las categorías
+  document.addEventListener('DOMContentLoaded', function() {
+    // Event listeners para categorías
+    document.getElementById('categoria-vehiculos').addEventListener('click', function() {
+      seleccionarCategoria('vehiculos');
+    });
+    
+    document.getElementById('categoria-tapizados').addEventListener('click', function() {
+      seleccionarCategoria('tapizados');
+    });
+    
+    // Event listeners para servicios
+    document.querySelectorAll('.servicio-card').forEach(card => {
+      card.addEventListener('click', function() {
+        seleccionarServicio(this);
+      });
+    });
+    
+    // Ocultar botón siguiente inicialmente
+    document.getElementById('btn-siguiente-fijo').style.display = 'none';
+  });
 
   // Función para cargar horarios disponibles (reemplaza todas las funciones duplicadas)
   async function cargarHorariosDisponibles(fecha, selectId) {
