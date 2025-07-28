@@ -472,90 +472,82 @@
       font-size: 0.9rem;
     }
 
-    /* Estilos para las tarjetas de servicios */
+    /* Estilos para las listas de servicios */
     .servicios-container {
       animation: fadeIn 0.3s ease-in;
     }
 
-    .servicio-card {
+    .servicios-lista {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .servicio-item {
       background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
       border: 2px solid #333;
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .servicio-card:hover {
+    .servicio-item:hover {
       border-color: #ff3b3f;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.2);
+      transform: translateX(5px);
     }
 
-    .servicio-card.selected {
+    .servicio-item.selected {
       border-color: #ff3b3f;
       background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
       color: white;
     }
 
-    .servicio-card.selected::before {
-      content: '✓';
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #28a745;
-      color: white;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+    .servicio-info {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 12px;
+      flex: 1;
     }
 
-    .servicio-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .servicio-header i {
-      font-size: 1.5rem;
-      margin-right: 0.75rem;
+    .servicio-icon {
+      font-size: 1.2rem;
+      margin-right: 1rem;
       color: #ff3b3f;
+      width: 30px;
+      text-align: center;
     }
 
-    .servicio-card.selected .servicio-header i {
+    .servicio-item.selected .servicio-icon {
       color: white;
     }
 
-    .servicio-header h6 {
+    .servicio-details h6 {
       margin: 0;
       font-weight: 600;
+      font-size: 1rem;
     }
 
-    .servicio-desc {
-      font-size: 0.9rem;
+    .servicio-details p {
+      margin: 0;
+      font-size: 0.85rem;
       color: #ccc;
-      margin-bottom: 1rem;
     }
 
-    .servicio-card.selected .servicio-desc {
+    .servicio-item.selected .servicio-details p {
       color: rgba(255, 255, 255, 0.8);
     }
 
     .servicio-precio {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       color: #ff3b3f;
+      text-align: right;
     }
 
-    .servicio-card.selected .servicio-precio {
+    .servicio-item.selected .servicio-precio {
       color: white;
     }
 
@@ -683,85 +675,8 @@
               </button>
             </div>
             
-            <div class="row g-3">
-              <!-- Lavado de Vehículos -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="lavado-auto" data-tipo="vehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-car-wash"></i>
-                    <h6>Lavado de Auto</h6>
-                  </div>
-                  <p class="servicio-desc">Lavado completo exterior e interior</p>
-                  <div class="servicio-precio">$8,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="lavado-pickup" data-tipo="vehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-truck-pickup"></i>
-                    <h6>Lavado de Pickup</h6>
-                  </div>
-                  <p class="servicio-desc">Lavado completo de pickup</p>
-                  <div class="servicio-precio">$10,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="lavado-suv" data-tipo="vehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-car-side"></i>
-                    <h6>Lavado de SUV</h6>
-                  </div>
-                  <p class="servicio-desc">Lavado completo de SUV</p>
-                  <div class="servicio-precio">$12,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="limpieza-motor" data-tipo="motor">
-                  <div class="servicio-header">
-                    <i class="fas fa-cog"></i>
-                    <h6>Limpieza de Motor</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda del motor</p>
-                  <div class="servicio-precio">$12,000</div>
-                </div>
-              </div>
-              
-              <!-- Tapizado de Vehículos -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="tapizado-auto" data-tipo="tapizadoVehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-car-seat"></i>
-                    <h6>Tapizado de Auto</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de tapizados de auto</p>
-                  <div class="servicio-precio">$20,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="tapizado-pickup" data-tipo="tapizadoVehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-truck"></i>
-                    <h6>Tapizado de Pickup</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de tapizados de pickup</p>
-                  <div class="servicio-precio">$25,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="tapizado-suv" data-tipo="tapizadoVehiculo">
-                  <div class="servicio-header">
-                    <i class="fas fa-car-side"></i>
-                    <h6>Tapizado de SUV</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de tapizados de SUV</p>
-                  <div class="servicio-precio">$30,000</div>
-                </div>
-              </div>
+            <div class="servicios-lista" id="lista-servicios-vehiculos">
+              <!-- Los servicios se cargarán dinámicamente desde la BD -->
             </div>
           </div>
 
@@ -774,131 +689,8 @@
               </button>
             </div>
             
-            <div class="row g-3">
-              <!-- Sillones -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="sillon-1cuerpo" data-tipo="sillon">
-                  <div class="servicio-header">
-                    <i class="fas fa-couch"></i>
-                    <h6>Sillón 1 Cuerpo</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda de sillón</p>
-                  <div class="servicio-precio">$15,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="sillon-2cuerpos" data-tipo="sillon">
-                  <div class="servicio-header">
-                    <i class="fas fa-couch"></i>
-                    <h6>Sillón 2 Cuerpos</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda de sillón</p>
-                  <div class="servicio-precio">$20,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="sillon-3cuerpos" data-tipo="sillon">
-                  <div class="servicio-header">
-                    <i class="fas fa-couch"></i>
-                    <h6>Sillón 3 Cuerpos</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda de sillón</p>
-                  <div class="servicio-precio">$25,000</div>
-                </div>
-              </div>
-              
-              <!-- Sillas -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="silla-simple" data-tipo="silla">
-                  <div class="servicio-header">
-                    <i class="fas fa-chair"></i>
-                    <h6>Silla Simple</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de silla</p>
-                  <div class="servicio-precio">$8,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="silla-comedor" data-tipo="silla">
-                  <div class="servicio-header">
-                    <i class="fas fa-chair"></i>
-                    <h6>Silla Comedor</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de silla de comedor</p>
-                  <div class="servicio-precio">$10,000</div>
-                </div>
-              </div>
-              
-              <!-- Colchones -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="colchon-1plaza" data-tipo="colchon">
-                  <div class="servicio-header">
-                    <i class="fas fa-bed"></i>
-                    <h6>Colchón 1 Plaza</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda de colchón</p>
-                  <div class="servicio-precio">$12,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="colchon-2plazas" data-tipo="colchon">
-                  <div class="servicio-header">
-                    <i class="fas fa-bed"></i>
-                    <h6>Colchón 2 Plazas</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza profunda de colchón</p>
-                  <div class="servicio-precio">$18,000</div>
-                </div>
-              </div>
-              
-              <!-- Otros -->
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="alfombra" data-tipo="alfombra">
-                  <div class="servicio-header">
-                    <i class="fas fa-rug"></i>
-                    <h6>Limpieza de Alfombra</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza por metro cuadrado</p>
-                  <div class="servicio-precio">$1,500/m²</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="puff-simple" data-tipo="puff">
-                  <div class="servicio-header">
-                    <i class="fas fa-couch"></i>
-                    <h6>Puff Simple</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de puff</p>
-                  <div class="servicio-precio">$8,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="puff-grande" data-tipo="puff">
-                  <div class="servicio-header">
-                    <i class="fas fa-couch"></i>
-                    <h6>Puff Grande</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de puff grande</p>
-                  <div class="servicio-precio">$12,000</div>
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="servicio-card" data-servicio="respaldo-cama" data-tipo="respaldo">
-                  <div class="servicio-header">
-                    <i class="fas fa-bed"></i>
-                    <h6>Respaldo de Cama</h6>
-                  </div>
-                  <p class="servicio-desc">Limpieza de respaldo</p>
-                  <div class="servicio-precio">$10,000</div>
-                </div>
-              </div>
+            <div class="servicios-lista" id="lista-servicios-tapizados">
+              <!-- Los servicios se cargarán dinámicamente desde la BD -->
             </div>
           </div>
 
@@ -4774,27 +4566,27 @@
   }
 
   // Función para seleccionar servicio
-  function seleccionarServicio(servicioCard) {
-    const servicio = servicioCard.dataset.servicio;
-    const tipo = servicioCard.dataset.tipo;
-    const nombre = servicioCard.querySelector('h6').textContent;
-    const precio = servicioCard.querySelector('.servicio-precio').textContent;
+  function seleccionarServicio(servicioItem) {
+    const servicioId = servicioItem.dataset.servicioId;
+    const nombre = servicioItem.dataset.nombre;
+    const precio = servicioItem.dataset.precio;
+    const duracion = servicioItem.dataset.duracion;
     
     // Verificar si ya está seleccionado
-    const yaSeleccionado = serviciosSeleccionados.find(s => s.servicio === servicio);
+    const yaSeleccionado = serviciosSeleccionados.find(s => s.service_id === parseInt(servicioId));
     
     if (yaSeleccionado) {
       // Deseleccionar
-      servicioCard.classList.remove('selected');
-      serviciosSeleccionados = serviciosSeleccionados.filter(s => s.servicio !== servicio);
+      servicioItem.classList.remove('selected');
+      serviciosSeleccionados = serviciosSeleccionados.filter(s => s.service_id !== parseInt(servicioId));
     } else {
       // Seleccionar
-      servicioCard.classList.add('selected');
+      servicioItem.classList.add('selected');
       serviciosSeleccionados.push({
-        servicio,
-        tipo,
+        service_id: parseInt(servicioId),
         nombre,
-        precio,
+        precio: parseFloat(precio),
+        duracion: parseInt(duracion),
         cantidad: 1
       });
     }
@@ -4832,7 +4624,7 @@
           <div>
             <strong>${servicio.nombre}</strong>
             <br>
-            <small>${servicio.precio}</small>
+            <small>$${servicio.precio.toLocaleString()}</small>
           </div>
           <button class="btn-remove" onclick="removerServicio(${index})">
             <i class="fas fa-times"></i>
@@ -4850,10 +4642,10 @@
     // Remover de la lista
     serviciosSeleccionados.splice(index, 1);
     
-    // Deseleccionar la tarjeta
-    const servicioCard = document.querySelector(`[data-servicio="${servicio.servicio}"]`);
-    if (servicioCard) {
-      servicioCard.classList.remove('selected');
+    // Deseleccionar el item
+    const servicioItem = document.querySelector(`[data-servicio-id="${servicio.service_id}"]`);
+    if (servicioItem) {
+      servicioItem.classList.remove('selected');
     }
     
     // Actualizar lista
@@ -4868,22 +4660,115 @@
     }
   }
 
+  // Función para cargar servicios desde la base de datos
+  async function cargarServiciosDesdeBD() {
+    try {
+      const result = await turnosService.getServices();
+      if (result.success) {
+        return result.services;
+      } else {
+        console.error('Error cargando servicios:', result.message);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error cargando servicios:', error);
+      return [];
+    }
+  }
+
+  // Función para categorizar servicios
+  function categorizarServicios(servicios) {
+    const vehiculos = [];
+    const tapizados = [];
+    
+    servicios.forEach(servicio => {
+      const nombre = servicio.name.toLowerCase();
+      
+      // Servicios de vehículos
+      if (nombre.includes('auto') || nombre.includes('pickup') || nombre.includes('suv') || 
+          nombre.includes('motor') || nombre.includes('vehículo') || nombre.includes('car')) {
+        vehiculos.push(servicio);
+      }
+      // Servicios de tapizados
+      else if (nombre.includes('sillón') || nombre.includes('silla') || nombre.includes('colchón') || 
+               nombre.includes('alfombra') || nombre.includes('puff') || nombre.includes('respaldo') ||
+               nombre.includes('tapizado')) {
+        tapizados.push(servicio);
+      }
+    });
+    
+    return { vehiculos, tapizados };
+  }
+
+  // Función para renderizar servicios
+  function renderizarServicios(categoria, servicios) {
+    const container = document.getElementById(`lista-servicios-${categoria}`);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    servicios.forEach(servicio => {
+      const servicioElement = document.createElement('div');
+      servicioElement.className = 'servicio-item';
+      servicioElement.dataset.servicioId = servicio.id;
+      servicioElement.dataset.nombre = servicio.name;
+      servicioElement.dataset.precio = servicio.price;
+      servicioElement.dataset.duracion = servicio.duration;
+      
+      // Determinar icono según el nombre del servicio
+      let icono = 'fas fa-cog';
+      const nombre = servicio.name.toLowerCase();
+      
+      if (nombre.includes('auto') || nombre.includes('car')) icono = 'fas fa-car';
+      else if (nombre.includes('pickup')) icono = 'fas fa-truck-pickup';
+      else if (nombre.includes('suv')) icono = 'fas fa-car-side';
+      else if (nombre.includes('motor')) icono = 'fas fa-cog';
+      else if (nombre.includes('sillón')) icono = 'fas fa-couch';
+      else if (nombre.includes('silla')) icono = 'fas fa-chair';
+      else if (nombre.includes('colchón')) icono = 'fas fa-bed';
+      else if (nombre.includes('alfombra')) icono = 'fas fa-rug';
+      else if (nombre.includes('puff')) icono = 'fas fa-couch';
+      else if (nombre.includes('respaldo')) icono = 'fas fa-bed';
+      
+      servicioElement.innerHTML = `
+        <div class="servicio-info">
+          <div class="servicio-icon">
+            <i class="${icono}"></i>
+          </div>
+          <div class="servicio-details">
+            <h6>${servicio.name}</h6>
+            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
+          </div>
+        </div>
+        <div class="servicio-precio">
+          $${servicio.price.toLocaleString()}
+        </div>
+      `;
+      
+      // Agregar event listener
+      servicioElement.addEventListener('click', function() {
+        seleccionarServicio(this);
+      });
+      
+      container.appendChild(servicioElement);
+    });
+  }
+
   // Event listeners para las categorías
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar servicios desde la base de datos
+    const servicios = await cargarServiciosDesdeBD();
+    const categorias = categorizarServicios(servicios);
+    
     // Event listeners para categorías
     document.getElementById('categoria-vehiculos').addEventListener('click', function() {
       seleccionarCategoria('vehiculos');
+      renderizarServicios('vehiculos', categorias.vehiculos);
     });
     
     document.getElementById('categoria-tapizados').addEventListener('click', function() {
       seleccionarCategoria('tapizados');
-    });
-    
-    // Event listeners para servicios
-    document.querySelectorAll('.servicio-card').forEach(card => {
-      card.addEventListener('click', function() {
-        seleccionarServicio(this);
-      });
+      renderizarServicios('tapizados', categorias.tapizados);
     });
     
     // Ocultar botón siguiente inicialmente

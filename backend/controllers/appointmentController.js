@@ -385,11 +385,16 @@ const completeAppointment = async (req, res) => {
   }
 };
 
-// Obtener todos los servicios con precios
+// Obtener todos los servicios
 const getAllServices = async (req, res) => {
   try {
     const services = await appointmentModel.getAllServices();
-    res.json({ success: true, services });
+    
+    res.json({ 
+      success: true, 
+      services,
+      message: 'Servicios obtenidos correctamente'
+    });
   } catch (error) {
     console.error('Error obteniendo servicios:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
