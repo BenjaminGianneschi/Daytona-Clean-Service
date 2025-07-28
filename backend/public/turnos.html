@@ -707,16 +707,80 @@
         <div id="step-5" style="display:none;">
           <h3 class="mb-3">Ubicación del Servicio</h3>
           
-          <div class="card-turno">
-            <div class="mb-3">
-              <label for="direccion" class="form-label">Dirección del servicio *</label>
-              <textarea class="form-control" id="direccion" rows="3" placeholder="Ingresa la dirección completa donde se realizará el servicio" required></textarea>
-              <small class="text-muted">Para servicios a domicilio, ingresa la dirección completa. Para servicios en taller, puedes escribir "Taller Daytona".</small>
+          <!-- Para servicios vehiculares -->
+          <div id="ubicacion-vehiculos" style="display:none;">
+            <div class="card-turno">
+              <h5 class="mb-3">
+                <i class="fas fa-car me-2 text-primary"></i>
+                Opciones de Servicio Vehicular
+              </h5>
+              
+              <div class="mb-4">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="radio" name="opcion-vehiculo" id="opcion-buscar" value="buscar">
+                  <label class="form-check-label" for="opcion-buscar">
+                    <strong>🚗 Buscar y entregar el vehículo</strong>
+                    <br><small class="text-muted">Nosotros pasamos a buscar tu vehículo y te lo entregamos en tu domicilio</small>
+                  </label>
+                </div>
+                
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="radio" name="opcion-vehiculo" id="opcion-traer" value="traer">
+                  <label class="form-check-label" for="opcion-traer">
+                    <strong>🏠 Traer el vehículo al taller</strong>
+                    <br><small class="text-muted">Tú traes el vehículo a nuestro taller y lo retiras cuando esté listo</small>
+                  </label>
+                </div>
+              </div>
+              
+              <!-- Campos para opción "buscar" -->
+              <div id="campos-buscar" style="display:none;">
+                <div class="mb-3">
+                  <label for="direccion-vehiculo" class="form-label">Dirección donde buscar el vehículo *</label>
+                  <textarea class="form-control" id="direccion-vehiculo" rows="3" placeholder="Ingresa la dirección completa donde está ubicado el vehículo"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="detalles-vehiculo" class="form-label">Detalles adicionales (opcional)</label>
+                  <textarea class="form-control" id="detalles-vehiculo" rows="2" placeholder="Información adicional: acceso, llaves, contacto, etc."></textarea>
+                </div>
+              </div>
+              
+              <!-- Campos para opción "traer" -->
+              <div id="campos-traer" style="display:none;">
+                <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+                  <i class="fas fa-info-circle me-2"></i>
+                  <strong>Servicio en taller</strong><br>
+                  Deberás traer tu vehículo a nuestro taller ubicado en <strong>Av. San Martín 1234, Córdoba</strong>.<br>
+                  Te avisaremos por WhatsApp cuando esté listo para retirar.
+                </div>
+              </div>
             </div>
-            
-            <div class="mb-3">
-              <label for="detalles-ubicacion" class="form-label">Detalles adicionales (opcional)</label>
-              <textarea class="form-control" id="detalles-ubicacion" rows="2" placeholder="Información adicional sobre la ubicación, acceso, etc."></textarea>
+          </div>
+          
+          <!-- Para servicios de tapizados -->
+          <div id="ubicacion-tapizados" style="display:none;">
+            <div class="card-turno">
+              <h5 class="mb-3">
+                <i class="fas fa-couch me-2 text-success"></i>
+                Servicio a Domicilio
+              </h5>
+              
+              <div class="alert alert-success" style="background: #232323; color: #fff; border: 1.5px solid #28a745;">
+                <i class="fas fa-home me-2"></i>
+                <strong>Servicio a domicilio</strong><br>
+                Nuestros profesionales se dirigen a tu domicilio para realizar el servicio.
+              </div>
+              
+              <div class="mb-3">
+                <label for="direccion-tapizado" class="form-label">Dirección del servicio *</label>
+                <textarea class="form-control" id="direccion-tapizado" rows="3" placeholder="Ingresa la dirección completa donde se realizará el servicio" required></textarea>
+              </div>
+              
+              <div class="mb-3">
+                <label for="detalles-tapizado" class="form-label">Detalles adicionales (opcional)</label>
+                <textarea class="form-control" id="detalles-tapizado" rows="2" placeholder="Información adicional sobre la ubicación, acceso, etc."></textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -1134,14 +1198,60 @@
         
       } else if (this.currentStep === 5) {
         // Paso 5: Ubicación
-        const direccion = document.getElementById('direccion')?.value;
+        const hasVehiculos = this.selectedServices.some(service => service.category === 'vehiculos');
+        const hasTapizados = this.selectedServices.some(service => service.category === 'tapizados');
         
-        if (!direccion) {
-          alert('Por favor, ingresa la dirección del servicio.');
-          return;
+        let locationData = {};
+        
+        // Validar servicios vehiculares
+        if (hasVehiculos) {
+          const opcionVehiculo = document.querySelector('input[name="opcion-vehiculo"]:checked');
+          if (!opcionVehiculo) {
+            alert('Por favor, selecciona una opción para el servicio vehicular.');
+            return;
+          }
+          
+          if (opcionVehiculo.value === 'buscar') {
+            const direccionVehiculo = document.getElementById('direccion-vehiculo')?.value;
+            const detallesVehiculo = document.getElementById('detalles-vehiculo')?.value;
+            
+            if (!direccionVehiculo) {
+              alert('Por favor, ingresa la dirección donde buscar el vehículo.');
+              return;
+            }
+            
+            locationData.vehiculos = {
+              tipo: 'buscar',
+              direccion: direccionVehiculo,
+              detalles: detallesVehiculo
+            };
+          } else {
+            locationData.vehiculos = {
+              tipo: 'traer',
+              direccion: 'Taller Daytona - Av. San Martín 1234, Córdoba',
+              detalles: 'Cliente trae el vehículo al taller'
+            };
+          }
         }
         
-        this.appointmentData.serviceLocation = direccion;
+        // Validar servicios de tapizados
+        if (hasTapizados) {
+          const direccionTapizado = document.getElementById('direccion-tapizado')?.value;
+          const detallesTapizado = document.getElementById('detalles-tapizado')?.value;
+          
+          if (!direccionTapizado) {
+            alert('Por favor, ingresa la dirección del servicio de tapizados.');
+            return;
+          }
+          
+          locationData.tapizados = {
+            tipo: 'domicilio',
+            direccion: direccionTapizado,
+            detalles: detallesTapizado
+          };
+        }
+        
+        this.appointmentData.serviceLocation = locationData;
         this.currentStep = 6;
         this.showResumen();
         
@@ -1186,6 +1296,8 @@
       // Lógica específica por paso
       if (step === 4) {
         this.autoFillUserData();
+      } else if (step === 5) {
+        this.showLocationStep();
       }
     }
 
@@ -1225,6 +1337,57 @@
       
       if (btnConfirmar) {
         btnConfirmar.style.display = step === 6 ? 'block' : 'none';
+      }
+    }
+
+    showLocationStep() {
+      console.log('📍 Configurando paso de ubicación...');
+      
+      // Determinar qué tipo de servicios están seleccionados
+      const hasVehiculos = this.selectedServices.some(service => service.category === 'vehiculos');
+      const hasTapizados = this.selectedServices.some(service => service.category === 'tapizados');
+      
+      const ubicacionVehiculos = document.getElementById('ubicacion-vehiculos');
+      const ubicacionTapizados = document.getElementById('ubicacion-tapizados');
+      
+      if (hasVehiculos && !hasTapizados) {
+        // Solo servicios vehiculares
+        ubicacionVehiculos.style.display = 'block';
+        ubicacionTapizados.style.display = 'none';
+        this.setupVehiculosLocationListeners();
+      } else if (hasTapizados && !hasVehiculos) {
+        // Solo servicios de tapizados
+        ubicacionVehiculos.style.display = 'none';
+        ubicacionTapizados.style.display = 'block';
+      } else if (hasVehiculos && hasTapizados) {
+        // Ambos tipos de servicios
+        ubicacionVehiculos.style.display = 'block';
+        ubicacionTapizados.style.display = 'block';
+        this.setupVehiculosLocationListeners();
+      }
+    }
+
+    setupVehiculosLocationListeners() {
+      // Event listeners para las opciones de vehículo
+      const opcionBuscar = document.getElementById('opcion-buscar');
+      const opcionTraer = document.getElementById('opcion-traer');
+      const camposBuscar = document.getElementById('campos-buscar');
+      const camposTraer = document.getElementById('campos-traer');
+      
+      if (opcionBuscar && opcionTraer) {
+        opcionBuscar.addEventListener('change', () => {
+          if (opcionBuscar.checked) {
+            camposBuscar.style.display = 'block';
+            camposTraer.style.display = 'none';
+          }
+        });
+        
+        opcionTraer.addEventListener('change', () => {
+          if (opcionTraer.checked) {
+            camposBuscar.style.display = 'none';
+            camposTraer.style.display = 'block';
+          }
+        });
       }
     }
 
@@ -1292,10 +1455,45 @@
         <div><strong>Hora:</strong> ${this.appointmentData.time}</div>
         <div><strong>Cliente:</strong> ${this.appointmentData.clientName}</div>
         <div><strong>Teléfono:</strong> ${this.appointmentData.clientPhone}</div>
-        <div><strong>Dirección:</strong> ${this.appointmentData.serviceLocation}</div>
+        <div><strong>Ubicación:</strong></div>
+        ${this.formatLocationInfo()}
       `;
       
       resumenContainer.innerHTML = html;
+    }
+
+    formatLocationInfo() {
+      const locationData = this.appointmentData.serviceLocation;
+      let html = '';
+      
+      if (locationData.vehiculos) {
+        html += '<div class="ms-3 mb-2">';
+        html += '<strong>🚗 Servicios Vehiculares:</strong><br>';
+        if (locationData.vehiculos.tipo === 'buscar') {
+          html += `• Buscar y entregar vehículo<br>`;
+          html += `• Dirección: ${locationData.vehiculos.direccion}<br>`;
+          if (locationData.vehiculos.detalles) {
+            html += `• Detalles: ${locationData.vehiculos.detalles}<br>`;
+          }
+        } else {
+          html += `• Cliente trae vehículo al taller<br>`;
+          html += `• Dirección: ${locationData.vehiculos.direccion}<br>`;
+        }
+        html += '</div>';
+      }
+      
+      if (locationData.tapizados) {
+        html += '<div class="ms-3 mb-2">';
+        html += '<strong>🛋️ Servicios de Tapizados:</strong><br>';
+        html += `• Servicio a domicilio<br>`;
+        html += `• Dirección: ${locationData.tapizados.direccion}<br>`;
+        if (locationData.tapizados.detalles) {
+          html += `• Detalles: ${locationData.tapizados.detalles}<br>`;
+        }
+        html += '</div>';
+      }
+      
+      return html;
     }
 
     async confirmAppointment() {
@@ -1310,7 +1508,7 @@
             service_id: s.service_id,
             quantity: s.quantity
           })),
-          serviceLocation: this.appointmentData.serviceLocation,
+          serviceLocation: JSON.stringify(this.appointmentData.serviceLocation),
           clientName: this.appointmentData.clientName,
           clientPhone: this.appointmentData.clientPhone,
           clientEmail: this.appointmentData.clientEmail,
