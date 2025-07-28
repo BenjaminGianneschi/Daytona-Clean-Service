@@ -328,9 +328,9 @@ async function getAppointmentsByDate(date) {
 // Obtener todos los servicios con precios
 async function getAllServices() {
   const services = await query(`
-    SELECT id, name, price, duration, description
+    SELECT id, name, price, duration, description, category
     FROM services 
-    ORDER BY name
+    ORDER BY category, name
   `);
   return services;
 }

@@ -82,7 +82,6 @@
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
-  <script src="js/turnos-service.js"></script>
   <style>
     body {
       background: #181818;
@@ -327,88 +326,7 @@
         font-size: 0.95rem;
       }
     }
-    /* Dropdown de servicios con iconos */
-    .servicio-dropdown {
-      font-size: 1.1rem;
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: 1.5px solid #ff3b3f;
-      background: #232323;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-    .servicio-dropdown:focus {
-      border-color: #ff3b3f;
-      box-shadow: 0 0 0 0.2rem #ff3b3f33;
-    }
-    
-    /* Estilos para el selector de tipo de servicio */
-    #tipo-servicio .btn {
-      border-radius: 8px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    #tipo-servicio .btn-outline-primary {
-      border-color: #17a2b8;
-      color: #17a2b8;
-    }
-    
-    #tipo-servicio .btn-outline-primary:hover,
-    #tipo-servicio .btn-check:checked + .btn-outline-primary {
-      background-color: #17a2b8;
-      border-color: #17a2b8;
-      color: white;
-    }
-    
-    #tipo-servicio .btn-outline-warning {
-      border-color: #ffc107;
-      color: #ffc107;
-    }
-    
-    #tipo-servicio .btn-outline-warning:hover,
-    #tipo-servicio .btn-check:checked + .btn-outline-warning {
-      background-color: #ffc107;
-      border-color: #ffc107;
-      color: #212529;
-    }
-    
-    /* Estilos para el detalle del servicio */
-    #servicio-detalle .bg-dark {
-      background: linear-gradient(135deg, #232323, #1a1a1a) !important;
-      border: 1px solid #333;
-    }
-    
-    #servicio-detalle .badge {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-    }
-    
-    /* Estilos para optgroup en el dropdown */
-    .servicio-dropdown optgroup {
-      font-weight: bold;
-      color: #ff3b3f;
-    }
-    
-    .servicio-dropdown option {
-      padding: 8px;
-    }
-    #servicio-detalle {
-      font-size: 1.05rem;
-      background: #232323;
-      border: 1.5px solid #ff3b3f;
-      border-radius: 8px;
-      margin-top: 8px;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    #servicio-detalle i {
-      font-size: 1.5rem;
-      color: #ff3b3f;
-      margin-right: 10px;
-    }
+
     /* Botones iguales y bien ubicados */
     .turnero-botones-fijos .btn,
     .turnero-botones-fijos .step-btn {
@@ -565,42 +483,7 @@
       }
     }
 
-    /* Estilos para las tarjetas de servicios */
-    .servicio-card {
-      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-      border: 2px solid #333;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
 
-    .servicio-card:hover {
-      border-color: #ff3b3f;
-      transform: translateX(5px);
-    }
-
-    .servicio-card.selected {
-      border-color: #ff3b3f;
-      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
-      color: white;
-    }
-
-    .servicio-card.selected .servicio-icon {
-      color: white;
-    }
-
-    .servicio-card.selected .servicio-details p {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .servicio-card.selected .servicio-precio {
-      color: white;
-    }
 
     /* Servicios seleccionados */
     .servicio-seleccionado {
@@ -739,231 +622,7 @@
             <div id="lista-servicios" class="row g-2"></div>
           </div>
 
-          <!-- Botones de tipo de sillón (aparecen solo cuando se selecciona Limpieza de Sillones) -->
-          <div id="sillon-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de sillón:</strong></div>
-            <div class="btn-group" role="group" id="sillon-tipos">
-              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-1cuerpo" value="1 cuerpo" autocomplete="off">
-              <label class="btn btn-outline-primary" for="sillon-1cuerpo">
-                <i class="fas fa-couch me-1"></i>1 Cuerpo
-              </label>
-              
-              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-2cuerpos" value="2 cuerpos" autocomplete="off">
-              <label class="btn btn-outline-primary" for="sillon-2cuerpos">
-                <i class="fas fa-couch me-1"></i>2 Cuerpos
-              </label>
-              
-              <input type="radio" class="btn-check" name="sillon-tipo" id="sillon-3cuerpos" value="3 cuerpos" autocomplete="off">
-              <label class="btn btn-outline-primary" for="sillon-3cuerpos">
-                <i class="fas fa-couch me-1"></i>3 Cuerpos
-              </label>
-              
 
-            </div>
-          </div>
-
-          <!-- Botones de tipo de silla (aparecen solo cuando se selecciona Limpieza de Sillas) -->
-          <div id="silla-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de silla:</strong></div>
-            <div class="btn-group" role="group" id="silla-tipos">
-              <input type="radio" class="btn-check" name="silla-tipo" id="silla-simple" value="simple" autocomplete="off">
-              <label class="btn btn-outline-primary" for="silla-simple">
-                <i class="fas fa-chair me-1"></i>Simple
-              </label>
-              
-              <input type="radio" class="btn-check" name="silla-tipo" id="silla-comedor" value="comedor" autocomplete="off">
-              <label class="btn btn-outline-primary" for="silla-comedor">
-                <i class="fas fa-chair me-1"></i>Comedor
-              </label>
-            </div>
-          </div>
-
-          <!-- Botones de tipo de colchón (aparecen solo cuando se selecciona Limpieza de Colchones) -->
-          <div id="colchon-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de colchón:</strong></div>
-            <div class="btn-group" role="group" id="colchon-tipos">
-              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-1plaza" value="1 plaza" autocomplete="off">
-              <label class="btn btn-outline-primary" for="colchon-1plaza">
-                <i class="fas fa-bed me-1"></i>1 Plaza
-              </label>
-              
-              <input type="radio" class="btn-check" name="colchon-tipo" id="colchon-2plazas" value="2 plazas" autocomplete="off">
-              <label class="btn btn-outline-primary" for="colchon-2plazas">
-                <i class="fas fa-bed me-1"></i>2 Plazas
-              </label>
-              
-
-            </div>
-          </div>
-
-          <!-- Botones de tipo de vehículo (aparecen solo cuando se selecciona Limpieza de Vehículo) -->
-          <div id="vehiculo-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de vehículo:</strong></div>
-            <div class="btn-group" role="group" id="vehiculo-tipos">
-              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-auto" value="auto" autocomplete="off">
-              <label class="btn btn-outline-primary" for="vehiculo-auto">
-                <i class="fas fa-car me-1"></i>Auto
-              </label>
-              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-suv" value="suv" autocomplete="off">
-              <label class="btn btn-outline-primary" for="vehiculo-suv">
-                <i class="fas fa-car-side me-1"></i>SUV
-              </label>
-              <input type="radio" class="btn-check" name="vehiculo-tipo" id="vehiculo-pickup" value="pickup" autocomplete="off">
-              <label class="btn btn-outline-primary" for="vehiculo-pickup">
-                <i class="fas fa-truck-pickup me-1"></i>Pickup
-              </label>
-            </div>
-          </div>
-
-          <!-- Botones de tipo de tapizado de vehículo (aparecen solo cuando se selecciona Limpieza de Tapizado de Vehículo) -->
-          <div id="tapizadovehiculo-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de vehículo para tapizado:</strong></div>
-            <div class="btn-group" role="group" id="tapizadovehiculo-tipos">
-              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-auto" value="auto" autocomplete="off">
-              <label class="btn btn-outline-primary" for="tapizadovehiculo-auto">
-                <i class="fas fa-car me-1"></i>Auto
-              </label>
-              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-suv" value="suv" autocomplete="off">
-              <label class="btn btn-outline-primary" for="tapizadovehiculo-suv">
-                <i class="fas fa-car-side me-1"></i>SUV
-              </label>
-              <input type="radio" class="btn-check" name="tapizadovehiculo-tipo" id="tapizadovehiculo-pickup" value="pickup" autocomplete="off">
-              <label class="btn btn-outline-primary" for="tapizadovehiculo-pickup">
-                <i class="fas fa-truck-pickup me-1"></i>Pickup
-              </label>
-            </div>
-          </div>
-          <div id="tapizadovehiculos-seleccionados" class="mb-3"></div>
-          <div id="tapizadovehiculos-total" class="fw-bold mt-3"></div>
-
-          <!-- Botones de tipo de motor (aparecen solo cuando se selecciona Limpieza de Motor) -->
-          <div id="motor-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de limpieza de motor:</strong></div>
-            <div class="btn-group" role="group" id="motor-tipos">
-              <input type="radio" class="btn-check" name="motor-tipo" id="motor-completa" value="completa" autocomplete="off">
-              <label class="btn btn-outline-primary" for="motor-completa">
-                <i class="fas fa-gears me-1"></i>Completa
-              </label>
-              
-              <input type="radio" class="btn-check" name="motor-tipo" id="motor-detallada" value="detallada" autocomplete="off">
-              <label class="btn btn-outline-primary" for="motor-detallada">
-                <i class="fas fa-gears me-1"></i>Detallada
-              </label>
-            </div>
-          </div>
-
-          <!-- Campo para ingresar metros cuadrados -->
-          <div id="metros-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Ingresá los metros cuadrados:</strong></div>
-            <div class="input-group">
-              <input type="number" class="form-control" id="metros-input" placeholder="Ej: 6" min="1" step="0.1">
-              <span class="input-group-text">m²</span>
-            </div>
-            <small class="text-muted">Ejemplo: 2m x 3m = 6m²</small>
-          </div>
-
-          <!-- Botones de tipo de puff (aparecen solo cuando se selecciona Limpieza de Puff) -->
-          <div id="puff-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de puff:</strong></div>
-            <div class="btn-group" role="group" id="puff-tipos">
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-simple" value="simple" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-simple">
-                <i class="fas fa-couch me-1"></i>Simple
-              </label>
-              
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-grande" value="grande" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-grande">
-                <i class="fas fa-couch me-1"></i>Grande
-              </label>
-              
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-especial" value="especial" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-especial">
-                <i class="fas fa-couch me-1"></i>Especial
-              </label>
-            </div>
-          </div>
-
-          <!-- Selección de tipo de servicio (Estándar/Especial) -->
-          <div id="tipo-servicio-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de servicio:</strong></div>
-            <div class="btn-group w-100" role="group" id="tipo-servicio">
-              <input type="radio" class="btn-check" name="tipo-servicio" id="tipo-estandar" value="estandar" autocomplete="off" checked>
-              <label class="btn btn-outline-primary" for="tipo-estandar">
-                <i class="fas fa-star me-1"></i>Estándar
-              </label>
-              
-              <input type="radio" class="btn-check" name="tipo-servicio" id="tipo-especial" value="especial" autocomplete="off">
-              <label class="btn btn-outline-warning" for="tipo-especial">
-                <i class="fas fa-crown me-1"></i>Especial
-              </label>
-            </div>
-          </div>
-
-          <!-- Detalle del servicio seleccionado -->
-          <div id="servicio-detalle" class="mb-3" style="display:none;">
-            <!-- El contenido se genera dinámicamente -->
-          </div>
-
-          <!-- Cards de sillones seleccionados -->
-          <div id="sillones-seleccionados" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de sillas seleccionadas -->
-          <div id="sillas-seleccionadas" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de colchones seleccionados -->
-          <div id="colchones-seleccionados" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de vehículos seleccionados -->
-          <div id="vehiculos-seleccionados" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de motores seleccionados -->
-          <div id="motores-seleccionados" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de alfombras seleccionadas -->
-          <div id="alfombras-seleccionadas" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-
-          <!-- Cards de puffs seleccionados -->
-          <div id="puffs-seleccionados" class="mb-3">
-            <!-- Las cards se generan dinámicamente -->
-          </div>
-          
-          <div id="sillones-total" class="fw-bold mt-3"></div>
-          <div id="sillas-total" class="fw-bold mt-3"></div>
-          <div id="colchones-total" class="fw-bold mt-3"></div>
-          <div id="vehiculos-total" class="fw-bold mt-3"></div>
-          <div id="motores-total" class="fw-bold mt-3"></div>
-          <div id="alfombras-total" class="fw-bold mt-3"></div>
-          <div id="puffs-total" class="fw-bold mt-3"></div>
-          
-          <!-- Resumen final de todos los servicios -->
-          <div id="resumen-final" class="mt-4" style="display:none; margin-bottom: 1.5rem;">
-            <div class="card-turno">
-              <h5 class="mb-3">
-                <i class="fas fa-list-ul me-2 text-danger"></i>
-                Resumen de Servicios
-              </h5>
-              <div id="lista-servicios" class="mb-3">
-                <!-- Los servicios se mostrarán aquí -->
-              </div>
-              <hr style="border-color: #ff3b3f;">
-              <div class="d-flex justify-content-between align-items-center">
-                <strong class="text-white">Total General:</strong>
-                <strong class="text-danger fs-4" id="total-general">$0</strong>
-              </div>
-            </div>
-          </div>
         </div>
         <!-- Paso 2: Seleccionar Profesional -->
         <div id="step-2" style="display:none;">
@@ -982,104 +641,29 @@
         <div id="step-3" style="display:none;">
           <h3 class="mb-3">Seleccionar Fecha y Hora</h3>
           
-          <!-- Información sobre turnos separados -->
-          <div id="info-turnos-separados" class="alert alert-info mb-4" style="display:none; background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
-            <i class="fas fa-info-circle me-2"></i>
-            <strong>Turnos Separados:</strong> Has seleccionado servicios de diferentes categorías. 
-            Los servicios de vehículos y tapizados se realizarán en turnos separados para optimizar el tiempo y la calidad del servicio.
-          </div>
-          
-          <!-- Turno para Vehículos -->
-          <div id="turno-vehiculos" style="display:none;">
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-car me-2 text-danger"></i>
-                Turno para Servicios de Vehículos
-              </h5>
-              <div id="servicios-vehiculos-resumen" class="mb-3"></div>
-              <form id="fecha-hora-vehiculos-form">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="fecha-vehiculos" class="form-label">Fecha *</label>
-                    <input type="date" class="form-control" id="fecha-vehiculos" min="" required />
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="hora-vehiculos" class="form-label">Hora *</label>
-                    <select class="form-select" id="hora-vehiculos" required>
-                      <option value="">Selecciona una hora</option>
-                      <option>09:00</option>
-                      <option>10:00</option>
-                      <option>11:00</option>
-                      <option>12:00</option>
-                      <option>13:00</option>
-                      <option>14:00</option>
-                      <option>15:00</option>
-                      <option>16:00</option>
-                      <option>17:00</option>
-                    </select>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          
-          <!-- Turno para Tapizados -->
-          <div id="turno-tapizados" style="display:none;">
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-couch me-2 text-danger"></i>
-                Turno para Servicios de Tapizados
-              </h5>
-              <div id="servicios-tapizados-resumen" class="mb-3"></div>
-              <form id="fecha-hora-tapizados-form">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="fecha-tapizados" class="form-label">Fecha *</label>
-                    <input type="date" class="form-control" id="fecha-tapizados" min="" required />
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="hora-tapizados" class="form-label">Hora *</label>
-                    <select class="form-select" id="hora-tapizados" required>
-                      <option value="">Selecciona una hora</option>
-                      <option>09:00</option>
-                      <option>10:00</option>
-                      <option>11:00</option>
-                      <option>12:00</option>
-                      <option>13:00</option>
-                      <option>14:00</option>
-                      <option>15:00</option>
-                      <option>16:00</option>
-                      <option>17:00</option>
-                    </select>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          
-          <!-- Turno único (cuando solo hay una categoría) -->
-          <div id="turno-unico" style="display:none;">
-            <form id="fecha-hora-form">
-              <div class="mb-3">
+          <div class="card-turno">
+            <div class="row">
+              <div class="col-md-6 mb-3">
                 <label for="fecha" class="form-label">Fecha *</label>
                 <input type="date" class="form-control" id="fecha" min="" required />
               </div>
-              <div class="mb-3">
+              <div class="col-md-6 mb-3">
                 <label for="hora" class="form-label">Hora *</label>
                 <select class="form-select" id="hora" required>
                   <option value="">Selecciona una hora</option>
-                  <option>09:00</option>
+                  <option>08:00</option>
                   <option>10:00</option>
-                  <option>11:00</option>
                   <option>12:00</option>
-                  <option>13:00</option>
                   <option>14:00</option>
-                  <option>15:00</option>
                   <option>16:00</option>
-                  <option>17:00</option>
                 </select>
               </div>
-            </form>
+            </div>
+            
+            <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Horarios disponibles:</strong> Lunes a Viernes de 8:00 a 18:00. Los turnos se confirman por WhatsApp.
+            </div>
           </div>
         </div>
         <!-- Paso 4: Datos Personales -->
@@ -1123,77 +707,53 @@
         <div id="step-5" style="display:none;">
           <h3 class="mb-3">Ubicación del Servicio</h3>
           
-          <!-- Ubicación para Vehículos -->
-          <div id="ubicacion-vehiculos" style="display:none;">
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-car me-2 text-danger"></i>
-                Ubicación para Servicios de Vehículos
-              </h5>
-              <div id="ubicacion-vehiculos-container">
-                <!-- Los campos se mostrarán dinámicamente -->
-              </div>
+          <div class="card-turno">
+            <div class="mb-3">
+              <label for="direccion" class="form-label">Dirección del servicio *</label>
+              <textarea class="form-control" id="direccion" rows="3" placeholder="Ingresa la dirección completa donde se realizará el servicio" required></textarea>
+              <small class="text-muted">Para servicios a domicilio, ingresa la dirección completa. Para servicios en taller, puedes escribir "Taller Daytona".</small>
             </div>
-          </div>
-          
-          <!-- Ubicación para Tapizados -->
-          <div id="ubicacion-tapizados" style="display:none;">
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-couch me-2 text-danger"></i>
-                Ubicación para Servicios de Tapizados
-              </h5>
-              <div id="ubicacion-tapizados-container">
-                <!-- Los campos se mostrarán dinámicamente -->
-              </div>
-            </div>
-          </div>
-          
-          <!-- Ubicación única (cuando solo hay una categoría) -->
-          <div id="ubicacion-unica" style="display:none;">
-            <div id="ubicacion-container">
-              <!-- Los campos se mostrarán dinámicamente según el tipo de servicio -->
+            
+            <div class="mb-3">
+              <label for="detalles-ubicacion" class="form-label">Detalles adicionales (opcional)</label>
+              <textarea class="form-control" id="detalles-ubicacion" rows="2" placeholder="Información adicional sobre la ubicación, acceso, etc."></textarea>
             </div>
           </div>
         </div>
         <!-- Paso 6: Confirmar -->
         <div id="step-6" style="display:none;">
-          <h3 class="mb-3">Confirmar Turnos</h3>
+          <h3 class="mb-3">Confirmar Turno</h3>
           
-          <!-- Resumen de turnos separados -->
-          <div id="resumen-turnos-separados" style="display:none;">
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-car me-2 text-danger"></i>
-                Turno para Servicios de Vehículos
-              </h5>
-              <div id="resumen-turno-vehiculos"></div>
-            </div>
-            
-            <div class="card-turno mb-4">
-              <h5 class="mb-3">
-                <i class="fas fa-couch me-2 text-danger"></i>
-                Turno para Servicios de Tapizados
-              </h5>
-              <div id="resumen-turno-tapizados"></div>
-            </div>
+          <div class="card-turno">
+            <h5 class="mb-3">
+              <i class="fas fa-check-circle me-2 text-success"></i>
+              Resumen del Turno
+            </h5>
+            <div id="resumen-turno"></div>
           </div>
           
-          <!-- Resumen de turno único -->
-          <div id="resumen-turno-unico" style="display:none;">
-            <div class="resumen-turno" id="resumen-turno"></div>
+          <div class="alert alert-success mt-4" style="background: #232323; color: #fff; border: 1.5px solid #28a745;">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>¡Casi listo!</strong> Revisa los datos y confirma tu turno. Te enviaremos una confirmación por WhatsApp.
           </div>
-          
-          <div id="resumen-final" class="mt-4" style="display:block; margin-bottom: 1.5rem;"></div>
         </div>
         <!-- Mensaje de éxito -->
         <div id="turno-exito" style="display:none;">
-          <div class="alert alert-success mt-4" style="background: #232323; color: #fff; border: 1.5px solid #28a745;">
-            <h4 class="mb-2">¡Turno guardado exitosamente!</h4>
-            <p>Tu turno ha sido guardado en nuestro historial. Te contactaremos pronto para coordinar los detalles de tu servicio.</p>
-            <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
-            <div id="botones-exito" class="mt-3">
-              <!-- Los botones se agregarán dinámicamente -->
+          <div class="text-center">
+            <div class="alert alert-success" style="background: #232323; color: #fff; border: 1.5px solid #28a745;">
+              <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+              <h4 class="mb-3">¡Turno Confirmado!</h4>
+              <p class="mb-3">Tu turno ha sido creado exitosamente. Te enviaremos una confirmación por WhatsApp en los próximos minutos.</p>
+              <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
+            </div>
+            
+            <div class="mt-4">
+              <a href="/" class="btn btn-primary me-2">
+                <i class="fas fa-home me-1"></i>Volver al Inicio
+              </a>
+              <a href="/mi-cuenta.html" class="btn btn-outline-primary">
+                <i class="fas fa-user me-1"></i>Mi Cuenta
+              </a>
             </div>
           </div>
         </div>
@@ -1214,45 +774,7 @@
     </p>
   </footer>
 
-  <!-- Modal de Confirmación -->
-  <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-success text-white">
-          <h5 class="modal-title" id="confirmacionModalLabel">
-            <i class="fas fa-check-circle me-2"></i>¡Turno Confirmado!
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p id="confirmacionMensaje"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal de Error -->
-  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="errorModalLabel">
-            <i class="fas fa-exclamation-triangle me-2"></i>Error
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p id="errorMensaje"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap JS debe ir primero para que los dropdowns funcionen -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1277,6 +799,7 @@
         totalAmount: 0
       };
       this.services = [];
+      this.apiService = new ApiService();
       this.init();
     }
 
@@ -1289,32 +812,25 @@
     }
 
     setMinDate() {
-      const fechaInput = document.getElementById('fecha');
-      if (fechaInput) {
-        const today = new Date().toISOString().split('T')[0];
-        fechaInput.min = today;
-      }
+      const today = new Date().toISOString().split('T')[0];
+      const dateInputs = document.querySelectorAll('input[type="date"]');
+      dateInputs.forEach(input => {
+        input.min = today;
+      });
     }
 
     async loadServices() {
       try {
         console.log('📡 Cargando servicios desde la API...');
-        const response = await fetch('/api/appointments/services');
+        const response = await this.apiService.request('/appointments/services');
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('📋 Respuesta de la API:', data);
-        
-        if (data.success && data.services) {
-          this.services = data.services;
+        if (response.success && response.services) {
+          this.services = response.services;
           console.log('✅ Servicios cargados:', this.services.length);
           this.renderServices();
         } else {
-          console.error('❌ Error en la respuesta de la API:', data.message);
-          this.showError('Error cargando servicios: ' + (data.message || 'Respuesta inválida'));
+          console.error('❌ Error en la respuesta de la API:', response.message);
+          this.showError('Error cargando servicios: ' + (response.message || 'Respuesta inválida'));
         }
       } catch (error) {
         console.error('❌ Error cargando servicios:', error);
@@ -1323,7 +839,7 @@
     }
 
     showError(message) {
-      const container = document.querySelector('.step-content');
+      const container = document.querySelector('.wizard-content-moderno');
       if (container) {
         container.innerHTML = `
           <div class="alert alert-danger">
@@ -1358,15 +874,15 @@
 
     createServiceElement(service, container) {
       const element = document.createElement('div');
-      element.className = 'service-item';
+      element.className = 'servicio-item';
       element.dataset.serviceId = service.id;
       element.dataset.name = service.name;
       element.dataset.price = service.price;
       element.dataset.duration = service.duration;
       
       element.innerHTML = `
-        <div class="service-info">
-          <div class="service-icon">
+        <div class="servicio-info">
+          <div class="servicio-icon">
             <i class="fas ${this.getServiceIcon(service.name)}"></i>
           </div>
           <div class="servicio-details">
@@ -1448,18 +964,18 @@
       let total = 0;
       this.selectedServices.forEach(service => {
         const item = document.createElement('div');
-        item.className = 'd-flex justify-content-between align-items-center mb-2 p-2 bg-dark rounded';
+        item.className = 'servicio-seleccionado';
         item.innerHTML = `
-          <div class="d-flex align-items-center">
-            <i class="fas ${this.getServiceIcon(service.name)} me-2"></i>
+          <div class="servicio-info">
+            <i class="fas ${this.getServiceIcon(service.name)}"></i>
             <span>${service.name} x${service.quantity}</span>
           </div>
-          <div class="d-flex align-items-center">
-            <span class="me-3">$${service.price.toLocaleString()}</span>
-            <button class="btn btn-sm btn-outline-danger" onclick="turnosApp.removeService(${service.service_id})">
-              <i class="fas fa-times"></i>
-            </button>
+          <div class="servicio-precio">
+            $${service.price.toLocaleString()}
           </div>
+          <button onclick="turnosApp.removeService(${service.service_id})" class="btn-remove">
+            <i class="fas fa-times"></i>
+          </button>
         `;
         listContainer.appendChild(item);
         total += service.price * service.quantity;
@@ -1518,6 +1034,15 @@
         });
       }
       
+      // Botón confirmar
+      const btnConfirmar = document.getElementById('btn-confirmar-fijo');
+      if (btnConfirmar) {
+        btnConfirmar.addEventListener('click', () => {
+          console.log('✅ Botón confirmar clickeado');
+          this.confirmAppointment();
+        });
+      }
+      
       // Categorías
       const categoriaVehiculos = document.getElementById('categoria-vehiculos');
       const categoriaTapizados = document.getElementById('categoria-tapizados');
@@ -1543,11 +1068,8 @@
       console.log('📂 Seleccionando categoría:', category);
       
       // Ocultar categorías
-      const categoriaVehiculos = document.getElementById('categoria-vehiculos');
-      const categoriaTapizados = document.getElementById('categoria-tapizados');
-      
-      if (categoriaVehiculos) categoriaVehiculos.style.display = 'none';
-      if (categoriaTapizados) categoriaTapizados.style.display = 'none';
+      const categoriaSelector = document.querySelector('.categoria-selector');
+      if (categoriaSelector) categoriaSelector.style.display = 'none';
       
       // Mostrar servicios de la categoría
       const serviciosContainer = document.getElementById(`servicios-${category}`);
@@ -1558,34 +1080,6 @@
       
       // Mostrar botón siguiente
       this.updateNextButton();
-    }
-
-    changeCategory() {
-      console.log('🔄 Cambiando categoría...');
-      
-      // Limpiar selecciones
-      this.selectedServices = [];
-      this.updateSelectedServicesDisplay();
-      
-      // Ocultar contenedores de servicios
-      const serviciosVehiculos = document.getElementById('servicios-vehiculos');
-      const serviciosTapizados = document.getElementById('servicios-tapizados');
-      
-      if (serviciosVehiculos) serviciosVehiculos.style.display = 'none';
-      if (serviciosTapizados) serviciosTapizados.style.display = 'none';
-      
-      // Mostrar categorías
-      const categoriaVehiculos = document.getElementById('categoria-vehiculos');
-      const categoriaTapizados = document.getElementById('categoria-tapizados');
-      
-      if (categoriaVehiculos) categoriaVehiculos.style.display = 'block';
-      if (categoriaTapizados) categoriaTapizados.style.display = 'block';
-      
-      // Ocultar botón siguiente
-      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-      if (btnSiguiente) {
-        btnSiguiente.style.display = 'none';
-      }
     }
 
     nextStep() {
@@ -1600,19 +1094,30 @@
         this.currentStep = 2;
         
       } else if (this.currentStep === 2) {
-        const fecha = document.getElementById('fecha')?.value;
-        const hora = document.getElementById('hora')?.value;
-        
-        if (!fecha || !hora) {
-          alert('Por favor, selecciona fecha y hora.');
-          return;
-        }
-        
-        this.appointmentData.date = fecha;
-        this.appointmentData.time = hora;
+        // Paso 2: Seleccionar Profesional (automático)
         this.currentStep = 3;
         
       } else if (this.currentStep === 3) {
+        // Paso 3: Seleccionar Fecha y Hora
+        const fechaInput = document.querySelector('input[type="date"]');
+        const horaSelect = document.querySelector('select');
+        
+        if (!fechaInput || !fechaInput.value) {
+          alert('Por favor, selecciona una fecha.');
+          return;
+        }
+        
+        if (!horaSelect || !horaSelect.value) {
+          alert('Por favor, selecciona una hora.');
+          return;
+        }
+        
+        this.appointmentData.date = fechaInput.value;
+        this.appointmentData.time = horaSelect.value;
+        this.currentStep = 4;
+        
+      } else if (this.currentStep === 4) {
+        // Paso 4: Datos Personales
         const nombre = document.getElementById('nombre')?.value;
         const apellido = document.getElementById('apellido')?.value;
         const telefono = document.getElementById('telefono')?.value;
@@ -1625,9 +1130,10 @@
         this.appointmentData.clientName = `${nombre} ${apellido}`.trim();
         this.appointmentData.clientPhone = telefono;
         this.appointmentData.clientEmail = document.getElementById('email')?.value || '';
-        this.currentStep = 4;
+        this.currentStep = 5;
         
-      } else if (this.currentStep === 4) {
+      } else if (this.currentStep === 5) {
+        // Paso 5: Ubicación
         const direccion = document.getElementById('direccion')?.value;
         
         if (!direccion) {
@@ -1636,10 +1142,10 @@
         }
         
         this.appointmentData.serviceLocation = direccion;
-        this.currentStep = 5;
+        this.currentStep = 6;
         this.showResumen();
         
-      } else if (this.currentStep === 5) {
+      } else if (this.currentStep === 6) {
         this.confirmAppointment();
         return;
       }
@@ -1658,7 +1164,7 @@
       console.log('📋 Mostrando paso:', step);
       
       // Ocultar todos los pasos
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const stepDiv = document.getElementById(`step-${i}`);
         if (stepDiv) {
           stepDiv.style.display = 'none';
@@ -1678,20 +1184,20 @@
       this.updateButtons(step);
       
       // Lógica específica por paso
-      if (step === 3) {
+      if (step === 4) {
         this.autoFillUserData();
       }
     }
 
     updateProgressBar(step) {
-      const percent = ((step - 1) / 4) * 100;
+      const percent = ((step - 1) / 5) * 100;
       const barFill = document.getElementById('wizard-bar-fill');
       if (barFill) {
         barFill.style.width = percent + '%';
       }
       
       // Actualizar indicadores
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const indicator = document.getElementById(`step-indicator-${i}`);
         if (indicator) {
           indicator.classList.remove('active', 'completed');
@@ -1707,18 +1213,18 @@
     updateButtons(step) {
       const btnAnterior = document.getElementById('btn-anterior-fijo');
       const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      const btnConfirmar = document.getElementById('btn-confirmar-fijo');
       
       if (btnAnterior) {
         btnAnterior.style.display = step > 1 ? 'block' : 'none';
       }
       
       if (btnSiguiente) {
-        btnSiguiente.style.display = step < 5 ? 'block' : 'none';
-        if (step === 5) {
-          btnSiguiente.textContent = 'Confirmar Turno';
-        } else {
-          btnSiguiente.textContent = 'Siguiente';
-        }
+        btnSiguiente.style.display = step < 6 ? 'block' : 'none';
+      }
+      
+      if (btnConfirmar) {
+        btnConfirmar.style.display = step === 6 ? 'block' : 'none';
       }
     }
 
@@ -1822,22 +1328,14 @@
         console.log('📤 Enviando turno al backend:', appointmentData);
         
         // Enviar al backend
-        const response = await fetch('/api/appointments', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(appointmentData)
-        });
+        const response = await this.apiService.createAppointment(appointmentData);
         
-        const result = await response.json();
-        
-        if (result.success) {
-          console.log('✅ Turno creado exitosamente:', result);
+        if (response.success) {
+          console.log('✅ Turno creado exitosamente:', response);
           this.showSuccess();
         } else {
-          console.error('❌ Error creando turno:', result.message);
-          alert(`Error: ${result.message}`);
+          console.error('❌ Error creando turno:', response.message);
+          alert(`Error: ${response.message}`);
         }
         
       } catch (error) {
@@ -1848,7 +1346,7 @@
 
     showSuccess() {
       // Ocultar todos los pasos
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const stepDiv = document.getElementById(`step-${i}`);
         if (stepDiv) {
           stepDiv.style.display = 'none';
@@ -1864,9 +1362,11 @@
       // Ocultar botones
       const btnAnterior = document.getElementById('btn-anterior-fijo');
       const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      const btnConfirmar = document.getElementById('btn-confirmar-fijo');
       
       if (btnAnterior) btnAnterior.style.display = 'none';
       if (btnSiguiente) btnSiguiente.style.display = 'none';
+      if (btnConfirmar) btnConfirmar.style.display = 'none';
     }
   }
 
@@ -1879,2950 +1379,30 @@
   // Función global para cambiar categoría (compatibilidad)
   window.cambiarCategoria = function() {
     if (window.turnosApp) {
-      window.turnosApp.changeCategory();
-    }
-  };
-  
-  console.log('🧪 Para probar auto-completado, ejecuta: testAutoCompletado()');
-  
-  // Función para limpiar datos de prueba
-  window.limpiarDatosPrueba = function() {
-    console.log('🧹 Limpiando datos de prueba...');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
-    console.log('✅ Datos de prueba eliminados');
-    console.log('🔄 Recarga la página para ver el estado sin login');
-  };
-  
-  console.log('🧹 Para limpiar datos de prueba, ejecuta: limpiarDatosPrueba()');
-  
-  // Función para verificar datos del usuario actual
-  window.verificarDatosUsuario = function() {
-    console.log('🔍 Verificando datos del usuario actual...');
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('userData');
-    
-    console.log('Token:', token ? 'Presente' : 'Ausente');
-    console.log('UserData:', userData);
-    
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        console.log('👤 Datos del usuario:', user);
-        console.log('📞 Teléfono disponible:', user.phone || user.telefono || user.phonenumber || user.celular || user.phoneNumber || 'NO ENCONTRADO');
-      } catch (error) {
-        console.error('❌ Error parseando userData:', error);
+      // Volver al paso 1 y mostrar categorías
+      window.turnosApp.currentStep = 1;
+      window.turnosApp.selectedServices = [];
+      window.turnosApp.updateSelectedServicesDisplay();
+      window.turnosApp.showStep(1);
+      
+      // Mostrar categorías
+      const categoriaSelector = document.querySelector('.categoria-selector');
+      if (categoriaSelector) categoriaSelector.style.display = 'block';
+      
+      // Ocultar contenedores de servicios
+      const serviciosVehiculos = document.getElementById('servicios-vehiculos');
+      const serviciosTapizados = document.getElementById('servicios-tapizados');
+      
+      if (serviciosVehiculos) serviciosVehiculos.style.display = 'none';
+      if (serviciosTapizados) serviciosTapizados.style.display = 'none';
+      
+      // Ocultar botón siguiente
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      if (btnSiguiente) {
+        btnSiguiente.style.display = 'none';
       }
     }
   };
-  
-  console.log('🔍 Para verificar datos del usuario actual, ejecuta: verificarDatosUsuario()');
-  
-  // Función para agregar teléfono al usuario actual (para pruebas)
-  window.agregarTelefonoUsuario = function(telefono) {
-    console.log('📞 Agregando teléfono al usuario actual...');
-    const userData = localStorage.getItem('userData');
-    
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        user.phone = telefono;
-        localStorage.setItem('userData', JSON.stringify(user));
-        console.log('✅ Teléfono agregado:', telefono);
-        console.log('🔄 Recarga la página para que tome efecto');
-      } catch (error) {
-        console.error('❌ Error actualizando userData:', error);
-      }
-    } else {
-      console.error('❌ No hay datos de usuario');
-    }
-  };
-  
-  console.log('📞 Para agregar teléfono al usuario actual, ejecuta: agregarTelefonoUsuario("3482123456")');
-  
-  // Agregar teléfono automáticamente al usuario actual si no lo tiene
-  window.agregarTelefonoAutomaticamente = function() {
-    console.log('🔧 Verificando teléfono del usuario...');
-    const userData = localStorage.getItem('userData');
-    
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        if (!user.phone) {
-          // No agregar teléfono automáticamente, dejar que el usuario lo complete
-          console.log('ℹ️ El usuario no tiene teléfono guardado. Deberá completarlo manualmente.');
-          return false;
-        } else {
-          console.log('ℹ️ El usuario ya tiene teléfono:', user.phone);
-          return true;
-        }
-      } catch (error) {
-        console.error('❌ Error verificando userData:', error);
-        return false;
-      }
-    } else {
-      console.error('❌ No hay datos de usuario');
-      return false;
-    }
-  };
-  
-  console.log('🔧 Para agregar teléfono automáticamente, ejecuta: agregarTelefonoAutomaticamente()');
-  
-  // Función para obtener el teléfono real del usuario desde el backend
-  window.obtenerTelefonoReal = async function() {
-    console.log('📞 Obteniendo teléfono real del usuario...');
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      console.error('❌ No hay token de autenticación');
-      return null;
-    }
-    
-    try {
-      // Primero intentar obtener del localStorage (pero verificar que no sea el genérico)
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        const user = JSON.parse(userData);
-        if (user.phone && user.phone !== '3482123456') {
-          console.log('✅ Teléfono encontrado en localStorage:', user.phone);
-          return user.phone;
-        }
-      }
-      
-      // Si no está en localStorage o es genérico, intentar obtener del backend
-      console.log('🔄 Buscando teléfono en el backend...');
-      const response = await fetch(`${window.getApiUrl ? window.getApiUrl() : 'https://daytona-clean-service.onrender.com/api'}/users/me`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success && data.user && data.user.phone) {
-          console.log('✅ Teléfono obtenido del backend:', data.user.phone);
-          // Actualizar localStorage con el teléfono real
-          if (userData) {
-            const user = JSON.parse(userData);
-            user.phone = data.user.phone;
-            localStorage.setItem('userData', JSON.stringify(user));
-            console.log('✅ localStorage actualizado con teléfono real');
-          }
-          return data.user.phone;
-        }
-      }
-      
-      console.log('ℹ️ No se encontró teléfono guardado');
-      return null;
-    } catch (error) {
-      console.error('❌ Error obteniendo teléfono:', error);
-      return null;
-    }
-  };
-  
-  console.log('📞 Para obtener teléfono real, ejecuta: obtenerTelefonoReal()');
-  
-  // Función para limpiar el teléfono genérico y usar el real
-  window.limpiarTelefonoGenerico = function() {
-    console.log('🧹 Limpiando teléfono genérico...');
-    const userData = localStorage.getItem('userData');
-    
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        if (user.phone === '3482123456') {
-          // Eliminar el teléfono genérico
-          delete user.phone;
-          localStorage.setItem('userData', JSON.stringify(user));
-          console.log('✅ Teléfono genérico eliminado');
-          console.log('🔄 Recarga la página para que tome efecto');
-          return true;
-        } else {
-          console.log('ℹ️ No hay teléfono genérico para limpiar');
-          return false;
-        }
-      } catch (error) {
-        console.error('❌ Error limpiando teléfono:', error);
-        return false;
-      }
-    } else {
-      console.error('❌ No hay datos de usuario');
-      return false;
-    }
-  };
-  
-  console.log('🧹 Para limpiar teléfono genérico, ejecuta: limpiarTelefonoGenerico()');
-  
-  // Función para forzar la actualización del teléfono desde el backend
-  window.actualizarTelefonoDesdeBackend = async function() {
-    console.log('🔄 Forzando actualización del teléfono desde el backend...');
-    const telefono = await obtenerTelefonoReal();
-    if (telefono) {
-      console.log('✅ Teléfono actualizado:', telefono);
-      console.log('🔄 Recarga la página para ver el cambio en el formulario');
-      return telefono;
-    } else {
-      console.log('❌ No se pudo obtener el teléfono del backend');
-      return null;
-    }
-  };
-  
-  console.log('🔄 Para forzar actualización del teléfono, ejecuta: actualizarTelefonoDesdeBackend()');
-  
-
-
-  // Variables globales para servicios
-  let sillonesAgregados = [];
-  let sillasAgregadas = [];
-  let colchonesAgregados = [];
-  let vehiculosAgregados = [];
-  let tapizadoVehiculosAgregados = [];
-  let motoresAgregados = [];
-  let alfombrasAgregadas = [];
-  let puffsAgregados = [];
-
-  // Variables para manejar turnos separados (hacerlas globales)
-  window.turnosSeparados = {
-    vehiculos: {
-      servicios: [],
-      fecha: null,
-      hora: null,
-      direccion: null,
-      detalles: null
-    },
-    tapizados: {
-      servicios: [],
-      fecha: null,
-      hora: null,
-      direccion: null,
-      detalles: null
-    }
-  };
-
-  // Variables globales para servicios (manejadas por turnos-app.js)
-  let serviciosBD = [];
-  let serviciosPorCategoria = {};
-
-  // Función para obtener precio desde BD por nombre y tipo
-  function getPrecioDesdeBD(nombreServicio, tipo = null) {
-    const servicio = serviciosBD.find(s => {
-      if (tipo) {
-        return s.name.toLowerCase().includes(nombreServicio.toLowerCase()) && 
-               s.name.toLowerCase().includes(tipo.toLowerCase());
-      }
-      return s.name.toLowerCase().includes(nombreServicio.toLowerCase());
-    });
-    
-    return servicio ? servicio.price : 0;
-  }
-
-  // Funciones helper para obtener precios (solo desde BD)
-  function getPrecioVehiculo(tipo) {
-    return getPrecioDesdeBD('vehículo', tipo);
-  }
-
-  function getPrecioTapizadoVehiculo(tipo) {
-    return getPrecioDesdeBD('tapizado vehículo', tipo);
-  }
-
-  function getPrecioMotor(tipo) {
-    return getPrecioDesdeBD('motor', tipo);
-  }
-
-  function getPrecioSillon(tipo) {
-    return getPrecioDesdeBD('sillón', tipo);
-  }
-
-  function getPrecioSilla(tipo) {
-    return getPrecioDesdeBD('silla', tipo);
-  }
-
-  function getPrecioColchon(tipo) {
-    return getPrecioDesdeBD('colchón', tipo);
-  }
-
-  function getPrecioAlfombra(tipo) {
-    return getPrecioDesdeBD('alfombra', tipo);
-  }
-
-  function getPrecioPuff(tipo) {
-    return getPrecioDesdeBD('puff', tipo);
-  }
-
-  // Definir funciones antes del DOMContentLoaded
-  // Variable global para servicios disponibles
-  let serviciosDisponibles = [];
-
-  // Función para cargar servicios desde el backend
-  async function cargarServiciosDisponibles() {
-    try {
-      const response = await fetch('https://daytona-clean-service.onrender.com/api/services');
-      const data = await response.json();
-      if (data.success) {
-        serviciosDisponibles = data.services;
-        console.log('✅ Servicios cargados desde BD:', serviciosDisponibles);
-      } else {
-        throw new Error('Error en respuesta del servidor');
-      }
-    } catch (error) {
-      console.error('❌ Error cargando servicios desde BD:', error);
-      // Usar duraciones por defecto en lugar de mostrar error
-      serviciosDisponibles = [
-        { id: 1, name: 'Limpieza de Auto', duration: 180 },
-        { id: 2, name: 'Limpieza de Tapizado de Auto', duration: 1440 },
-        { id: 3, name: 'Motor Detallada', duration: 240 },
-        { id: 4, name: 'Sillón 1 cuerpo', duration: 120 },
-        { id: 5, name: 'Colchón de 1 plaza', duration: 90 },
-        { id: 6, name: 'Puff chico', duration: 45 }
-      ];
-      console.log('⚠️ Usando duraciones por defecto');
-    }
-  }
-
-  // Función para calcular duración total de servicios
-  function calcularDuracionServicios(servicios) {
-    let duracionTotal = 0;
-    
-    if (!serviciosDisponibles || serviciosDisponibles.length === 0) {
-      console.warn('⚠️ Servicios no cargados, usando duración por defecto');
-      return 120; // duración por defecto
-    }
-    
-    servicios.forEach(servicio => {
-      // Buscar la duración del servicio en la lista de servicios disponibles
-      const servicioEncontrado = serviciosDisponibles.find(s => s.id === servicio.service_id);
-      if (servicioEncontrado) {
-        duracionTotal += servicioEncontrado.duration * servicio.cantidad;
-        console.log(`📅 Servicio: ${servicioEncontrado.name} - Duración: ${servicioEncontrado.duration}min x ${servicio.cantidad} = ${servicioEncontrado.duration * servicio.cantidad}min`);
-      } else {
-        console.warn(`⚠️ Servicio con ID ${servicio.service_id} no encontrado en BD`);
-        duracionTotal += 120 * servicio.cantidad; // duración por defecto
-      }
-    });
-    
-    console.log(`⏱️ Duración total calculada: ${duracionTotal} minutos (${Math.round(duracionTotal/60*10)/10} horas)`);
-    return duracionTotal;
-  }
-
-  // Función para obtener disponibilidad de horarios
-  async function obtenerDisponibilidad(fecha, duracion = null) {
-    try {
-      const response = await apiService.getAvailability(fecha, duracion);
-      
-      if (response.success) {
-        return response.data;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error obteniendo disponibilidad:', error);
-      // Retornar disponibilidad por defecto en caso de error
-      return {
-        isWorkingDay: true,
-        availableSlots: [
-          { startTime: '08:00', endTime: '10:00', available: true },
-          { startTime: '10:00', endTime: '12:00', available: true },
-          { startTime: '12:00', endTime: '14:00', available: true },
-          { startTime: '14:00', endTime: '16:00', available: true },
-          { startTime: '16:00', endTime: '18:00', available: true }
-        ]
-      };
-    }
-  }
-
-  // Función para actualizar disponibilidad en el paso 3 (simplificada)
-  async function actualizarDisponibilidadPaso3() {
-    console.log('🔄 Actualizando disponibilidad para paso 3...');
-    
-    try {
-      // Calcular duración total de servicios seleccionados
-      let duracion = 120; // duración por defecto
-      
-      if (serviciosSeleccionados && serviciosSeleccionados.length > 0) {
-        duracion = serviciosSeleccionados.reduce((total, servicio) => {
-          return total + (servicio.duracion || 120);
-        }, 0);
-      }
-      
-      console.log(`⏱️ Duración calculada: ${duracion} minutos`);
-      
-    } catch (error) {
-      console.error('❌ Error actualizando disponibilidad:', error);
-    }
-  }
-
-
-  </script>
-      const percent = ((step - 1) / 5) * 100;
-      document.getElementById('wizard-bar-fill').style.width = percent + '%';
-      for (let i = 1; i <= 6; i++) {
-        const el = document.getElementById('step-indicator-' + i);
-        el.classList.remove('active', 'completed');
-        if (i < step) el.classList.add('completed');
-        if (i === step) el.classList.add('active');
-      }
-    }
-    function showStep(n) {
-      for (let i = 1; i <= 6; i++) {
-        const stepDiv = document.getElementById('step-' + i);
-        if (stepDiv) stepDiv.style.display = (i === n) ? '' : 'none';
-      }
-      updateWizardBar(n);
-      
-      // Lógica específica para cada paso
-      if (n === 3) {
-        mostrarTurnosSeparados();
-      } else if (n === 4) {
-        console.log('🎯 Llegando al paso 4 - Datos Personales');
-        autoCompletarDatosUsuario();
-      } else if (n === 5) {
-        mostrarCamposUbicacion();
-      } else if (n === 6) {
-        mostrarResumenTurnosSeparados();
-      }
-    }
-    
-    function mostrarTurnosSeparados() {
-      const categorias = categorizarServicios();
-      
-      // Ocultar todos los contenedores
-      document.getElementById('turno-vehiculos').style.display = 'none';
-      document.getElementById('turno-tapizados').style.display = 'none';
-      document.getElementById('turno-unico').style.display = 'none';
-      document.getElementById('info-turnos-separados').style.display = 'none';
-      
-      if (categorias.necesitaTurnosSeparados) {
-        // Mostrar turnos separados
-        document.getElementById('info-turnos-separados').style.display = 'block';
-        document.getElementById('turno-vehiculos').style.display = 'block';
-        document.getElementById('turno-tapizados').style.display = 'block';
-        
-        // Mostrar resumen de servicios
-        mostrarResumenServiciosVehiculos();
-        mostrarResumenServiciosTapizados();
-      } else if (categorias.hayVehiculos) {
-        // Solo servicios de vehículos
-        document.getElementById('turno-vehiculos').style.display = 'block';
-        mostrarResumenServiciosVehiculos();
-      } else if (categorias.hayTapizados) {
-        // Solo servicios de tapizados
-        document.getElementById('turno-tapizados').style.display = 'block';
-        mostrarResumenServiciosTapizados();
-      } else {
-        // Turno único (fallback)
-        document.getElementById('turno-unico').style.display = 'block';
-      }
-    }
-    
-    function mostrarResumenServiciosVehiculos() {
-      const container = document.getElementById('servicios-vehiculos-resumen');
-      const servicios = turnosSeparados.vehiculos.servicios;
-      
-      if (servicios.length === 0) {
-        container.innerHTML = '<div class="text-muted">No hay servicios de vehículos seleccionados.</div>';
-        return;
-      }
-      
-      let html = '<div class="mb-3"><strong>Servicios seleccionados:</strong></div>';
-      let total = 0;
-      
-      servicios.forEach(servicio => {
-        const subtotal = servicio.precio * servicio.cantidad;
-        total += subtotal;
-        html += `
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span>${servicio.nombre} x${servicio.cantidad}</span>
-            <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
-          </div>
-        `;
-      });
-      
-      html += `<hr><div class="d-flex justify-content-between align-items-center"><strong>Total:</strong> <strong class="text-danger">$${total.toLocaleString('es-AR')}</strong></div>`;
-      container.innerHTML = html;
-    }
-    
-    function mostrarResumenServiciosTapizados() {
-      const container = document.getElementById('servicios-tapizados-resumen');
-      const servicios = turnosSeparados.tapizados.servicios;
-      
-      if (servicios.length === 0) {
-        container.innerHTML = '<div class="text-muted">No hay servicios de tapizados seleccionados.</div>';
-        return;
-      }
-      
-      let html = '<div class="mb-3"><strong>Servicios seleccionados:</strong></div>';
-      let total = 0;
-      
-      servicios.forEach(servicio => {
-        const subtotal = servicio.precio * servicio.cantidad;
-        total += subtotal;
-        html += `
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span>${servicio.nombre} x${servicio.cantidad}</span>
-            <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
-          </div>
-        `;
-      });
-      
-      html += `<hr><div class="d-flex justify-content-between align-items-center"><strong>Total:</strong> <strong class="text-danger">$${total.toLocaleString('es-AR')}</strong></div>`;
-      container.innerHTML = html;
-    }
-    // Inicializar barra al cargar
-    updateWizardBar(step);
-    // Servicios actualizados con opciones estándar/especiales
-    const servicios = {
-      // VEHÍCULOS
-      'Lavado de Auto': {
-        icon: 'fa-car',
-        duracion: 210,
-        precio: 20000,
-        precioEspecial: 65000,
-        desc: 'Lavado completo exterior e interior profesional',
-        descEspecial: 'Lavado premium con tratamientos especializados',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Lavado de Pickup': {
-        icon: 'fa-truck-pickup',
-        duracion: 210,
-        precio: 25000,
-        precioEspecial: 65000,
-        desc: 'Limpieza profesional incluyendo caja de carga',
-        descEspecial: 'Lavado premium para pickup con limpieza profunda',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Lavado de SUV': {
-        icon: 'fa-car-side',
-        duracion: 240,
-        precio: 30000,
-        precioEspecial: 75000,
-        desc: 'Limpieza profesional para vehículos grandes',
-        descEspecial: 'Lavado premium para SUV con limpieza profunda',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Limpieza de Motor': {
-        icon: 'fa-gears',
-        duracion: 90,
-        precio: 45000,
-        precioEspecial: 65000,
-        desc: 'Limpieza y mantenimiento del compartimento',
-        descEspecial: 'Limpieza premium de motor con protección avanzada',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Tapizado de Auto': {
-        icon: 'fa-car-side',
-        duracion: 1440,
-        precio: 120000,
-        precioEspecial: 170000,
-        desc: 'Limpieza profunda de tapizados y alfombras',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Tapizado de Pickup': {
-        icon: 'fa-truck-pickup',
-        duracion: 1440,
-        precio: 140000,
-        precioEspecial: 190000,
-        desc: 'Limpieza profunda incluyendo caja de carga',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      'Tapizado de SUV': {
-        icon: 'fa-car-side',
-        duracion: 1800,
-        precio: 160000,
-        precioEspecial: 220000,
-        desc: 'Limpieza profunda para vehículos grandes',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true,
-        categoria: 'vehiculos'
-      },
-      
-      // TAPIZADOS
-      'Sillón 1 Cuerpo': {
-        icon: 'fa-couch',
-        duracion: 120,
-        precio: 85000,
-        precioEspecial: 150000,
-        desc: 'Limpieza profunda de sillón individual',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Sillón 2 Cuerpos': {
-        icon: 'fa-couch',
-        duracion: 180,
-        precio: 120000,
-        precioEspecial: 150000,
-        desc: 'Limpieza profunda de sillón doble',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Sillón 3 Cuerpos': {
-        icon: 'fa-couch',
-        duracion: 240,
-        precio: 150000,
-        precioEspecial: 185000,
-        desc: 'Limpieza profunda de sillón triple',
-        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Silla Simple': {
-        icon: 'fa-chair',
-        duracion: 60,
-        precio: 15000,
-        precioEspecial: 35000,
-        desc: 'Limpieza profunda de silla individual',
-        descEspecial: 'Limpieza premium con protección antimanchas',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Silla Comedor': {
-        icon: 'fa-chair',
-        duracion: 60,
-        precio: 25000,
-        precioEspecial: 45000,
-        desc: 'Limpieza profunda de silla de comedor',
-        descEspecial: 'Limpieza premium con protección antimanchas',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Colchón 1 Plaza': {
-        icon: 'fa-bed',
-        duracion: 120,
-        precio: 70000,
-        precioEspecial: 130000,
-        desc: 'Limpieza profunda y desinfección',
-        descEspecial: 'Limpieza premium con desinfección y tratamiento anti-ácaros',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Colchón 2 Plazas': {
-        icon: 'fa-bed',
-        duracion: 180,
-        precio: 130000,
-        precioEspecial: 180000,
-        desc: 'Limpieza profunda y desinfección',
-        descEspecial: 'Limpieza premium con desinfección y tratamiento anti-ácaros',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Limpieza de Alfombra': {
-        icon: 'fa-rug',
-        duracion: 30,
-        precio: 30000,
-        precioEspecial: 55000,
-        desc: 'Limpieza profunda por metro cuadrado',
-        descEspecial: 'Limpieza premium con tratamiento impermeabilizante',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados',
-        porMetro: true
-      },
-      'Puff Simple': {
-        icon: 'fa-couch',
-        duracion: 60,
-        precio: 20000,
-        precioEspecial: 45000,
-        desc: 'Limpieza profunda de puff individual',
-        descEspecial: 'Limpieza premium con protección impermeabilizante',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Puff Grande': {
-        icon: 'fa-couch',
-        duracion: 90,
-        precio: 30000,
-        precioEspecial: 55000,
-        desc: 'Limpieza profunda de puff grande',
-        descEspecial: 'Limpieza premium con protección impermeabilizante',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados'
-      },
-      'Respaldo de Cama': {
-        icon: 'fa-bed',
-        duracion: 60,
-        precio: 25000,
-        precioEspecial: 50000,
-        desc: 'Limpieza profunda por metro cuadrado',
-        descEspecial: 'Limpieza premium con protección impermeabilizante',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false,
-        categoria: 'tapizados',
-        porMetro: true
-      }
-    };
-    const selectServicio = document.getElementById('servicio-select');
-    const detalleServicio = document.getElementById('servicio-detalle');
-    const sillonesOpciones = document.getElementById('sillones-opciones');
-    
-    // Función para auto-completar datos del usuario logueado
-    async function autoCompletarDatosUsuario() {
-      const token = localStorage.getItem('token');
-      const userData = localStorage.getItem('userData');
-      
-      console.log('🔍 Verificando datos de usuario...');
-      console.log('Token:', token ? 'Presente' : 'Ausente');
-      console.log('UserData:', userData);
-      
-      if (token && userData) {
-        try {
-          const user = JSON.parse(userData);
-          console.log('👤 Datos del usuario parseados:', user);
-          
-          // Mostrar mensaje de bienvenida
-          document.getElementById('usuario-logueado-info').style.display = 'block';
-          
-          // Separar nombre completo en nombre y apellido
-          let nombre = '';
-          let apellido = '';
-          
-          if (user.name) {
-            const nombres = user.name.split(' ');
-            nombre = nombres[0] || '';
-            apellido = nombres.slice(1).join(' ') || '';
-          }
-          
-          // Buscar teléfono en varias propiedades posibles
-          let telefono = user.phone || user.telefono || user.phonenumber || user.celular || user.phoneNumber || '';
-          
-          // Si no hay teléfono en localStorage, intentar obtenerlo del backend
-          if (!telefono) {
-            console.log('🔄 No hay teléfono en localStorage, buscando en el backend...');
-            telefono = await obtenerTelefonoReal();
-          }
-          
-          // Auto-completar campos
-          document.getElementById('nombre').value = nombre;
-          document.getElementById('apellido').value = apellido;
-          document.getElementById('telefono').value = telefono;
-          document.getElementById('email').value = user.email || '';
-          
-          // Guardar datos en el objeto turno
-          turno.nombre = nombre;
-          turno.apellido = apellido;
-          turno.telefono = telefono;
-          turno.email = user.email || '';
-          
-          console.log('✅ Datos auto-completados:', {
-            nombre: nombre,
-            apellido: apellido,
-            telefono: telefono,
-            email: user.email
-          });
-          
-          // Si no hay teléfono, mostrar advertencia
-          if (!telefono) {
-            console.warn('⚠️ El usuario no tiene teléfono guardado. Deberá completarlo manualmente.');
-            document.getElementById('telefono').placeholder = 'Ingresa tu teléfono (requerido)';
-          }
-          
-        } catch (error) {
-          console.error('❌ Error parseando datos de usuario:', error);
-          document.getElementById('usuario-logueado-info').style.display = 'none';
-        }
-      } else {
-        // Ocultar mensaje si no está logueado
-        document.getElementById('usuario-logueado-info').style.display = 'none';
-        console.log('ℹ️ Usuario no logueado, no se auto-completan datos');
-      }
-    }
-
-    // Función para guardar turno en el historial (disponible globalmente)
-    window.guardarTurnoEnHistorial = async function() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log('Usuario no logueado, no se guarda en historial');
-        return { success: false, message: 'Usuario no logueado' };
-      }
-
-      try {
-        // Obtener datos del formulario
-        const nombre = document.getElementById('nombre')?.value || '';
-        const apellido = document.getElementById('apellido')?.value || '';
-        const telefono = document.getElementById('telefono')?.value || '';
-        const email = document.getElementById('email')?.value || '';
-
-        // Validar que el teléfono esté presente
-        if (!telefono || telefono.trim() === '') {
-          console.error('❌ Error: El teléfono es requerido');
-          return { success: false, message: 'El teléfono es requerido para crear el turno' };
-        }
-
-        const categorias = categorizarServicios();
-        const turnosParaGuardar = [];
-    
-        // Preparar datos del turno
-        const datosTurno = {
-          clientName: `${nombre} ${apellido}`.trim(),
-          clientPhone: telefono,
-          clientEmail: email,
-          status: 'pending',
-          notes: 'Turno creado desde el formulario web'
-        };
-
-        // Agregar userId si el usuario está logueado
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-          const user = JSON.parse(userData);
-          datosTurno.userId = user.id;
-        }
-
-        if (categorias.necesitaTurnosSeparados) {
-          // Guardar turno de vehículos
-          if (window.turnosSeparados.vehiculos.servicios.length > 0) {
-            const nombresServiciosVehiculos = window.turnosSeparados.vehiculos.servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
-            console.log("Servicios seleccionados (vehículos):", window.turnosSeparados.vehiculos.servicios);
-            console.log("Nombres de servicios (vehículos):", nombresServiciosVehiculos);
-            if (!nombresServiciosVehiculos) {
-              alert("Error: No se detectó ningún servicio válido de vehículos para guardar el turno.");
-              return;
-            }
-            const turnoVehiculos = {
-              ...datosTurno,
-              appointmentDate: window.turnosSeparados.vehiculos.fecha,
-              appointmentTime: window.turnosSeparados.vehiculos.hora,
-              serviceLocation: window.turnosSeparados.vehiculos.direccion ? 
-                (typeof window.turnosSeparados.vehiculos.direccion === 'object' ? 
-                  `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}` : 
-                  window.turnosSeparados.vehiculos.direccion) : 'A confirmar',
-              services: armarServiciosParaBackend(window.turnosSeparados.vehiculos.servicios),
-              totalAmount: Number(window.turnosSeparados.vehiculos.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)),
-              service_type: nombresServiciosVehiculos
-            };
-            turnosParaGuardar.push(turnoVehiculos);
-          }
-
-          // Guardar turno de tapizados
-          if (window.turnosSeparados.tapizados.servicios.length > 0) {
-            const nombresServiciosTapizados = window.turnosSeparados.tapizados.servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
-            console.log("Servicios seleccionados (tapizados):", window.turnosSeparados.tapizados.servicios);
-            console.log("Nombres de servicios (tapizados):", nombresServiciosTapizados);
-            if (!nombresServiciosTapizados) {
-              alert("Error: No se detectó ningún servicio válido de tapizados para guardar el turno.");
-              return;
-            }
-            const turnoTapizados = {
-              ...datosTurno,
-              appointmentDate: window.turnosSeparados.tapizados.fecha,
-              appointmentTime: window.turnosSeparados.tapizados.hora,
-              serviceLocation: window.turnosSeparados.tapizados.direccion || 'A confirmar',
-              services: armarServiciosParaBackend(window.turnosSeparados.tapizados.servicios),
-              totalAmount: Number(window.turnosSeparados.tapizados.servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)),
-              service_type: nombresServiciosTapizados
-            };
-            turnosParaGuardar.push(turnoTapizados);
-          }
-        } else {
-          // Turno único
-          let servicios = [];
-          let fecha = '';
-          let hora = '';
-          let direccion = '';
-          let tipo = '';
-
-          if (categorias.hayVehiculos) {
-            servicios = window.turnosSeparados.vehiculos.servicios;
-            fecha = window.turnosSeparados.vehiculos.fecha;
-            hora = window.turnosSeparados.vehiculos.hora;
-            tipo = servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
-            if (window.turnosSeparados.vehiculos.direccion) {
-              if (typeof window.turnosSeparados.vehiculos.direccion === 'object') {
-                direccion = `Retiro: ${window.turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${window.turnosSeparados.vehiculos.direccion.entrega}`;
-              } else {
-                direccion = window.turnosSeparados.vehiculos.direccion;
-              }
-            } else {
-              direccion = 'El cliente lleva el vehículo a la instalación';
-            }
-          } else if (categorias.hayTapizados) {
-            servicios = window.turnosSeparados.tapizados.servicios;
-            fecha = window.turnosSeparados.tapizados.fecha;
-            hora = window.turnosSeparados.tapizados.hora;
-            direccion = window.turnosSeparados.tapizados.direccion;
-            tipo = servicios.map(s => s.nombre || s.name).filter(Boolean).join(', ');
-          }
-
-          console.log("Servicios seleccionados (único):", servicios);
-          console.log("Nombres de servicios (único):", tipo);
-          if (!tipo) {
-            alert("Error: No se detectó ningún servicio válido para guardar el turno.");
-            return;
-          }
-
-          const turnoUnico = {
-            ...datosTurno,
-            appointmentDate: fecha,
-            appointmentTime: hora,
-            serviceLocation: direccion || 'A confirmar',
-            services: armarServiciosParaBackend(servicios),
-            totalAmount: Number(servicios.reduce((sum, s) => sum + (s.precio * s.cantidad), 0)),
-            service_type: tipo
-          };
-          turnosParaGuardar.push(turnoUnico);
-        }
-
-        // Guardar cada turno en el backend
-        const resultados = [];
-        for (const turnoData of turnosParaGuardar) {
-          console.log('🚀 Enviando turno al backend:', turnoData);
-          try {
-            const response = await apiService.createAppointment(turnoData);
-            if (response.success) {
-              resultados.push({ success: true, data: response.data });
-            } else {
-              resultados.push({ success: false, message: response.message });
-            }
-          } catch (error) {
-            console.error('Error guardando turno:', error);
-            resultados.push({ success: false, message: error.message });
-          }
-        }
-
-        console.log('📋 Turnos guardados en historial:', resultados);
-        return { success: true, data: resultados };
-
-      } catch (error) {
-        console.error('Error en guardarTurnoEnHistorial:', error);
-        return { success: false, message: error.message };
-      }
-    }
-    
-    // Función para mostrar campos de ubicación según el tipo de servicio
-    function mostrarCamposUbicacion() {
-      const categorias = categorizarServicios();
-      
-      // Ocultar todos los contenedores
-      document.getElementById('ubicacion-vehiculos').style.display = 'none';
-      document.getElementById('ubicacion-tapizados').style.display = 'none';
-      document.getElementById('ubicacion-unica').style.display = 'none';
-      
-      if (categorias.necesitaTurnosSeparados) {
-        // Mostrar ubicaciones separadas
-        mostrarUbicacionVehiculos();
-        mostrarUbicacionTapizados();
-        document.getElementById('ubicacion-vehiculos').style.display = 'block';
-        document.getElementById('ubicacion-tapizados').style.display = 'block';
-      } else if (categorias.hayVehiculos) {
-        // Solo servicios de vehículos
-        mostrarUbicacionVehiculos();
-        document.getElementById('ubicacion-vehiculos').style.display = 'block';
-      } else if (categorias.hayTapizados) {
-        // Solo servicios de tapizados
-        mostrarUbicacionTapizados();
-        document.getElementById('ubicacion-tapizados').style.display = 'block';
-      } else {
-        // Ubicación única (fallback)
-        document.getElementById('ubicacion-unica').style.display = 'block';
-        const ubicacionContainer = document.getElementById('ubicacion-container');
-        ubicacionContainer.innerHTML = '<div class="alert alert-warning">No se seleccionaron servicios.</div>';
-      }
-    }
-    
-    function mostrarUbicacionVehiculos() {
-      const container = document.getElementById('ubicacion-vehiculos-container');
-      container.innerHTML = `
-        <div class="mb-4">
-          <label class="form-label">¿Necesitás retiro y entrega del vehículo?</label>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="retiro-entrega-vehiculos" id="si-retiro-vehiculos" value="si">
-            <label class="form-check-label" for="si-retiro-vehiculos">Sí, necesito retiro y entrega</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="retiro-entrega-vehiculos" id="no-retiro-vehiculos" value="no" checked>
-            <label class="form-check-label" for="no-retiro-vehiculos">No, lo llevo y retiro yo mismo</label>
-          </div>
-        </div>
-        <div class="mb-3" id="direccion-retiro-vehiculos" style="display:none;">
-          <label for="direccion-retiro-input-vehiculos" class="form-label">Dirección de retiro *</label>
-          <textarea class="form-control" id="direccion-retiro-input-vehiculos" rows="2" placeholder="Ingresa la dirección completa donde retirar el vehículo"></textarea>
-        </div>
-        <div class="mb-3" id="direccion-entrega-vehiculos" style="display:none;">
-          <label for="direccion-entrega-input-vehiculos" class="form-label">Dirección de entrega *</label>
-          <textarea class="form-control" id="direccion-entrega-input-vehiculos" rows="2" placeholder="Ingresa la dirección completa donde entregar el vehículo"></textarea>
-        </div>
-      `;
-      
-      // Event listeners para retiro y entrega de vehículos
-      const radioSiRetiro = document.getElementById('si-retiro-vehiculos');
-      const radioNoRetiro = document.getElementById('no-retiro-vehiculos');
-      const direccionRetiro = document.getElementById('direccion-retiro-vehiculos');
-      const direccionEntrega = document.getElementById('direccion-entrega-vehiculos');
-      
-      if (radioSiRetiro && radioNoRetiro) {
-        radioSiRetiro.addEventListener('change', function() {
-          direccionRetiro.style.display = 'block';
-          direccionEntrega.style.display = 'block';
-        });
-        radioNoRetiro.addEventListener('change', function() {
-          direccionRetiro.style.display = 'none';
-          direccionEntrega.style.display = 'none';
-        });
-      }
-    }
-    
-    function mostrarUbicacionTapizados() {
-      const container = document.getElementById('ubicacion-tapizados-container');
-      container.innerHTML = `
-        <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
-          <i class="fas fa-info-circle me-2"></i>
-          Este servicio se realiza a domicilio. Por favor, proporciona la dirección donde se realizará el trabajo.
-        </div>
-        <div class="mb-3">
-          <label for="direccion-domicilio-input-tapizados" class="form-label">Dirección donde se realizará el servicio</label>
-          <textarea class="form-control" id="direccion-domicilio-input-tapizados" rows="2" placeholder="Ingresa la dirección completa" required></textarea>
-        </div>
-      `;
-    }
-    
-    // Función para mostrar el resumen de turnos separados
-    function mostrarResumenTurnosSeparados() {
-      const categorias = categorizarServicios();
-      
-      // Ocultar todos los contenedores de resumen
-      document.getElementById('resumen-turnos-separados').style.display = 'none';
-      document.getElementById('resumen-turno-unico').style.display = 'none';
-      
-      if (categorias.necesitaTurnosSeparados) {
-        // Mostrar resumen de turnos separados
-        document.getElementById('resumen-turnos-separados').style.display = 'block';
-        mostrarResumenTurnoVehiculos();
-        mostrarResumenTurnoTapizados();
-      } else {
-        // Mostrar resumen único
-        document.getElementById('resumen-turno-unico').style.display = 'block';
-        mostrarResumenTurnoUnico();
-      }
-    }
-    
-    function mostrarResumenTurnoVehiculos() {
-      const container = document.getElementById('resumen-turno-vehiculos');
-      const servicios = turnosSeparados.vehiculos.servicios;
-      
-      let html = `
-        <div style="background:#232323;border-radius:10px;overflow:hidden;">
-          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
-            <i class='fas fa-car'></i> Servicios de Vehículos
-          </div>
-          <div style="padding:18px 18px 10px 18px;">
-      `;
-      
-      let total = 0;
-      servicios.forEach(servicio => {
-        const subtotal = servicio.precio * servicio.cantidad;
-        total += subtotal;
-        html += `
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <i class='fas fa-${getIconForService(servicio.service_id)}'></i>
-              <span>${servicio.nombre} x${servicio.cantidad}</span>
-            </div>
-            <div style="text-align:right;min-width:110px;">
-              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
-              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-            </div>
-          </div>
-        `;
-      });
-      
-      // Información del turno
-      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
-      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${total.toLocaleString('es-AR')}</span></div>`;
-      html += `<div style='margin-top:10px;'><strong>Fecha:</strong> ${turnosSeparados.vehiculos.fecha} - <strong>Hora:</strong> ${turnosSeparados.vehiculos.hora}</div>`;
-      
-      if (turnosSeparados.vehiculos.direccion) {
-        if (typeof turnosSeparados.vehiculos.direccion === 'object') {
-          html += `<div style='margin-top:5px;'><strong>Retiro:</strong> ${turnosSeparados.vehiculos.direccion.retiro}</div>`;
-          html += `<div style='margin-top:5px;'><strong>Entrega:</strong> ${turnosSeparados.vehiculos.direccion.entrega}</div>`;
-        } else {
-          html += `<div style='margin-top:5px;'><strong>Dirección:</strong> ${turnosSeparados.vehiculos.direccion}</div>`;
-        }
-      }
-      
-      html += `</div></div>`;
-      container.innerHTML = html;
-    }
-    
-    function mostrarResumenTurnoTapizados() {
-      const container = document.getElementById('resumen-turno-tapizados');
-      const servicios = turnosSeparados.tapizados.servicios;
-      
-      let html = `
-        <div style="background:#232323;border-radius:10px;overflow:hidden;">
-          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
-            <i class='fas fa-couch'></i> Servicios de Tapizados
-          </div>
-          <div style="padding:18px 18px 10px 18px;">
-      `;
-      
-      let total = 0;
-      servicios.forEach(servicio => {
-        const subtotal = servicio.precio * servicio.cantidad;
-        total += subtotal;
-        html += `
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
-              <span>${servicio.nombre} x${servicio.cantidad}</span>
-            </div>
-            <div style="text-align:right;min-width:110px;">
-              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
-              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-            </div>
-          </div>
-        `;
-      });
-      
-      // Información del turno
-      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
-      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${total.toLocaleString('es-AR')}</span></div>`;
-      html += `<div style='margin-top:10px;'><strong>Fecha:</strong> ${turnosSeparados.tapizados.fecha} - <strong>Hora:</strong> ${turnosSeparados.tapizados.hora}</div>`;
-      html += `<div style='margin-top:5px;'><strong>Dirección:</strong> ${turnosSeparados.tapizados.direccion}</div>`;
-      if (turnosSeparados.tapizados.detalles) {
-        html += `<div style='margin-top:5px;'><strong>Detalles:</strong> ${turnosSeparados.tapizados.detalles}</div>`;
-      }
-      
-      html += `</div></div>`;
-      container.innerHTML = html;
-    }
-    
-    function mostrarResumenTurnoUnico() {
-      const resumenTurno = document.getElementById('resumen-turno');
-      
-      let html = `
-        <div style="background:#232323;border-radius:10px;overflow:hidden;">
-          <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
-            <i class='fas fa-list-ul'></i> Resumen del Servicio
-          </div>
-          <div style="padding:18px 18px 10px 18px;">
-      `;
-      
-      const servicio = servicios[turno.servicio];
-      const tipoBadge = turno.tipo === 'especial' ? 
-        '<span class="badge bg-warning text-dark">Especial</span>' : 
-        '<span class="badge bg-primary">Estándar</span>';
-      
-      html += `
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <i class='fas fa-${servicio.icon}'></i>
-            <span>${turno.servicio} ${tipoBadge}</span>
-          </div>
-          <div style="text-align:right;min-width:110px;">
-            <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} ${servicio.porMetro ? 'por m²' : ''}</span><br>
-            <span style='font-weight:700;'>$${turno.precio.toLocaleString('es-AR')}</span>
-          </div>
-        </div>
-      `;
-
-      // Línea separadora
-      html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
-
-      // Total general
-      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${turno.precio.toLocaleString('es-AR')}</span></div>`;
-
-      html += `</div></div>`;
-
-      resumenTurno.innerHTML = html;
-    }
-    
-    function getIconForService(serviceId) {
-      // Obtener el servicio por ID para determinar el tipo
-      const servicio = getServicioPorId(serviceId);
-      if (!servicio) return 'cog';
-      
-      const nombre = servicio.name.toLowerCase();
-      if (nombre.includes('vehículo') || nombre.includes('auto') || nombre.includes('suv') || nombre.includes('pickup')) return 'car';
-      if (nombre.includes('tapizado') && nombre.includes('vehículo')) return 'car-side';
-      if (nombre.includes('motor')) return 'gears';
-      if (nombre.includes('sillón')) return 'couch';
-      if (nombre.includes('silla')) return 'chair';
-      if (nombre.includes('colchón')) return 'bed';
-      if (nombre.includes('alfombra')) return 'rug';
-      if (nombre.includes('puff')) return 'couch';
-      
-      return 'cog';
-    }
-
-
-    
-    // Event listeners para tipo de servicio
-    document.querySelectorAll('input[name="tipo-servicio"]').forEach(radio => {
-      radio.addEventListener('change', function() {
-        const servicioSeleccionado = document.getElementById('servicio-select').value;
-        if (servicioSeleccionado) {
-          actualizarDetalleServicio(servicioSeleccionado, this.value);
-        }
-      });
-    });
-    
-    // Event listener para metros
-    document.getElementById('metros-input').addEventListener('input', function() {
-      const servicioSeleccionado = document.getElementById('servicio-select').value;
-      const tipoSeleccionado = document.querySelector('input[name="tipo-servicio"]:checked').value;
-      if (servicioSeleccionado) {
-        actualizarDetalleServicio(servicioSeleccionado, tipoSeleccionado);
-      }
-    });
-    
-    // Configurar el botón siguiente
-    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-    
-    btnSiguiente.onclick = function() {
-      console.log('🔄 Botón siguiente clickeado, paso actual:', step);
-      
-      if (step === 1) {
-        // Validar que se haya seleccionado al menos un servicio
-        if (!serviciosSeleccionados || serviciosSeleccionados.length === 0) {
-          alert('Por favor, selecciona al menos un servicio.');
-          return;
-        }
-        
-        console.log('✅ Servicios seleccionados:', serviciosSeleccionados);
-        
-        // Guardar los servicios seleccionados en el objeto turno
-        turno.servicios = serviciosSeleccionados;
-        turno.categoria = categoriaSeleccionada;
-        
-        step = 2;
-        showStep(step);
-        
-      } else if (step === 2) {
-        // Paso 2: Seleccionar Profesional
-        step = 3;
-        showStep(step);
-        
-      } else if (step === 3) {
-        // Paso 3: Seleccionar Fecha y Hora
-        // Simplificar la lógica - solo validar que haya fecha y hora
-        const fechaInput = document.querySelector('input[type="date"]');
-        const horaSelect = document.querySelector('select');
-        
-        if (!fechaInput || !fechaInput.value) {
-          alert('Por favor, selecciona una fecha.');
-          return;
-        }
-        
-        if (!horaSelect || !horaSelect.value) {
-          alert('Por favor, selecciona una hora.');
-          return;
-        }
-        
-        turno.fecha = fechaInput.value;
-        turno.hora = horaSelect.value;
-        
-        step = 4;
-        showStep(step);
-        
-      } else if (step === 4) {
-        // Paso 4: Datos Personales
-        const nombre = document.getElementById('nombre')?.value;
-        const apellido = document.getElementById('apellido')?.value;
-        const telefono = document.getElementById('telefono')?.value;
-        
-        if (!nombre || !apellido || !telefono) {
-          alert('Por favor, completa todos los campos obligatorios.');
-          return;
-        }
-        
-        turno.nombre = nombre;
-        turno.apellido = apellido;
-        turno.telefono = telefono;
-        
-        step = 5;
-        showStep(step);
-        
-      } else if (step === 5) {
-        // Paso 5: Ubicación
-        const ubicacion = document.getElementById('ubicacion')?.value;
-        const direccion = document.getElementById('direccion')?.value;
-        
-        if (!ubicacion || !direccion) {
-          alert('Por favor, completa la ubicación y dirección.');
-          return;
-        }
-        
-        turno.ubicacion = ubicacion;
-        turno.direccion = direccion;
-        
-        step = 6;
-        showStep(step);
-        
-      } else if (step === 6) {
-        // Paso 6: Confirmación
-        console.log('🎯 Confirmando turno:', turno);
-        
-        // Aquí iría la lógica para enviar al backend
-        alert('¡Turno confirmado! Te contactaremos pronto.');
-      }
-    };
-       
-       if (categorias.necesitaTurnosSeparados) {
-         // Validar ubicaciones separadas
-         const direccionTapizados = document.getElementById('direccion-domicilio-input-tapizados')?.value;
-         
-         if (!direccionTapizados) {
-           alert('Por favor, ingresa la dirección para los servicios de tapizados.');
-           return;
-         }
-         
-         turnosSeparados.tapizados.direccion = direccionTapizados;
-         turnosSeparados.tapizados.detalles = document.getElementById('detalles-ubicacion-tapizados')?.value;
-         
-         // Para vehículos, verificar retiro y entrega
-         const retiroEntrega = document.querySelector('input[name="retiro-entrega-vehiculos"]:checked');
-         if (retiroEntrega && retiroEntrega.value === 'si') {
-           const direccionRetiro = document.getElementById('direccion-retiro-input-vehiculos')?.value;
-           const direccionEntrega = document.getElementById('direccion-entrega-input-vehiculos')?.value;
-           
-           if (!direccionRetiro || !direccionEntrega) {
-             alert('Por favor, completa las direcciones de retiro y entrega para vehículos.');
-             return;
-           }
-           
-           turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
-         } else {
-           // Cliente lleva el vehículo
-           turnosSeparados.vehiculos.direccion = 'El cliente lleva el vehículo a la instalación';
-         }
-         
-       } else if (categorias.hayVehiculos) {
-         // Solo servicios de vehículos
-         const retiroEntrega = document.querySelector('input[name="retiro-entrega-vehiculos"]:checked');
-         if (retiroEntrega && retiroEntrega.value === 'si') {
-           const direccionRetiro = document.getElementById('direccion-retiro-input-vehiculos')?.value;
-           const direccionEntrega = document.getElementById('direccion-entrega-input-vehiculos')?.value;
-           
-           if (!direccionRetiro || !direccionEntrega) {
-             alert('Por favor, completa las direcciones de retiro y entrega.');
-             return;
-           }
-           
-           turnosSeparados.vehiculos.direccion = { retiro: direccionRetiro, entrega: direccionEntrega };
-         } else {
-           // Cliente lleva el vehículo
-           turnosSeparados.vehiculos.direccion = 'El cliente lleva el vehículo a la instalación';
-         }
-         
-       } else if (categorias.hayTapizados) {
-         // Solo servicios de tapizados
-         const direccionTapizados = document.getElementById('direccion-domicilio-input-tapizados')?.value;
-         
-         if (!direccionTapizados) {
-           alert('Por favor, ingresa la dirección donde se realizará el servicio.');
-           return;
-         }
-         
-         turnosSeparados.tapizados.direccion = direccionTapizados;
-         turnosSeparados.tapizados.detalles = document.getElementById('detalles-ubicacion-tapizados')?.value;
-       }
-       
-       step = 6;
-       showStep(step);
-     }
-   };
-   document.getElementById('btn-confirmar-fijo').onclick = async function() {
-     // Usar la nueva función que maneja el backend y pago
-     await confirmarTurnoConBackend();
-   }
-
-   // Lógica para mostrar/ocultar y mover los botones fijos según el paso
-   function actualizarBotoneraFija() {
-     const anterior = document.getElementById('btn-anterior-fijo');
-     const siguiente = document.getElementById('btn-siguiente-fijo');
-     const confirmar = document.getElementById('btn-confirmar-fijo');
-     anterior.style.display = (step > 1 && step < 7) ? '' : 'none';
-     siguiente.style.display = (step >= 1 && step < 6) ? '' : 'none';
-     confirmar.style.display = (step === 6) ? '' : 'none';
-   }
-   // Ocultar los botones originales de cada paso
-   function ocultarBotonesOriginales() {
-     const ids = [
-       'to-step-2', 'to-step-3', 'back-to-1', 'back-to-2', 'back-to-3', 'back-to-4',
-       'confirmar-turno'
-     ];
-     ids.forEach(id => {
-       const btn = document.getElementById(id);
-       if (btn) btn.style.display = 'none';
-     });
-   }
-   // Eventos para los botones fijos
-   document.getElementById('btn-anterior-fijo').onclick = function() {
-     if (step === 2) step = 1;
-     else if (step === 3) step = 2;
-     else if (step === 4) step = 3;
-     else if (step === 5) step = 4;
-     else if (step === 6) step = 5;
-     showStep(step);
-     actualizarBotoneraFija();
-     ocultarBotonesOriginales();
-   };
-   // Al mostrar cada paso, actualizar la botonera fija y ocultar los botones originales
-   const oldShowStep = showStep;
-   showStep = function(n) {
-     oldShowStep(n);
-     actualizarBotoneraFija();
-     ocultarBotonesOriginales();
-   };
-   // Inicializar botonera fija al cargar
-   actualizarBotoneraFija();
-   ocultarBotonesOriginales();
-   // Lógica para mostrar opciones de sillones con botones de tipo y controles de cantidad
-   // Event listeners para los botones de tipo de sillón
-   const sillonTipos = document.querySelectorAll('input[name="sillon-tipo"]');
-   const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
-   const totalSpan = document.getElementById('sillones-total');
-
-   // Cuando se selecciona un tipo de sillón
-   sillonTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = sillonesAgregados.find(s => s.nombre === armarNombreServicio('sillon', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('sillon', tipoSeleccionado, 1);
-       }
-       
-       renderSillonesCards();
-       actualizarTotalSillones();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-
-   // Event listeners para los botones de tipo de silla
-   const sillaTipos = document.querySelectorAll('input[name="silla-tipo"]');
-   const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
-   const totalSillasSpan = document.getElementById('sillas-total');
-
-   // Cuando se selecciona un tipo de silla
-   sillaTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = sillasAgregadas.find(s => s.nombre === armarNombreServicio('silla', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('silla', tipoSeleccionado, 1);
-       }
-       
-       renderSillasCards();
-       actualizarTotalSillas();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-
-   // Event listeners para los botones de tipo de colchón
-   const colchonTipos = document.querySelectorAll('input[name="colchon-tipo"]');
-   const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
-   const totalColchonesSpan = document.getElementById('colchones-total');
-
-   // Cuando se selecciona un tipo de colchón
-   colchonTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = colchonesAgregados.find(c => c.nombre === armarNombreServicio('colchon', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('colchon', tipoSeleccionado, 1);
-       }
-       
-       renderColchonesCards();
-       actualizarTotalColchones();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-
-   // Event listeners para los botones de tipo de vehículo
-   const vehiculoTipos = document.querySelectorAll('input[name="vehiculo-tipo"]');
-   const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
-   const totalVehiculosSpan = document.getElementById('vehiculos-total');
-
-   // Cuando se selecciona un tipo de vehículo
-   vehiculoTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = vehiculosAgregados.find(v => v.nombre === armarNombreServicio('vehiculo', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('vehiculo', tipoSeleccionado, 1);
-       }
-       
-       renderVehiculosCards();
-       actualizarTotalVehiculos();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-
-   // Event listeners para los botones de tipo de motor
-   const motorTipos = document.querySelectorAll('input[name="motor-tipo"]');
-   const motoresSeleccionados = document.getElementById('motores-seleccionados');
-   const totalMotoresSpan = document.getElementById('motores-total');
-
-   // Cuando se selecciona un tipo de motor
-   motorTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = motoresAgregados.find(m => m.nombre === armarNombreServicio('motor', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('motor', tipoSeleccionado, 1);
-       }
-       
-       renderMotoresCards();
-       actualizarTotalMotores();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-
-   // Event listener para el input de metros cuadrados de alfombra
-   const alfombraMetrosInput = document.getElementById('alfombra-metros');
-   const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
-   const totalAlfombrasSpan = document.getElementById('alfombras-total');
-
-   // Cuando se ingresa metros cuadrados de alfombra
-   if (alfombraMetrosInput) {
-     alfombraMetrosInput.addEventListener('input', function() {
-     const metrosCuadrados = parseFloat(this.value) || 0;
-     
-     if (metrosCuadrados > 0) {
-       // Limpiar alfombras existentes
-       alfombrasAgregadas.length = 0;
-       
-       // Agregar nueva alfombra con metros cuadrados
-       const serviceId = obtenerIdServicio('Limpieza de Alfombra (por m²)');
-       alfombrasAgregadas.push({
-         service_id: serviceId,
-         nombre: `Limpieza de Alfombra (${metrosCuadrados} m²)`,
-         metrosCuadrados: metrosCuadrados
-       });
-       
-       renderAlfombrasCards();
-       actualizarTotalAlfombras();
-     } else {
-       // Si no hay metros, limpiar alfombras
-       alfombrasAgregadas.length = 0;
-       renderAlfombrasCards();
-       actualizarTotalAlfombras();
-     }
-   });
-   }
-
-   // Event listeners para los botones de tipo de puff
-   const puffTipos = document.querySelectorAll('input[name="puff-tipo"]');
-   const puffsSeleccionados = document.getElementById('puffs-seleccionados');
-   const totalPuffsSpan = document.getElementById('puffs-total');
-
-   // Cuando se selecciona un tipo de puff
-   if (puffTipos.length > 0) {
-     puffTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       
-       // Verificar si ya existe este tipo
-       const existe = puffsAgregados.find(p => p.nombre === armarNombreServicio('puff', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('puff', tipoSeleccionado, 1);
-       }
-       
-       renderPuffsCards();
-       actualizarTotalPuffs();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
-   });
-   }
-
-   // Event listeners para los botones de tipo de tapizado de vehículo
-   const tapizadovehiculoTipos = document.querySelectorAll('input[name="tapizadovehiculo-tipo"]');
-   const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
-   const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
-
-   // Cuando se selecciona un tipo de tapizado de vehículo
-   if (tapizadovehiculoTipos.length > 0) {
-     tapizadovehiculoTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
-       // Verificar si ya existe este tipo
-       const existe = tapizadoVehiculosAgregados.find(tv => tv.nombre === armarNombreServicio('tapizadoVehiculo', tipoSeleccionado));
-       if (existe) {
-         existe.cantidad++;
-       } else {
-         agregarServicioSeleccionado('tapizadoVehiculo', tipoSeleccionado, 1);
-       }
-       renderTapizadoVehiculosCards();
-       actualizarTotalTapizadoVehiculos();
-       this.checked = false;
-     });
-   });
-   }
-
-  // ===== INTEGRACIÓN CON BACKEND =====
-
-  // Función para crear turno en el backend
-  async function crearTurnoEnBackend(datosTurno) {
-    try {
-      const response = await apiService.createAppointment(datosTurno);
-      
-      if (response.success) {
-        return response.data;
-      } else {
-        throw new Error(response.message);
-      }
-    } catch (error) {
-      console.error('Error creando turno:', error);
-      throw error;
-    }
-  }
-
-  // Función para actualizar el paso 3 con disponibilidad real (ELIMINADA - DUPLICADA)
-
-  // Función para cargar horarios disponibles
-  async function cargarHorariosDisponibles(fecha, selectId) {
-    const select = document.getElementById(selectId);
-    select.innerHTML = '<option value="">Cargando horarios...</option>';
-    
-    try {
-      // Calcular duración de servicios según la categoría
-      let duracion = 120; // duración por defecto
-      const categorizacion = categorizarServicios();
-      
-      if (selectId === 'hora-vehiculos' && categorizacion.hayVehiculos) {
-        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
-        duracion = calcularDuracionServicios(serviciosVehiculos);
-      } else if (selectId === 'hora-tapizados' && categorizacion.hayTapizados) {
-        const serviciosTapizados = turnosSeparados.tapizados.servicios;
-        duracion = calcularDuracionServicios(serviciosTapizados);
-      } else if (selectId === 'hora') {
-        // Para turno único, calcular duración de todos los servicios
-        const todosLosServicios = carrito.map(item => ({
-          service_id: item.service_id,
-          cantidad: item.cantidad
-        }));
-        duracion = calcularDuracionServicios(todosLosServicios);
-      }
-      
-      console.log(`Calculando disponibilidad para ${selectId} con duración: ${duracion} minutos`);
-      
-      // Mostrar información de duración al usuario
-      const horas = Math.floor(duracion / 60);
-      const minutos = duracion % 60;
-      const tiempoTexto = horas > 0 ? `${horas}h ${minutos}min` : `${minutos}min`;
-      
-      // Actualizar el texto del select para mostrar la duración
-      const select = document.getElementById(selectId);
-      if (select) {
-        const optionActual = select.querySelector('option[selected]');
-        if (optionActual) {
-          optionActual.textContent += ` (${tiempoTexto})`;
-        }
-      }
-      
-      const disponibilidad = await obtenerDisponibilidad(fecha, duracion);
-      
-      if (!disponibilidad.isWorkingDay) {
-        select.innerHTML = '<option value="">No hay horarios disponibles</option>';
-        return;
-      }
-      
-      if (disponibilidad.isBlocked) {
-        select.innerHTML = `<option value="">Día bloqueado: ${disponibilidad.reason}</option>`;
-        return;
-      }
-      
-      const opciones = disponibilidad.availableSlots
-        .filter(slot => slot.available)
-        .map(slot => `<option value="${slot.startTime}">${slot.startTime} - ${slot.endTime}</option>`)
-        .join('');
-      
-      select.innerHTML = opciones || '<option value="">No hay horarios disponibles</option>';
-      
-    } catch (error) {
-      select.innerHTML = '<option value="">Error cargando horarios</option>';
-      console.error('Error cargando horarios:', error);
-    }
-  }
-
-  // Función para confirmar turno con backend
-  async function confirmarTurnoConBackend() {
-    // Confirmar turno y abrir WhatsApp
-    let mensaje = `¡Hola! Quiero reservar turno en Daytona Clean Service:%0A%0A`;
-    mensaje += `Cliente: ${turno.nombre} ${turno.apellido}%0A`;
-    mensaje += `Teléfono: ${turno.telefono}%0A`;
-    mensaje += `Email: ${turno.email}%0A%0A`;
-    mensaje += `Servicio: ${turno.servicio}%0A`;
-    mensaje += `Tipo: ${turno.tipo === 'especial' ? 'Especial' : 'Estándar'}%0A`;
-    mensaje += `Precio: $${turno.precio.toLocaleString('es-AR')}%0A`;
-    mensaje += `Fecha: ${turno.fecha}%0A`;
-    mensaje += `Hora: ${turno.hora}%0A`;
-    mensaje += `Dirección: ${turno.direccion || 'A confirmar'}%0A%0A`;
-    
-    // --- NUEVO: Armar datos para backend ---
-    let turnoParaBackend = {};
-    const servicio = servicios[turno.servicio];
-    const serviceId = obtenerIdServicio(turno.servicio, turno.tipo);
-    
-    // Armar objeto para backend
-    turnoParaBackend = {
-      clientName: turno.nombre + ' ' + turno.apellido,
-      clientPhone: turno.telefono,
-      clientEmail: turno.email,
-      appointmentDate: turno.fecha,
-      appointmentTime: turno.hora,
-      services: [{
-        service_id: serviceId,
-        quantity: 1
-      }],
-      serviceLocation: turno.direccion || 'A confirmar',
-      service_type: turno.categoria || 'general'
-    };
-    // Si el usuario está logueado, agregar userId
-    const userData = localStorage.getItem('userData');
-    if (userData) {
-      const user = JSON.parse(userData);
-      turnoParaBackend.userId = user.id;
-    }
-    // --- FIN NUEVO ---
-    // --- Enviar al backend ---
-    console.log('Turno enviado al backend:', turnoParaBackend);
-    let appointmentId;
-    try {
-      const response = await fetch('https://daytona-clean-service.onrender.com/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(localStorage.getItem('token') ? { 'Authorization': `Bearer ${localStorage.getItem('token')}` } : {})
-        },
-        body: JSON.stringify(turnoParaBackend)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        mostrarError('Error al guardar el turno: ' + (data.message || '')); 
-        return;
-      }
-      appointmentId = data.appointmentId;
-    } catch (err) {
-      mostrarError('Error de conexión al guardar el turno');
-      return;
-    }
-
-    // --- Crear preferencia de pago ---
-    try {
-      const paymentData = {
-        appointmentId: appointmentId,
-        amount: turno.precio,
-        title: `${turno.servicio} ${turno.tipo === 'especial' ? 'Especial' : 'Estándar'} - Daytona Clean Service`,
-        description: `${turno.servicio} (${turno.tipo === 'especial' ? 'Servicio Especial' : 'Servicio Estándar'})`
-      };
-
-      // Verificar si el usuario está autenticado
-      const token = localStorage.getItem('token');
-      let paymentResult;
-      
-      if (token) {
-        // Usar ruta autenticada
-        paymentResult = await window.apiService.createPaymentPreference(paymentData);
-      } else {
-        // Usar ruta pública
-        paymentResult = await window.apiService.createPaymentPreferencePublic(paymentData);
-      }
-      
-      if (!paymentResult.success) {
-        mostrarError('Error al crear el pago: ' + (paymentResult.message || ''));
-        return;
-      }
-
-      // --- Redirigir a Mercado Pago ---
-      const initPoint = paymentResult.data.initPoint || paymentResult.data.sandboxInitPoint;
-      if (initPoint) {
-        window.location.href = initPoint;
-      } else {
-        mostrarError('Error al obtener el enlace de pago');
-      }
-
-    } catch (err) {
-      console.error('Error creando pago:', err);
-      mostrarError('Error al procesar el pago: ' + (err.message || ''));
-      return;
-    }
-  }
-
-  // Función para obtener ID del servicio por nombre
-  function obtenerIdServicio(nombre, tipo) {
-    const mapeoServicios = {
-      // VEHÍCULOS
-      'Lavado de Auto': tipo === 'especial' ? 2 : 1,
-      'Lavado de Pickup': tipo === 'especial' ? 4 : 3,
-      'Lavado de SUV': tipo === 'especial' ? 6 : 5,
-      'Limpieza de Motor': tipo === 'especial' ? 8 : 7,
-      'Tapizado de Auto': tipo === 'especial' ? 10 : 9,
-      'Tapizado de Pickup': tipo === 'especial' ? 12 : 11,
-      'Tapizado de SUV': tipo === 'especial' ? 14 : 13,
-      
-      // TAPIZADOS
-      'Sillón 1 Cuerpo': tipo === 'especial' ? 16 : 15,
-      'Sillón 2 Cuerpos': tipo === 'especial' ? 18 : 17,
-      'Sillón 3 Cuerpos': tipo === 'especial' ? 20 : 19,
-      'Silla Simple': tipo === 'especial' ? 22 : 21,
-      'Silla Comedor': tipo === 'especial' ? 24 : 23,
-      'Colchón 1 Plaza': tipo === 'especial' ? 26 : 25,
-      'Colchón 2 Plazas': tipo === 'especial' ? 28 : 27,
-      'Limpieza de Alfombra': tipo === 'especial' ? 30 : 29,
-      'Puff Simple': tipo === 'especial' ? 32 : 31,
-      'Puff Grande': tipo === 'especial' ? 34 : 33,
-      'Respaldo de Cama': tipo === 'especial' ? 36 : 35
-    };
-    
-    return mapeoServicios[nombre] || 1;
-  }
-
-  // Función para mostrar confirmación
-  function mostrarConfirmacion(mensaje) {
-    const modal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
-    document.getElementById('confirmacionMensaje').textContent = mensaje;
-    modal.show();
-  }
-
-  // Función para mostrar error
-  function mostrarError(mensaje) {
-    const modal = new bootstrap.Modal(document.getElementById('errorModal'));
-    document.getElementById('errorMensaje').textContent = mensaje;
-    modal.show();
-  }
-
-  // Función para generar mensaje de confirmación
-  function generarMensajeConfirmacion(turno) {
-    const servicios = turno.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
-    return `¡Hola! Tu turno ha sido confirmado:
-
-📅 Fecha: ${turno.appointment_date}
-⏰ Hora: ${turno.appointment_time}
-👤 Cliente: ${turno.client_name}
-📞 Teléfono: ${turno.client_phone}
-📍 Dirección: ${turno.address || 'A confirmar'}
-🛠️ Servicios: ${servicios}
-💰 Total: $${turno.total_amount}
-
-¡Gracias por elegir Daytona Clean Service! 🚗✨`;
-  }
-
-  // Función para generar mensaje de confirmación separado
-  function generarMensajeConfirmacionSeparado(turnoVehiculos, turnoTapizados) {
-    const serviciosVehiculos = turnoVehiculos.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
-    const serviciosTapizados = turnoTapizados.services.map(s => `${s.service_name} x${s.quantity}`).join(', ');
-    
-    return `¡Hola! Tus turnos han sido confirmados:
-
-🚗 TURNO VEHÍCULOS:
-📅 Fecha: ${turnoVehiculos.appointment_date}
-⏰ Hora: ${turnoVehiculos.start_time}
-🛠️ Servicios: ${serviciosVehiculos}
-💰 Total: $${turnoVehiculos.total_amount}
-
-🛋️ TURNO TAPIZADOS:
-📅 Fecha: ${turnoTapizados.appointment_date}
-⏰ Hora: ${turnoTapizados.start_time}
-🛠️ Servicios: ${serviciosTapizados}
-💰 Total: $${turnoTapizados.total_amount}
-
-👤 Cliente: ${turnoVehiculos.client_name}
-📞 Teléfono: ${turnoVehiculos.client_phone}
-
-¡Gracias por elegir Daytona Clean Service! 🚗✨`;
-  }
-
-  // Mostrar/ocultar campos según el tipo de servicio seleccionado
-  function actualizarCamposDireccion() {
-    const hayVehiculos = window.categorias && window.categorias.hayVehiculos;
-    const hayTapizados = window.categorias && window.categorias.hayTapizados;
-    document.getElementById('direccion-vehiculo-group').style.display = hayVehiculos ? 'block' : 'none';
-    document.getElementById('direccion-tapizado-group').style.display = hayTapizados ? 'block' : 'none';
-  }
-  // Llamar esta función cada vez que se cambia el tipo de servicio
-  // ... existing code ...
-  // Lógica para armar el campo serviceLocation en confirmarTurnoConBackend
-  // ... dentro de confirmarTurnoConBackend ...
-
-  });
-
-  // Función para obtener el paso actual
-  function obtenerPasoActual() {
-    return window.step || 1;
-  }
-  
-  // Función para ir al siguiente paso
-  function siguientePaso() {
-    const currentStep = window.step || 1;
-    if (currentStep < 6) {
-      window.step = currentStep + 1;
-      // Usar la función showStep que ya existe en el scope
-      if (typeof showStep === 'function') {
-        showStep(window.step);
-      } else {
-        console.warn('⚠️ Función showStep no disponible');
-      }
-    }
-  }
-
-  // Actualizar la función del botón siguiente para usar el backend
-    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-    if (btnSiguiente) {
-      btnSiguiente.addEventListener('click', async function() {
-        const pasoActual = obtenerPasoActual();
-        
-        if (pasoActual === 2) {
-          // Al pasar al paso 3, actualizar disponibilidad
-        if (typeof actualizarDisponibilidadPaso3 === 'function') {
-          await actualizarDisponibilidadPaso3();
-        } else {
-          console.warn('⚠️ Función actualizarDisponibilidadPaso3 no disponible');
-        }
-        }
-        
-        siguientePaso();
-      });
-    }
-
-    // El botón confirmar ya está configurado arriba con btn-confirmar-fijo
-
-    // Restringir fechas pasadas en los inputs de fecha
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd = String(hoy.getDate()).padStart(2, '0');
-    const minDate = `${yyyy}-${mm}-${dd}`;
-    const inputsFecha = [
-      document.getElementById('fecha-vehiculos'),
-      document.getElementById('fecha-tapizados'),
-      document.getElementById('fecha')
-    ];
-    inputsFecha.forEach(input => { if (input) input.setAttribute('min', minDate); });
-
-    // Lógica para deshabilitar horarios ocupados en vehículos y tapizados
-    async function actualizarHorariosDisponibles(fecha, selectId) {
-      const select = document.getElementById(selectId);
-      if (!select) return;
-      // Habilitar todos los horarios primero
-      Array.from(select.options).forEach(opt => { opt.disabled = false; });
-      if (!fecha) return;
-      try {
-        const disponibilidad = await obtenerDisponibilidad(fecha);
-        if (disponibilidad && Array.isArray(disponibilidad.ocupados)) {
-          disponibilidad.ocupados.forEach(horaOcupada => {
-            const opt = Array.from(select.options).find(o => o.value === horaOcupada);
-            if (opt) opt.disabled = true;
-          });
-        }
-      } catch (e) {
-        console.error('Error consultando disponibilidad:', e);
-      }
-    }
-    // Event listeners para fechas
-    document.getElementById('fecha-vehiculos')?.addEventListener('change', async function() {
-      await actualizarDisponibilidadPaso3();
-    });
-    document.getElementById('fecha-tapizados')?.addEventListener('change', async function() {
-      await actualizarDisponibilidadPaso3();
-    });
-
-  // --- Lógica profesional de armado de nombres y búsqueda de precios ---
-
-  function armarNombreServicio(tipo, subtipo) {
-    if (tipo === "vehiculo") {
-      if (subtipo === 'auto') return 'Limpieza de Auto';
-      if (subtipo === 'pickup') return 'Limpieza de Pickup';
-      if (subtipo === 'suv') return 'Limpieza de SUV';
-      return '';
-    }
-    if (tipo === "tapizadoVehiculo") {
-      // Mapear subtipo a nombre exacto de la BD
-      if (subtipo === 'auto') return 'Limpieza de Tapizado de Auto';
-      if (subtipo === 'suv') return 'Limpieza de Tapizado de SUV';
-      if (subtipo === 'pickup') return 'Limpieza de Tapizado de Pickup';
-      return '';
-    }
-    if (tipo === "motor") {
-      // Mapear subtipo a nombre exacto de la BD
-      if (subtipo === 'completa') return 'Motor Completa';
-      if (subtipo === 'detallada') return 'Motor Detallada';
-      return '';
-    }
-    if (tipo === "sillon") return `Sillón ${subtipo}`;
-    if (tipo === "silla") return `Silla ${subtipo}`;
-    if (tipo === "colchon") return `Colchón de ${subtipo}`;
-    if (tipo === "puff") {
-      // Mapear subtipo a nombre exacto de la BD
-      if (subtipo === 'simple') return 'Puff Simple';
-      if (subtipo === 'grande') return 'Puff Grande';
-      if (subtipo === 'especial') return 'Puff Especial';
-      return '';
-    }
-    if (tipo === "tapizadoSilla") return `Limpieza de Tapizado de Silla`;
-    if (tipo === "tapizadoAlfombra") return `Limpieza de Tapizado de Alfombra`;
-    return "";
-  }
-
-  function capitalizarPrimeraLetra(str) {
-    if (!str) return '';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-
-  function getPrecioDesdeBD(tipo, subtipo) {
-    const nombre = armarNombreServicio(tipo, subtipo);
-    const servicio = serviciosBD.find(s => s.name === nombre);
-    return servicio ? servicio.price : 0;
-  }
-
-  // Reemplazar en TODO el archivo cualquier referencia a precios hardcodeados o funciones viejas de precios
-  // Usar SIEMPRE getPrecioDesdeBD(tipo, subtipo) para mostrar precios en cards, resumen, confirmación, etc.
-  // Ejemplo de uso:
-  // const precio = getPrecioDesdeBD('vehiculo', 'SUV');
-  // const precio = getPrecioDesdeBD('sillon', '2 cuerpos');
-  // ... existing code ...
-
-  // --- Refactor profesional: trabajar siempre con service_id ---
-
-  function getServicioPorId(serviceId) {
-    return serviciosBD.find(s => s.id === serviceId);
-  }
-
-  // Al agregar un servicio, buscar el objeto en serviciosBD y guardar el id
-  function agregarServicioSeleccionado(tipo, subtipo, cantidad) {
-    // Buscar el servicio en la BD por nombre exacto
-    let nombre = armarNombreServicio(tipo, subtipo);
-    let servicio = serviciosBD.find(s => s.name === nombre);
-    if (!servicio) {
-      console.error('No se encontró el servicio en la BD:', nombre);
-      return;
-    }
-    // Agregar al array correspondiente
-    let obj = {
-      service_id: servicio.id,
-      nombre: servicio.name,
-      cantidad: cantidad,
-      precio: servicio.price
-    };
-    
-    // Agregar al array correspondiente según el tipo
-    switch(tipo) {
-      case 'sillon':
-        sillonesAgregados.push(obj);
-        break;
-      case 'silla':
-        sillasAgregadas.push(obj);
-        break;
-      case 'colchon':
-        colchonesAgregados.push(obj);
-        break;
-      case 'vehiculo':
-        vehiculosAgregados.push(obj);
-        break;
-      case 'tapizadoVehiculo':
-        tapizadoVehiculosAgregados.push(obj);
-        break;
-      case 'motor':
-        motoresAgregados.push(obj);
-        break;
-      case 'alfombra':
-        alfombrasAgregadas.push(obj);
-        break;
-      case 'puff':
-        puffsAgregados.push(obj);
-        break;
-      default:
-        console.error('Tipo de servicio no reconocido:', tipo);
-        return;
-    }
-    
-    console.log(`✅ Servicio agregado: ${nombre} (ID: ${servicio.id})`);
-  }
-
-  // Para mostrar el precio en cards y resumen:
-  function getPrecioPorId(serviceId) {
-    const servicio = getServicioPorId(serviceId);
-    return servicio ? servicio.price : 0;
-  }
-
-  // Al armar el request al backend:
-  function armarServiciosParaBackend(arrayServicios) {
-    return arrayServicios.map(s => ({
-      service_id: s.service_id,
-      quantity: s.cantidad
-    }));
-  }
-  // ... existing code ...
-
-  // Inicializar servicio de turnos
-  const turnosService = new TurnosService();
-
-  // Variables globales para el sistema de servicios
-  let categoriaSeleccionada = null;
-  let serviciosSeleccionados = [];
-  let todosLosServicios = [];
-
-  // Función para seleccionar categoría
-  function seleccionarCategoria(categoria) {
-    categoriaSeleccionada = categoria;
-    
-    // Ocultar selector de categorías
-    document.querySelector('.categoria-selector').style.display = 'none';
-    
-    // Mostrar servicios de la categoría seleccionada
-    document.getElementById(`servicios-${categoria}`).style.display = 'block';
-    
-    // Cargar servicios desde la base de datos para la categoría seleccionada
-    cargarServiciosDesdeBD(categoria);
-    
-    // Actualizar botón siguiente
-    document.getElementById('btn-siguiente-fijo').style.display = 'block';
-  }
-
-  // Función para cargar todos los servicios desde la base de datos
-  async function cargarTodosLosServicios() {
-    try {
-      console.log('📡 Cargando servicios desde la API...');
-      const response = await fetch('/api/appointments/services');
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      console.log('📋 Respuesta de la API:', data);
-      
-      if (data.success && data.services) {
-        todosLosServicios = data.services;
-        console.log('✅ Servicios cargados:', todosLosServicios.length);
-      } else {
-        console.error('❌ Error en la respuesta de la API:', data.message);
-        mostrarError('Error cargando servicios: ' + (data.message || 'Respuesta inválida'));
-      }
-    } catch (error) {
-      console.error('❌ Error cargando servicios:', error);
-      mostrarError('Error de conexión: ' + error.message);
-    }
-  }
-
-  // Función para cargar servicios de una categoría específica
-  function cargarServiciosDesdeBD(categoria) {
-    const container = document.getElementById(`lista-servicios-${categoria}`);
-    if (!container) {
-      console.error('❌ Contenedor no encontrado para categoría:', categoria);
-      return;
-    }
-    
-    // Filtrar servicios por categoría
-    const serviciosCategoria = todosLosServicios.filter(servicio => 
-      servicio.category === categoria
-    );
-    
-    console.log(`🎯 Cargando ${serviciosCategoria.length} servicios para ${categoria}`);
-    
-    // Limpiar contenedor
-    container.innerHTML = '';
-    
-    if (serviciosCategoria.length === 0) {
-      container.innerHTML = '<div class="text-muted">No hay servicios disponibles para esta categoría.</div>';
-      return;
-    }
-    
-    // Crear elementos para cada servicio
-    serviciosCategoria.forEach(servicio => {
-      const servicioElement = document.createElement('div');
-      servicioElement.className = 'servicio-card';
-      servicioElement.dataset.servicioId = servicio.id;
-      servicioElement.dataset.nombre = servicio.name;
-      servicioElement.dataset.precio = servicio.price;
-      servicioElement.dataset.duracion = servicio.duration;
-      
-      servicioElement.innerHTML = `
-        <div class="servicio-info">
-          <div class="servicio-icon">
-            <i class="fas ${getServiceIcon(servicio.name)}"></i>
-          </div>
-          <div class="servicio-details">
-            <h6>${servicio.name}</h6>
-            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
-            <small class="text-muted">Duración: ${servicio.duration} min</small>
-          </div>
-        </div>
-        <div class="servicio-precio">
-          $${servicio.price.toLocaleString()}
-        </div>
-      `;
-      
-      servicioElement.addEventListener('click', () => {
-        console.log('🖱️ Click en servicio:', servicio.name);
-        seleccionarServicio(servicioElement);
-      });
-      
-      container.appendChild(servicioElement);
-    });
-  }
-
-  // Función para obtener el icono del servicio
-  function getServiceIcon(serviceName) {
-    const name = serviceName.toLowerCase();
-    if (name.includes('auto') || name.includes('car') || name.includes('vehículo')) return 'fa-car';
-    if (name.includes('pickup')) return 'fa-truck-pickup';
-    if (name.includes('suv')) return 'fa-car-side';
-    if (name.includes('motor')) return 'fa-cog';
-    if (name.includes('sillón') || name.includes('sillon')) return 'fa-couch';
-    if (name.includes('silla')) return 'fa-chair';
-    if (name.includes('alfombra')) return 'fa-rug';
-    if (name.includes('colchón') || name.includes('colchon')) return 'fa-bed';
-    return 'fa-tools';
-  }
-
-  // Función para mostrar errores
-  function mostrarError(mensaje) {
-    const container = document.querySelector('.step-content');
-    if (container) {
-      container.innerHTML = `
-        <div class="alert alert-danger">
-          <h4>Error</h4>
-          <p>${mensaje}</p>
-          <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
-        </div>
-      `;
-    }
-  }
-
-  // Función para cambiar de categoría
-  function cambiarCategoria() {
-    categoriaSeleccionada = null;
-    serviciosSeleccionados = [];
-    
-    // Ocultar todos los contenedores de servicios
-    document.querySelectorAll('.servicios-container').forEach(container => {
-      container.style.display = 'none';
-    });
-    
-    // Mostrar selector de categorías
-    document.querySelector('.categoria-selector').style.display = 'block';
-    
-    // Ocultar servicios seleccionados
-    document.getElementById('servicios-seleccionados').style.display = 'none';
-    
-    // Ocultar botón siguiente
-    document.getElementById('btn-siguiente-fijo').style.display = 'none';
-    
-    // Limpiar selecciones
-    document.querySelectorAll('.servicio-card.selected').forEach(card => {
-      card.classList.remove('selected');
-    });
-  }
-
-  // Función para seleccionar servicio
-  function seleccionarServicio(servicioItem) {
-    const servicioId = servicioItem.dataset.servicioId;
-    const nombre = servicioItem.dataset.nombre;
-    const precio = servicioItem.dataset.precio;
-    const duracion = servicioItem.dataset.duracion;
-    
-    // Verificar si ya está seleccionado
-    const yaSeleccionado = serviciosSeleccionados.find(s => s.service_id === parseInt(servicioId));
-    
-    if (yaSeleccionado) {
-      // Deseleccionar
-      servicioItem.classList.remove('selected');
-      serviciosSeleccionados = serviciosSeleccionados.filter(s => s.service_id !== parseInt(servicioId));
-    } else {
-      // Seleccionar
-      servicioItem.classList.add('selected');
-      serviciosSeleccionados.push({
-        service_id: parseInt(servicioId),
-        nombre,
-        precio: parseFloat(precio),
-        duracion: parseInt(duracion),
-        cantidad: 1
-      });
-    }
-    
-    // Actualizar lista de servicios seleccionados
-    actualizarListaServicios();
-    
-    // Mostrar/ocultar botón siguiente
-    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-    if (serviciosSeleccionados.length > 0) {
-      btnSiguiente.style.display = 'block';
-    } else {
-      btnSiguiente.style.display = 'none';
-    }
-  }
-
-  // Función para actualizar la lista de servicios seleccionados
-  function actualizarListaServicios() {
-    const container = document.getElementById('lista-servicios');
-    const contenedor = document.getElementById('servicios-seleccionados');
-    
-    if (serviciosSeleccionados.length === 0) {
-      contenedor.style.display = 'none';
-      return;
-    }
-    
-    contenedor.style.display = 'block';
-    container.innerHTML = '';
-    
-    serviciosSeleccionados.forEach((servicio, index) => {
-      const servicioElement = document.createElement('div');
-      servicioElement.className = 'col-12';
-      servicioElement.innerHTML = `
-        <div class="servicio-seleccionado">
-          <div>
-            <strong>${servicio.nombre}</strong>
-            <br>
-            <small>$${servicio.precio.toLocaleString()}</small>
-          </div>
-          <button class="btn-remove" onclick="removerServicio(${index})">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      `;
-      container.appendChild(servicioElement);
-    });
-  }
-
-  // Función para remover servicio
-  function removerServicio(index) {
-    const servicio = serviciosSeleccionados[index];
-    
-    // Remover de la lista
-    serviciosSeleccionados.splice(index, 1);
-    
-    // Deseleccionar el item
-    const servicioItem = document.querySelector(`[data-servicio-id="${servicio.service_id}"]`);
-    if (servicioItem) {
-      servicioItem.classList.remove('selected');
-    }
-    
-    // Actualizar lista
-    actualizarListaServicios();
-    
-    // Mostrar/ocultar botón siguiente
-    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-    if (serviciosSeleccionados.length > 0) {
-      btnSiguiente.style.display = 'block';
-    } else {
-      btnSiguiente.style.display = 'none';
-    }
-  }
-
-  // Función para cargar servicios desde la base de datos
-  async function cargarServiciosDesdeBD() {
-    try {
-      const result = await turnosService.getServices();
-      if (result.success) {
-        return result.services;
-      } else {
-        console.error('Error cargando servicios:', result.message);
-        return [];
-      }
-    } catch (error) {
-      console.error('Error cargando servicios:', error);
-      return [];
-    }
-  }
-
-  // Función para categorizar servicios
-  function categorizarServicios(servicios) {
-    const vehiculos = [];
-    const tapizados = [];
-    
-    servicios.forEach(servicio => {
-      const nombre = servicio.name.toLowerCase();
-      
-      // Servicios de vehículos
-      if (nombre.includes('auto') || nombre.includes('pickup') || nombre.includes('suv') || 
-          nombre.includes('motor') || nombre.includes('vehículo') || nombre.includes('car')) {
-        vehiculos.push(servicio);
-      }
-      // Servicios de tapizados
-      else if (nombre.includes('sillón') || nombre.includes('silla') || nombre.includes('colchón') || 
-               nombre.includes('alfombra') || nombre.includes('puff') || nombre.includes('respaldo') ||
-               nombre.includes('tapizado')) {
-        tapizados.push(servicio);
-      }
-    });
-    
-    return { vehiculos, tapizados };
-  }
-
-  // Función para renderizar servicios
-  function renderizarServicios(categoria, servicios) {
-    const container = document.getElementById(`lista-servicios-${categoria}`);
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    servicios.forEach(servicio => {
-      const servicioElement = document.createElement('div');
-      servicioElement.className = 'servicio-item';
-      servicioElement.dataset.servicioId = servicio.id;
-      servicioElement.dataset.nombre = servicio.name;
-      servicioElement.dataset.precio = servicio.price;
-      servicioElement.dataset.duracion = servicio.duration;
-      
-      // Determinar icono según el nombre del servicio
-      let icono = 'fas fa-cog';
-      const nombre = servicio.name.toLowerCase();
-      
-      if (nombre.includes('auto') || nombre.includes('car')) icono = 'fas fa-car';
-      else if (nombre.includes('pickup')) icono = 'fas fa-truck-pickup';
-      else if (nombre.includes('suv')) icono = 'fas fa-car-side';
-      else if (nombre.includes('motor')) icono = 'fas fa-cog';
-      else if (nombre.includes('sillón')) icono = 'fas fa-couch';
-      else if (nombre.includes('silla')) icono = 'fas fa-chair';
-      else if (nombre.includes('colchón')) icono = 'fas fa-bed';
-      else if (nombre.includes('alfombra')) icono = 'fas fa-rug';
-      else if (nombre.includes('puff')) icono = 'fas fa-couch';
-      else if (nombre.includes('respaldo')) icono = 'fas fa-bed';
-      
-      servicioElement.innerHTML = `
-        <div class="servicio-info">
-          <div class="servicio-icon">
-            <i class="${icono}"></i>
-          </div>
-          <div class="servicio-details">
-            <h6>${servicio.name}</h6>
-            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
-          </div>
-        </div>
-        <div class="servicio-precio">
-          $${servicio.price.toLocaleString()}
-        </div>
-      `;
-      
-      // Agregar event listener
-      servicioElement.addEventListener('click', function() {
-        seleccionarServicio(this);
-      });
-      
-      container.appendChild(servicioElement);
-    });
-  }
-
-  // Event listeners para las categorías
-  document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🚀 Iniciando sistema de turnos...');
-    
-    // Cargar todos los servicios desde la base de datos
-    await cargarTodosLosServicios();
-    
-    // Event listeners para categorías
-    document.getElementById('categoria-vehiculos').addEventListener('click', function() {
-      seleccionarCategoria('vehiculos');
-    });
-    
-    document.getElementById('categoria-tapizados').addEventListener('click', function() {
-      seleccionarCategoria('tapizados');
-    });
-    
-    // Event listener para el botón siguiente
-    document.getElementById('btn-siguiente-fijo').addEventListener('click', function() {
-      if (serviciosSeleccionados.length > 0) {
-        showStep(2); // Ir al siguiente paso
-      }
-    });
-    
-    // Ocultar botón siguiente inicialmente
-    document.getElementById('btn-siguiente-fijo').style.display = 'none';
-  });
-
-  // Función para cargar horarios disponibles (reemplaza todas las funciones duplicadas)
-  async function cargarHorariosDisponibles(fecha, selectId) {
-    return await turnosService.loadAvailableHours(fecha, selectId);
-  }
-
-  // Función para crear turno en el backend (reemplaza todas las funciones duplicadas)
-  async function crearTurnoEnBackend(datosTurno) {
-    const validation = turnosService.validateAppointmentData(datosTurno);
-    if (!validation.isValid) {
-      throw new Error(validation.errors.join(', '));
-    }
-    
-    const formattedData = turnosService.formatAppointmentData(datosTurno);
-    const result = await turnosService.createAppointment(formattedData);
-    
-    if (!result.success) {
-      throw new Error(result.message);
-    }
-    
-    return result;
-  }
-
-  // Función para mostrar confirmación
-  function mostrarConfirmacion(mensaje) {
-    alert(mensaje);
-  }
-
-
-
-  // ===== SISTEMA DE TURNOS FINAL Y FUNCIONAL =====
-  
-  // Variables globales
-  let step = 1;
-  let categoriaSeleccionada = null;
-  let serviciosSeleccionados = [];
-  let turno = {
-    servicios: [],
-    categoria: null,
-    fecha: null,
-    hora: null,
-    nombre: null,
-    apellido: null,
-    telefono: null,
-    email: null,
-    ubicacion: null,
-    direccion: null
-  };
-
-  // Función para seleccionar categoría
-  function seleccionarCategoria(categoria) {
-    categoriaSeleccionada = categoria;
-    
-    // Ocultar selector de categorías
-    document.querySelector('.categoria-selector').style.display = 'none';
-    
-    // Mostrar servicios de la categoría seleccionada
-    const serviciosContainer = document.getElementById(`servicios-${categoria}`);
-    if (serviciosContainer) {
-      serviciosContainer.style.display = 'block';
-    }
-    
-    // Mostrar botón siguiente
-    document.getElementById('btn-siguiente-fijo').style.display = 'block';
-  }
-
-  // Función para cambiar de categoría
-  function cambiarCategoria() {
-    categoriaSeleccionada = null;
-    serviciosSeleccionados = [];
-    
-    // Ocultar todos los contenedores de servicios
-    document.querySelectorAll('.servicios-container').forEach(container => {
-      container.style.display = 'none';
-    });
-    
-    // Mostrar selector de categorías
-    document.querySelector('.categoria-selector').style.display = 'block';
-    
-    // Ocultar botón siguiente
-    document.getElementById('btn-siguiente-fijo').style.display = 'none';
-    
-    // Limpiar lista de servicios seleccionados
-    actualizarListaServicios();
-  }
-
-  // Función para seleccionar servicio
-  function seleccionarServicio(servicioItem) {
-    const servicioId = servicioItem.dataset.servicioId;
-    const nombre = servicioItem.dataset.nombre;
-    const precio = parseFloat(servicioItem.dataset.precio);
-    const duracion = parseInt(servicioItem.dataset.duracion);
-    
-    // Verificar si ya está seleccionado
-    const yaSeleccionado = serviciosSeleccionados.find(s => s.id === servicioId);
-    
-    if (yaSeleccionado) {
-      // Si ya está seleccionado, aumentar cantidad
-      yaSeleccionado.cantidad++;
-    } else {
-      // Si no está seleccionado, agregarlo
-      serviciosSeleccionados.push({
-        id: servicioId,
-        nombre: nombre,
-        precio: precio,
-        duracion: duracion,
-        cantidad: 1,
-        icono: obtenerIconoServicio(nombre)
-      });
-    }
-    
-    // Actualizar UI
-    actualizarListaServicios();
-    servicioItem.classList.add('selected');
-    
-    // Habilitar botón siguiente
-    document.getElementById('btn-siguiente-fijo').disabled = false;
-  }
-
-  // Función para remover servicio
-  function removerServicio(servicioId) {
-    const index = serviciosSeleccionados.findIndex(s => s.id === servicioId);
-    if (index !== -1) {
-      serviciosSeleccionados.splice(index, 1);
-      
-      // Actualizar UI
-      actualizarListaServicios();
-      
-      // Deseleccionar en la lista
-      const servicioItem = document.querySelector(`[data-servicio-id="${servicioId}"]`);
-      if (servicioItem) {
-        servicioItem.classList.remove('selected');
-      }
-      
-      // Deshabilitar botón siguiente si no hay servicios
-      if (serviciosSeleccionados.length === 0) {
-        document.getElementById('btn-siguiente-fijo').disabled = true;
-      }
-    }
-  }
-
-  // Función para actualizar lista de servicios seleccionados
-  function actualizarListaServicios() {
-    const container = document.getElementById('lista-servicios');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    serviciosSeleccionados.forEach(servicio => {
-      const item = document.createElement('div');
-      item.className = 'servicio-seleccionado';
-      item.innerHTML = `
-        <div class="servicio-info">
-          <i class="fas ${servicio.icono}"></i>
-          <span>${servicio.nombre}</span>
-        </div>
-        <div class="servicio-precio">
-          $${(servicio.precio * servicio.cantidad).toLocaleString()}
-        </div>
-        <button onclick="removerServicio('${servicio.id}')" class="btn-remover">
-          <i class="fas fa-times"></i>
-        </button>
-      `;
-      container.appendChild(item);
-    });
-    
-    // Mostrar/ocultar contenedor
-    const contenedor = document.getElementById('servicios-seleccionados');
-    if (contenedor) {
-      contenedor.style.display = serviciosSeleccionados.length > 0 ? 'block' : 'none';
-    }
-  }
-
-  // Función para obtener icono según nombre del servicio
-  function obtenerIconoServicio(nombre) {
-    const nombreLower = nombre.toLowerCase();
-    
-    if (nombreLower.includes('auto') || nombreLower.includes('car')) return 'fa-car';
-    if (nombreLower.includes('pickup')) return 'fa-truck-pickup';
-    if (nombreLower.includes('suv')) return 'fa-car-side';
-    if (nombreLower.includes('motor')) return 'fa-cog';
-    if (nombreLower.includes('sillón')) return 'fa-couch';
-    if (nombreLower.includes('silla')) return 'fa-chair';
-    if (nombreLower.includes('colchón')) return 'fa-bed';
-    if (nombreLower.includes('alfombra')) return 'fa-rug';
-    if (nombreLower.includes('puff')) return 'fa-couch';
-    
-    return 'fa-cog';
-  }
-
-  // Función para mostrar paso
-  function showStep(n) {
-    for (let i = 1; i <= 6; i++) {
-      const stepDiv = document.getElementById('step-' + i);
-      if (stepDiv) stepDiv.style.display = (i === n) ? '' : 'none';
-    }
-    
-    // Actualizar barra de progreso
-    updateWizardBar(n);
-  }
-
-  // Función para actualizar barra de progreso
-  function updateWizardBar(step) {
-    const percent = ((step - 1) / 5) * 100;
-    const barFill = document.getElementById('wizard-bar-fill');
-    if (barFill) barFill.style.width = percent + '%';
-    
-    for (let i = 1; i <= 6; i++) {
-      const el = document.getElementById('step-indicator-' + i);
-      if (el) {
-        el.classList.remove('active', 'completed');
-        if (i < step) el.classList.add('completed');
-        if (i === step) el.classList.add('active');
-      }
-    }
-  }
-
-  // Función para cargar servicios desde la BD
-  async function cargarServiciosDesdeBD() {
-    try {
-      const response = await fetch('/api/appointments/services');
-      const data = await response.json();
-      
-      if (data.success && data.services) {
-        const categorias = categorizarServicios(data.services);
-        renderizarServicios('vehiculos', categorias.vehiculos);
-        renderizarServicios('tapizados', categorias.tapizados);
-      }
-    } catch (error) {
-      console.error('Error cargando servicios:', error);
-    }
-  }
-
-  // Función para categorizar servicios desde BD
-  function categorizarServicios(servicios) {
-    const vehiculos = [];
-    const tapizados = [];
-    
-    servicios.forEach(servicio => {
-      const nombre = servicio.name.toLowerCase();
-      
-      if (nombre.includes('auto') || nombre.includes('pickup') || nombre.includes('suv') || nombre.includes('motor')) {
-        vehiculos.push(servicio);
-      } else if (nombre.includes('sillón') || nombre.includes('silla') || nombre.includes('colchón') || nombre.includes('alfombra') || nombre.includes('puff')) {
-        tapizados.push(servicio);
-      }
-    });
-    
-    return { vehiculos, tapizados };
-  }
-
-  // Función para renderizar servicios
-  function renderizarServicios(categoria, servicios) {
-    const container = document.getElementById(`lista-servicios-${categoria}`);
-    if (!container) return;
-    
-    container.innerHTML = '';
-    
-    servicios.forEach(servicio => {
-      const servicioElement = document.createElement('div');
-      servicioElement.className = 'servicio-item';
-      servicioElement.dataset.servicioId = servicio.id;
-      servicioElement.dataset.nombre = servicio.name;
-      servicioElement.dataset.precio = servicio.price;
-      servicioElement.dataset.duracion = servicio.duration;
-      
-      const icono = obtenerIconoServicio(servicio.name);
-      
-      servicioElement.innerHTML = `
-        <div class="servicio-info">
-          <div class="servicio-icon">
-            <i class="${icono}"></i>
-          </div>
-          <div class="servicio-details">
-            <h6>${servicio.name}</h6>
-            <p>${servicio.description || 'Servicio de limpieza profesional'}</p>
-          </div>
-        </div>
-        <div class="servicio-precio">
-          $${servicio.price.toLocaleString()}
-        </div>
-      `;
-      
-      servicioElement.addEventListener('click', function() {
-        seleccionarServicio(this);
-      });
-      
-      container.appendChild(servicioElement);
-    });
-  }
-
-  // Configurar el botón siguiente
-  document.addEventListener('DOMContentLoaded', function() {
-    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
-    
-    btnSiguiente.onclick = function() {
-      console.log('🔄 Botón siguiente clickeado, paso actual:', step);
-      
-      if (step === 1) {
-        // Validar que se haya seleccionado al menos un servicio
-        if (!serviciosSeleccionados || serviciosSeleccionados.length === 0) {
-          alert('Por favor, selecciona al menos un servicio.');
-          return;
-        }
-        
-        console.log('✅ Servicios seleccionados:', serviciosSeleccionados);
-        
-        // Guardar los servicios seleccionados en el objeto turno
-        turno.servicios = serviciosSeleccionados;
-        turno.categoria = categoriaSeleccionada;
-        
-        step = 2;
-        showStep(step);
-        
-      } else if (step === 2) {
-        // Paso 2: Seleccionar Profesional
-        step = 3;
-        showStep(step);
-        
-      } else if (step === 3) {
-        // Paso 3: Seleccionar Fecha y Hora
-        const fechaInput = document.querySelector('input[type="date"]');
-        const horaSelect = document.querySelector('select');
-        
-        if (!fechaInput || !fechaInput.value) {
-          alert('Por favor, selecciona una fecha.');
-          return;
-        }
-        
-        if (!horaSelect || !horaSelect.value) {
-          alert('Por favor, selecciona una hora.');
-          return;
-        }
-        
-        turno.fecha = fechaInput.value;
-        turno.hora = horaSelect.value;
-        
-        step = 4;
-        showStep(step);
-        
-      } else if (step === 4) {
-        // Paso 4: Datos Personales
-        const nombre = document.getElementById('nombre')?.value;
-        const apellido = document.getElementById('apellido')?.value;
-        const telefono = document.getElementById('telefono')?.value;
-        
-        if (!nombre || !apellido || !telefono) {
-          alert('Por favor, completa todos los campos obligatorios.');
-          return;
-        }
-        
-        turno.nombre = nombre;
-        turno.apellido = apellido;
-        turno.telefono = telefono;
-        
-        step = 5;
-        showStep(step);
-        
-      } else if (step === 5) {
-        // Paso 5: Ubicación
-        const ubicacion = document.getElementById('ubicacion')?.value;
-        const direccion = document.getElementById('direccion')?.value;
-        
-        if (!ubicacion || !direccion) {
-          alert('Por favor, completa la ubicación y dirección.');
-          return;
-        }
-        
-        turno.ubicacion = ubicacion;
-        turno.direccion = direccion;
-        
-        step = 6;
-        showStep(step);
-        
-      } else if (step === 6) {
-        // Paso 6: Confirmación
-        console.log('🎯 Confirmando turno:', turno);
-        
-        // Aquí iría la lógica para enviar al backend
-        alert('¡Turno confirmado! Te contactaremos pronto.');
-      }
-    };
-
-    // Configurar botón anterior
-    const btnAnterior = document.getElementById('btn-anterior-fijo');
-    if (btnAnterior) {
-      btnAnterior.onclick = function() {
-        if (step > 1) {
-          step--;
-          showStep(step);
-        }
-      };
-    }
-
-    // Event listeners para categorías
-    const categoriaVehiculos = document.getElementById('categoria-vehiculos');
-    const categoriaTapizados = document.getElementById('categoria-tapizados');
-    
-    if (categoriaVehiculos) {
-      categoriaVehiculos.addEventListener('click', function() {
-        seleccionarCategoria('vehiculos');
-      });
-    }
-    
-    if (categoriaTapizados) {
-      categoriaTapizados.addEventListener('click', function() {
-        seleccionarCategoria('tapizados');
-      });
-    }
-    
-    // Ocultar botón siguiente inicialmente
-    if (btnSiguiente) {
-      btnSiguiente.style.display = 'none';
-      btnSiguiente.disabled = true;
-    }
-
   </script>
 </body>
 </html> 
