@@ -102,12 +102,11 @@ async function createAppointment(appointmentData) {
   let calculatedAmount = 0;
   
   for (const s of services) {
-    const serviceResult = await query('SELECT price, duration, full_day FROM services WHERE id = $1', [s.service_id]);
+    const serviceResult = await query('SELECT price, duration FROM services WHERE id = $1', [s.service_id]);
     if (serviceResult.length === 0) throw new Error(`Servicio con ID ${s.service_id} no encontrado`);
     
     calculatedAmount += serviceResult[0].price * s.quantity;
     totalDuration += serviceResult[0].duration * s.quantity;
-    if (serviceResult[0].full_day) hasFullDay = true;
   }
 
   // Usar el precio que viene del frontend si está disponible, sino calcularlo
@@ -119,17 +118,9 @@ async function createAppointment(appointmentData) {
     finalAmount
   });
 
-  // Si algún servicio es full_day, bloquear todo el día
-  if (hasFullDay) {
-    // Verificar que no haya ningún turno ese día
-    const count = await query('SELECT COUNT(*) FROM appointments WHERE appointment_date = $1 AND status IN ($2, $3)', [appointmentDate, 'pending', 'confirmed']);
-    if (parseInt(count[0].count) > 0) throw new Error('Ya existe un turno para ese día. No se puede reservar un servicio que ocupa todo el día.');
-    totalDuration = 1440; // 24 horas
-  } else {
-    // Validar disponibilidad estricta
-    const disponible = await isTimeSlotAvailable(appointmentDate, appointmentTime, totalDuration);
-    if (!disponible) throw new Error('El horario solicitado no está disponible.');
-  }
+  // Validar disponibilidad estricta
+  const disponible = await isTimeSlotAvailable(appointmentDate, appointmentTime, totalDuration);
+  if (!disponible) throw new Error('El horario solicitado no está disponible.');
 
   console.log('💾 Insertando turno con datos:', {
     appointmentDate,

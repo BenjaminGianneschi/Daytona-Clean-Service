@@ -82,6 +82,7 @@
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+  <script src="js/turnos-service.js"></script>
   <style>
     body {
       background: #181818;
@@ -4330,7 +4331,35 @@
   }
   // ... existing code ...
 
+  // Inicializar servicio de turnos
+  const turnosService = new TurnosService();
 
+  // Función para cargar horarios disponibles (reemplaza todas las funciones duplicadas)
+  async function cargarHorariosDisponibles(fecha, selectId) {
+    return await turnosService.loadAvailableHours(fecha, selectId);
+  }
+
+  // Función para crear turno en el backend (reemplaza todas las funciones duplicadas)
+  async function crearTurnoEnBackend(datosTurno) {
+    const validation = turnosService.validateAppointmentData(datosTurno);
+    if (!validation.isValid) {
+      throw new Error(validation.errors.join(', '));
+    }
+    
+    const formattedData = turnosService.formatAppointmentData(datosTurno);
+    const result = await turnosService.createAppointment(formattedData);
+    
+    if (!result.success) {
+      throw new Error(result.message);
+    }
+    
+    return result;
+  }
+
+  // Función para mostrar confirmación
+  function mostrarConfirmacion(mensaje) {
+    alert(mensaje);
+  }
 
 </script>
 </body>

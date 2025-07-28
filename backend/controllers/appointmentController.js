@@ -28,14 +28,12 @@ const getAvailability = async (req, res) => {
     const existingAppointments = await appointmentModel.getAppointmentsByDate(date);
     
     // Generar horarios disponibles (8:00 a 18:00)
-    const availableSlots = [];
+    const availableHours = [];
     const startHour = 8;
     const endHour = 18;
-    const slotDuration = 120; // 2 horas por slot
     
     for (let hour = startHour; hour < endHour; hour += 2) {
       const slotStart = `${hour.toString().padStart(2, '0')}:00`;
-      const slotEnd = `${(hour + 2).toString().padStart(2, '0')}:00`;
       
       // Verificar si hay turnos que se superponen
       let isAvailable = true;
@@ -45,30 +43,22 @@ const getAvailability = async (req, res) => {
         const appEnd = moment(appStart, 'HH:mm:ss').add(appointment.duration || 120, 'minutes').format('HH:mm:ss');
         
         // Si hay superposición, marcar como no disponible
-        if (slotStart < appEnd && slotEnd > appStart) {
+        if (slotStart < appEnd && moment(slotStart, 'HH:mm').add(2, 'hours').format('HH:mm:ss') > appStart) {
           isAvailable = false;
           break;
         }
       }
       
-      availableSlots.push({
-        startTime: slotStart,
-        endTime: slotEnd,
-        available: isAvailable
-      });
+      // Solo agregar horarios disponibles
+      if (isAvailable) {
+        availableHours.push(slotStart);
+      }
     }
     
     res.json({ 
       success: true, 
-      data: { 
-        date, 
-        isWorkingDay: true, 
-        workStart: '08:00:00', 
-        workEnd: '18:00:00', 
-        slotDuration, 
-        requestedDuration: parseInt(duration),
-        availableSlots 
-      } 
+      availableHours,
+      message: `Horarios disponibles para ${date}`
     });
   } catch (error) {
     console.error('Error obteniendo disponibilidad:', error);
@@ -99,6 +89,11 @@ const createAppointment = async (req, res) => {
       return res.status(400).json({ success: false, message: 'El campo dirección (serviceLocation) es obligatorio.' });
     }
 
+    // Validar datos del cliente
+    if (!clientName || !clientPhone) {
+      return res.status(400).json({ success: false, message: 'Nombre y teléfono del cliente son obligatorios.' });
+    }
+
     // Validar y convertir totalAmount a número
     let precioFinal = 0;
     if (totalAmount !== undefined && totalAmount !== null) {
@@ -114,17 +109,19 @@ const createAppointment = async (req, res) => {
       appointmentTime,
       service_type,
       precioFinal,
-      servicesCount: services.length
+      servicesCount: services.length,
+      clientName,
+      clientPhone
     });
 
-    // Llamar al modelo para crear el turno (incluye validación de disponibilidad y full_day)
+    // Llamar al modelo para crear el turno (incluye validación de disponibilidad)
     const appointmentId = await appointmentModel.createAppointment({
       appointmentDate,
       appointmentTime,
-      userId,
+      userId: userId || null, // Puede ser null si no hay usuario autenticado
       clientName,
       clientPhone,
-      clientEmail,
+      clientEmail: clientEmail || '',
       serviceLocation,
       services,
       service_type,
