@@ -340,6 +340,58 @@
       border-color: #ff3b3f;
       box-shadow: 0 0 0 0.2rem #ff3b3f33;
     }
+    
+    /* Estilos para el selector de tipo de servicio */
+    #tipo-servicio .btn {
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    #tipo-servicio .btn-outline-primary {
+      border-color: #17a2b8;
+      color: #17a2b8;
+    }
+    
+    #tipo-servicio .btn-outline-primary:hover,
+    #tipo-servicio .btn-check:checked + .btn-outline-primary {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+      color: white;
+    }
+    
+    #tipo-servicio .btn-outline-warning {
+      border-color: #ffc107;
+      color: #ffc107;
+    }
+    
+    #tipo-servicio .btn-outline-warning:hover,
+    #tipo-servicio .btn-check:checked + .btn-outline-warning {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color: #212529;
+    }
+    
+    /* Estilos para el detalle del servicio */
+    #servicio-detalle .bg-dark {
+      background: linear-gradient(135deg, #232323, #1a1a1a) !important;
+      border: 1px solid #333;
+    }
+    
+    #servicio-detalle .badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+    
+    /* Estilos para optgroup en el dropdown */
+    .servicio-dropdown optgroup {
+      font-weight: bold;
+      color: #ff3b3f;
+    }
+    
+    .servicio-dropdown option {
+      padding: 8px;
+    }
     #servicio-detalle {
       font-size: 1.05rem;
       background: #232323;
@@ -423,14 +475,32 @@
             <label for="servicio-select" class="form-label">Servicio *</label>
             <select class="form-select servicio-dropdown" id="servicio-select" required>
               <option value="" data-icon="">Selecciona un servicio</option>
-              <option value="Limpieza de Vehículo" data-duracion="180" data-precio="15000" data-icon="fa-car">Limpieza de Vehículo</option>
-              <option value="Limpieza de Tapizado de Vehículo" data-duracion="120" data-precio="20000" data-icon="fa-car-side">Limpieza de Tapizado de Vehículo</option>
-              <option value="Limpieza de Motor" data-duracion="45" data-precio="12000" data-icon="fa-gears">Limpieza de Motor</option>
-              <option value="Limpieza de Sillones" data-duracion="80" data-precio="18000" data-icon="fa-couch">Limpieza de Sillones</option>
-              <option value="Limpieza de Sillas" data-duracion="40" data-precio="7000" data-icon="fa-chair">Limpieza de Sillas</option>
-              <option value="Limpieza de Colchones" data-duracion="60" data-precio="12000" data-icon="fa-bed">Limpieza de Colchones</option>
-              <option value="Limpieza de Alfombras" data-duracion="120" data-precio="20000" data-icon="fa-rug">Limpieza de Alfombras</option>
-              <option value="Limpieza de Puff" data-duracion="60" data-precio="10500" data-icon="fa-couch">Limpieza de Puff</option>
+              
+              <!-- VEHÍCULOS -->
+              <optgroup label="🚗 Servicios de Vehículos">
+                <option value="Lavado de Auto">Lavado de Auto</option>
+                <option value="Lavado de Pickup">Lavado de Pickup</option>
+                <option value="Lavado de SUV">Lavado de SUV</option>
+                <option value="Limpieza de Motor">Limpieza de Motor</option>
+                <option value="Tapizado de Auto">Tapizado de Auto</option>
+                <option value="Tapizado de Pickup">Tapizado de Pickup</option>
+                <option value="Tapizado de SUV">Tapizado de SUV</option>
+              </optgroup>
+              
+              <!-- TAPIZADOS -->
+              <optgroup label="🛋️ Servicios de Tapizados">
+                <option value="Sillón 1 Cuerpo">Sillón 1 Cuerpo</option>
+                <option value="Sillón 2 Cuerpos">Sillón 2 Cuerpos</option>
+                <option value="Sillón 3 Cuerpos">Sillón 3 Cuerpos</option>
+                <option value="Silla Simple">Silla Simple</option>
+                <option value="Silla Comedor">Silla Comedor</option>
+                <option value="Colchón 1 Plaza">Colchón 1 Plaza</option>
+                <option value="Colchón 2 Plazas">Colchón 2 Plazas</option>
+                <option value="Limpieza de Alfombra">Limpieza de Alfombra</option>
+                <option value="Puff Simple">Puff Simple</option>
+                <option value="Puff Grande">Puff Grande</option>
+                <option value="Respaldo de Cama">Respaldo de Cama</option>
+              </optgroup>
             </select>
           </div>
 
@@ -547,11 +617,11 @@
             </div>
           </div>
 
-          <!-- Campo para ingresar metros cuadrados de alfombra -->
-          <div id="alfombra-metros-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Ingresá los metros cuadrados de la alfombra:</strong></div>
+          <!-- Campo para ingresar metros cuadrados -->
+          <div id="metros-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Ingresá los metros cuadrados:</strong></div>
             <div class="input-group">
-              <input type="number" class="form-control" id="alfombra-metros" placeholder="Ej: 6" min="1" step="0.1">
+              <input type="number" class="form-control" id="metros-input" placeholder="Ej: 6" min="1" step="0.1">
               <span class="input-group-text">m²</span>
             </div>
             <small class="text-muted">Ejemplo: 2m x 3m = 6m²</small>
@@ -578,7 +648,23 @@
             </div>
           </div>
 
-          <!-- Detalle del servicio seleccionado (solo para servicios que no son sillones) -->
+          <!-- Selección de tipo de servicio (Estándar/Especial) -->
+          <div id="tipo-servicio-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Elegí el tipo de servicio:</strong></div>
+            <div class="btn-group w-100" role="group" id="tipo-servicio">
+              <input type="radio" class="btn-check" name="tipo-servicio" id="tipo-estandar" value="estandar" autocomplete="off" checked>
+              <label class="btn btn-outline-primary" for="tipo-estandar">
+                <i class="fas fa-star me-1"></i>Estándar
+              </label>
+              
+              <input type="radio" class="btn-check" name="tipo-servicio" id="tipo-especial" value="especial" autocomplete="off">
+              <label class="btn btn-outline-warning" for="tipo-especial">
+                <i class="fas fa-crown me-1"></i>Especial
+              </label>
+            </div>
+          </div>
+
+          <!-- Detalle del servicio seleccionado -->
           <div id="servicio-detalle" class="mb-3" style="display:none;">
             <!-- El contenido se genera dinámicamente -->
           </div>
@@ -2494,79 +2580,228 @@
     }
     // Inicializar barra al cargar
     updateWizardBar(step);
-    // Dropdown de servicios con iconos y detalles
+    // Servicios actualizados con opciones estándar/especiales
     const servicios = {
-      'Limpieza de Vehículo': {
+      // VEHÍCULOS
+      'Lavado de Auto': {
         icon: 'fa-car',
-        duracion: 180,
-        precio: 15000,
-        desc: 'Interior y exterior, aspirado, vidrios, superficies. Servicio en taller o a domicilio.',
-        tipo: 'vehiculo',
-        domicilio: true,
-        taller: true
-      },
-      'Limpieza de Tapizado de Vehículo': {
-        icon: 'fa-car-side',
-        duracion: 120,
+        duracion: 210,
         precio: 20000,
-        desc: 'Limpieza profunda de asientos, tapizados y alfombras del vehículo. Servicio en taller o a domicilio.',
+        precioEspecial: 65000,
+        desc: 'Lavado completo exterior e interior profesional',
+        descEspecial: 'Lavado premium con tratamientos especializados',
         tipo: 'vehiculo',
         domicilio: true,
-        taller: true
+        taller: true,
+        categoria: 'vehiculos'
+      },
+      'Lavado de Pickup': {
+        icon: 'fa-truck-pickup',
+        duracion: 210,
+        precio: 25000,
+        precioEspecial: 65000,
+        desc: 'Limpieza profesional incluyendo caja de carga',
+        descEspecial: 'Lavado premium para pickup con limpieza profunda',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true,
+        categoria: 'vehiculos'
+      },
+      'Lavado de SUV': {
+        icon: 'fa-car-side',
+        duracion: 240,
+        precio: 30000,
+        precioEspecial: 75000,
+        desc: 'Limpieza profesional para vehículos grandes',
+        descEspecial: 'Lavado premium para SUV con limpieza profunda',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true,
+        categoria: 'vehiculos'
       },
       'Limpieza de Motor': {
         icon: 'fa-gears',
-        duracion: 45,
-        precio: 12000,
-        desc: 'Desengrasado y limpieza segura. Servicio en taller o a domicilio.',
+        duracion: 90,
+        precio: 45000,
+        precioEspecial: 65000,
+        desc: 'Limpieza y mantenimiento del compartimento',
+        descEspecial: 'Limpieza premium de motor con protección avanzada',
         tipo: 'vehiculo',
         domicilio: true,
-        taller: true
+        taller: true,
+        categoria: 'vehiculos'
       },
-      'Limpieza de Colchones': {
+      'Tapizado de Auto': {
+        icon: 'fa-car-side',
+        duracion: 1440,
+        precio: 120000,
+        precioEspecial: 170000,
+        desc: 'Limpieza profunda de tapizados y alfombras',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true,
+        categoria: 'vehiculos'
+      },
+      'Tapizado de Pickup': {
+        icon: 'fa-truck-pickup',
+        duracion: 1440,
+        precio: 140000,
+        precioEspecial: 190000,
+        desc: 'Limpieza profunda incluyendo caja de carga',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true,
+        categoria: 'vehiculos'
+      },
+      'Tapizado de SUV': {
+        icon: 'fa-car-side',
+        duracion: 1800,
+        precio: 160000,
+        precioEspecial: 220000,
+        desc: 'Limpieza profunda para vehículos grandes',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'vehiculo',
+        domicilio: true,
+        taller: true,
+        categoria: 'vehiculos'
+      },
+      
+      // TAPIZADOS
+      'Sillón 1 Cuerpo': {
+        icon: 'fa-couch',
+        duracion: 120,
+        precio: 85000,
+        precioEspecial: 150000,
+        desc: 'Limpieza profunda de sillón individual',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Sillón 2 Cuerpos': {
+        icon: 'fa-couch',
+        duracion: 180,
+        precio: 120000,
+        precioEspecial: 150000,
+        desc: 'Limpieza profunda de sillón doble',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Sillón 3 Cuerpos': {
+        icon: 'fa-couch',
+        duracion: 240,
+        precio: 150000,
+        precioEspecial: 185000,
+        desc: 'Limpieza profunda de sillón triple',
+        descEspecial: 'Limpieza premium con máquina de inyección-extracción',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Silla Simple': {
+        icon: 'fa-chair',
+        duracion: 60,
+        precio: 15000,
+        precioEspecial: 35000,
+        desc: 'Limpieza profunda de silla individual',
+        descEspecial: 'Limpieza premium con protección antimanchas',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Silla Comedor': {
+        icon: 'fa-chair',
+        duracion: 60,
+        precio: 25000,
+        precioEspecial: 45000,
+        desc: 'Limpieza profunda de silla de comedor',
+        descEspecial: 'Limpieza premium con protección antimanchas',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Colchón 1 Plaza': {
+        icon: 'fa-bed',
+        duracion: 120,
+        precio: 70000,
+        precioEspecial: 130000,
+        desc: 'Limpieza profunda y desinfección',
+        descEspecial: 'Limpieza premium con desinfección y tratamiento anti-ácaros',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Colchón 2 Plazas': {
+        icon: 'fa-bed',
+        duracion: 180,
+        precio: 130000,
+        precioEspecial: 180000,
+        desc: 'Limpieza profunda y desinfección',
+        descEspecial: 'Limpieza premium con desinfección y tratamiento anti-ácaros',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Limpieza de Alfombra': {
+        icon: 'fa-rug',
+        duracion: 30,
+        precio: 30000,
+        precioEspecial: 55000,
+        desc: 'Limpieza profunda por metro cuadrado',
+        descEspecial: 'Limpieza premium con tratamiento impermeabilizante',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados',
+        porMetro: true
+      },
+      'Puff Simple': {
+        icon: 'fa-couch',
+        duracion: 60,
+        precio: 20000,
+        precioEspecial: 45000,
+        desc: 'Limpieza profunda de puff individual',
+        descEspecial: 'Limpieza premium con protección impermeabilizante',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Puff Grande': {
+        icon: 'fa-couch',
+        duracion: 90,
+        precio: 30000,
+        precioEspecial: 55000,
+        desc: 'Limpieza profunda de puff grande',
+        descEspecial: 'Limpieza premium con protección impermeabilizante',
+        tipo: 'domicilio',
+        domicilio: true,
+        taller: false,
+        categoria: 'tapizados'
+      },
+      'Respaldo de Cama': {
         icon: 'fa-bed',
         duracion: 60,
-        precio: 12000,
-        desc: 'Limpieza profunda y desinfección de colchones, elimina ácaros y manchas. Servicio a domicilio.',
+        precio: 25000,
+        precioEspecial: 50000,
+        desc: 'Limpieza profunda por metro cuadrado',
+        descEspecial: 'Limpieza premium con protección impermeabilizante',
         tipo: 'domicilio',
         domicilio: true,
-        taller: false
-      },
-      'Limpieza de Sillones': {
-        icon: 'fa-couch',
-        duracion: 80,
-        precio: 18000,
-        desc: 'Limpieza y desmanchado de sillones de tela, cuero o ecocuero. Servicio a domicilio.',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false
-      },
-      'Limpieza de Sillas': {
-        icon: 'fa-chair',
-        duracion: 40,
-        precio: 7000,
-        desc: 'Limpieza y desinfección de sillas tapizadas, ideal para hogar y oficina. Servicio a domicilio.',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false
-      },
-      'Limpieza de Alfombras': {
-        icon: 'fa-rug',
-        duracion: 120,
-        precio: 20000,
-        desc: 'Limpieza profunda de alfombras con equipos de inyección y extracción profesional. Servicio a domicilio.',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false
-      },
-      'Limpieza de Puff': {
-        icon: 'fa-couch',
-        duracion: 60,
-        precio: 10500,
-        desc: 'Limpieza y desinfección profunda de puffs tapizados. Eliminamos manchas, suciedad y ácaros. Servicio a domicilio.',
-        tipo: 'domicilio',
-        domicilio: true,
-        taller: false
+        taller: false,
+        categoria: 'tapizados',
+        porMetro: true
       }
     };
     const selectServicio = document.getElementById('servicio-select');
@@ -3005,47 +3240,38 @@
     
     function mostrarResumenTurnoUnico() {
       const resumenTurno = document.getElementById('resumen-turno');
-      const categorias = categorizarServicios();
       
       let html = `
         <div style="background:#232323;border-radius:10px;overflow:hidden;">
           <div style="background:#ff3b3f;color:#fff;padding:10px 18px;font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px;">
-            <i class='fas fa-list-ul'></i> Resumen de Servicios
+            <i class='fas fa-list-ul'></i> Resumen del Servicio
           </div>
           <div style="padding:18px 18px 10px 18px;">
       `;
       
-      let totalGeneral = 0;
-      let servicios = [];
+      const servicio = servicios[turno.servicio];
+      const tipoBadge = turno.tipo === 'especial' ? 
+        '<span class="badge bg-warning text-dark">Especial</span>' : 
+        '<span class="badge bg-primary">Estándar</span>';
       
-      if (categorias.hayVehiculos) {
-        servicios = turnosSeparados.vehiculos.servicios;
-      } else if (categorias.hayTapizados) {
-        servicios = turnosSeparados.tapizados.servicios;
-      }
-      
-      servicios.forEach(servicio => {
-        const subtotal = servicio.precio * servicio.cantidad;
-        totalGeneral += subtotal;
-        html += `
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <i class='fas fa-${getIconForService(servicio.tipo)}'></i>
-              <span>${servicio.nombre} x${servicio.cantidad}</span>
-            </div>
-            <div style="text-align:right;min-width:110px;">
-              <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} c/u</span><br>
-              <span style='font-weight:700;'>$${subtotal.toLocaleString('es-AR')}</span>
-            </div>
+      html += `
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <i class='fas fa-${servicio.icon}'></i>
+            <span>${turno.servicio} ${tipoBadge}</span>
           </div>
-        `;
-      });
+          <div style="text-align:right;min-width:110px;">
+            <span style='font-size:0.95em;color:#ccc;'>$${servicio.precio.toLocaleString('es-AR')} ${servicio.porMetro ? 'por m²' : ''}</span><br>
+            <span style='font-weight:700;'>$${turno.precio.toLocaleString('es-AR')}</span>
+          </div>
+        </div>
+      `;
 
       // Línea separadora
       html += `<hr style='border:0;border-top:1.5px solid #ff3b3f;margin:18px 0 10px 0;'>`;
 
       // Total general
-      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total General:</span> <span style='color:#fff;'>$${totalGeneral.toLocaleString('es-AR')}</span></div>`;
+      html += `<div style='font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;'><span>Total:</span> <span style='color:#fff;'>$${turno.precio.toLocaleString('es-AR')}</span></div>`;
 
       html += `</div></div>`;
 
@@ -3071,124 +3297,140 @@
     }
 
     selectServicio.addEventListener('change', function() {
-     const val = this.value;
-     const sillonTiposContainer = document.getElementById('sillon-tipos-container');
-     const sillaTiposContainer = document.getElementById('silla-tipos-container');
-     const colchonTiposContainer = document.getElementById('colchon-tipos-container');
-     const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
-     const motorTiposContainer = document.getElementById('motor-tipos-container');
-     const alfombraMetrosContainer = document.getElementById('alfombra-metros-container');
-     const puffTiposContainer = document.getElementById('puff-tipos-container');
-     const servicioDetalle = document.getElementById('servicio-detalle');
-     const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
-     const sillasSeleccionadas = document.getElementById('sillas-seleccionadas');
-     const colchonesSeleccionados = document.getElementById('colchones-seleccionados');
-     const vehiculosSeleccionados = document.getElementById('vehiculos-seleccionados');
-     const motoresSeleccionados = document.getElementById('motores-seleccionados');
-     const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
-     const puffsSeleccionados = document.getElementById('puffs-seleccionados');
-     const totalSpan = document.getElementById('sillones-total');
-     const totalSillasSpan = document.getElementById('sillas-total');
-     const totalColchonesSpan = document.getElementById('colchones-total');
-     const totalVehiculosSpan = document.getElementById('vehiculos-total');
-     const totalMotoresSpan = document.getElementById('motores-total');
-     const totalAlfombrasSpan = document.getElementById('alfombras-total');
-     const totalPuffsSpan = document.getElementById('puffs-total');
-     const tapizadovehiculoTiposContainer = document.getElementById('tapizadovehiculo-tipos-container');
-     const tapizadovehiculosSeleccionados = document.getElementById('tapizadovehiculos-seleccionados');
-     const totalTapizadoVehiculosSpan = document.getElementById('tapizadovehiculos-total');
-     
-     // Ocultar todo por defecto
-     sillonTiposContainer.style.display = 'none';
-     sillaTiposContainer.style.display = 'none';
-     colchonTiposContainer.style.display = 'none';
-     vehiculoTiposContainer.style.display = 'none';
-     tapizadovehiculoTiposContainer.style.display = 'none';
-     motorTiposContainer.style.display = 'none';
-     alfombraMetrosContainer.style.display = 'none';
-     puffTiposContainer.style.display = 'none';
-     servicioDetalle.style.display = 'none';
-     sillonesSeleccionados.innerHTML = '';
-     sillasSeleccionadas.innerHTML = '';
-     colchonesSeleccionados.innerHTML = '';
-     vehiculosSeleccionados.innerHTML = '';
-     tapizadovehiculosSeleccionados.innerHTML = '';
-     motoresSeleccionados.innerHTML = '';
-     alfombrasSeleccionadas.innerHTML = '';
-     puffsSeleccionados.innerHTML = '';
-     totalSpan.innerHTML = '';
-     totalSillasSpan.innerHTML = '';
-     totalColchonesSpan.innerHTML = '';
-     totalVehiculosSpan.innerHTML = '';
-     totalTapizadoVehiculosSpan.innerHTML = '';
-     totalMotoresSpan.innerHTML = '';
-     totalAlfombrasSpan.innerHTML = '';
-     totalPuffsSpan.innerHTML = '';
-     document.getElementById('resumen-final').style.display = 'none';
-     
-     // Mostrar detalles del servicio (solo para servicios que no son sillones, sillas o colchones)
-     if (servicios[val]) {
-       const s = servicios[val];
-       
-       // Si es Limpieza de Sillones, mostrar botones de tipo
-       if (val === 'Limpieza de Sillones') {
-         sillonTiposContainer.style.display = 'block';
-         renderSillonesCards();
-         actualizarTotalSillones();
-       } else if (val === 'Limpieza de Sillas') {
-         sillaTiposContainer.style.display = 'block';
-         renderSillasCards();
-         actualizarTotalSillas();
-       } else if (val === 'Limpieza de Colchones') {
-         colchonTiposContainer.style.display = 'block';
-         renderColchonesCards();
-         actualizarTotalColchones();
-       } else if (val === 'Limpieza de Vehículo') {
-         vehiculoTiposContainer.style.display = 'block';
-         renderVehiculosCards();
-         actualizarTotalVehiculos();
-       } else if (val === 'Limpieza de Tapizado de Vehículo') {
-         tapizadovehiculoTiposContainer.style.display = 'block';
-         renderTapizadoVehiculosCards();
-         actualizarTotalTapizadoVehiculos();
-       } else if (val === 'Limpieza de Motor') {
-         motorTiposContainer.style.display = 'block';
-         renderMotoresCards();
-         actualizarTotalMotores();
-       } else if (val === 'Limpieza de Alfombras') {
-         alfombraMetrosContainer.style.display = 'block';
-         renderAlfombrasCards();
-         actualizarTotalAlfombras();
-       } else if (val === 'Limpieza de Puff') {
-         puffTiposContainer.style.display = 'block';
-         renderPuffsCards();
-         actualizarTotalPuffs();
-       } else {
-         // Para otros servicios, mostrar la card normal
-         servicioDetalle.innerHTML = `<div class="p-3 rounded bg-dark text-white"><i class='fas ${s.icon}'></i> <b>${val}</b> &nbsp; <span class='badge bg-dark text-danger'>${s.duracion} min</span> &nbsp; <span class='servicio-precio'>$${s.precio.toLocaleString('es-AR')}</span><br><span class='text-white small'>${s.desc}</span></div>`;
-         servicioDetalle.style.display = 'block';
-       }
-       
-       turno.servicio = val;
-       turno.duracion = s.duracion;
-       turno.precio = s.precio;
-       document.getElementById('btn-siguiente-fijo').disabled = false;
-     } else {
-       servicioDetalle.style.display = 'none';
-       document.getElementById('btn-siguiente-fijo').disabled = true;
-     }
-   });
-   // Al cargar, deshabilitar siguiente si no hay servicio
-   document.getElementById('btn-siguiente-fijo').disabled = true;
+      const val = this.value;
+      const tipoServicioContainer = document.getElementById('tipo-servicio-container');
+      const servicioDetalle = document.getElementById('servicio-detalle');
+      const metrosContainer = document.getElementById('metros-container');
+      
+      // Ocultar todo por defecto
+      tipoServicioContainer.style.display = 'none';
+      servicioDetalle.style.display = 'none';
+      metrosContainer.style.display = 'none';
+      
+      // Limpiar selecciones previas
+      document.getElementById('tipo-estandar').checked = true;
+      document.getElementById('metros-input').value = '';
+      
+      // Mostrar detalles del servicio
+      if (servicios[val]) {
+        const s = servicios[val];
+        
+        // Mostrar selector de tipo de servicio
+        tipoServicioContainer.style.display = 'block';
+        
+        // Mostrar campo de metros si es necesario
+        if (s.porMetro) {
+          metrosContainer.style.display = 'block';
+        }
+        
+        // Actualizar detalle del servicio
+        actualizarDetalleServicio(val, 'estandar');
+        
+        // Habilitar botón siguiente
+        document.getElementById('btn-siguiente-fijo').disabled = false;
+      } else {
+        document.getElementById('btn-siguiente-fijo').disabled = true;
+      }
+    });
+       // Función para actualizar el detalle del servicio
+    function actualizarDetalleServicio(servicioId, tipo) {
+      const servicio = servicios[servicioId];
+      if (!servicio) return;
+      
+      const servicioDetalle = document.getElementById('servicio-detalle');
+      const precio = tipo === 'especial' ? servicio.precioEspecial : servicio.precio;
+      const descripcion = tipo === 'especial' ? servicio.descEspecial : servicio.desc;
+      const metros = document.getElementById('metros-input').value;
+      
+      let precioFinal = precio;
+      let descripcionFinal = descripcion;
+      
+      if (servicio.porMetro && metros) {
+        precioFinal = precio * parseFloat(metros);
+        descripcionFinal += ` (${metros}m²)`;
+      }
+      
+      const tipoBadge = tipo === 'especial' ? 
+        '<span class="badge bg-warning text-dark me-2">Especial</span>' : 
+        '<span class="badge bg-primary me-2">Estándar</span>';
+      
+      servicioDetalle.innerHTML = `
+        <div class="p-3 rounded bg-dark text-white">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <i class='fas ${servicio.icon}'></i> 
+              <b>${servicioId}</b>
+              ${tipoBadge}
+            </div>
+            <div class="text-end">
+              <span class='badge bg-dark text-danger'>${servicio.duracion} min</span>
+            </div>
+          </div>
+          <div class="mb-2">
+            <span class='servicio-precio fw-bold fs-5'>$${precioFinal.toLocaleString('es-AR')}</span>
+            ${servicio.porMetro ? '<small class="text-muted"> (por m²)</small>' : ''}
+          </div>
+          <div class='text-white small'>${descripcionFinal}</div>
+        </div>
+      `;
+      servicioDetalle.style.display = 'block';
+      
+      // Actualizar datos del turno
+      turno.servicio = servicioId;
+      turno.tipo = tipo;
+      turno.duracion = servicio.duracion;
+      turno.precio = precioFinal;
+      turno.categoria = servicio.categoria;
+    }
+    
+    // Event listeners para tipo de servicio
+    document.querySelectorAll('input[name="tipo-servicio"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const servicioSeleccionado = document.getElementById('servicio-select').value;
+        if (servicioSeleccionado) {
+          actualizarDetalleServicio(servicioSeleccionado, this.value);
+        }
+      });
+    });
+    
+    // Event listener para metros
+    document.getElementById('metros-input').addEventListener('input', function() {
+      const servicioSeleccionado = document.getElementById('servicio-select').value;
+      const tipoSeleccionado = document.querySelector('input[name="tipo-servicio"]:checked').value;
+      if (servicioSeleccionado) {
+        actualizarDetalleServicio(servicioSeleccionado, tipoSeleccionado);
+      }
+    });
+    
+    // Al cargar, deshabilitar siguiente si no hay servicio
+    document.getElementById('btn-siguiente-fijo').disabled = true;
    // Paso 2: Seleccionar Profesional
    document.getElementById('btn-siguiente-fijo').onclick = function() {
      if (step === 1) {
-       // Verificar que hay servicios seleccionados
-       const categorias = categorizarServicios();
-       if (!categorias.hayVehiculos && !categorias.hayTapizados) {
-         alert('Por favor, selecciona al menos un servicio.');
+       // Verificar que hay un servicio seleccionado
+       const servicioSeleccionado = document.getElementById('servicio-select').value;
+       if (!servicioSeleccionado) {
+         alert('Por favor, selecciona un servicio.');
          return;
        }
+       
+       // Verificar que se seleccionó un tipo de servicio
+       const tipoSeleccionado = document.querySelector('input[name="tipo-servicio"]:checked');
+       if (!tipoSeleccionado) {
+         alert('Por favor, selecciona el tipo de servicio (Estándar o Especial).');
+         return;
+       }
+       
+       // Verificar metros si es necesario
+       const servicio = servicios[servicioSeleccionado];
+       if (servicio.porMetro) {
+         const metros = document.getElementById('metros-input').value;
+         if (!metros || parseFloat(metros) <= 0) {
+           alert('Por favor, ingresa los metros cuadrados.');
+           return;
+         }
+       }
+       
        step = 2;
        showStep(step);
      } else if (step === 2) {
@@ -3196,7 +3438,7 @@
        showStep(step);
      } else if (step === 3) {
        // Guardar fechas y horas según el tipo de turno
-       const categorias = categorizarServicios();
+       const servicio = servicios[turno.servicio];
        
        if (categorias.necesitaTurnosSeparados) {
          // Validar turnos separados
@@ -3682,54 +3924,35 @@
   // Función para confirmar turno con backend
   async function confirmarTurnoConBackend() {
     // Confirmar turno y abrir WhatsApp
-    const categorias = categorizarServicios();
-    let mensaje = `¡Hola! Quiero reservar turno(s) en Daytona Clean Service:%0A%0A`;
-    mensaje += `Cliente: ${turno.nombre} ${turno.apellido}%0A%0A`;
+    let mensaje = `¡Hola! Quiero reservar turno en Daytona Clean Service:%0A%0A`;
+    mensaje += `Cliente: ${turno.nombre} ${turno.apellido}%0A`;
+    mensaje += `Teléfono: ${turno.telefono}%0A`;
+    mensaje += `Email: ${turno.email}%0A%0A`;
+    mensaje += `Servicio: ${turno.servicio}%0A`;
+    mensaje += `Tipo: ${turno.tipo === 'especial' ? 'Especial' : 'Estándar'}%0A`;
+    mensaje += `Precio: $${turno.precio.toLocaleString('es-AR')}%0A`;
+    mensaje += `Fecha: ${turno.fecha}%0A`;
+    mensaje += `Hora: ${turno.hora}%0A`;
+    mensaje += `Dirección: ${turno.direccion || 'A confirmar'}%0A%0A`;
     
     // --- NUEVO: Armar datos para backend ---
     let turnoParaBackend = {};
-    let servicios = [];
-    let fecha = '';
-    let hora = '';
-    let direccion = '';
-    let total = 0;
-    let tipo = '';
-    if (categorias.hayVehiculos) {
-      servicios = turnosSeparados.vehiculos.servicios;
-      fecha = turnosSeparados.vehiculos.fecha;
-      hora = turnosSeparados.vehiculos.hora;
-      tipo = 'vehiculo';
-      if (turnosSeparados.vehiculos.direccion) {
-        if (typeof turnosSeparados.vehiculos.direccion === 'object') {
-          direccion = `Retiro: ${turnosSeparados.vehiculos.direccion.retiro} | Entrega: ${turnosSeparados.vehiculos.direccion.entrega}`;
-        } else {
-          direccion = turnosSeparados.vehiculos.direccion;
-        }
-      } else {
-        direccion = 'El cliente lleva el vehículo a la instalación';
-      }
-    } else if (categorias.hayTapizados) {
-      servicios = turnosSeparados.tapizados.servicios;
-      fecha = turnosSeparados.tapizados.fecha;
-      hora = turnosSeparados.tapizados.hora;
-      tipo = 'tapizado';
-      direccion = turnosSeparados.tapizados.direccion;
-    }
-    total = servicios.reduce((acc, s) => acc + (s.precio * s.cantidad), 0);
+    const servicio = servicios[turno.servicio];
+    const serviceId = obtenerIdServicio(turno.servicio, turno.tipo);
     
     // Armar objeto para backend
     turnoParaBackend = {
       clientName: turno.nombre + ' ' + turno.apellido,
       clientPhone: turno.telefono,
       clientEmail: turno.email,
-      appointmentDate: fecha,
-      appointmentTime: hora,
-      services: servicios.map(s => ({
-        service_id: s.service_id,
-        quantity: s.cantidad
-      })),
-      serviceLocation: direccion,
-      service_type: categorias.tipoVehiculo || categorias.tipoTapizado || tipo || 'vehiculo' // USAR SUBTIPO
+      appointmentDate: turno.fecha,
+      appointmentTime: turno.hora,
+      services: [{
+        service_id: serviceId,
+        quantity: 1
+      }],
+      serviceLocation: turno.direccion || 'A confirmar',
+      service_type: turno.categoria || 'general'
     };
     // Si el usuario está logueado, agregar userId
     const userData = localStorage.getItem('userData');
@@ -3765,9 +3988,9 @@
     try {
       const paymentData = {
         appointmentId: appointmentId,
-        amount: total,
-        title: `Servicio ${tipo} - Daytona Clean Service`,
-        description: `Servicios: ${servicios.map(s => s.nombre).join(', ')}`
+        amount: turno.precio,
+        title: `${turno.servicio} ${turno.tipo === 'especial' ? 'Especial' : 'Estándar'} - Daytona Clean Service`,
+        description: `${turno.servicio} (${turno.tipo === 'especial' ? 'Servicio Especial' : 'Servicio Estándar'})`
       };
 
       // Verificar si el usuario está autenticado
@@ -3803,27 +4026,29 @@
   }
 
   // Función para obtener ID del servicio por nombre
-  function obtenerIdServicio(nombre) {
+  function obtenerIdServicio(nombre, tipo) {
     const mapeoServicios = {
-      'Lavado de Auto': 1,
-      'Lavado de SUV': 2,
-      'Lavado de Pickup': 3,
-      'Limpieza de Motor Completa': 5,
-      'Limpieza de Motor Detallada': 6,
-      'Tapizado de Auto': 7,
-      'Tapizado de SUV': 8,
-      'Tapizado de Pickup': 9,
-      'Sillón 1 Cuerpo': 10,
-      'Sillón 2 Cuerpos': 11,
-      'Sillón 3 Cuerpos': 12,
-      'Silla Simple': 13,
-      'Silla Comedor': 16,
-      'Colchón 1 Plaza': 17,
-      'Colchón 2 Plazas': 18,
-      'Limpieza de Alfombra (por m²)': 19,
-      'Puff Simple': 23,
-      'Puff Grande': 24,
-      'Puff Especial': 25
+      // VEHÍCULOS
+      'Lavado de Auto': tipo === 'especial' ? 2 : 1,
+      'Lavado de Pickup': tipo === 'especial' ? 4 : 3,
+      'Lavado de SUV': tipo === 'especial' ? 6 : 5,
+      'Limpieza de Motor': tipo === 'especial' ? 8 : 7,
+      'Tapizado de Auto': tipo === 'especial' ? 10 : 9,
+      'Tapizado de Pickup': tipo === 'especial' ? 12 : 11,
+      'Tapizado de SUV': tipo === 'especial' ? 14 : 13,
+      
+      // TAPIZADOS
+      'Sillón 1 Cuerpo': tipo === 'especial' ? 16 : 15,
+      'Sillón 2 Cuerpos': tipo === 'especial' ? 18 : 17,
+      'Sillón 3 Cuerpos': tipo === 'especial' ? 20 : 19,
+      'Silla Simple': tipo === 'especial' ? 22 : 21,
+      'Silla Comedor': tipo === 'especial' ? 24 : 23,
+      'Colchón 1 Plaza': tipo === 'especial' ? 26 : 25,
+      'Colchón 2 Plazas': tipo === 'especial' ? 28 : 27,
+      'Limpieza de Alfombra': tipo === 'especial' ? 30 : 29,
+      'Puff Simple': tipo === 'especial' ? 32 : 31,
+      'Puff Grande': tipo === 'especial' ? 34 : 33,
+      'Respaldo de Cama': tipo === 'especial' ? 36 : 35
     };
     
     return mapeoServicios[nombre] || 1;
