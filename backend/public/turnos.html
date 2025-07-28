@@ -1688,65 +1688,21 @@
     }
   }
 
-  // Función para actualizar disponibilidad en el paso 3
+  // Función para actualizar disponibilidad en el paso 3 (simplificada)
   async function actualizarDisponibilidadPaso3() {
     console.log('🔄 Actualizando disponibilidad para paso 3...');
     
     try {
-      // Obtener la fecha seleccionada según el tipo de servicio
-      const categorizacion = categorizarServicios();
-      let fechaInput = null;
-      let horaSelect = null;
-      let duracion = 120;
+      // Calcular duración total de servicios seleccionados
+      let duracion = 120; // duración por defecto
       
-      if (categorizacion.hayVehiculos) {
-        fechaInput = document.getElementById('fecha-vehiculos');
-        horaSelect = document.getElementById('hora-vehiculos');
-        const serviciosVehiculos = turnosSeparados.vehiculos.servicios;
-        duracion = calcularDuracionServicios(serviciosVehiculos);
-      } else if (categorizacion.hayTapizados) {
-        fechaInput = document.getElementById('fecha-tapizados');
-        horaSelect = document.getElementById('hora-tapizados');
-        const serviciosTapizados = turnosSeparados.tapizados.servicios;
-        duracion = calcularDuracionServicios(serviciosTapizados);
+      if (serviciosSeleccionados && serviciosSeleccionados.length > 0) {
+        duracion = serviciosSeleccionados.reduce((total, servicio) => {
+          return total + (servicio.duracion || 120);
+        }, 0);
       }
       
-      if (!fechaInput || !fechaInput.value) {
-        console.log('⚠️ No hay fecha seleccionada');
-        return;
-      }
-      
-      const fecha = fechaInput.value;
-      console.log(`📅 Fecha seleccionada: ${fecha}`);
       console.log(`⏱️ Duración calculada: ${duracion} minutos`);
-      
-      // Obtener disponibilidad del backend
-      const disponibilidad = await obtenerDisponibilidad(fecha, duracion);
-      
-      if (disponibilidad.isWorkingDay && horaSelect) {
-        horaSelect.innerHTML = '<option value="">Selecciona una hora</option>';
-        
-        disponibilidad.availableSlots.forEach(slot => {
-          if (slot.available) {
-            const option = document.createElement('option');
-            option.value = slot.startTime;
-            option.textContent = `${slot.startTime} - ${slot.endTime}`;
-            horaSelect.appendChild(option);
-          } else {
-            // Mostrar horarios ocupados como deshabilitados
-            const option = document.createElement('option');
-            option.value = slot.startTime;
-            option.textContent = `${slot.startTime} - ${slot.endTime} (OCUPADO)`;
-            option.disabled = true;
-            option.style.color = '#999';
-            horaSelect.appendChild(option);
-          }
-        });
-        
-        console.log(`✅ Disponibilidad actualizada: ${disponibilidad.availableSlots.filter(s => s.available).length} horarios disponibles`);
-      } else {
-        console.log('❌ No es día laboral o no se encontró el select de hora');
-      }
       
     } catch (error) {
       console.error('❌ Error actualizando disponibilidad:', error);
@@ -1759,103 +1715,21 @@
     cargarServiciosDisponibles(); // Cargar servicios para calcular duraciones
   });
 
-  // Función para categorizar servicios
+  // Función para categorizar servicios (simplificada)
   function categorizarServicios() {
-    const serviciosVehiculos = [];
-    const serviciosTapizados = [];
-    let tipoVehiculo = '';
-    let tipoTapizado = '';
-
-    // Categorizar vehículos y detectar subtipo
-    vehiculosAgregados.forEach(vehiculo => {
-      serviciosVehiculos.push({
-        service_id: vehiculo.service_id,
-        nombre: vehiculo.nombre,
-        cantidad: vehiculo.cantidad,
-        precio: vehiculo.precio,
-        duracion: 180
-      });
-      // Detectar subtipo por nombre
-      if (!tipoVehiculo && vehiculo.nombre) {
-        if (vehiculo.nombre.toLowerCase().includes('auto')) tipoVehiculo = 'vehiculo auto';
-        else if (vehiculo.nombre.toLowerCase().includes('pickup')) tipoVehiculo = 'vehiculo pickup';
-        else if (vehiculo.nombre.toLowerCase().includes('suv')) tipoVehiculo = 'vehiculo suv';
-        else tipoVehiculo = 'vehiculo';
-      }
-    });
-
-    // Categorizar tapizado de vehículos y detectar subtipo
-    tapizadoVehiculosAgregados.forEach(tv => {
-      serviciosVehiculos.push({
-        service_id: tv.service_id,
-        nombre: tv.nombre,
-        cantidad: tv.cantidad,
-        precio: tv.precio,
-        duracion: 120
-      });
-      if (!tipoVehiculo && tv.nombre) {
-        if (tv.nombre.toLowerCase().includes('auto')) tipoVehiculo = 'vehiculo auto';
-        else if (tv.nombre.toLowerCase().includes('pickup')) tipoVehiculo = 'vehiculo pickup';
-        else if (tv.nombre.toLowerCase().includes('suv')) tipoVehiculo = 'vehiculo suv';
-        else tipoVehiculo = 'vehiculo';
-      }
-    });
-
-    // Categorizar motores
-    motoresAgregados.forEach(motor => {
-      serviciosVehiculos.push({
-        service_id: motor.service_id,
-        nombre: motor.nombre,
-        cantidad: motor.cantidad,
-        precio: motor.precio,
-        duracion: 45
-      });
-      if (!tipoVehiculo && motor.nombre) {
-        tipoVehiculo = 'vehiculo motor';
-      }
-    });
-
-    // Categorizar sillones y detectar subtipo
-    sillonesAgregados.forEach(sillon => {
-      serviciosTapizados.push({
-        service_id: sillon.service_id,
-        nombre: sillon.nombre,
-        cantidad: sillon.cantidad,
-        precio: sillon.precio,
-        duracion: 80
-      });
-      if (!tipoTapizado && sillon.nombre) {
-        tipoTapizado = 'tapizado sillón';
-      }
-    });
-
-    // Categorizar sillas
-    sillasAgregadas.forEach(silla => {
-      serviciosTapizados.push({
-        service_id: silla.service_id,
-        nombre: silla.nombre,
-        cantidad: silla.cantidad,
-        precio: silla.precio,
-        duracion: 40
-      });
-      if (!tipoTapizado && silla.nombre) {
-        tipoTapizado = 'tapizado silla';
-      }
-    });
-
-    // Categorizar colchones
-    colchonesAgregados.forEach(colchon => {
-      serviciosTapizados.push({
-        service_id: colchon.service_id,
-        nombre: colchon.nombre,
-        cantidad: colchon.cantidad,
-        precio: colchon.precio,
-        duracion: 60
-      });
-      if (!tipoTapizado && colchon.nombre) {
-        tipoTapizado = 'tapizado colchon';
-      }
-    });
+    return {
+      hayVehiculos: serviciosSeleccionados.some(s => s.nombre.toLowerCase().includes('auto') || 
+                                                   s.nombre.toLowerCase().includes('pickup') || 
+                                                   s.nombre.toLowerCase().includes('suv') || 
+                                                   s.nombre.toLowerCase().includes('motor')),
+      hayTapizados: serviciosSeleccionados.some(s => s.nombre.toLowerCase().includes('sillón') || 
+                                                    s.nombre.toLowerCase().includes('silla') || 
+                                                    s.nombre.toLowerCase().includes('colchón') || 
+                                                    s.nombre.toLowerCase().includes('alfombra') || 
+                                                    s.nombre.toLowerCase().includes('puff')),
+      necesitaTurnosSeparados: false
+    };
+  }
 
     // Categorizar alfombras
     alfombrasAgregadas.forEach(alfombra => {
@@ -3492,92 +3366,7 @@
       return 'cog';
     }
 
-    selectServicio.addEventListener('change', function() {
-      const val = this.value;
-      const tipoServicioContainer = document.getElementById('tipo-servicio-container');
-      const servicioDetalle = document.getElementById('servicio-detalle');
-      const metrosContainer = document.getElementById('metros-container');
-      
-      // Ocultar todo por defecto
-      tipoServicioContainer.style.display = 'none';
-      servicioDetalle.style.display = 'none';
-      metrosContainer.style.display = 'none';
-      
-      // Limpiar selecciones previas
-      document.getElementById('tipo-estandar').checked = true;
-      document.getElementById('metros-input').value = '';
-      
-      // Mostrar detalles del servicio
-      if (servicios[val]) {
-        const s = servicios[val];
-        
-        // Mostrar selector de tipo de servicio
-        tipoServicioContainer.style.display = 'block';
-        
-        // Mostrar campo de metros si es necesario
-        if (s.porMetro) {
-          metrosContainer.style.display = 'block';
-        }
-        
-        // Actualizar detalle del servicio
-        actualizarDetalleServicio(val, 'estandar');
-        
-        // Habilitar botón siguiente
-        document.getElementById('btn-siguiente-fijo').disabled = false;
-      } else {
-        document.getElementById('btn-siguiente-fijo').disabled = true;
-      }
-    });
-       // Función para actualizar el detalle del servicio
-    function actualizarDetalleServicio(servicioId, tipo) {
-      const servicio = servicios[servicioId];
-      if (!servicio) return;
-      
-      const servicioDetalle = document.getElementById('servicio-detalle');
-      const precio = tipo === 'especial' ? servicio.precioEspecial : servicio.precio;
-      const descripcion = tipo === 'especial' ? servicio.descEspecial : servicio.desc;
-      const metros = document.getElementById('metros-input').value;
-      
-      let precioFinal = precio;
-      let descripcionFinal = descripcion;
-      
-      if (servicio.porMetro && metros) {
-        precioFinal = precio * parseFloat(metros);
-        descripcionFinal += ` (${metros}m²)`;
-      }
-      
-      const tipoBadge = tipo === 'especial' ? 
-        '<span class="badge bg-warning text-dark me-2">Especial</span>' : 
-        '<span class="badge bg-primary me-2">Estándar</span>';
-      
-      servicioDetalle.innerHTML = `
-        <div class="p-3 rounded bg-dark text-white">
-          <div class="d-flex justify-content-between align-items-start mb-2">
-            <div>
-              <i class='fas ${servicio.icon}'></i> 
-              <b>${servicioId}</b>
-              ${tipoBadge}
-            </div>
-            <div class="text-end">
-              <span class='badge bg-dark text-danger'>${servicio.duracion} min</span>
-            </div>
-          </div>
-          <div class="mb-2">
-            <span class='servicio-precio fw-bold fs-5'>$${precioFinal.toLocaleString('es-AR')}</span>
-            ${servicio.porMetro ? '<small class="text-muted"> (por m²)</small>' : ''}
-          </div>
-          <div class='text-white small'>${descripcionFinal}</div>
-        </div>
-      `;
-      servicioDetalle.style.display = 'block';
-      
-      // Actualizar datos del turno
-      turno.servicio = servicioId;
-      turno.tipo = tipo;
-      turno.duracion = servicio.duracion;
-      turno.precio = precioFinal;
-      turno.categoria = servicio.categoria;
-    }
+
     
     // Event listeners para tipo de servicio
     document.querySelectorAll('input[name="tipo-servicio"]').forEach(radio => {
