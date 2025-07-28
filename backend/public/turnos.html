@@ -83,7 +83,6 @@
   <link rel="stylesheet" href="css/tapizados.css">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
   <script src="js/turnos-service.js"></script>
-  <script src="js/turnos-app.js"></script>
   <style>
     body {
       background: #181818;
@@ -1225,97 +1224,626 @@
   <script src="js/include-header.js"></script>
   <script src="js/include-footer.js"></script>
   <script>
-  // Verificar que la API esté disponible
-  console.log('🔍 Verificando disponibilidad de la API...');
-  if (window.apiService) {
-    console.log('✅ API Service disponible');
-  } else {
-    console.log('❌ API Service no disponible');
-  }
-  
-  // El resto del código JavaScript se maneja en turnos-app.js
-
-  // Función de prueba para verificar el guardado en historial
-  window.testGuardadoHistorial = async function() {
-    console.log('🧪 Iniciando prueba de guardado en historial...');
-    
-    // Simular datos de un turno
-    const turnoPrueba = {
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      telefono: '3482123456',
-      email: 'juan@test.com'
-    };
-    
-    const turnosSeparadosPrueba = {
-      vehiculos: {
-        servicios: [
-          {
-            nombre: 'Lavado de Auto',
-            cantidad: 1,
-            precio: 20000,
-            duracion: 60
-          }
-        ],
-        fecha: '2024-12-20',
-        hora: '10:00',
-        direccion: 'Av. San Martín 123',
-        detalles: 'Test de guardado'
-      },
-      tapizados: {
-        servicios: [],
-        fecha: null,
-        hora: null,
-        direccion: null,
-        detalles: null
-      }
-    };
-    
-    // Guardar temporalmente los datos reales
-    const turnoOriginal = window.turno;
-    const turnosSeparadosOriginal = window.turnosSeparados;
-    
-    // Usar datos de prueba
-    window.turno = turnoPrueba;
-    window.turnosSeparados = turnosSeparadosPrueba;
-    
-    try {
-      console.log('📤 Enviando turno de prueba...');
-      const resultado = await window.guardarTurnoEnHistorial();
-      console.log('📋 Resultado:', resultado);
-      console.log('✅ Prueba completada exitosamente');
-    } catch (error) {
-      console.error('❌ Error en la prueba:', error);
-    } finally {
-      // Restaurar datos originales
-      window.turno = turnoOriginal;
-      window.turnosSeparados = turnosSeparadosOriginal;
+  // Sistema de Turnos - Daytona Clean Service
+  class TurnosApp {
+    constructor() {
+      this.currentStep = 1;
+      this.selectedServices = [];
+      this.appointmentData = {
+        services: [],
+        date: null,
+        time: null,
+        clientName: '',
+        clientPhone: '',
+        clientEmail: '',
+        serviceLocation: '',
+        totalAmount: 0
+      };
+      this.services = [];
+      this.init();
     }
-  };
-  
-  console.log('🧪 Para probar el guardado, ejecuta: testGuardadoHistorial()');
-  
-  // Función para probar auto-completado de datos
-  window.testAutoCompletado = function() {
-    console.log('🧪 Probando auto-completado de datos...');
-    
-    // Simular datos de usuario (como se guardan realmente)
-    const userData = {
-      id: 1,
-      name: 'Juan Pérez', // Nombre completo como se guarda en el registro
-      email: 'juan@test.com',
-      phone: '3482123456', // Agregar teléfono para probar
-      role: 'user'
-    };
-    
-    // Guardar en localStorage
-    localStorage.setItem('token', 'test-token');
-    localStorage.setItem('userData', JSON.stringify(userData));
-    
-    console.log('✅ Datos de prueba guardados:', userData);
-    console.log('🔄 Ahora ve al paso 4 para ver el auto-completado');
-    console.log('📝 El nombre "Juan Pérez" se separará en: Nombre="Juan", Apellido="Pérez"');
-    console.log('📞 El teléfono "3482123456" debería autocompletarse');
+
+    async init() {
+      console.log('🚀 Iniciando sistema de turnos...');
+      await this.loadServices();
+      this.setupEventListeners();
+      this.showStep(1);
+      this.setMinDate();
+    }
+
+    setMinDate() {
+      const fechaInput = document.getElementById('fecha');
+      if (fechaInput) {
+        const today = new Date().toISOString().split('T')[0];
+        fechaInput.min = today;
+      }
+    }
+
+    async loadServices() {
+      try {
+        console.log('📡 Cargando servicios desde la API...');
+        const response = await fetch('/api/appointments/services');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('📋 Respuesta de la API:', data);
+        
+        if (data.success && data.services) {
+          this.services = data.services;
+          console.log('✅ Servicios cargados:', this.services.length);
+          this.renderServices();
+        } else {
+          console.error('❌ Error en la respuesta de la API:', data.message);
+          this.showError('Error cargando servicios: ' + (data.message || 'Respuesta inválida'));
+        }
+      } catch (error) {
+        console.error('❌ Error cargando servicios:', error);
+        this.showError('Error de conexión: ' + error.message);
+      }
+    }
+
+    showError(message) {
+      const container = document.querySelector('.step-content');
+      if (container) {
+        container.innerHTML = `
+          <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>${message}</p>
+            <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+          </div>
+        `;
+      }
+    }
+
+    renderServices() {
+      console.log('🎨 Renderizando servicios...');
+      
+      const vehiculosContainer = document.getElementById('lista-servicios-vehiculos');
+      const tapizadosContainer = document.getElementById('lista-servicios-tapizados');
+      
+      if (vehiculosContainer) {
+        vehiculosContainer.innerHTML = '';
+        const vehiculosServices = this.services.filter(s => s.category === 'vehiculos');
+        console.log('🚗 Servicios de vehículos:', vehiculosServices.length);
+        vehiculosServices.forEach(service => this.createServiceElement(service, vehiculosContainer));
+      }
+      
+      if (tapizadosContainer) {
+        tapizadosContainer.innerHTML = '';
+        const tapizadosServices = this.services.filter(s => s.category === 'tapizados');
+        console.log('🛋️ Servicios de tapizados:', tapizadosServices.length);
+        tapizadosServices.forEach(service => this.createServiceElement(service, tapizadosContainer));
+      }
+    }
+
+    createServiceElement(service, container) {
+      const element = document.createElement('div');
+      element.className = 'service-item';
+      element.dataset.serviceId = service.id;
+      element.dataset.name = service.name;
+      element.dataset.price = service.price;
+      element.dataset.duration = service.duration;
+      
+      element.innerHTML = `
+        <div class="service-info">
+          <div class="service-icon">
+            <i class="fas ${this.getServiceIcon(service.name)}"></i>
+          </div>
+          <div class="servicio-details">
+            <h6>${service.name}</h6>
+            <p>${service.description || 'Servicio de limpieza profesional'}</p>
+          </div>
+        </div>
+        <div class="servicio-precio">
+          $${service.price.toLocaleString()}
+        </div>
+      `;
+      
+      element.addEventListener('click', () => {
+        console.log('🖱️ Click en servicio:', service.name);
+        this.toggleService(service, element);
+      });
+      
+      container.appendChild(element);
+    }
+
+    getServiceIcon(serviceName) {
+      const name = serviceName.toLowerCase();
+      if (name.includes('auto') || name.includes('car')) return 'fa-car';
+      if (name.includes('pickup')) return 'fa-truck-pickup';
+      if (name.includes('suv')) return 'fa-car-side';
+      if (name.includes('motor')) return 'fa-cog';
+      if (name.includes('sillón') || name.includes('sillon')) return 'fa-couch';
+      if (name.includes('silla')) return 'fa-chair';
+      if (name.includes('colchón') || name.includes('colchon')) return 'fa-bed';
+      if (name.includes('alfombra')) return 'fa-rug';
+      if (name.includes('puff')) return 'fa-couch';
+      return 'fa-cog';
+    }
+
+    toggleService(service, element) {
+      console.log('🔄 Alternando servicio:', service.name);
+      
+      const existingIndex = this.selectedServices.findIndex(s => s.service_id === service.id);
+      
+      if (existingIndex >= 0) {
+        // Deseleccionar
+        this.selectedServices.splice(existingIndex, 1);
+        element.classList.remove('selected');
+        console.log('❌ Servicio deseleccionado:', service.name);
+      } else {
+        // Seleccionar
+        this.selectedServices.push({
+          service_id: service.id,
+          name: service.name,
+          price: service.price,
+          duration: service.duration,
+          quantity: 1
+        });
+        element.classList.add('selected');
+        console.log('✅ Servicio seleccionado:', service.name);
+      }
+      
+      this.updateSelectedServicesDisplay();
+      this.updateNextButton();
+    }
+
+    updateSelectedServicesDisplay() {
+      const container = document.getElementById('servicios-seleccionados');
+      const listContainer = document.getElementById('lista-servicios');
+      
+      if (!container || !listContainer) {
+        console.log('❌ Contenedores de servicios no encontrados');
+        return;
+      }
+      
+      if (this.selectedServices.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      
+      container.style.display = 'block';
+      listContainer.innerHTML = '';
+      
+      let total = 0;
+      this.selectedServices.forEach(service => {
+        const item = document.createElement('div');
+        item.className = 'd-flex justify-content-between align-items-center mb-2 p-2 bg-dark rounded';
+        item.innerHTML = `
+          <div class="d-flex align-items-center">
+            <i class="fas ${this.getServiceIcon(service.name)} me-2"></i>
+            <span>${service.name} x${service.quantity}</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <span class="me-3">$${service.price.toLocaleString()}</span>
+            <button class="btn btn-sm btn-outline-danger" onclick="turnosApp.removeService(${service.service_id})">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `;
+        listContainer.appendChild(item);
+        total += service.price * service.quantity;
+      });
+      
+      // Actualizar total
+      const totalElement = document.getElementById('total-general');
+      if (totalElement) {
+        totalElement.textContent = `$${total.toLocaleString()}`;
+      }
+      
+      this.appointmentData.totalAmount = total;
+      console.log('💰 Total actualizado:', total);
+    }
+
+    removeService(serviceId) {
+      console.log('🗑️ Removiendo servicio ID:', serviceId);
+      this.selectedServices = this.selectedServices.filter(s => s.service_id !== serviceId);
+      this.updateSelectedServicesDisplay();
+      this.updateNextButton();
+      
+      // Actualizar UI
+      const element = document.querySelector(`[data-service-id="${serviceId}"]`);
+      if (element) {
+        element.classList.remove('selected');
+      }
+    }
+
+    updateNextButton() {
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      if (btnSiguiente) {
+        const shouldShow = this.selectedServices.length > 0;
+        btnSiguiente.style.display = shouldShow ? 'block' : 'none';
+        console.log('🔘 Botón siguiente:', shouldShow ? 'visible' : 'oculto');
+      }
+    }
+
+    setupEventListeners() {
+      console.log('🔧 Configurando event listeners...');
+      
+      // Botón siguiente
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      if (btnSiguiente) {
+        btnSiguiente.addEventListener('click', () => {
+          console.log('➡️ Botón siguiente clickeado');
+          this.nextStep();
+        });
+      }
+      
+      // Botón anterior
+      const btnAnterior = document.getElementById('btn-anterior-fijo');
+      if (btnAnterior) {
+        btnAnterior.addEventListener('click', () => {
+          console.log('⬅️ Botón anterior clickeado');
+          this.previousStep();
+        });
+      }
+      
+      // Categorías
+      const categoriaVehiculos = document.getElementById('categoria-vehiculos');
+      const categoriaTapizados = document.getElementById('categoria-tapizados');
+      
+      if (categoriaVehiculos) {
+        categoriaVehiculos.addEventListener('click', () => {
+          console.log('🚗 Categoría vehículos seleccionada');
+          this.selectCategory('vehiculos');
+        });
+      }
+      
+      if (categoriaTapizados) {
+        categoriaTapizados.addEventListener('click', () => {
+          console.log('🛋️ Categoría tapizados seleccionada');
+          this.selectCategory('tapizados');
+        });
+      }
+      
+      console.log('✅ Event listeners configurados');
+    }
+
+    selectCategory(category) {
+      console.log('📂 Seleccionando categoría:', category);
+      
+      // Ocultar categorías
+      const categoriaVehiculos = document.getElementById('categoria-vehiculos');
+      const categoriaTapizados = document.getElementById('categoria-tapizados');
+      
+      if (categoriaVehiculos) categoriaVehiculos.style.display = 'none';
+      if (categoriaTapizados) categoriaTapizados.style.display = 'none';
+      
+      // Mostrar servicios de la categoría
+      const serviciosContainer = document.getElementById(`servicios-${category}`);
+      if (serviciosContainer) {
+        serviciosContainer.style.display = 'block';
+        console.log('✅ Mostrando servicios de:', category);
+      }
+      
+      // Mostrar botón siguiente
+      this.updateNextButton();
+    }
+
+    changeCategory() {
+      console.log('🔄 Cambiando categoría...');
+      
+      // Limpiar selecciones
+      this.selectedServices = [];
+      this.updateSelectedServicesDisplay();
+      
+      // Ocultar contenedores de servicios
+      const serviciosVehiculos = document.getElementById('servicios-vehiculos');
+      const serviciosTapizados = document.getElementById('servicios-tapizados');
+      
+      if (serviciosVehiculos) serviciosVehiculos.style.display = 'none';
+      if (serviciosTapizados) serviciosTapizados.style.display = 'none';
+      
+      // Mostrar categorías
+      const categoriaVehiculos = document.getElementById('categoria-vehiculos');
+      const categoriaTapizados = document.getElementById('categoria-tapizados');
+      
+      if (categoriaVehiculos) categoriaVehiculos.style.display = 'block';
+      if (categoriaTapizados) categoriaTapizados.style.display = 'block';
+      
+      // Ocultar botón siguiente
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      if (btnSiguiente) {
+        btnSiguiente.style.display = 'none';
+      }
+    }
+
+    nextStep() {
+      console.log('➡️ Siguiente paso:', this.currentStep);
+      
+      if (this.currentStep === 1) {
+        if (this.selectedServices.length === 0) {
+          alert('Por favor, selecciona al menos un servicio.');
+          return;
+        }
+        this.appointmentData.services = this.selectedServices;
+        this.currentStep = 2;
+        
+      } else if (this.currentStep === 2) {
+        const fecha = document.getElementById('fecha')?.value;
+        const hora = document.getElementById('hora')?.value;
+        
+        if (!fecha || !hora) {
+          alert('Por favor, selecciona fecha y hora.');
+          return;
+        }
+        
+        this.appointmentData.date = fecha;
+        this.appointmentData.time = hora;
+        this.currentStep = 3;
+        
+      } else if (this.currentStep === 3) {
+        const nombre = document.getElementById('nombre')?.value;
+        const apellido = document.getElementById('apellido')?.value;
+        const telefono = document.getElementById('telefono')?.value;
+        
+        if (!nombre || !apellido || !telefono) {
+          alert('Por favor, completa todos los campos obligatorios.');
+          return;
+        }
+        
+        this.appointmentData.clientName = `${nombre} ${apellido}`.trim();
+        this.appointmentData.clientPhone = telefono;
+        this.appointmentData.clientEmail = document.getElementById('email')?.value || '';
+        this.currentStep = 4;
+        
+      } else if (this.currentStep === 4) {
+        const direccion = document.getElementById('direccion')?.value;
+        
+        if (!direccion) {
+          alert('Por favor, ingresa la dirección del servicio.');
+          return;
+        }
+        
+        this.appointmentData.serviceLocation = direccion;
+        this.currentStep = 5;
+        this.showResumen();
+        
+      } else if (this.currentStep === 5) {
+        this.confirmAppointment();
+        return;
+      }
+      
+      this.showStep(this.currentStep);
+    }
+
+    previousStep() {
+      if (this.currentStep > 1) {
+        this.currentStep--;
+        this.showStep(this.currentStep);
+      }
+    }
+
+    showStep(step) {
+      console.log('📋 Mostrando paso:', step);
+      
+      // Ocultar todos los pasos
+      for (let i = 1; i <= 5; i++) {
+        const stepDiv = document.getElementById(`step-${i}`);
+        if (stepDiv) {
+          stepDiv.style.display = 'none';
+        }
+      }
+      
+      // Mostrar paso actual
+      const currentStepDiv = document.getElementById(`step-${step}`);
+      if (currentStepDiv) {
+        currentStepDiv.style.display = 'block';
+      }
+      
+      // Actualizar barra de progreso
+      this.updateProgressBar(step);
+      
+      // Actualizar botones
+      this.updateButtons(step);
+      
+      // Lógica específica por paso
+      if (step === 3) {
+        this.autoFillUserData();
+      }
+    }
+
+    updateProgressBar(step) {
+      const percent = ((step - 1) / 4) * 100;
+      const barFill = document.getElementById('wizard-bar-fill');
+      if (barFill) {
+        barFill.style.width = percent + '%';
+      }
+      
+      // Actualizar indicadores
+      for (let i = 1; i <= 5; i++) {
+        const indicator = document.getElementById(`step-indicator-${i}`);
+        if (indicator) {
+          indicator.classList.remove('active', 'completed');
+          if (i < step) {
+            indicator.classList.add('completed');
+          } else if (i === step) {
+            indicator.classList.add('active');
+          }
+        }
+      }
+    }
+
+    updateButtons(step) {
+      const btnAnterior = document.getElementById('btn-anterior-fijo');
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      
+      if (btnAnterior) {
+        btnAnterior.style.display = step > 1 ? 'block' : 'none';
+      }
+      
+      if (btnSiguiente) {
+        btnSiguiente.style.display = step < 5 ? 'block' : 'none';
+        if (step === 5) {
+          btnSiguiente.textContent = 'Confirmar Turno';
+        } else {
+          btnSiguiente.textContent = 'Siguiente';
+        }
+      }
+    }
+
+    autoFillUserData() {
+      const token = localStorage.getItem('token');
+      const userData = localStorage.getItem('userData');
+      
+      if (token && userData) {
+        try {
+          const user = JSON.parse(userData);
+          
+          // Separar nombre completo
+          const nombres = user.name ? user.name.split(' ') : [];
+          const nombre = nombres[0] || '';
+          const apellido = nombres.slice(1).join(' ') || '';
+          
+          // Buscar teléfono
+          const telefono = user.phone || user.telefono || user.phonenumber || user.celular || user.phoneNumber || '';
+          
+          // Auto-completar campos
+          const nombreInput = document.getElementById('nombre');
+          const apellidoInput = document.getElementById('apellido');
+          const telefonoInput = document.getElementById('telefono');
+          const emailInput = document.getElementById('email');
+          
+          if (nombreInput) nombreInput.value = nombre;
+          if (apellidoInput) apellidoInput.value = apellido;
+          if (telefonoInput) telefonoInput.value = telefono;
+          if (emailInput) emailInput.value = user.email || '';
+          
+          console.log('✅ Datos de usuario auto-completados');
+          
+        } catch (error) {
+          console.error('❌ Error auto-completando datos:', error);
+        }
+      }
+    }
+
+    showResumen() {
+      const resumenContainer = document.getElementById('resumen-turno');
+      if (!resumenContainer) return;
+      
+      let html = '';
+      let total = 0;
+      
+      this.selectedServices.forEach(service => {
+        const subtotal = service.price * service.quantity;
+        total += subtotal;
+        html += `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span>${service.name} x${service.quantity}</span>
+            <span>$${subtotal.toLocaleString()}</span>
+          </div>
+        `;
+      });
+      
+      html += `
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Total:</strong>
+          <strong>$${total.toLocaleString()}</strong>
+        </div>
+        <hr>
+        <div><strong>Fecha:</strong> ${this.appointmentData.date}</div>
+        <div><strong>Hora:</strong> ${this.appointmentData.time}</div>
+        <div><strong>Cliente:</strong> ${this.appointmentData.clientName}</div>
+        <div><strong>Teléfono:</strong> ${this.appointmentData.clientPhone}</div>
+        <div><strong>Dirección:</strong> ${this.appointmentData.serviceLocation}</div>
+      `;
+      
+      resumenContainer.innerHTML = html;
+    }
+
+    async confirmAppointment() {
+      console.log('🎯 Confirmando turno:', this.appointmentData);
+      
+      try {
+        // Preparar datos para el backend
+        const appointmentData = {
+          appointmentDate: this.appointmentData.date,
+          appointmentTime: this.appointmentData.time,
+          services: this.appointmentData.services.map(s => ({
+            service_id: s.service_id,
+            quantity: s.quantity
+          })),
+          serviceLocation: this.appointmentData.serviceLocation,
+          clientName: this.appointmentData.clientName,
+          clientPhone: this.appointmentData.clientPhone,
+          clientEmail: this.appointmentData.clientEmail,
+          service_type: this.appointmentData.services.map(s => s.name).join(', '),
+          totalAmount: this.appointmentData.totalAmount
+        };
+        
+        // Agregar userId si el usuario está logueado
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          const user = JSON.parse(userData);
+          appointmentData.userId = user.id;
+        }
+        
+        console.log('📤 Enviando turno al backend:', appointmentData);
+        
+        // Enviar al backend
+        const response = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(appointmentData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          console.log('✅ Turno creado exitosamente:', result);
+          this.showSuccess();
+        } else {
+          console.error('❌ Error creando turno:', result.message);
+          alert(`Error: ${result.message}`);
+        }
+        
+      } catch (error) {
+        console.error('❌ Error en confirmAppointment:', error);
+        alert('Error al crear el turno. Por favor, intenta nuevamente.');
+      }
+    }
+
+    showSuccess() {
+      // Ocultar todos los pasos
+      for (let i = 1; i <= 5; i++) {
+        const stepDiv = document.getElementById(`step-${i}`);
+        if (stepDiv) {
+          stepDiv.style.display = 'none';
+        }
+      }
+      
+      // Mostrar mensaje de éxito
+      const successDiv = document.getElementById('turno-exito');
+      if (successDiv) {
+        successDiv.style.display = 'block';
+      }
+      
+      // Ocultar botones
+      const btnAnterior = document.getElementById('btn-anterior-fijo');
+      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+      
+      if (btnAnterior) btnAnterior.style.display = 'none';
+      if (btnSiguiente) btnSiguiente.style.display = 'none';
+    }
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌐 DOM cargado, iniciando TurnosApp...');
+    window.turnosApp = new TurnosApp();
+  });
+
+  // Función global para cambiar categoría (compatibilidad)
+  window.cambiarCategoria = function() {
+    if (window.turnosApp) {
+      window.turnosApp.changeCategory();
+    }
   };
   
   console.log('🧪 Para probar auto-completado, ejecuta: testAutoCompletado()');
@@ -4227,9 +4755,6 @@
       btnSiguiente.style.display = 'none';
       btnSiguiente.disabled = true;
     }
-
-    // El sistema de turnos se maneja completamente en turnos-app.js
-  });
 
   </script>
 </body>
