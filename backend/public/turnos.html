@@ -83,6 +83,7 @@
   <link rel="stylesheet" href="css/tapizados.css">
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
   <script src="js/turnos-service.js"></script>
+  <script src="js/turnos-app.js"></script>
   <style>
     body {
       background: #181818;
@@ -1231,6 +1232,8 @@
   } else {
     console.log('❌ API Service no disponible');
   }
+  
+  // El resto del código JavaScript se maneja en turnos-app.js
 
   // Función de prueba para verificar el guardado en historial
   window.testGuardadoHistorial = async function() {
@@ -1531,37 +1534,9 @@
     }
   };
 
-  // Variables globales para servicios
+  // Variables globales para servicios (manejadas por turnos-app.js)
   let serviciosBD = [];
   let serviciosPorCategoria = {};
-
-  // Cargar servicios desde la base de datos
-  async function cargarServiciosDesdeBD() {
-    try {
-      const response = await fetch('/api/appointments/services');
-      const data = await response.json();
-      
-      if (data.success) {
-        serviciosBD = data.services;
-        
-        // Organizar servicios por categoría
-        serviciosPorCategoria = {};
-        serviciosBD.forEach(servicio => {
-          if (!serviciosPorCategoria[servicio.category]) {
-            serviciosPorCategoria[servicio.category] = [];
-          }
-          serviciosPorCategoria[servicio.category].push(servicio);
-        });
-        
-        console.log('✅ Servicios cargados desde BD:', serviciosBD.length, 'servicios');
-        console.log('📂 Categorías disponibles:', Object.keys(serviciosPorCategoria));
-      } else {
-        console.error('❌ Error cargando servicios:', data.message);
-      }
-    } catch (error) {
-      console.error('❌ Error en cargarServiciosDesdeBD:', error);
-    }
-  }
 
   // Función para obtener precio desde BD por nombre y tipo
   function getPrecioDesdeBD(nombreServicio, tipo = null) {
@@ -4253,8 +4228,7 @@
       btnSiguiente.disabled = true;
     }
 
-    // Cargar servicios desde la base de datos
-    cargarServiciosDesdeBD();
+    // El sistema de turnos se maneja completamente en turnos-app.js
   });
 
   </script>
