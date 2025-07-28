@@ -736,13 +736,18 @@
               <!-- Campos para opción "buscar" -->
               <div id="campos-buscar" style="display:none;">
                 <div class="mb-3">
-                  <label for="direccion-vehiculo" class="form-label">Dirección donde buscar el vehículo *</label>
-                  <textarea class="form-control" id="direccion-vehiculo" rows="3" placeholder="Ingresa la dirección completa donde está ubicado el vehículo"></textarea>
+                  <label for="direccion-buscar" class="form-label">Dirección donde buscar el vehículo *</label>
+                  <textarea class="form-control" id="direccion-buscar" rows="3" placeholder="Ingresa la dirección completa donde está ubicado el vehículo"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="direccion-entregar" class="form-label">Dirección donde entregar el vehículo *</label>
+                  <textarea class="form-control" id="direccion-entregar" rows="3" placeholder="Ingresa la dirección completa donde quieres que te entreguemos el vehículo"></textarea>
                 </div>
                 
                 <div class="mb-3">
                   <label for="detalles-vehiculo" class="form-label">Detalles adicionales (opcional)</label>
-                  <textarea class="form-control" id="detalles-vehiculo" rows="2" placeholder="Información adicional: acceso, llaves, contacto, etc."></textarea>
+                  <textarea class="form-control" id="detalles-vehiculo" rows="2" placeholder="Información adicional: acceso, llaves, contacto, horarios preferidos, etc."></textarea>
                 </div>
               </div>
               
@@ -891,6 +896,7 @@
         if (response.success && response.services) {
           this.services = response.services;
           console.log('✅ Servicios cargados:', this.services.length);
+          console.log('📋 Servicios con categorías:', this.services.map(s => ({name: s.name, category: s.category})));
           this.renderServices();
         } else {
           console.error('❌ Error en la respuesta de la API:', response.message);
@@ -943,6 +949,9 @@
       element.dataset.name = service.name;
       element.dataset.price = service.price;
       element.dataset.duration = service.duration;
+      element.dataset.category = service.category;
+      
+      console.log('🎨 Creando elemento para servicio:', service.name, 'Categoría:', service.category);
       
       element.innerHTML = `
         <div class="servicio-info">
@@ -998,6 +1007,7 @@
           name: service.name,
           price: service.price,
           duration: service.duration,
+          category: service.category,
           quantity: 1
         });
         element.classList.add('selected');
@@ -1212,17 +1222,24 @@
           }
           
           if (opcionVehiculo.value === 'buscar') {
-            const direccionVehiculo = document.getElementById('direccion-vehiculo')?.value;
+            const direccionBuscar = document.getElementById('direccion-buscar')?.value;
+            const direccionEntregar = document.getElementById('direccion-entregar')?.value;
             const detallesVehiculo = document.getElementById('detalles-vehiculo')?.value;
             
-            if (!direccionVehiculo) {
+            if (!direccionBuscar) {
               alert('Por favor, ingresa la dirección donde buscar el vehículo.');
+              return;
+            }
+            
+            if (!direccionEntregar) {
+              alert('Por favor, ingresa la dirección donde entregar el vehículo.');
               return;
             }
             
             locationData.vehiculos = {
               tipo: 'buscar',
-              direccion: direccionVehiculo,
+              direccionBuscar: direccionBuscar,
+              direccionEntregar: direccionEntregar,
               detalles: detallesVehiculo
             };
           } else {
@@ -1297,6 +1314,7 @@
       if (step === 4) {
         this.autoFillUserData();
       } else if (step === 5) {
+        console.log('🎯 Ejecutando lógica específica del paso 5');
         this.showLocationStep();
       }
     }
@@ -1342,28 +1360,44 @@
 
     showLocationStep() {
       console.log('📍 Configurando paso de ubicación...');
+      console.log('📋 Servicios seleccionados:', this.selectedServices);
       
       // Determinar qué tipo de servicios están seleccionados
       const hasVehiculos = this.selectedServices.some(service => service.category === 'vehiculos');
       const hasTapizados = this.selectedServices.some(service => service.category === 'tapizados');
       
+      console.log('🚗 Tiene servicios vehiculares:', hasVehiculos);
+      console.log('🛋️ Tiene servicios de tapizados:', hasTapizados);
+      
       const ubicacionVehiculos = document.getElementById('ubicacion-vehiculos');
       const ubicacionTapizados = document.getElementById('ubicacion-tapizados');
       
+      console.log('📍 Elemento ubicacion-vehiculos:', ubicacionVehiculos);
+      console.log('📍 Elemento ubicacion-tapizados:', ubicacionTapizados);
+      
+      // Ocultar ambos por defecto
+      if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'none';
+      if (ubicacionTapizados) ubicacionTapizados.style.display = 'none';
+      
       if (hasVehiculos && !hasTapizados) {
         // Solo servicios vehiculares
-        ubicacionVehiculos.style.display = 'block';
-        ubicacionTapizados.style.display = 'none';
+        console.log('🚗 Mostrando solo opciones vehiculares');
+        if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'block';
         this.setupVehiculosLocationListeners();
       } else if (hasTapizados && !hasVehiculos) {
         // Solo servicios de tapizados
-        ubicacionVehiculos.style.display = 'none';
-        ubicacionTapizados.style.display = 'block';
+        console.log('🛋️ Mostrando solo opciones de tapizados');
+        if (ubicacionTapizados) ubicacionTapizados.style.display = 'block';
       } else if (hasVehiculos && hasTapizados) {
         // Ambos tipos de servicios
-        ubicacionVehiculos.style.display = 'block';
-        ubicacionTapizados.style.display = 'block';
+        console.log('🚗🛋️ Mostrando ambas opciones');
+        if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'block';
+        if (ubicacionTapizados) ubicacionTapizados.style.display = 'block';
         this.setupVehiculosLocationListeners();
+      } else {
+        console.log('⚠️ No se detectaron servicios con categorías válidas');
+        // Mostrar mensaje de error o opción por defecto
+        if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'block';
       }
     }
 
@@ -1471,7 +1505,8 @@
         html += '<strong>🚗 Servicios Vehiculares:</strong><br>';
         if (locationData.vehiculos.tipo === 'buscar') {
           html += `• Buscar y entregar vehículo<br>`;
-          html += `• Dirección: ${locationData.vehiculos.direccion}<br>`;
+          html += `• Buscar en: ${locationData.vehiculos.direccionBuscar}<br>`;
+          html += `• Entregar en: ${locationData.vehiculos.direccionEntregar}<br>`;
           if (locationData.vehiculos.detalles) {
             html += `• Detalles: ${locationData.vehiculos.detalles}<br>`;
           }
