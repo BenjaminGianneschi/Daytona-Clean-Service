@@ -466,16 +466,6 @@
                 <i class="fas fa-chair me-1"></i>Simple
               </label>
               
-              <input type="radio" class="btn-check" name="silla-tipo" id="silla-gamer" value="gamer" autocomplete="off">
-              <label class="btn btn-outline-primary" for="silla-gamer">
-                <i class="fas fa-chair me-1"></i>Gamer
-              </label>
-              
-              <input type="radio" class="btn-check" name="silla-tipo" id="silla-oficina" value="oficina" autocomplete="off">
-              <label class="btn btn-outline-primary" for="silla-oficina">
-                <i class="fas fa-chair me-1"></i>Oficina
-              </label>
-              
               <input type="radio" class="btn-check" name="silla-tipo" id="silla-comedor" value="comedor" autocomplete="off">
               <label class="btn btn-outline-primary" for="silla-comedor">
                 <i class="fas fa-chair me-1"></i>Comedor
@@ -545,11 +535,6 @@
           <div id="motor-tipos-container" style="display:none;" class="mb-3">
             <div class="mb-2"><strong>Elegí el tipo de limpieza de motor:</strong></div>
             <div class="btn-group" role="group" id="motor-tipos">
-              <input type="radio" class="btn-check" name="motor-tipo" id="motor-basica" value="basica" autocomplete="off">
-              <label class="btn btn-outline-primary" for="motor-basica">
-                <i class="fas fa-gears me-1"></i>Básica
-              </label>
-              
               <input type="radio" class="btn-check" name="motor-tipo" id="motor-completa" value="completa" autocomplete="off">
               <label class="btn btn-outline-primary" for="motor-completa">
                 <i class="fas fa-gears me-1"></i>Completa
@@ -562,49 +547,33 @@
             </div>
           </div>
 
-          <!-- Botones de tipo de alfombra (aparecen solo cuando se selecciona Limpieza de Alfombras) -->
-          <div id="alfombra-tipos-container" style="display:none;" class="mb-3">
-            <div class="mb-2"><strong>Elegí el tipo de alfombra:</strong></div>
-            <div class="btn-group" role="group" id="alfombra-tipos">
-              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-chica" value="chica" autocomplete="off">
-              <label class="btn btn-outline-primary" for="alfombra-chica">
-                <i class="fas fa-rug me-1"></i>Chica (2x3m)
-              </label>
-              
-              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-mediana" value="mediana" autocomplete="off">
-              <label class="btn btn-outline-primary" for="alfombra-mediana">
-                <i class="fas fa-rug me-1"></i>Mediana (3x4m)
-              </label>
-              
-              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-grande" value="grande" autocomplete="off">
-              <label class="btn btn-outline-primary" for="alfombra-grande">
-                <i class="fas fa-rug me-1"></i>Grande (4x5m)
-              </label>
-              
-              <input type="radio" class="btn-check" name="alfombra-tipo" id="alfombra-persa" value="persa" autocomplete="off">
-              <label class="btn btn-outline-primary" for="alfombra-persa">
-                <i class="fas fa-rug me-1"></i>Persa
-              </label>
+          <!-- Campo para ingresar metros cuadrados de alfombra -->
+          <div id="alfombra-metros-container" style="display:none;" class="mb-3">
+            <div class="mb-2"><strong>Ingresá los metros cuadrados de la alfombra:</strong></div>
+            <div class="input-group">
+              <input type="number" class="form-control" id="alfombra-metros" placeholder="Ej: 6" min="1" step="0.1">
+              <span class="input-group-text">m²</span>
             </div>
+            <small class="text-muted">Ejemplo: 2m x 3m = 6m²</small>
           </div>
 
           <!-- Botones de tipo de puff (aparecen solo cuando se selecciona Limpieza de Puff) -->
           <div id="puff-tipos-container" style="display:none;" class="mb-3">
             <div class="mb-2"><strong>Elegí el tipo de puff:</strong></div>
             <div class="btn-group" role="group" id="puff-tipos">
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-chico" value="chico" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-chico">
-                <i class="fas fa-couch me-1"></i>Chico
-              </label>
-              
-              <input type="radio" class="btn-check" name="puff-tipo" id="puff-mediano" value="mediano" autocomplete="off">
-              <label class="btn btn-outline-primary" for="puff-mediano">
-                <i class="fas fa-couch me-1"></i>Mediano
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-simple" value="simple" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-simple">
+                <i class="fas fa-couch me-1"></i>Simple
               </label>
               
               <input type="radio" class="btn-check" name="puff-tipo" id="puff-grande" value="grande" autocomplete="off">
               <label class="btn btn-outline-primary" for="puff-grande">
                 <i class="fas fa-couch me-1"></i>Grande
+              </label>
+              
+              <input type="radio" class="btn-check" name="puff-tipo" id="puff-especial" value="especial" autocomplete="off">
+              <label class="btn btn-outline-primary" for="puff-especial">
+                <i class="fas fa-couch me-1"></i>Especial
               </label>
             </div>
           </div>
@@ -2127,7 +2096,7 @@
     
     alfombrasAgregadas.forEach(alfombra => {
       const precioUnitario = getPrecioPorId(alfombra.service_id);
-      const precioTotal = precioUnitario * alfombra.cantidad;
+      const precioTotal = precioUnitario * alfombra.metrosCuadrados;
       
       const card = document.createElement('div');
       card.className = 'mb-3';
@@ -2136,22 +2105,16 @@
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
               <i class="fas fa-rug me-2"></i><strong>${alfombra.nombre}</strong>
-              <span class="badge bg-dark text-warning ms-2">120 min</span>
+              <span class="badge bg-dark text-warning ms-2">${alfombra.metrosCuadrados * 30} min</span>
             </div>
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarAlfombra('${alfombra.service_id}')">
               <i class="fas fa-trash"></i>
             </button>
           </div>
           <div class="d-flex justify-content-between align-items-center">
-            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} c/u</span>
+            <span class="text-white">$${precioUnitario.toLocaleString('es-AR')} por m²</span>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.service_id}', -1)">
-                <i class="fas fa-minus"></i>
-              </button>
-              <span class="mx-3 fw-bold">${alfombra.cantidad}</span>
-              <button type="button" class="btn btn-sm btn-outline-light" onclick="cambiarCantidadAlfombra('${alfombra.service_id}', 1)">
-                <i class="fas fa-plus"></i>
-              </button>
+              <span class="mx-3 fw-bold">${alfombra.metrosCuadrados} m²</span>
             </div>
           </div>
           <div class="text-white mt-2">
@@ -2173,15 +2136,10 @@
   function actualizarTotalAlfombras() {
     const totalSpan = document.getElementById('alfombras-total');
     if (alfombrasAgregadas.length > 0) {
-      const precios = {
-        'chica': 20000,
-        'mediana': 25000,
-        'grande': 30000,
-        'persa': 35000
-      };
       let total = 0;
       alfombrasAgregadas.forEach(alfombra => {
-        total += precios[alfombra.tipo] * alfombra.cantidad;
+        const precioUnitario = getPrecioPorId(alfombra.service_id);
+        total += precioUnitario * alfombra.metrosCuadrados;
       });
       totalSpan.innerHTML = `<div class="p-2 rounded bg-danger text-white"><i class="fas fa-rug me-1"></i>Total Alfombras: $${total.toLocaleString('es-AR')}</div>`;
     } else {
@@ -3119,7 +3077,7 @@
      const colchonTiposContainer = document.getElementById('colchon-tipos-container');
      const vehiculoTiposContainer = document.getElementById('vehiculo-tipos-container');
      const motorTiposContainer = document.getElementById('motor-tipos-container');
-     const alfombraTiposContainer = document.getElementById('alfombra-tipos-container');
+     const alfombraMetrosContainer = document.getElementById('alfombra-metros-container');
      const puffTiposContainer = document.getElementById('puff-tipos-container');
      const servicioDetalle = document.getElementById('servicio-detalle');
      const sillonesSeleccionados = document.getElementById('sillones-seleccionados');
@@ -3147,7 +3105,7 @@
      vehiculoTiposContainer.style.display = 'none';
      tapizadovehiculoTiposContainer.style.display = 'none';
      motorTiposContainer.style.display = 'none';
-     alfombraTiposContainer.style.display = 'none';
+     alfombraMetrosContainer.style.display = 'none';
      puffTiposContainer.style.display = 'none';
      servicioDetalle.style.display = 'none';
      sillonesSeleccionados.innerHTML = '';
@@ -3198,7 +3156,7 @@
          renderMotoresCards();
          actualizarTotalMotores();
        } else if (val === 'Limpieza de Alfombras') {
-         alfombraTiposContainer.style.display = 'block';
+         alfombraMetrosContainer.style.display = 'block';
          renderAlfombrasCards();
          actualizarTotalAlfombras();
        } else if (val === 'Limpieza de Puff') {
@@ -3554,32 +3512,35 @@
      });
    });
 
-   // Event listeners para los botones de tipo de alfombra
-   const alfombraTipos = document.querySelectorAll('input[name="alfombra-tipo"]');
+   // Event listener para el input de metros cuadrados de alfombra
+   const alfombraMetrosInput = document.getElementById('alfombra-metros');
    const alfombrasSeleccionadas = document.getElementById('alfombras-seleccionadas');
    const totalAlfombrasSpan = document.getElementById('alfombras-total');
 
-   // Cuando se selecciona un tipo de alfombra
-   alfombraTipos.forEach(radio => {
-     radio.addEventListener('change', function() {
-       const tipoSeleccionado = this.value;
+   // Cuando se ingresa metros cuadrados de alfombra
+   alfombraMetrosInput.addEventListener('input', function() {
+     const metrosCuadrados = parseFloat(this.value) || 0;
+     
+     if (metrosCuadrados > 0) {
+       // Limpiar alfombras existentes
+       alfombrasAgregadas.length = 0;
        
-       // Verificar si ya existe este tipo
-       const existe = alfombrasAgregadas.find(a => a.nombre === armarNombreServicio('alfombra', tipoSeleccionado));
-       if (existe) {
-         // Si ya existe, aumentar cantidad
-         existe.cantidad++;
-       } else {
-         // Si no existe, agregar nuevo usando la función centralizada
-         agregarServicioSeleccionado('alfombra', tipoSeleccionado, 1);
-       }
+       // Agregar nueva alfombra con metros cuadrados
+       const serviceId = obtenerIdServicio('Limpieza de Alfombra (por m²)');
+       alfombrasAgregadas.push({
+         service_id: serviceId,
+         nombre: `Limpieza de Alfombra (${metrosCuadrados} m²)`,
+         metrosCuadrados: metrosCuadrados
+       });
        
        renderAlfombrasCards();
        actualizarTotalAlfombras();
-       
-       // Desmarcar el radio button para poder seleccionar otro tipo
-       this.checked = false;
-     });
+     } else {
+       // Si no hay metros, limpiar alfombras
+       alfombrasAgregadas.length = 0;
+       renderAlfombrasCards();
+       actualizarTotalAlfombras();
+     }
    });
 
    // Event listeners para los botones de tipo de puff
@@ -3847,7 +3808,6 @@
       'Lavado de Auto': 1,
       'Lavado de SUV': 2,
       'Lavado de Pickup': 3,
-      'Limpieza de Motor Básica': 4,
       'Limpieza de Motor Completa': 5,
       'Limpieza de Motor Detallada': 6,
       'Tapizado de Auto': 7,
@@ -3857,15 +3817,10 @@
       'Sillón 2 Cuerpos': 11,
       'Sillón 3 Cuerpos': 12,
       'Silla Simple': 13,
-      'Silla Gamer': 14,
-      'Silla Oficina': 15,
       'Silla Comedor': 16,
       'Colchón 1 Plaza': 17,
       'Colchón 2 Plazas': 18,
-      'Alfombra Chica': 19,
-      'Alfombra Mediana': 20,
-      'Alfombra Grande': 21,
-      'Alfombra Persa': 22,
+      'Limpieza de Alfombra (por m²)': 19,
       'Puff Simple': 23,
       'Puff Grande': 24,
       'Puff Especial': 25
@@ -4050,9 +4005,9 @@
     if (tipo === "colchon") return `Colchón de ${subtipo}`;
     if (tipo === "puff") {
       // Mapear subtipo a nombre exacto de la BD
-      if (subtipo === 'chico') return 'Puff chico';
-      if (subtipo === 'mediano') return 'Puff mediano';
-      if (subtipo === 'grande') return 'Puff grande';
+      if (subtipo === 'simple') return 'Puff Simple';
+      if (subtipo === 'grande') return 'Puff Grande';
+      if (subtipo === 'especial') return 'Puff Especial';
       return '';
     }
     if (tipo === "tapizadoSilla") return `Limpieza de Tapizado de Silla`;
