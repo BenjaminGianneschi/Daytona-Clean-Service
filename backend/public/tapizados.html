@@ -604,6 +604,8 @@
       position: relative;
       justify-content: flex-start;
       box-sizing: border-box;
+      /* Asegurar que todas las cards sean visibles */
+      min-width: 100%;
     }
     
     .carousel-item {
@@ -1241,9 +1243,6 @@
         time: '1 hora por m²',
         recommendations: 'Ideal para respaldos con manchas o uso intensivo. Recomendado cada 6-12 meses.'
       }
-        time: '1-1.5 horas por puff',
-        recommendations: 'Ideal para puffs con manchas o uso intensivo. Recomendado cada 6-12 meses.'
-      }
     };
 
     // Función para abrir el modal
@@ -1319,6 +1318,13 @@
       const items = carousel.querySelectorAll('.carousel-item');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      
+      // Debug: verificar que todas las cards se cargaron
+      console.log('Cards cargadas:', items.length);
+      items.forEach((item, index) => {
+        const title = item.querySelector('h5').textContent;
+        console.log(`Card ${index + 1}:`, title);
+      });
 
       
       // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
@@ -1347,13 +1353,12 @@
         const moveDistance = itemWidth + gap;
         
         // Calcular la posición para mostrar las tarjetas centradas
-        // Para el índice 0, mostrar las primeras 3 tarjetas
-        // Para otros índices, mover de acuerdo al número de items por vista
         let translateX;
         if (currentIndex === 0) {
           translateX = 0; // Empezar desde la primera tarjeta
         } else {
-          translateX = -(currentIndex * itemsPerView * moveDistance);
+          // Mover de a una tarjeta por vez para mejor control
+          translateX = -(currentIndex * moveDistance);
         }
         
         // Aplicar la transformación
@@ -1362,10 +1367,18 @@
         
         // Actualizar botones
         prevBtn.disabled = currentIndex === 0;
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        nextBtn.disabled = currentIndex >= totalPages - 1;
+        const maxIndex = items.length - itemsPerView;
+        nextBtn.disabled = currentIndex >= maxIndex;
         
-
+        // Debug: mostrar información en consola
+        console.log('Carrusel Debug:', {
+          totalItems: items.length,
+          itemsPerView: itemsPerView,
+          currentIndex: currentIndex,
+          maxIndex: items.length - itemsPerView,
+          translateX: translateX,
+          nextDisabled: currentIndex >= (items.length - itemsPerView)
+        });
       }
       
 
@@ -1379,8 +1392,8 @@
       
       nextBtn.addEventListener('click', () => {
         const itemsPerView = getItemsPerView();
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        if (currentIndex < totalPages - 1) {
+        const maxIndex = items.length - itemsPerView;
+        if (currentIndex < maxIndex) {
           currentIndex++;
           moveCarousel();
         }
