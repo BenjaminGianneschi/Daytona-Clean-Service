@@ -668,7 +668,7 @@
           </div>
 
           <!-- Servicios de Vehículos -->
-          <div id="servicios-vehiculos" class="servicios-container" style="display: none;">
+          <div id="servicios-vehicular" class="servicios-container" style="display: none;">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h4><i class="fas fa-car me-2"></i>Servicios de Vehículos</h4>
               <button class="btn btn-outline-secondary btn-sm" onclick="cambiarCategoria()">
@@ -676,7 +676,7 @@
               </button>
             </div>
             
-            <div class="servicios-lista" id="lista-servicios-vehiculos">
+            <div class="servicios-lista" id="lista-servicios-vehicular">
               <!-- Los servicios se cargarán dinámicamente desde la BD -->
             </div>
           </div>
@@ -1002,9 +1002,17 @@
 
     renderServices() {
       console.log('🎨 Renderizando servicios...');
+      console.log('📊 Total de servicios cargados:', this.services.length);
+      console.log('📋 Servicios por categoría:', this.services.reduce((acc, s) => {
+        acc[s.category] = (acc[s.category] || 0) + 1;
+        return acc;
+      }, {}));
       
-      const vehiculosContainer = document.getElementById('lista-servicios-vehiculos');
+      const vehiculosContainer = document.getElementById('lista-servicios-vehicular');
       const tapizadosContainer = document.getElementById('lista-servicios-tapizados');
+      
+      console.log('🔍 Contenedor vehicular encontrado:', !!vehiculosContainer);
+      console.log('🔍 Contenedor tapizados encontrado:', !!tapizadosContainer);
       
       if (vehiculosContainer) {
         vehiculosContainer.innerHTML = '';
@@ -1015,7 +1023,10 @@
             index === self.findIndex(s => s.id === service.id)
           );
         console.log('🚗 Servicios de vehículos únicos:', vehiculosServices.length);
+        console.log('🚗 Lista de servicios vehiculares:', vehiculosServices.map(s => s.name));
         vehiculosServices.forEach(service => this.createServiceElement(service, vehiculosContainer));
+      } else {
+        console.error('❌ No se encontró contenedor vehicular');
       }
       
       if (tapizadosContainer) {
@@ -1236,9 +1247,20 @@
       
       // Mostrar servicios de la categoría
       const serviciosContainer = document.getElementById(`servicios-${category}`);
+      console.log('🔍 Buscando contenedor:', `servicios-${category}`);
+      console.log('📦 Contenedor encontrado:', serviciosContainer);
+      
       if (serviciosContainer) {
         serviciosContainer.style.display = 'block';
         console.log('✅ Mostrando servicios de:', category);
+        
+        // Verificar si hay servicios en el contenedor
+        const serviciosLista = serviciosContainer.querySelector('.servicios-lista');
+        if (serviciosLista) {
+          console.log('📋 Servicios en lista:', serviciosLista.children.length);
+        }
+      } else {
+        console.error('❌ No se encontró contenedor para categoría:', category);
       }
       
       // Mostrar botón siguiente
@@ -1712,7 +1734,7 @@
       if (categoriaSelector) categoriaSelector.style.display = 'block';
       
       // Ocultar contenedores de servicios
-      const serviciosVehiculos = document.getElementById('servicios-vehiculos');
+      const serviciosVehiculos = document.getElementById('servicios-vehicular');
       const serviciosTapizados = document.getElementById('servicios-tapizados');
       
       if (serviciosVehiculos) serviciosVehiculos.style.display = 'none';
