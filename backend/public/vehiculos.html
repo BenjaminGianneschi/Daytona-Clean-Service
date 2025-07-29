@@ -496,6 +496,16 @@
         <div class="modal-overlay">
           <h2 id="modalTitle"></h2>
           <div class="modal-price" id="modalPrice"></div>
+          
+          <!-- Botones para cambiar entre variantes -->
+          <div class="variant-buttons" id="variantButtons" style="display: none; margin-top: 15px;">
+            <button class="variant-btn active" id="standardBtn" data-variant="standard">
+              <i class="fas fa-star me-1"></i>Estándar
+            </button>
+            <button class="variant-btn" id="specialBtn" data-variant="special">
+              <i class="fas fa-crown me-1"></i>Especial
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-body">
@@ -925,6 +935,42 @@
       transform: translateY(-2px) !important;
       box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4) !important;
     }
+
+    /* Estilos para botones de variantes en el modal */
+    .variant-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .variant-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+      backdrop-filter: blur(5px);
+    }
+
+    .variant-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .variant-btn.active {
+      background: rgba(255, 59, 63, 0.8);
+      border-color: #ff3b3f;
+      box-shadow: 0 4px 12px rgba(255, 59, 63, 0.4);
+    }
+
+    .variant-btn.active:hover {
+      background: rgba(255, 59, 63, 0.9);
+    }
     
     /* Responsive para el carrusel */
     @media (max-width: 1200px) {
@@ -1133,12 +1179,57 @@
         // Limpiar carrusel existente
         carouselTrack.innerHTML = '';
 
-        // Crear elementos de carrusel para cada servicio
-        services.forEach((service, index) => {
+        // Obtener solo servicios únicos (solo estándar, para evitar duplicados)
+        const uniqueServices = this.getUniqueServices(services);
+
+        // Crear elementos de carrusel para cada servicio único
+        uniqueServices.forEach((service, index) => {
           const serviceElement = this.createCarouselItem(service, index);
           carouselTrack.appendChild(serviceElement);
         });
       }
+
+      getUniqueServices(services) {
+        // Agrupar servicios por tipo base y solo tomar el estándar para mostrar en cards
+        const serviceGroups = {};
+        
+        services.forEach(service => {
+          const baseName = service.name.replace(' Especial', '');
+          if (!serviceGroups[baseName]) {
+            serviceGroups[baseName] = { standard: null, special: null };
+          }
+          
+          if (service.name.includes('Especial')) {
+            serviceGroups[baseName].special = service;
+          } else {
+            serviceGroups[baseName].standard = service;
+          }
+        });
+
+        // Ordenar grupos por prioridad y extraer solo los servicios estándar
+        const priorityOrder = ['Auto', 'Pickup', 'SUV', 'Motor'];
+        const sortedGroups = Object.keys(serviceGroups).sort((a, b) => {
+          const aIndex = priorityOrder.findIndex(p => a.includes(p));
+          const bIndex = priorityOrder.findIndex(p => b.includes(p));
+          
+          if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+          if (aIndex !== -1) return -1;
+          if (bIndex !== -1) return 1;
+          return a.localeCompare(b);
+        });
+
+        // Retornar solo los servicios estándar (que representan el grupo completo)
+        const result = [];
+        sortedGroups.forEach(groupName => {
+          if (serviceGroups[groupName].standard) {
+            result.push(serviceGroups[groupName].standard);
+          }
+        });
+
+        return result;
+      }
+
+
 
       createCarouselItem(service, index) {
         const div = document.createElement('div');
@@ -1161,16 +1252,13 @@
         else if (serviceName.includes('auto')) imageSrc = imageMap.auto;
 
         div.innerHTML = `
-          <img src="${imageSrc}" alt="${service.name}">
+          <img src="${imageSrc}" alt="${service.name.replace(' Especial', '')}">
           <div class="servicio-card-body">
-            <h5>${service.name}</h5>
+            <h5>${service.name.replace(' Especial', '')}</h5>
             <p>${service.description || 'Servicio de limpieza profesional'}</p>
             <div class="service-options">
-              <button class="servicio-btn standard-btn" data-service="service-${service.id}" data-type="standard">
-                $${service.price.toLocaleString()} - ${service.duration} min
-              </button>
               <button class="servicio-btn info-btn" data-service="service-${service.id}" data-type="info">
-                Ver Detalles
+                <i class="fas fa-info-circle me-2"></i>Ver Detalles
               </button>
             </div>
           </div>
@@ -1180,17 +1268,58 @@
       }
 
       createServiceData(services) {
-        // Crear datos para el modal usando servicios reales
+        // Agrupar servicios por tipo base (estándar y especial)
+        const serviceGroups = {};
+        
         services.forEach(service => {
-          this.serviciosData[`service-${service.id}`] = {
-            title: service.name,
-            price: `$${service.price.toLocaleString()}`,
-            image: this.getServiceImage(service.name),
-            description: service.description || 'Servicio de limpieza profesional vehicular',
-            features: this.generateFeatures(service),
-            time: `${service.duration} minutos`,
-            recommendations: this.generateRecommendations(service)
-          };
+          const baseName = service.name.replace(' Especial', '');
+          if (!serviceGroups[baseName]) {
+            serviceGroups[baseName] = { standard: null, special: null };
+          }
+          
+          if (service.name.includes('Especial')) {
+            serviceGroups[baseName].special = service;
+          } else {
+            serviceGroups[baseName].standard = service;
+          }
+        });
+
+        // Crear datos para el modal agrupando estándar y especial
+        Object.keys(serviceGroups).forEach(baseName => {
+          const group = serviceGroups[baseName];
+          const standardService = group.standard;
+          const specialService = group.special;
+          
+          if (standardService) {
+            this.serviciosData[`service-${standardService.id}`] = {
+              baseName: baseName,
+              standard: {
+                id: standardService.id,
+                title: standardService.name,
+                price: `$${standardService.price.toLocaleString()}`,
+                description: standardService.description || 'Servicio de limpieza profesional vehicular',
+                features: this.generateFeatures(standardService),
+                time: `${standardService.duration} minutos`,
+                recommendations: this.generateRecommendations(standardService)
+              },
+              special: specialService ? {
+                id: specialService.id,
+                title: specialService.name,
+                price: `$${specialService.price.toLocaleString()}`,
+                description: specialService.description || 'Servicio de limpieza profesional vehicular con máquina de inyección-extracción',
+                features: this.generateFeatures(specialService),
+                time: `${specialService.duration} minutos`,
+                recommendations: this.generateRecommendations(specialService)
+              } : null,
+              image: this.getServiceImage(standardService.name),
+              currentVariant: 'standard' // Por defecto mostrar estándar
+            };
+          }
+          
+          // También crear entrada para el servicio especial si existe
+          if (specialService) {
+            this.serviciosData[`service-${specialService.id}`] = this.serviciosData[`service-${standardService.id}`];
+          }
         });
       }
 
@@ -1461,23 +1590,65 @@
         const service = this.serviciosData[serviceId];
         if (!service) return;
 
+        // Configurar información básica
         document.getElementById('modalImage').src = service.image;
-        document.getElementById('modalTitle').textContent = service.title;
-        document.getElementById('modalPrice').textContent = service.price;
-        document.getElementById('modalDescription').textContent = service.description;
-        document.getElementById('modalTime').textContent = service.time;
-        document.getElementById('modalRecommendations').textContent = service.recommendations;
+        
+        // Mostrar botones de variantes si hay versión especial
+        const variantButtons = document.getElementById('variantButtons');
+        const standardBtn = document.getElementById('standardBtn');
+        const specialBtn = document.getElementById('specialBtn');
+        
+        if (service.special) {
+          variantButtons.style.display = 'flex';
+          
+          // Configurar event listeners para los botones
+          standardBtn.onclick = () => this.switchVariant(serviceId, 'standard');
+          specialBtn.onclick = () => this.switchVariant(serviceId, 'special');
+        } else {
+          variantButtons.style.display = 'none';
+        }
 
+        // Mostrar la variante estándar por defecto
+        this.switchVariant(serviceId, 'standard');
+
+        document.getElementById('serviceModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+
+      switchVariant(serviceId, variant) {
+        const service = this.serviciosData[serviceId];
+        if (!service) return;
+
+        const variantData = service[variant];
+        if (!variantData) return;
+
+        // Actualizar contenido del modal
+        document.getElementById('modalTitle').textContent = service.baseName;
+        document.getElementById('modalPrice').textContent = variantData.price;
+        document.getElementById('modalDescription').textContent = variantData.description;
+        document.getElementById('modalTime').textContent = variantData.time;
+        document.getElementById('modalRecommendations').textContent = variantData.recommendations;
+
+        // Actualizar características
         const featuresList = document.getElementById('modalFeatures');
         featuresList.innerHTML = '';
-        service.features.forEach(feature => {
+        variantData.features.forEach(feature => {
           const li = document.createElement('li');
           li.textContent = feature;
           featuresList.appendChild(li);
         });
 
-        document.getElementById('serviceModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        // Actualizar botones activos
+        const standardBtn = document.getElementById('standardBtn');
+        const specialBtn = document.getElementById('specialBtn');
+        
+        if (standardBtn && specialBtn) {
+          standardBtn.classList.toggle('active', variant === 'standard');
+          specialBtn.classList.toggle('active', variant === 'special');
+        }
+
+        // Actualizar variante actual
+        service.currentVariant = variant;
       }
     }
 
