@@ -400,71 +400,91 @@
     .servicios-lista {
       max-height: 400px;
       overflow-y: auto;
+      padding: 0.5rem;
     }
 
     .servicio-item {
-      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-      border: 2px solid #333;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0.5rem;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 0.25rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .servicio-item:hover {
       border-color: #ff3b3f;
-      transform: translateX(5px);
+      background: #252525;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
     .servicio-item.selected {
       border-color: #ff3b3f;
       background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
       color: white;
+      box-shadow: 0 4px 12px rgba(255, 59, 63, 0.3);
     }
 
     .servicio-info {
       display: flex;
       align-items: center;
       flex: 1;
+      min-width: 0;
     }
 
     .servicio-icon {
-      font-size: 1.2rem;
-      margin-right: 1rem;
+      font-size: 1rem;
+      margin-right: 0.75rem;
       color: #ff3b3f;
-      width: 30px;
+      width: 24px;
       text-align: center;
+      flex-shrink: 0;
     }
 
     .servicio-item.selected .servicio-icon {
       color: white;
     }
 
+    .servicio-details {
+      flex: 1;
+      min-width: 0;
+    }
+
     .servicio-details h6 {
-      margin: 0;
+      margin: 0 0 0.25rem 0;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.2;
     }
 
     .servicio-details p {
       margin: 0;
-      font-size: 0.85rem;
-      color: #ccc;
+      font-size: 0.8rem;
+      color: #aaa;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .servicio-item.selected .servicio-details p {
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .servicio-precio {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #ff3b3f;
       text-align: right;
+      flex-shrink: 0;
+      margin-left: 0.75rem;
     }
 
     .servicio-item.selected .servicio-precio {
@@ -488,31 +508,90 @@
     /* Servicios seleccionados */
     .servicio-seleccionado {
       background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
-      border: 2px solid #ff3b3f;
-      border-radius: 8px;
-      padding: 0.75rem;
+      border: 1px solid #ff3b3f;
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
       color: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 0.25rem;
+      box-shadow: 0 2px 8px rgba(255, 59, 63, 0.2);
+    }
+
+    .servicio-seleccionado .servicio-info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .servicio-seleccionado .servicio-info i {
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .servicio-seleccionado .servicio-precio {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
     }
 
     .servicio-seleccionado .btn-remove {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
       border: none;
       color: white;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s ease;
+      margin-left: 0.5rem;
+      font-size: 0.7rem;
     }
 
     .servicio-seleccionado .btn-remove:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
+    }
+
+    /* Estilos para encabezados de categorías */
+    .servicios-container h4 {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #333;
+    }
+
+    .servicios-container h4 i {
+      color: #ff3b3f;
+    }
+
+    .servicios-container .btn-outline-secondary {
+      border-color: #555;
+      color: #ccc;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .servicios-container .btn-outline-secondary:hover {
+      background-color: #555;
+      border-color: #666;
+      color: #fff;
+    }
+
+    /* Estilos para servicios seleccionados */
+    #servicios-seleccionados h5 {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #ff3b3f;
     }
   </style>
 </head>
@@ -568,7 +647,7 @@
           <div class="categoria-selector mb-4">
             <div class="row g-3">
               <div class="col-6">
-                <div class="categoria-card" id="categoria-vehiculos" data-categoria="vehiculos">
+                <div class="categoria-card" id="categoria-vehiculos" data-categoria="vehicular">
                   <div class="categoria-icon">
                     <i class="fas fa-car"></i>
                   </div>
@@ -642,8 +721,8 @@
           <h3 class="mb-3">Seleccionar Fecha y Hora</h3>
           
           <div class="card-turno">
-            <div class="row">
-              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
                 <label for="fecha" class="form-label">Fecha *</label>
                 <input type="date" class="form-control" id="fecha" min="" required />
               </div>
@@ -722,7 +801,7 @@
                     <strong>🚗 Buscar y entregar el vehículo</strong>
                     <br><small class="text-muted">Nosotros pasamos a buscar tu vehículo y te lo entregamos en tu domicilio</small>
                   </label>
-                </div>
+              </div>
                 
                 <div class="form-check mb-3">
                   <input class="form-check-input" type="radio" name="opcion-vehiculo" id="opcion-traer" value="traer">
@@ -730,15 +809,15 @@
                     <strong>🏠 Traer el vehículo al taller</strong>
                     <br><small class="text-muted">Tú traes el vehículo a nuestro taller y lo retiras cuando esté listo</small>
                   </label>
-                </div>
-              </div>
-              
+            </div>
+          </div>
+          
               <!-- Campos para opción "buscar" -->
               <div id="campos-buscar" style="display:none;">
                 <div class="mb-3">
                   <label for="direccion-buscar" class="form-label">Dirección donde buscar el vehículo *</label>
                   <textarea class="form-control" id="direccion-buscar" rows="3" placeholder="Ingresa la dirección completa donde está ubicado el vehículo"></textarea>
-                </div>
+              </div>
                 
                 <div class="mb-3">
                   <label for="direccion-entregar" class="form-label">Dirección donde entregar el vehículo *</label>
@@ -748,9 +827,9 @@
                 <div class="mb-3">
                   <label for="detalles-vehiculo" class="form-label">Detalles adicionales (opcional)</label>
                   <textarea class="form-control" id="detalles-vehiculo" rows="2" placeholder="Información adicional: acceso, llaves, contacto, horarios preferidos, etc."></textarea>
-                </div>
-              </div>
-              
+            </div>
+          </div>
+          
               <!-- Campos para opción "traer" -->
               <div id="campos-traer" style="display:none;">
                 <div class="alert alert-info" style="background: #232323; color: #fff; border: 1.5px solid #17a2b8;">
@@ -758,9 +837,9 @@
                   <strong>Servicio en taller</strong><br>
                   Deberás traer tu vehículo a nuestro taller ubicado en <strong>Av. San Martín 1234, Córdoba</strong>.<br>
                   Te avisaremos por WhatsApp cuando esté listo para retirar.
-                </div>
-              </div>
             </div>
+          </div>
+        </div>
           </div>
           
           <!-- Para servicios de tapizados -->
@@ -775,17 +854,17 @@
                 <i class="fas fa-home me-2"></i>
                 <strong>Servicio a domicilio</strong><br>
                 Nuestros profesionales se dirigen a tu domicilio para realizar el servicio.
-              </div>
-              
+            </div>
+            
               <div class="mb-3">
                 <label for="direccion-tapizado" class="form-label">Dirección del servicio *</label>
                 <textarea class="form-control" id="direccion-tapizado" rows="3" placeholder="Ingresa la dirección completa donde se realizará el servicio" required></textarea>
-              </div>
+            </div>
               
               <div class="mb-3">
                 <label for="detalles-tapizado" class="form-label">Detalles adicionales (opcional)</label>
                 <textarea class="form-control" id="detalles-tapizado" rows="2" placeholder="Información adicional sobre la ubicación, acceso, etc."></textarea>
-              </div>
+          </div>
             </div>
           </div>
         </div>
@@ -813,7 +892,7 @@
               <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
               <h4 class="mb-3">¡Turno Confirmado!</h4>
               <p class="mb-3">Tu turno ha sido creado exitosamente. Te enviaremos una confirmación por WhatsApp en los próximos minutos.</p>
-              <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
+            <p class="mb-0"><small>📋 El turno quedó registrado en nuestro sistema para seguimiento.</small></p>
             </div>
             
             <div class="mt-4">
@@ -881,7 +960,7 @@
     }
 
     setMinDate() {
-      const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('T')[0];
       const dateInputs = document.querySelectorAll('input[type="date"]');
       dateInputs.forEach(input => {
         input.min = today;
@@ -929,15 +1008,25 @@
       
       if (vehiculosContainer) {
         vehiculosContainer.innerHTML = '';
-        const vehiculosServices = this.services.filter(s => s.category === 'vehiculos');
-        console.log('🚗 Servicios de vehículos:', vehiculosServices.length);
+        // Filtrar servicios únicos por ID para evitar duplicados
+        const vehiculosServices = this.services
+          .filter(s => s.category === 'vehicular')
+          .filter((service, index, self) => 
+            index === self.findIndex(s => s.id === service.id)
+          );
+        console.log('🚗 Servicios de vehículos únicos:', vehiculosServices.length);
         vehiculosServices.forEach(service => this.createServiceElement(service, vehiculosContainer));
       }
       
       if (tapizadosContainer) {
         tapizadosContainer.innerHTML = '';
-        const tapizadosServices = this.services.filter(s => s.category === 'tapizados');
-        console.log('🛋️ Servicios de tapizados:', tapizadosServices.length);
+        // Filtrar servicios únicos por ID para evitar duplicados
+        const tapizadosServices = this.services
+          .filter(s => s.category === 'tapizados')
+          .filter((service, index, self) => 
+            index === self.findIndex(s => s.id === service.id)
+          );
+        console.log('🛋️ Servicios de tapizados únicos:', tapizadosServices.length);
         tapizadosServices.forEach(service => this.createServiceElement(service, tapizadosContainer));
       }
     }
@@ -1048,8 +1137,8 @@
             $${service.price.toLocaleString()}
           </div>
           <button onclick="turnosApp.removeService(${service.service_id})" class="btn-remove">
-            <i class="fas fa-times"></i>
-          </button>
+              <i class="fas fa-times"></i>
+            </button>
         `;
         listContainer.appendChild(item);
         total += service.price * service.quantity;
@@ -1124,7 +1213,7 @@
       if (categoriaVehiculos) {
         categoriaVehiculos.addEventListener('click', () => {
           console.log('🚗 Categoría vehículos seleccionada');
-          this.selectCategory('vehiculos');
+          this.selectCategory('vehicular');
         });
       }
       
@@ -1208,7 +1297,7 @@
         
       } else if (this.currentStep === 5) {
         // Paso 5: Ubicación
-        const hasVehiculos = this.selectedServices.some(service => service.category === 'vehiculos');
+        const hasVehiculos = this.selectedServices.some(service => service.category === 'vehicular');
         const hasTapizados = this.selectedServices.some(service => service.category === 'tapizados');
         
         let locationData = {};
@@ -1218,9 +1307,9 @@
           const opcionVehiculo = document.querySelector('input[name="opcion-vehiculo"]:checked');
           if (!opcionVehiculo) {
             alert('Por favor, selecciona una opción para el servicio vehicular.');
-            return;
-          }
-          
+          return;
+        }
+        
           if (opcionVehiculo.value === 'buscar') {
             const direccionBuscar = document.getElementById('direccion-buscar')?.value;
             const direccionEntregar = document.getElementById('direccion-entregar')?.value;
@@ -1363,7 +1452,7 @@
       console.log('📋 Servicios seleccionados:', this.selectedServices);
       
       // Determinar qué tipo de servicios están seleccionados
-      const hasVehiculos = this.selectedServices.some(service => service.category === 'vehiculos');
+      const hasVehiculos = this.selectedServices.some(service => service.category === 'vehicular');
       const hasTapizados = this.selectedServices.some(service => service.category === 'tapizados');
       
       console.log('🚗 Tiene servicios vehiculares:', hasVehiculos);
@@ -1394,7 +1483,7 @@
         if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'block';
         if (ubicacionTapizados) ubicacionTapizados.style.display = 'block';
         this.setupVehiculosLocationListeners();
-      } else {
+        } else {
         console.log('⚠️ No se detectaron servicios con categorías válidas');
         // Mostrar mensaje de error o opción por defecto
         if (ubicacionVehiculos) ubicacionVehiculos.style.display = 'block';
@@ -1628,13 +1717,13 @@
       
       if (serviciosVehiculos) serviciosVehiculos.style.display = 'none';
       if (serviciosTapizados) serviciosTapizados.style.display = 'none';
-      
-      // Ocultar botón siguiente
-      const btnSiguiente = document.getElementById('btn-siguiente-fijo');
+    
+    // Ocultar botón siguiente
+    const btnSiguiente = document.getElementById('btn-siguiente-fijo');
       if (btnSiguiente) {
-        btnSiguiente.style.display = 'none';
-      }
+      btnSiguiente.style.display = 'none';
     }
+  }
   };
   </script>
 </body>

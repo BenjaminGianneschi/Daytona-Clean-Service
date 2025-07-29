@@ -531,6 +531,10 @@
   <script src="js/reviews-service.js"></script>
   <script src="js/testimonials-loader.js"></script>
   <script src="js/review-form.js"></script>
+  
+  <!-- Scripts para cargar servicios dinámicamente -->
+  <script src="js/config.js"></script>
+  <script src="js/api-service.js"></script>
 
   <!-- Estilos para el carrusel y modal -->
   <style>
@@ -1085,8 +1089,158 @@
 
   <!-- Script para el carrusel y modal de servicios -->
   <script>
-    // Datos de los servicios de vehículos
-    const serviciosData = {
+    // Clase para manejar servicios dinámicos
+    class VehiculosServiceManager {
+      constructor() {
+        this.apiService = new ApiService();
+        this.serviciosData = {};
+        this.init();
+      }
+
+      async init() {
+        console.log('🚀 Cargando servicios de vehículos...');
+        await this.loadServices();
+        this.initializeCarousel();
+      }
+
+      async loadServices() {
+        try {
+          const response = await this.apiService.request('/appointments/services');
+          if (response.success && response.services) {
+            // Filtrar solo servicios vehiculares
+            const vehicularServices = response.services.filter(s => s.category === 'vehicular');
+            console.log('✅ Servicios vehiculares cargados:', vehicularServices.length);
+            
+            // Actualizar el carrusel con servicios reales
+            this.updateCarousel(vehicularServices);
+            
+            // Crear datos para el modal usando servicios reales
+            this.createServiceData(vehicularServices);
+          } else {
+            console.error('❌ Error cargando servicios:', response.message);
+            this.loadFallbackServices();
+          }
+        } catch (error) {
+          console.error('❌ Error de conexión:', error);
+          this.loadFallbackServices();
+        }
+      }
+
+      updateCarousel(services) {
+        const carouselTrack = document.querySelector('.carousel-track');
+        if (!carouselTrack) return;
+
+        // Limpiar carrusel existente
+        carouselTrack.innerHTML = '';
+
+        // Crear elementos de carrusel para cada servicio
+        services.forEach((service, index) => {
+          const serviceElement = this.createCarouselItem(service, index);
+          carouselTrack.appendChild(serviceElement);
+        });
+      }
+
+      createCarouselItem(service, index) {
+        const div = document.createElement('div');
+        div.className = 'servicio-card-custom carousel-item';
+        
+        // Determinar imagen según el tipo de servicio
+        const imageMap = {
+          'auto': 'img/autodetalle1.jpg',
+          'pickup': 'img/camioneta3.jpg',
+          'suv': 'img/toyota5.jpg',
+          'motor': 'img/motorauto1.jpg'
+        };
+        
+        const serviceName = service.name.toLowerCase();
+        let imageSrc = 'img/autodetalle1.jpg'; // imagen por defecto
+        
+        if (serviceName.includes('pickup')) imageSrc = imageMap.pickup;
+        else if (serviceName.includes('suv')) imageSrc = imageMap.suv;
+        else if (serviceName.includes('motor')) imageSrc = imageMap.motor;
+        else if (serviceName.includes('auto')) imageSrc = imageMap.auto;
+
+        div.innerHTML = `
+          <img src="${imageSrc}" alt="${service.name}">
+          <div class="servicio-card-body">
+            <h5>${service.name}</h5>
+            <p>${service.description || 'Servicio de limpieza profesional'}</p>
+            <div class="service-options">
+              <button class="servicio-btn standard-btn" data-service="service-${service.id}" data-type="standard">
+                $${service.price.toLocaleString()} - ${service.duration} min
+              </button>
+              <button class="servicio-btn info-btn" data-service="service-${service.id}" data-type="info">
+                Ver Detalles
+              </button>
+            </div>
+          </div>
+        `;
+
+        return div;
+      }
+
+      createServiceData(services) {
+        // Crear datos para el modal usando servicios reales
+        services.forEach(service => {
+          this.serviciosData[`service-${service.id}`] = {
+            title: service.name,
+            price: `$${service.price.toLocaleString()}`,
+            image: this.getServiceImage(service.name),
+            description: service.description || 'Servicio de limpieza profesional vehicular',
+            features: this.generateFeatures(service),
+            time: `${service.duration} minutos`,
+            recommendations: this.generateRecommendations(service)
+          };
+        });
+      }
+
+      getServiceImage(serviceName) {
+        const name = serviceName.toLowerCase();
+        if (name.includes('pickup')) return 'img/camioneta3.jpg';
+        if (name.includes('suv')) return 'img/toyota5.jpg';
+        if (name.includes('motor')) return 'img/motorauto1.jpg';
+        return 'img/autodetalle1.jpg';
+      }
+
+      generateFeatures(service) {
+        const baseFeatures = [
+          'Limpieza con productos profesionales',
+          'Equipo especializado',
+          'Personal capacitado',
+          'Garantía de satisfacción'
+        ];
+
+        if (service.name.toLowerCase().includes('especial')) {
+          baseFeatures.push(
+            'Máquina de inyección-extracción',
+            'Productos 3D profesionales',
+            'Tratamiento impermeabilizante',
+            'Aromatización incluida'
+          );
+        }
+
+        return baseFeatures;
+      }
+
+      generateRecommendations(service) {
+        if (service.name.toLowerCase().includes('tapizado')) {
+          return 'Ideal para eliminar manchas difíciles y olores. Recomendado cada 3-6 meses.';
+        }
+        if (service.name.toLowerCase().includes('motor')) {
+          return 'Recomendado cada 6-12 meses para mantener el motor en óptimas condiciones.';
+        }
+        return 'Servicio recomendado para mantener tu vehículo en perfectas condiciones.';
+      }
+
+      loadFallbackServices() {
+        console.log('⚠️ Cargando servicios de respaldo...');
+        // Mantener los servicios hardcodeados como respaldo
+        this.serviciosData = this.getOriginalServiceData();
+      }
+
+      getOriginalServiceData() {
+        // Datos de respaldo (los servicios hardcodeados originales)
+        return {
       'lavado-auto': {
         title: 'Lavado de Auto',
         price: '$20.000',
@@ -1202,62 +1356,138 @@
         time: '5-7 horas',
         recommendations: 'Ideal para SUV familiares o de trabajo. Recomendado cada 4-6 meses.'
       }
-    };
-
-    // Función para abrir el modal
-    function openServiceModal(serviceId, serviceType = null) {
-      const service = serviciosData[serviceId];
-      if (!service) return;
-
-      // Determinar el tipo de servicio y precio
-      let modalTitle = service.title;
-      let modalPrice = service.price;
-      let modalDescription = service.description;
-      let modalFeatures = service.features;
-      let modalTime = service.time;
-      let modalRecommendations = service.recommendations;
-
-      // Si se especifica un tipo, ajustar la información
-      if (serviceType === 'standard') {
-        modalTitle = service.title + ' - Estándar';
-        modalDescription = service.description + ' (Servicio Estándar)';
-        // Mantener el precio estándar
-        modalPrice = service.price;
-      } else if (serviceType === 'special') {
-        modalTitle = service.title + ' - Especial';
-        modalDescription = service.description + ' (Servicio Especial con máquina de inyección-extracción)';
-        // Actualizar precio para servicio especial
-        if (serviceId === 'lavado-auto') modalPrice = '$65.000';
-        else if (serviceId === 'lavado-pickup') modalPrice = '$65.000';
-        else if (serviceId === 'lavado-suv') modalPrice = '$75.000';
-        else if (serviceId === 'limpieza-motor') modalPrice = '$65.000';
-        else if (serviceId === 'tapizado-auto') modalPrice = '$170.000';
-        else if (serviceId === 'tapizado-pickup') modalPrice = '$190.000';
-        else if (serviceId === 'tapizado-suv') modalPrice = '$220.000';
-        // Agregar características especiales
-        modalFeatures = [...service.features, 'Máquina de inyección-extracción profesional', '3D Extractor Shampoo', 'Tratamiento impermeabilizante Impermax', 'Aromatización profesional'];
+        };
       }
 
-      // Llenar el modal con la información del servicio
-      document.getElementById('modalImage').src = service.image;
-      document.getElementById('modalTitle').textContent = modalTitle;
-      document.getElementById('modalPrice').textContent = modalPrice;
-      document.getElementById('modalDescription').textContent = modalDescription;
-      document.getElementById('modalTime').textContent = modalTime;
-      document.getElementById('modalRecommendations').textContent = modalRecommendations;
+      initializeCarousel() {
+        // Inicializar el carrusel después de cargar los servicios
+        this.setupCarouselControls();
+        this.setupServiceButtons();
+      }
 
-      // Llenar las características
-      const featuresList = document.getElementById('modalFeatures');
-      featuresList.innerHTML = '';
-      modalFeatures.forEach(feature => {
-        const li = document.createElement('li');
-        li.textContent = feature;
-        featuresList.appendChild(li);
-      });
+      setupCarouselControls() {
+        const carousel = document.getElementById('servicesCarousel');
+        const track = carousel?.querySelector('.carousel-track');
+        const items = carousel?.querySelectorAll('.carousel-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
-      // Mostrar el modal
-      document.getElementById('serviceModal').style.display = 'block';
-      document.body.style.overflow = 'hidden';
+        if (!track || !items.length) return;
+
+        let currentIndex = 0;
+        const gap = 25;
+
+        const getItemsPerView = () => {
+          if (window.innerWidth <= 576) return 1;
+          if (window.innerWidth <= 768) return 1;
+          if (window.innerWidth <= 1200) return 2;
+          return 3;
+        };
+
+        const getItemWidth = () => {
+          if (window.innerWidth <= 576) return 260;
+          if (window.innerWidth <= 768) return 280;
+          if (window.innerWidth <= 1200) return 300;
+          return 320;
+        };
+
+        const moveCarousel = () => {
+          const itemsPerView = getItemsPerView();
+          const itemWidth = getItemWidth();
+          const moveDistance = itemWidth + gap;
+          
+          let translateX;
+          if (currentIndex === 0) {
+            translateX = 0;
+          } else {
+            translateX = -(currentIndex * itemsPerView * moveDistance);
+          }
+          
+          track.style.transform = `translateX(${translateX}px)`;
+          track.style.transition = 'transform 0.5s ease-in-out';
+          
+          if (prevBtn) prevBtn.disabled = currentIndex === 0;
+          const totalPages = Math.ceil(items.length / itemsPerView);
+          if (nextBtn) nextBtn.disabled = currentIndex >= totalPages - 1;
+        };
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+              currentIndex--;
+              moveCarousel();
+            }
+          });
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            const itemsPerView = getItemsPerView();
+            const totalPages = Math.ceil(items.length / itemsPerView);
+            if (currentIndex < totalPages - 1) {
+              currentIndex++;
+              moveCarousel();
+            }
+          });
+        }
+
+        const handleResize = () => {
+          currentIndex = 0;
+          moveCarousel();
+        };
+
+        window.addEventListener('resize', handleResize);
+        
+        setTimeout(() => {
+          moveCarousel();
+        }, 100);
+      }
+
+      setupServiceButtons() {
+        // Configurar botones de servicios
+        document.addEventListener('click', (e) => {
+          if (e.target.classList.contains('servicio-btn')) {
+            const serviceId = e.target.getAttribute('data-service');
+            const serviceType = e.target.getAttribute('data-type');
+            
+            if (serviceType === 'info') {
+              this.openServiceModal(serviceId);
+            }
+          }
+        });
+      }
+
+      openServiceModal(serviceId) {
+        const service = this.serviciosData[serviceId];
+        if (!service) return;
+
+        document.getElementById('modalImage').src = service.image;
+        document.getElementById('modalTitle').textContent = service.title;
+        document.getElementById('modalPrice').textContent = service.price;
+        document.getElementById('modalDescription').textContent = service.description;
+        document.getElementById('modalTime').textContent = service.time;
+        document.getElementById('modalRecommendations').textContent = service.recommendations;
+
+        const featuresList = document.getElementById('modalFeatures');
+        featuresList.innerHTML = '';
+        service.features.forEach(feature => {
+          const li = document.createElement('li');
+          li.textContent = feature;
+          featuresList.appendChild(li);
+        });
+
+        document.getElementById('serviceModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // Función para abrir el modal (compatibilidad con código existente)
+    function openServiceModal(serviceId, serviceType = null) {
+      if (window.vehiculosManager && window.vehiculosManager.serviciosData[serviceId]) {
+        window.vehiculosManager.openServiceModal(serviceId);
+      } else {
+        console.log('⚠️ Servicio no encontrado:', serviceId);
+      }
     }
 
     // Función para cerrar el modal
@@ -1266,108 +1496,16 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Carrusel de Servicios Script
+    // Inicializar servicios dinámicos cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', function() {
-      const carousel = document.getElementById('servicesCarousel');
-      const track = carousel.querySelector('.carousel-track');
-      const items = carousel.querySelectorAll('.carousel-item');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-
-      
-      // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
-      function getItemsPerView() {
-        if (window.innerWidth <= 576) return 1;
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1200) return 2;
-        return 3; // Siempre mostrar 3 en desktop
-      }
-      
-      // Función para obtener el ancho de cada tarjeta según el tamaño de pantalla
-      function getItemWidth() {
-        if (window.innerWidth <= 576) return 260;
-        if (window.innerWidth <= 768) return 280;
-        if (window.innerWidth <= 1200) return 300;
-        return 320;
-      }
-      
-      // Función para mover el carrusel
-      let currentIndex = 0;
-      const gap = 25; // Espacio entre tarjetas
-      
-      function moveCarousel() {
-        const itemsPerView = getItemsPerView();
-        const itemWidth = getItemWidth();
-        const moveDistance = itemWidth + gap;
-        
-        // Calcular la posición para mostrar las tarjetas centradas
-        // Para el índice 0, mostrar las primeras 3 tarjetas
-        // Para otros índices, mover de acuerdo al número de items por vista
-        let translateX;
-        if (currentIndex === 0) {
-          translateX = 0; // Empezar desde la primera tarjeta
-        } else {
-          translateX = -(currentIndex * itemsPerView * moveDistance);
-        }
-        
-        // Aplicar la transformación
-        track.style.transform = `translateX(${translateX}px)`;
-        track.style.transition = 'transform 0.5s ease-in-out';
-        
-        // Actualizar botones
-        prevBtn.disabled = currentIndex === 0;
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        nextBtn.disabled = currentIndex >= totalPages - 1;
-        
-
-      }
-      
-
-      
-      prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-          currentIndex--;
-          moveCarousel();
-        }
-      });
-      
-      nextBtn.addEventListener('click', () => {
-        const itemsPerView = getItemsPerView();
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        if (currentIndex < totalPages - 1) {
-          currentIndex++;
-          moveCarousel();
-        }
-      });
-      
-      // Función para reiniciar el carrusel cuando cambie el tamaño de pantalla
-      function handleResize() {
-        currentIndex = 0;
-        moveCarousel();
-      }
-      
-      // Escuchar cambios de tamaño de ventana
-      window.addEventListener('resize', handleResize);
-      
-      // Event listeners para los botones de servicio
-      document.querySelectorAll('.servicio-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const serviceId = this.getAttribute('data-service');
-          const serviceType = this.getAttribute('data-type');
-          
-          if (serviceType === 'standard' || serviceType === 'special') {
-            openServiceModal(serviceId, serviceType);
-          } else {
-            openServiceModal(serviceId);
-          }
-        });
-      });
+      // Crear instancia del gestor de servicios
+      window.vehiculosManager = new VehiculosServiceManager();
 
       // Event listener para cerrar el modal
-      document.querySelector('.close-modal').addEventListener('click', closeModal);
+      document.querySelector('.close-modal')?.addEventListener('click', closeModal);
 
       // Cerrar modal al hacer clic fuera de él
-      document.getElementById('serviceModal').addEventListener('click', function(e) {
+      document.getElementById('serviceModal')?.addEventListener('click', function(e) {
         if (e.target === this) {
           closeModal();
         }
@@ -1379,11 +1517,6 @@
           closeModal();
         }
       });
-      
-      // Inicializar carrusel
-      setTimeout(() => {
-        moveCarousel();
-      }, 100);
     });
   </script>
 
