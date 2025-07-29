@@ -1206,15 +1206,29 @@
           }
         });
 
-        // Ordenar grupos por prioridad y extraer solo los servicios estándar
-        const priorityOrder = ['Auto', 'Pickup', 'SUV', 'Motor'];
+        // Ordenar por tipo de servicio primero, luego por vehículo
         const sortedGroups = Object.keys(serviceGroups).sort((a, b) => {
-          const aIndex = priorityOrder.findIndex(p => a.includes(p));
-          const bIndex = priorityOrder.findIndex(p => b.includes(p));
+          // Primero: Ordenar por tipo de servicio (Lavado antes que Tapizado)
+          const aIsLavado = a.includes('Lavado');
+          const bIsLavado = b.includes('Lavado');
+          const aIsTapizado = a.includes('Tapizado');
+          const bIsTapizado = b.includes('Tapizado');
           
-          if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-          if (aIndex !== -1) return -1;
-          if (bIndex !== -1) return 1;
+          if (aIsLavado && bIsTapizado) return -1; // Lavado antes que Tapizado
+          if (aIsTapizado && bIsLavado) return 1;  // Tapizado después que Lavado
+          
+          // Segundo: Si son del mismo tipo, ordenar por vehículo
+          const vehicleOrder = ['Auto', 'SUV', 'Pickup', 'Motor'];
+          const aVehicleIndex = vehicleOrder.findIndex(v => a.includes(v));
+          const bVehicleIndex = vehicleOrder.findIndex(v => b.includes(v));
+          
+          if (aVehicleIndex !== -1 && bVehicleIndex !== -1) {
+            return aVehicleIndex - bVehicleIndex;
+          }
+          if (aVehicleIndex !== -1) return -1;
+          if (bVehicleIndex !== -1) return 1;
+          
+          // Fallback: orden alfabético
           return a.localeCompare(b);
         });
 
@@ -1226,6 +1240,7 @@
           }
         });
 
+        console.log('🔄 Orden de servicios:', result.map(s => s.name));
         return result;
       }
 
