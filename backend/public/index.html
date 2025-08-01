@@ -601,6 +601,57 @@
         margin: 0 !important;
       }
     }
+
+    /* Estilos para los tabs de mantenimiento preventivo */
+    .mantenimiento-tab {
+      background: transparent !important;
+      border: 2px solid #ff3b3f !important;
+      color: #ffffff !important;
+      padding: 12px 24px !important;
+      border-radius: 25px !important;
+      font-weight: 600 !important;
+      transition: all 0.3s ease !important;
+      font-size: 1rem !important;
+      margin: 0 5px !important;
+    }
+    
+    .mantenimiento-tab:hover {
+      background: rgba(255, 59, 63, 0.1) !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 5px 15px rgba(255, 59, 63, 0.3) !important;
+    }
+    
+    .mantenimiento-tab.active {
+      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%) !important;
+      border-color: #ff3b3f !important;
+      color: #ffffff !important;
+      box-shadow: 0 5px 20px rgba(255, 59, 63, 0.4) !important;
+    }
+    
+    .mantenimiento-tab.active:hover {
+      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.5) !important;
+    }
+
+    /* Responsive para tabs de mantenimiento */
+    @media (max-width: 768px) {
+      .mantenimiento-tab {
+        padding: 10px 20px !important;
+        margin: 0 !important;
+        font-size: 0.9rem !important;
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      #mantenimiento-tabs {
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: center !important;
+      }
+    }
     
     @media (max-width: 768px) {
       .carousel-item.servicio-card-custom {
@@ -1108,6 +1159,341 @@
     </div>
     
     
+  </section>
+
+  <!-- MANTENIMIENTO PREVENTIVO - CUIDADO QUE TRASCIENDE -->
+  <section id="mantenimiento-preventivo" class="py-5" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.5rem;">El Cuidado que Trasciende lo Visible</h2>
+        <p class="text-light animate__animated animate__fadeInDown animate__delay-1s" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+          Más que limpieza, creamos experiencias que transforman tu día a día. Descubrí cómo el mantenimiento preventivo eleva tu calidad de vida.
+        </p>
+      </div>
+
+      <!-- Navegación de categorías -->
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-10">
+          <div class="nav nav-pills justify-content-center gap-3" id="mantenimiento-tabs" role="tablist">
+            <button class="nav-link active mantenimiento-tab" id="vehiculos-mant-tab" data-bs-toggle="pill" data-bs-target="#vehiculos-mant" type="button" role="tab">
+              <i class="fas fa-car me-2"></i>Tu Vehículo
+            </button>
+            <button class="nav-link mantenimiento-tab" id="tapizados-mant-tab" data-bs-toggle="pill" data-bs-target="#tapizados-mant" type="button" role="tab">
+              <i class="fas fa-couch me-2"></i>Tapizados
+            </button>
+            <button class="nav-link mantenimiento-tab" id="colchones-mant-tab" data-bs-toggle="pill" data-bs-target="#colchones-mant" type="button" role="tab">
+              <i class="fas fa-bed me-2"></i>Colchones
+            </button>
+            <button class="nav-link mantenimiento-tab" id="alfombras-mant-tab" data-bs-toggle="pill" data-bs-target="#alfombras-mant" type="button" role="tab">
+              <i class="fas fa-rug me-2"></i>Alfombras
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido de los tabs -->
+      <div class="tab-content" id="mantenimiento-content">
+        <!-- Tab Vehículos -->
+        <div class="tab-pane fade show active" id="vehiculos-mant" role="tabpanel">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #ff3b3f; background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #ff3b3f;">
+                    <i class="fas fa-heart" style="color: #ff3b3f; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">La Confianza de Subir y Sentirse Orgulloso</h3>
+                </div>
+                
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Cada vez que abrís la puerta de tu auto, querés sentir esa sensación de frescura, ese aroma que te hace sonreír. 
+                  <strong class="text-white">Tu vehículo es tu espacio personal</strong>, tu refugio móvil que merece cuidado constante.
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #ff3b3f !important;">¿Te resulta familiar?</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Subís al auto y ese olor te recuerda que hace tiempo no lo cuidás como merece</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Ves los asientos y pensás "ya no se van a ver como nuevos"</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Te da vergüenza cuando tenés que llevar a alguien importante</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #00d4aa; background: linear-gradient(135deg, #1f2f2a 0%, #1a1a1a 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #00d4aa;">
+                    <i class="fas fa-sparkles" style="color: #00d4aa; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">La Experiencia Daytona</h3>
+                </div>
+
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Imaginá abrir la puerta y sentir esa frescura única, ese aroma que te transporta a la sensación de auto nuevo. 
+                  <strong class="text-white">Cada viaje se convierte en un momento especial.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #00d4aa !important;">Nuestro Enfoque Preventivo</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Cuidado Continuo:</strong> Mantenemos la esencia y frescura de tu vehículo</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Protección Profunda:</strong> Evitamos que la suciedad se convierta en deterioro</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Experiencia Premium:</strong> Cada traslado se siente como el primer día</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Tapizados -->
+        <div class="tab-pane fade" id="tapizados-mant" role="tabpanel">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #ff3b3f; background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #ff3b3f;">
+                    <i class="fas fa-home" style="color: #ff3b3f; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">El Alma de tu Hogar</h3>
+                </div>
+                
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Tus tapizados son los testigos silenciosos de cada momento especial: las risas familiares, las tardes de relax, 
+                  los encuentros con amigos. <strong class="text-white">Merecen conservar esa energía positiva.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #ff3b3f !important;">La Realidad Invisible</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">La suciedad se acumula lentamente, robando vida a los colores</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Los olores se impregnan sin que te des cuenta</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Cada día que pasa, es más difícil recuperar esa frescura original</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #00d4aa; background: linear-gradient(135deg, #1f2f2a 0%, #1a1a1a 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #00d4aa;">
+                    <i class="fas fa-leaf" style="color: #00d4aa; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">Renovación Constante</h3>
+                </div>
+
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Con nuestro cuidado preventivo, tus tapizados mantienen esa sensación de hogar acogedor. 
+                  <strong class="text-white">Cada momento en casa se siente especial y renovador.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #00d4aa !important;">Nuestra Filosofía</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Preservación de Momentos:</strong> Mantenemos vivo el ambiente de tu hogar</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Cuidado Invisible:</strong> Trabajamos para que siempre se sientan como nuevos</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Ambiente Saludable:</strong> Creamos espacios que inspiran bienestar</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Colchones -->
+        <div class="tab-pane fade" id="colchones-mant" role="tabpanel">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #ff3b3f; background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #ff3b3f;">
+                    <i class="fas fa-moon" style="color: #ff3b3f; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">Tu Refugio de Descanso</h3>
+                </div>
+                
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Pasás un tercio de tu vida en tu cama. Es tu lugar de recuperación, de sueños, de conexión íntima. 
+                  <strong class="text-white">Tu descanso merece pureza y frescura absoluta.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #ff3b3f !important;">Lo que no se ve, pero se siente</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">La humedad nocturna crea el ambiente perfecto para ácaros invisibles</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Los olores se acumulan gradualmente, afectando tu calidad de sueño</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Tu respiración y bienestar se ven comprometidos sin que lo notes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #00d4aa; background: linear-gradient(135deg, #1f2f2a 0%, #1a1a1a 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #00d4aa;">
+                    <i class="fas fa-cloud" style="color: #00d4aa; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">Sueños Renovados</h3>
+                </div>
+
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Imaginá acostarte cada noche en un ambiente de pureza total, donde cada respiración es limpia y revitalizante. 
+                  <strong class="text-white">Tu sueño se convierte en verdadero descanso reparador.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #00d4aa !important;">Nuestro Compromiso con tu Bienestar</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Purificación Profunda:</strong> Eliminamos lo invisible para que respires tranquilo</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Frescura Duradera:</strong> Mantenemos esa sensación de ropa recién lavada</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Salud Nocturna:</strong> Cada noche es una oportunidad de verdadero descanso</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Alfombras -->
+        <div class="tab-pane fade" id="alfombras-mant" role="tabpanel">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #ff3b3f; background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #ff3b3f;">
+                    <i class="fas fa-users" style="color: #ff3b3f; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">El Escenario de tus Momentos</h3>
+                </div>
+                
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Tus alfombras son el escenario donde sucede la vida: los primeros pasos de tu hijo, las reuniones familiares, 
+                  los momentos de intimidad. <strong class="text-white">Cada fibra guarda recuerdos que merecen cuidado.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #ff3b3f !important;">El Deterioro Silencioso</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Cada paso va desgastando las fibras de manera irreversible</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">Los colores se opacan gradualmente, perdiendo su calidez original</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #ff3b3f; font-size: 1.2rem;">●</span>
+                    <span class="text-light">El ambiente se siente menos acogedor sin que sepas exactamente por qué</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 animate__animated animate__fadeInRight" style="animation-duration: 1.2s;">
+              <div class="bg-dark p-5 rounded-4 h-100" style="border: 2px solid #00d4aa; background: linear-gradient(135deg, #1f2f2a 0%, #1a1a1a 100%);">
+                <div class="d-flex align-items-center mb-4">
+                  <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #00d4aa;">
+                    <i class="fas fa-magic" style="color: #00d4aa; font-size: 1.5rem;"></i>
+                  </span>
+                  <h3 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">Espacios que Inspiran</h3>
+                </div>
+
+                <p class="text-light mb-4" style="font-size: 1.1rem; line-height: 1.7;">
+                  Con nuestro cuidado preventivo, cada espacio mantiene esa energía que invita a vivir, a disfrutar, a crear recuerdos. 
+                  <strong class="text-white">Tu hogar siempre se siente renovado y acogedor.</strong>
+                </p>
+
+                <div class="mb-4">
+                  <h5 class="text-white fw-bold mb-3" style="color: #00d4aa !important;">La Magia del Cuidado Continuo</h5>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Vitalidad Permanente:</strong> Los colores mantienen su intensidad y calidez</span>
+                  </div>
+                  <div class="mb-3 d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Ambiente Acogedor:</strong> Cada espacio invita a disfrutar y relajarse</span>
+                  </div>
+                  <div class="d-flex align-items-start">
+                    <span class="me-3" style="color: #00d4aa; font-size: 1.2rem;">✓</span>
+                    <span class="text-light"><strong>Orgullo de Hogar:</strong> Siempre listo para recibir a quien quieras</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action Final -->
+      <div class="text-center mt-5">
+        <div class="bg-dark p-5 rounded-4" style="border: 3px solid #ff3b3f; background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%); max-width: 700px; margin: 0 auto;">
+          <div class="d-flex align-items-center justify-content-center mb-4">
+            <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; border: 3px solid #ff3b3f;">
+              <i class="fas fa-heart" style="color: #ff3b3f; font-size: 1.8rem;"></i>
+            </span>
+            <h4 class="text-white fw-bold mb-0" style="font-size: 1.8rem;">No Vendemos Servicios, Creamos Experiencias</h4>
+          </div>
+          <p class="text-light mb-4" style="font-size: 1.2rem; line-height: 1.6;">
+            En Daytona entendemos que cada limpieza es una oportunidad de renovar emociones, de crear espacios que inspiran 
+            bienestar y de mantener viva esa sensación especial que hace que cada día se sienta mejor.
+          </p>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="#contacto" class="btn btn-primary btn-lg">
+              <i class="fas fa-calendar-plus me-2"></i>Crear mi Experiencia
+            </a>
+            <a href="https://wa.me/5493482588383" target="_blank" class="btn btn-outline-light btn-lg" style="border-color: #ff3b3f; color: #ffffff;">
+              <i class="fab fa-whatsapp me-2"></i>Conversar con Expertos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ¿POR QUÉ ELEGIR DAYTONA? -->
