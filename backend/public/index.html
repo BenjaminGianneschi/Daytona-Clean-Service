@@ -1357,7 +1357,7 @@
   </section>
 
   <!-- MANTENIMIENTO PREVENTIVO - CUIDADO QUE TRASCIENDE -->
-  <section id="mantenimiento-preventivo" class="py-5" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
+  <section id="mantenimiento-preventivo" class="py-5" style="background: #1a1a1a;">
     <div class="container">
       <div class="text-center mb-5">
         <h2 class="text-white fw-bold mb-2 animate__animated animate__fadeInDown" style="font-size: 2.5rem;">El Cuidado que Trasciende lo Visible</h2>
@@ -2591,15 +2591,16 @@
         const serviceGroup = this.getServiceGroup(baseName);
 
         if (category === 'vehiculos') {
-          // Usar estructura EXACTA de vehiculos.html con botones Estándar/Especial
+          // Usar estructura EXACTA de vehiculos.html con botón Ver Detalles
           div.innerHTML = `
             <img src="${imageSrc}" alt="${baseName}">
             <div class="servicio-card-body">
               <h5>${baseName}</h5>
               <p>${this.getServiceDescription(service, category)}</p>
               <div class="service-options">
-                <button class="servicio-btn standard-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="standard">Estándar</button>
-                <button class="servicio-btn special-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="special">Especial</button>
+                <button class="servicio-btn info-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="info">
+                  <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                </button>
               </div>
             </div>
           `;
@@ -2626,8 +2627,9 @@
                 <h5>${baseName}</h5>
                 <p>${this.getServiceDescription(service, category)}</p>
                 <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="special">Especial</button>
+                  <button class="servicio-btn info-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="info">
+                    <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                  </button>
                 </div>
               </div>
             `;
@@ -2915,10 +2917,12 @@
             
             console.log('🔥 Click en botón:', serviceId, serviceType);
             
-            if (serviceId) {
-              if (serviceType === 'standard' || serviceType === 'special') {
-                // Para servicios vehiculares con variantes
-                this.openVehicularModal(serviceId, serviceType);
+            if (serviceId && serviceType === 'info') {
+              // Determinar si es servicio vehicular o de tapizados
+              const service = this.serviciosData[serviceId];
+              if (service && service.category === 'vehicular') {
+                // Para servicios vehiculares, abrir modal con variantes
+                this.openVehicularModal(serviceId, 'standard'); // Por defecto mostrar estándar
               } else {
                 // Para servicios de tapizados sin variantes
                 this.openTapizadosModal(serviceId);
@@ -2955,7 +2959,7 @@
           }
         }
 
-        // Mostrar la variante seleccionada
+        // Mostrar la variante seleccionada (por defecto estándar)
         this.switchVehicularVariant(serviceId, variant);
 
         document.getElementById('serviceModal').style.display = 'block';
