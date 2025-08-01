@@ -541,6 +541,31 @@
       box-shadow: 0 0 0 3px rgba(255, 59, 63, 0.3);
     }
 
+    /* Estilos para botones estándar y especial (vehiculos) */
+    .standard-btn {
+      background: linear-gradient(135deg, #17a2b8, #138496);
+      color: white;
+      border: 1px solid #17a2b8;
+    }
+
+    .standard-btn:hover {
+      background: linear-gradient(135deg, #138496, #117a8b);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(23, 162, 184, 0.3);
+    }
+
+    .special-btn {
+      background: linear-gradient(135deg, #ffc107, #e0a800);
+      color: #212529;
+      border: 1px solid #ffc107;
+    }
+
+    .special-btn:hover {
+      background: linear-gradient(135deg, #e0a800, #d39e00);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(255, 193, 7, 0.3);
+    }
+
     /* Responsive para botones de servicios */
     @media (max-width: 768px) {
       .servicio-btn {
@@ -2141,7 +2166,8 @@
 
 
 
-    // Event listeners
+    // Event listeners LEGACY - COMENTADO - Ahora se maneja en IndexServiceManager
+    /*
     document.addEventListener('DOMContentLoaded', function() {
       // Event listeners para los botones de información
       document.querySelectorAll('.info-btn').forEach(btn => {
@@ -2168,6 +2194,7 @@
         }
       });
     });
+    */
   </script>
 
   <!-- Hero Slider Script -->
@@ -2501,31 +2528,52 @@
       }
 
       getUniqueServices(services) {
-        // Agrupar por nombre base y mantener solo el estándar para mostrar
-        const serviceGroups = {};
+        // Para evitar duplicados, usar Set con nombres únicos
+        const uniqueServiceNames = new Set();
+        const uniqueServices = [];
         
         services.forEach(service => {
-          const baseName = service.name.replace(' Especial', '');
-          if (!serviceGroups[baseName]) {
-            serviceGroups[baseName] = { standard: null, special: null };
+          let serviceName = service.name;
+          
+          // Para servicios vehiculares, remover " Especial" del nombre
+          if (service.category === 'vehicular') {
+            serviceName = service.name.replace(' Especial', '');
           }
           
-          if (service.name.includes('Especial')) {
-            serviceGroups[baseName].special = service;
-          } else {
-            serviceGroups[baseName].standard = service;
+          // Solo agregar si no hemos visto este nombre antes
+          if (!uniqueServiceNames.has(serviceName)) {
+            uniqueServiceNames.add(serviceName);
+            
+            // Para vehiculares, usar el servicio estándar si existe, sino el especial
+            let serviceToAdd = service;
+            if (service.category === 'vehicular' && service.name.includes('Especial')) {
+              // Buscar la versión estándar
+              const standardVersion = services.find(s => 
+                s.name === serviceName && s.category === 'vehicular'
+              );
+              if (standardVersion) {
+                serviceToAdd = standardVersion;
+              }
+            }
+            
+            uniqueServices.push(serviceToAdd);
           }
         });
 
-        // Retornar servicios ordenados
-        const result = [];
-        Object.keys(serviceGroups).sort().forEach(baseName => {
-          if (serviceGroups[baseName].standard) {
-            result.push(serviceGroups[baseName].standard);
-          }
+        // Ordenar servicios por categoría y nombre
+        uniqueServices.sort((a, b) => {
+          // Primero vehiculares, luego tapizados
+          if (a.category === 'vehicular' && b.category === 'tapizados') return -1;
+          if (a.category === 'tapizados' && b.category === 'vehicular') return 1;
+          
+          // Dentro de cada categoría, ordenar alfabéticamente
+          const aName = a.name.replace(' Especial', '');
+          const bName = b.name.replace(' Especial', '');
+          return aName.localeCompare(bName);
         });
 
-        return result;
+        console.log('🔄 Servicios únicos:', uniqueServices.map(s => s.name));
+        return uniqueServices;
       }
 
       createServiceCard(service, category, index) {
@@ -2538,48 +2586,65 @@
         const serviceName = service.name.toLowerCase();
         let imageSrc = this.determineImage(serviceName, imageMap, category);
 
+        // Obtener datos de servicios estándar y especial si existen
+        const baseName = service.name.replace(' Especial', '');
+        const serviceGroup = this.getServiceGroup(baseName);
+
         if (category === 'vehiculos') {
-          // Usar estructura de cards de vehiculos.html
+          // Usar estructura EXACTA de vehiculos.html con botones Estándar/Especial
           div.innerHTML = `
-            <img src="${imageSrc}" alt="${service.name.replace(' Especial', '')}">
+            <img src="${imageSrc}" alt="${baseName}">
             <div class="servicio-card-body">
-              <h5>${service.name.replace(' Especial', '')}</h5>
+              <h5>${baseName}</h5>
               <p>${this.getServiceDescription(service, category)}</p>
               <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="service-${service.id}" data-type="info">
-                  <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                </button>
+                <button class="servicio-btn standard-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="standard">Estándar</button>
+                <button class="servicio-btn special-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="special">Especial</button>
               </div>
             </div>
           `;
         } else if (category === 'tapizados') {
-          // Usar estructura de cards de tapizados.html
+          // Usar estructura EXACTA de tapizados.html con botón Ver Detalles
           div.innerHTML = `
             <img src="${imageSrc}" alt="${service.name}">
             <div class="servicio-card-body">
               <h5>${service.name}</h5>
               <p>${this.getServiceDescription(service, category)}</p>
               <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="service-${service.id}" data-type="info">
+                <button class="servicio-btn info-btn" data-service="${service.name.toLowerCase().replace(/\s+/g, '-')}">
                   <i class="fas fa-info-circle me-1"></i>Ver Detalles
                 </button>
               </div>
             </div>
           `;
         } else {
-          // Para "todos", usar estructura general
-          div.innerHTML = `
-            <img src="${imageSrc}" alt="${service.name}">
-            <div class="servicio-card-body">
-              <h5>${service.name}</h5>
-              <p>${this.getServiceDescription(service, category)}</p>
-              <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="service-${service.id}" data-type="info">
-                  <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                </button>
+          // Para "todos", determinar tipo según la categoría del servicio
+          if (service.category === 'vehicular') {
+            div.innerHTML = `
+              <img src="${imageSrc}" alt="${baseName}">
+              <div class="servicio-card-body">
+                <h5>${baseName}</h5>
+                <p>${this.getServiceDescription(service, category)}</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="special">Especial</button>
+                </div>
               </div>
-            </div>
-          `;
+            `;
+          } else {
+            div.innerHTML = `
+              <img src="${imageSrc}" alt="${service.name}">
+              <div class="servicio-card-body">
+                <h5>${service.name}</h5>
+                <p>${this.getServiceDescription(service, category)}</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="${service.name.toLowerCase().replace(/\s+/g, '-')}">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            `;
+          }
         }
 
         return div;
@@ -2599,9 +2664,11 @@
             'sillon': 'img/sillon123.jpg',
             'silla': 'img/sillacomedor1234.jpeg',
             'colchon': 'img/colchonlimpio.jpg',
+            'colchón': 'img/colchonlimpio.jpg',
             'alfombra': 'img/alfombralimpia.jpg',
             'puff': 'img/puff12.jpeg',
-            'respaldo': 'img/respaldar1.jpeg'
+            'respaldo': 'img/respaldar1.jpeg',
+            'cama': 'img/respaldar1.jpeg'
           };
         }
         return {};
@@ -2615,12 +2682,14 @@
           if (serviceName.includes('tapizado')) return imageMap.tapizado;
           return imageMap.auto;
         } else if (category === 'tapizados') {
-          if (serviceName.includes('sillon')) return imageMap.sillon;
+          // Detectar por palabras clave en el nombre del servicio
+          if (serviceName.includes('sillón') || serviceName.includes('sillon')) return imageMap.sillon;
           if (serviceName.includes('silla')) return imageMap.silla;
-          if (serviceName.includes('colchon')) return imageMap.colchon;
+          if (serviceName.includes('colchón') || serviceName.includes('colchon')) return imageMap.colchon;
           if (serviceName.includes('alfombra')) return imageMap.alfombra;
           if (serviceName.includes('puff')) return imageMap.puff;
-          if (serviceName.includes('respaldo')) return imageMap.respaldo;
+          if (serviceName.includes('respaldo') || serviceName.includes('cama')) return imageMap.respaldo;
+          // Si no coincide con ningún patrón, usar sillón como default
           return imageMap.sillon;
         }
         return 'img/autodetalle1.jpg';
@@ -2664,9 +2733,11 @@
           const specialService = group.special;
           
           if (standardService) {
-            this.serviciosData[`service-${standardService.id}`] = {
+            // Clave para servicios con variantes (vehicular)
+            const serviceKey = baseName.toLowerCase().replace(/\s+/g, '-');
+            this.serviciosData[serviceKey] = {
               baseName: baseName,
-              standard: {
+              standard: standardService ? {
                 id: standardService.id,
                 title: standardService.name,
                 price: `$${standardService.price.toLocaleString()}`,
@@ -2674,7 +2745,7 @@
                 features: this.generateFeatures(standardService),
                 time: `${standardService.duration} minutos`,
                 recommendations: this.generateRecommendations(standardService)
-              },
+              } : null,
               special: specialService ? {
                 id: specialService.id,
                 title: specialService.name,
@@ -2687,8 +2758,28 @@
               image: this.getServiceImage(standardService),
               category: standardService.category
             };
+            
+            // Para servicios que no tienen variantes (tapizados), crear entradas individuales
+            if (standardService.category === 'tapizados') {
+              const individualKey = standardService.name.toLowerCase().replace(/\s+/g, '-');
+              this.serviciosData[individualKey] = {
+                title: standardService.name,
+                price: `$${standardService.price.toLocaleString()}`,
+                image: this.getServiceImage(standardService),
+                description: standardService.description || this.generateDescription(standardService),
+                features: this.generateFeatures(standardService),
+                time: `${standardService.duration} minutos`,
+                recommendations: this.generateRecommendations(standardService),
+                category: standardService.category
+              };
+            }
           }
         });
+      }
+
+      getServiceGroup(baseName) {
+        const serviceKey = baseName.toLowerCase().replace(/\s+/g, '-');
+        return this.serviciosData[serviceKey];
       }
 
       generateDescription(service) {
@@ -2820,47 +2911,103 @@
           if (e.target.classList.contains('servicio-btn') || e.target.closest('.servicio-btn')) {
             const btn = e.target.classList.contains('servicio-btn') ? e.target : e.target.closest('.servicio-btn');
             const serviceId = btn.getAttribute('data-service');
+            const serviceType = btn.getAttribute('data-type');
             
-            if (serviceId && btn.getAttribute('data-type') === 'info') {
-              this.openServiceModal(serviceId);
+            console.log('🔥 Click en botón:', serviceId, serviceType);
+            
+            if (serviceId) {
+              if (serviceType === 'standard' || serviceType === 'special') {
+                // Para servicios vehiculares con variantes
+                this.openVehicularModal(serviceId, serviceType);
+              } else {
+                // Para servicios de tapizados sin variantes
+                this.openTapizadosModal(serviceId);
+              }
             }
           }
         });
       }
 
-      openServiceModal(serviceId) {
+      openVehicularModal(serviceId, variant) {
         const service = this.serviciosData[serviceId];
         if (!service) {
-          console.log('⚠️ Servicio no encontrado:', serviceId);
+          console.log('⚠️ Servicio vehicular no encontrado:', serviceId);
           return;
         }
 
-        // Configurar modal
+        console.log('🚗 Abriendo modal vehicular:', serviceId, variant);
+
+        // Configurar modal con variantes como en vehiculos.html
         document.getElementById('modalImage').src = service.image;
         
-        // Mostrar botones de variantes si hay versión especial
+        // Mostrar botones de variantes
         const variantButtons = document.getElementById('variantButtons');
-        if (service.special) {
+        if (variantButtons) {
           variantButtons.style.display = 'flex';
-          document.getElementById('standardBtn').onclick = () => this.switchVariant(serviceId, 'standard');
-          document.getElementById('specialBtn').onclick = () => this.switchVariant(serviceId, 'special');
-        } else {
-          variantButtons.style.display = 'none';
+          
+          // Configurar event listeners para los botones
+          const standardBtn = document.getElementById('standardBtn');
+          const specialBtn = document.getElementById('specialBtn');
+          
+          if (standardBtn && specialBtn) {
+            standardBtn.onclick = () => this.switchVehicularVariant(serviceId, 'standard');
+            specialBtn.onclick = () => this.switchVehicularVariant(serviceId, 'special');
+          }
         }
 
-        // Mostrar variante estándar por defecto
-        this.switchVariant(serviceId, 'standard');
-        
+        // Mostrar la variante seleccionada
+        this.switchVehicularVariant(serviceId, variant);
+
         document.getElementById('serviceModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
       }
 
-      switchVariant(serviceId, variant) {
+      openTapizadosModal(serviceId) {
+        const service = this.serviciosData[serviceId];
+        if (!service) {
+          console.log('⚠️ Servicio de tapizados no encontrado:', serviceId);
+          return;
+        }
+
+        console.log('🏠 Abriendo modal tapizados:', serviceId);
+
+        // Configurar modal sin variantes como en tapizados.html
+        document.getElementById('modalImage').src = service.image;
+        document.getElementById('modalTitle').textContent = service.title;
+        document.getElementById('modalPrice').textContent = service.price;
+        document.getElementById('modalDescription').textContent = service.description;
+        document.getElementById('modalTime').textContent = service.time;
+        document.getElementById('modalRecommendations').textContent = service.recommendations;
+
+        // Ocultar botones de variantes
+        const variantButtons = document.getElementById('variantButtons');
+        if (variantButtons) {
+          variantButtons.style.display = 'none';
+        }
+
+        // Llenar características
+        const featuresList = document.getElementById('modalFeatures');
+        if (featuresList) {
+          featuresList.innerHTML = '';
+          service.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            featuresList.appendChild(li);
+          });
+        }
+
+        document.getElementById('serviceModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+
+      switchVehicularVariant(serviceId, variant) {
         const service = this.serviciosData[serviceId];
         if (!service) return;
 
         const variantData = service[variant];
         if (!variantData) return;
+
+        console.log('🔄 Cambiando a variante:', variant);
 
         // Actualizar contenido del modal
         document.getElementById('modalTitle').textContent = service.baseName;
@@ -2871,12 +3018,14 @@
 
         // Actualizar características
         const featuresList = document.getElementById('modalFeatures');
-        featuresList.innerHTML = '';
-        variantData.features.forEach(feature => {
-          const li = document.createElement('li');
-          li.textContent = feature;
-          featuresList.appendChild(li);
-        });
+        if (featuresList) {
+          featuresList.innerHTML = '';
+          variantData.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            featuresList.appendChild(li);
+          });
+        }
 
         // Actualizar botones activos
         const standardBtn = document.getElementById('standardBtn');
@@ -2886,6 +3035,12 @@
           standardBtn.classList.toggle('active', variant === 'standard');
           specialBtn.classList.toggle('active', variant === 'special');
         }
+      }
+
+      // Método de compatibilidad - redirigir a los nuevos métodos
+      openServiceModal(serviceId) {
+        console.log('⚠️ Método legacy openServiceModal llamado:', serviceId);
+        // Este método es para compatibilidad, los nuevos métodos son más específicos
       }
 
       getItemsPerView() {
@@ -2975,23 +3130,39 @@
 
     // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Inicializando IndexServiceManager...');
+      
       // Crear instancia del gestor
       window.indexManager = new IndexServiceManager();
 
       // Event listeners para el modal
-      document.querySelector('.close-modal')?.addEventListener('click', closeModal);
+      const closeModalBtn = document.querySelector('.close-modal');
+      const serviceModal = document.getElementById('serviceModal');
       
-      document.getElementById('serviceModal')?.addEventListener('click', function(e) {
-        if (e.target === this) {
-          closeModal();
-        }
-      });
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+        console.log('✅ Event listener para cerrar modal configurado');
+      }
+      
+      if (serviceModal) {
+        serviceModal.addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+        console.log('✅ Event listener para click fuera del modal configurado');
+      }
 
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          closeModal();
+          const modal = document.getElementById('serviceModal');
+          if (modal && modal.style.display === 'block') {
+            closeModal();
+          }
         }
       });
+      
+      console.log('✅ Event listener para tecla Escape configurado');
     });
   </script>
 
