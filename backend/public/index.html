@@ -2267,23 +2267,30 @@
 
       loadFallbackServices() {
         console.log('⚠️ Cargando servicios de respaldo...');
-        this.serviciosData = {
-          'limpieza-de-auto': {
-            baseName: 'Limpieza de Auto',
-            image: 'img/autodetalle1.jpg',
-            category: 'vehicular',
-            variants: {
-              standard: {
-                title: 'Limpieza de Auto',
-                price: '$20.000',
-                description: 'Lavado completo interior y exterior con productos profesionales.',
-                features: ['Lavado exterior completo', 'Aspirado profundo', 'Limpieza de vidrios', 'Aplicación de protectores'],
-                time: '180 minutos',
-                recommendations: 'Ideal para mantenimiento regular cada 15-20 días.'
-              }
-            }
-          }
-        };
+        
+        // Crear servicios de fallback que coincidan con la nueva estructura
+        const fallbackServices = [
+          { id: 1, name: 'Lavado de Auto', category: 'vehicular', price: 20000, duration: 180 },
+          { id: 2, name: 'Lavado de Auto Especial', category: 'vehicular', price: 30000, duration: 240 },
+          { id: 3, name: 'Lavado de Pickup', category: 'vehicular', price: 26000, duration: 200 },
+          { id: 4, name: 'Lavado de SUV', category: 'vehicular', price: 30000, duration: 220 },
+          { id: 5, name: 'Limpieza de Sillón', category: 'tapizados', price: 15000, duration: 120 },
+          { id: 6, name: 'Limpieza de Sofá', category: 'tapizados', price: 25000, duration: 180 },
+          { id: 7, name: 'Limpieza de Colchón', category: 'tapizados', price: 20000, duration: 150 }
+        ];
+
+        // Crear datos agrupados
+        this.allServices = fallbackServices;
+        this.vehicularServices = fallbackServices.filter(s => s.category === 'vehicular');
+        this.tapizadosServices = fallbackServices.filter(s => s.category === 'tapizados');
+        
+        // Crear datos para modales usando la nueva estructura
+        this.createServiceData(fallbackServices);
+        
+        // Mostrar servicios según el filtro actual
+        this.filterServices(this.currentFilter);
+        
+        console.log('✅ Servicios de respaldo cargados:', Object.keys(this.serviciosData).length);
       }
 
       setupEventListeners() {
@@ -2295,8 +2302,31 @@
             const button = e.target.classList.contains('info-btn') ? e.target : e.target.parentElement;
             const serviceId = button.getAttribute('data-service');
             
+            console.log('🔍 Click en Ver Detalles:', serviceId);
+            console.log('📋 Servicios disponibles:', Object.keys(this.serviciosData));
+            
             if (serviceId) {
-              this.openServiceModal(serviceId);
+              // Buscar la clave exacta en serviciosData
+              let foundKey = null;
+              
+              // Primero buscar coincidencia exacta
+              if (this.serviciosData[serviceId]) {
+                foundKey = serviceId;
+              } else {
+                // Buscar por nombre similar
+                foundKey = Object.keys(this.serviciosData).find(key => {
+                  const serviceName = this.serviciosData[key].name.toLowerCase().replace(/\s+/g, '-');
+                  return serviceName === serviceId;
+                });
+              }
+              
+              if (foundKey) {
+                console.log('✅ Abriendo modal para:', foundKey);
+                this.openServiceModal(foundKey);
+              } else {
+                console.warn('⚠️ Servicio no encontrado:', serviceId);
+                console.log('Disponibles:', Object.keys(this.serviciosData));
+              }
             }
           }
         });
@@ -3018,18 +3048,21 @@
             return 'Detallado Premium';
           }
         } else if (category === 'tapizados') {
-          if (cleanName.includes('sillon') || cleanName.includes('sofá')) {
-            return 'Limpieza de Sillón/Sofá';
-          } else if (cleanName.includes('silla')) {
+          // Agrupar todos los tipos de sillones/sofás
+          if (cleanName.includes('sillon') || cleanName.includes('sofá') || 
+              cleanName.includes('sofa') || cleanName.includes('mueble')) {
+            return 'Limpieza de Sillones y Sofás';
+          } else if (cleanName.includes('silla') && !cleanName.includes('sillon')) {
             return 'Limpieza de Sillas';
           } else if (cleanName.includes('colchon') || cleanName.includes('colchón')) {
             return 'Limpieza de Colchón';
-          } else if (cleanName.includes('alfombra')) {
-            return 'Limpieza de Alfombra';
-          } else if (cleanName.includes('puff')) {
-            return 'Limpieza de Puff';
-          } else if (cleanName.includes('respaldo') || cleanName.includes('cama')) {
-            return 'Limpieza de Respaldo/Cama';
+          } else if (cleanName.includes('alfombra') || cleanName.includes('carpet')) {
+            return 'Limpieza de Alfombras';
+          } else if (cleanName.includes('puff') || cleanName.includes('pouf')) {
+            return 'Limpieza de Puffs';
+          } else if (cleanName.includes('respaldo') || cleanName.includes('cama') || 
+                     cleanName.includes('cabecera')) {
+            return 'Limpieza de Respaldos y Camas';
           }
         }
         
@@ -3065,13 +3098,14 @@
 
         if (category === 'vehiculos') {
           // Usar estructura EXACTA de vehiculos.html con botón Ver Detalles
+          const serviceKey = this.generateServiceKey(service);
           div.innerHTML = `
             <img src="${imageSrc}" alt="${baseName}">
             <div class="servicio-card-body">
               <h5>${baseName}</h5>
               <p>${this.getServiceDescription(service, category)}</p>
               <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="info">
+                <button class="servicio-btn info-btn" data-service="${serviceKey}" data-type="info">
                   <i class="fas fa-info-circle me-2"></i>Ver Detalles
                 </button>
               </div>
@@ -3079,13 +3113,14 @@
           `;
         } else if (category === 'tapizados') {
           // Usar estructura EXACTA de tapizados.html con botón Ver Detalles
+          const serviceKey = this.generateServiceKey(service);
           div.innerHTML = `
             <img src="${imageSrc}" alt="${service.name}">
             <div class="servicio-card-body">
               <h5>${service.name}</h5>
               <p>${this.getServiceDescription(service, category)}</p>
               <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="${service.name.toLowerCase().replace(/\s+/g, '-')}">
+                <button class="servicio-btn info-btn" data-service="${serviceKey}">
                   <i class="fas fa-info-circle me-1"></i>Ver Detalles
                 </button>
               </div>
@@ -3093,6 +3128,7 @@
           `;
         } else {
           // Para "todos", determinar tipo según la categoría del servicio
+          const serviceKey = this.generateServiceKey(service);
           if (service.category === 'vehicular') {
             div.innerHTML = `
               <img src="${imageSrc}" alt="${baseName}">
@@ -3100,7 +3136,7 @@
                 <h5>${baseName}</h5>
                 <p>${this.getServiceDescription(service, category)}</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="${baseName.toLowerCase().replace(/\s+/g, '-')}" data-type="info">
+                  <button class="servicio-btn info-btn" data-service="${serviceKey}" data-type="info">
                     <i class="fas fa-info-circle me-2"></i>Ver Detalles
                   </button>
                 </div>
@@ -3113,7 +3149,7 @@
                 <h5>${service.name}</h5>
                 <p>${this.getServiceDescription(service, category)}</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="${service.name.toLowerCase().replace(/\s+/g, '-')}">
+                  <button class="servicio-btn info-btn" data-service="${serviceKey}">
                     <i class="fas fa-info-circle me-1"></i>Ver Detalles
                   </button>
                 </div>
