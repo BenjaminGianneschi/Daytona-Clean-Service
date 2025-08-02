@@ -545,6 +545,48 @@
       background: rgba(255, 59, 63, 0.9);
     }
 
+    /* Estilos para botones de tipos de vehículo */
+    .vehicle-type-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .vehicle-type-btn {
+      background: rgba(46, 204, 113, 0.1);
+      border: 1px solid rgba(46, 204, 113, 0.3);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      font-weight: 500;
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-width: 70px;
+      justify-content: center;
+    }
+
+    .vehicle-type-btn:hover {
+      background: rgba(46, 204, 113, 0.2);
+      border-color: rgba(46, 204, 113, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .vehicle-type-btn.active {
+      background: rgba(243, 156, 18, 0.8);
+      border-color: #f39c12;
+      box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+    }
+
+    .vehicle-type-btn.active:hover {
+      background: rgba(243, 156, 18, 0.9);
+    }
+
     /* Estilos para las opciones de servicio en las cards */
     .service-options {
       display: flex;
@@ -2005,6 +2047,19 @@
               <i class="fas fa-crown me-1"></i>Especial
             </button>
           </div>
+          
+          <!-- Selector de tipos de vehículo -->
+          <div class="vehicle-type-buttons" id="vehicleTypeButtons" style="display: none; margin-top: 15px;">
+            <button class="vehicle-type-btn active" id="autoBtn" data-vehicle="auto">
+              <i class="fas fa-car me-1"></i>Auto
+            </button>
+            <button class="vehicle-type-btn" id="pickupBtn" data-vehicle="pickup">
+              <i class="fas fa-truck me-1"></i>Pickup
+            </button>
+            <button class="vehicle-type-btn" id="suvBtn" data-vehicle="suv">
+              <i class="fas fa-truck-pickup me-1"></i>SUV
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-body">
@@ -2064,38 +2119,61 @@
       }
 
       createServiceData(services) {
-        // Crear estructura de datos para todos los servicios
-        services.forEach(service => {
+        // Procesar servicios agrupados después de usar getUniqueServices
+        const uniqueServices = this.getUniqueServices(services);
+        
+        uniqueServices.forEach(service => {
           const serviceKey = this.generateServiceKey(service);
           
-          // Si ya existe un grupo para este servicio, agregarlo como variante
-          const baseName = service.name.replace(' Especial', '');
-          const baseKey = this.generateServiceKey({...service, name: baseName});
-          
-          if (!this.serviciosData[baseKey]) {
-            this.serviciosData[baseKey] = {
-              baseName: baseName,
-              image: this.getServiceImage(service),
-              category: service.category,
-              variants: {}
-            };
-          }
-          
-          // Determinar si es estándar o especial
-          const variantType = service.name.includes('Especial') ? 'special' : 'standard';
-          
-          this.serviciosData[baseKey].variants[variantType] = {
-            id: service.id,
-            title: service.name,
-            price: `$${service.price.toLocaleString()}`,
+          this.serviciosData[serviceKey] = {
+            name: service.name,
+            baseName: service.name,
+            image: this.getServiceImage(service),
+            category: service.category,
+            price: service.price,
             description: service.description || this.generateDescription(service),
             features: this.generateFeatures(service),
-            time: `${service.duration} minutos`,
-            recommendations: this.generateRecommendations(service)
+            time: service.duration ? `${service.duration} minutos` : '2-3 horas',
+            recommendations: this.generateRecommendations(service),
+            groupedTypes: service.groupedTypes || [],
+            allVariants: service.allVariants || [service],
+            variants: this.createVariantsForService(service)
           };
         });
         
-        console.log('📋 Datos de servicios creados:', Object.keys(this.serviciosData).length);
+        console.log('📋 Datos de servicios agrupados creados:', Object.keys(this.serviciosData).length);
+      }
+
+      createVariantsForService(service) {
+        const variants = {
+          standard: {
+            id: service.id,
+            title: service.name,
+            price: service.price ? `$${service.price.toLocaleString()}` : '$20.000',
+            description: service.description || this.generateDescription(service),
+            features: this.generateFeatures(service),
+            time: service.duration ? `${service.duration} minutos` : '2-3 horas',
+            recommendations: this.generateRecommendations(service)
+          }
+        };
+
+        // Buscar variante especial si existe en allVariants
+        if (service.allVariants) {
+          const specialVariant = service.allVariants.find(v => v.name.includes('Especial'));
+          if (specialVariant) {
+            variants.special = {
+              id: specialVariant.id,
+              title: specialVariant.name,
+              price: specialVariant.price ? `$${specialVariant.price.toLocaleString()}` : '$30.000',
+              description: specialVariant.description || this.generateDescription(specialVariant),
+              features: this.generateFeatures(specialVariant),
+              time: specialVariant.duration ? `${specialVariant.duration} minutos` : '3-4 horas',
+              recommendations: this.generateRecommendations(specialVariant)
+            };
+          }
+        }
+
+        return variants;
       }
 
       generateServiceKey(service) {
@@ -2243,6 +2321,35 @@
           });
         }
 
+        // Event listeners para botones de tipos de vehículo
+        const autoBtn = document.getElementById('autoBtn');
+        const pickupBtn = document.getElementById('pickupBtn');
+        const suvBtn = document.getElementById('suvBtn');
+        
+        if (autoBtn) {
+          autoBtn.addEventListener('click', () => {
+            if (this.currentServiceId) {
+              this.switchVehicleType('auto');
+            }
+          });
+        }
+        
+        if (pickupBtn) {
+          pickupBtn.addEventListener('click', () => {
+            if (this.currentServiceId) {
+              this.switchVehicleType('pickup');
+            }
+          });
+        }
+        
+        if (suvBtn) {
+          suvBtn.addEventListener('click', () => {
+            if (this.currentServiceId) {
+              this.switchVehicleType('suv');
+            }
+          });
+        }
+
         // Event listeners para cerrar modal
         const closeBtn = document.querySelector('.close-modal');
         if (closeBtn) {
@@ -2275,23 +2382,34 @@
 
         this.currentServiceId = serviceId;
         this.currentVariant = 'standard'; // Empezar siempre con estándar
+        this.currentVehicleType = 'auto'; // Empezar con auto por defecto
 
         // Configurar imagen
         document.getElementById('modalImage').src = service.image;
 
         // Mostrar/ocultar botones de variantes
         const variantButtons = document.getElementById('variantButtons');
-        if (service.variants.special) {
+        if (service.variants && service.variants.special) {
           variantButtons.style.display = 'flex';
         } else {
           variantButtons.style.display = 'none';
         }
 
-        // Mostrar contenido inicial (estándar)
+        // Mostrar/ocultar botones de tipos de vehículo
+        const vehicleTypeButtons = document.getElementById('vehicleTypeButtons');
+        if (service.category === 'vehicular' && service.groupedTypes && service.groupedTypes.length > 1) {
+          vehicleTypeButtons.style.display = 'flex';
+          this.setupVehicleTypeButtons(service.groupedTypes);
+        } else {
+          vehicleTypeButtons.style.display = 'none';
+        }
+
+        // Mostrar contenido inicial
         this.updateModalContent();
 
         // Actualizar estados de botones
         this.updateVariantButtons();
+        this.updateVehicleTypeButtons();
 
         // Mostrar el modal
         document.getElementById('serviceModal').style.display = 'block';
@@ -2314,30 +2432,158 @@
         }
       }
 
+      setupVehicleTypeButtons(availableTypes) {
+        const autoBtn = document.getElementById('autoBtn');
+        const pickupBtn = document.getElementById('pickupBtn');
+        const suvBtn = document.getElementById('suvBtn');
+
+        // Mostrar/ocultar botones según tipos disponibles
+        if (autoBtn) autoBtn.style.display = availableTypes.includes('Auto') ? 'flex' : 'none';
+        if (pickupBtn) pickupBtn.style.display = availableTypes.includes('Pickup') ? 'flex' : 'none';
+        if (suvBtn) suvBtn.style.display = availableTypes.includes('SUV') ? 'flex' : 'none';
+
+        // Seleccionar el primer tipo disponible
+        if (availableTypes.length > 0) {
+          this.currentVehicleType = availableTypes[0].toLowerCase();
+        }
+      }
+
+      switchVehicleType(vehicleType) {
+        this.currentVehicleType = vehicleType;
+        this.updateModalContent();
+        this.updateVehicleTypeButtons();
+      }
+
+      updateVehicleTypeButtons() {
+        const autoBtn = document.getElementById('autoBtn');
+        const pickupBtn = document.getElementById('pickupBtn');
+        const suvBtn = document.getElementById('suvBtn');
+        
+        if (autoBtn) autoBtn.classList.toggle('active', this.currentVehicleType === 'auto');
+        if (pickupBtn) pickupBtn.classList.toggle('active', this.currentVehicleType === 'pickup');
+        if (suvBtn) suvBtn.classList.toggle('active', this.currentVehicleType === 'suv');
+      }
+
       updateModalContent() {
         const service = this.serviciosData[this.currentServiceId];
-        const variantData = service.variants[this.currentVariant] || service.variants.standard;
-        
-        if (!variantData) {
-          console.warn('⚠️ Variante no encontrada:', this.currentVariant);
-          return;
-        }
+        if (!service) return;
+
+        // Calcular precio según variante y tipo de vehículo
+        const finalPrice = this.calculatePrice(service);
+        const variantText = this.currentVariant === 'special' ? ' (Especial)' : '';
+        const vehicleText = service.category === 'vehicular' ? ` - ${this.getVehicleDisplayName()}` : '';
 
         // Actualizar contenido del modal
-        document.getElementById('modalTitle').textContent = service.baseName;
-        document.getElementById('modalPrice').textContent = variantData.price;
-        document.getElementById('modalDescription').textContent = variantData.description;
-        document.getElementById('modalTime').textContent = variantData.time;
-        document.getElementById('modalRecommendations').textContent = variantData.recommendations;
+        document.getElementById('modalTitle').textContent = service.name;
+        document.getElementById('modalPrice').textContent = `$${finalPrice.toLocaleString()}${variantText}${vehicleText}`;
+        document.getElementById('modalDescription').textContent = service.description || this.getServiceDescription(service);
+        document.getElementById('modalTime').textContent = service.time || this.getServiceTime(service);
+        document.getElementById('modalRecommendations').textContent = service.recommendations || this.getServiceRecommendations(service);
 
         // Actualizar características
         const featuresList = document.getElementById('modalFeatures');
         featuresList.innerHTML = '';
-        variantData.features.forEach(feature => {
+        const features = service.features || this.getServiceFeatures(service);
+        features.forEach(feature => {
           const li = document.createElement('li');
-          li.textContent = feature;
+          li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
           featuresList.appendChild(li);
         });
+      }
+
+      calculatePrice(service) {
+        // Precio base del servicio
+        let basePrice = parseInt(service.price?.toString().replace(/[^\d]/g, '')) || 20000;
+
+        // Multiplicador por tipo de vehículo (solo para vehiculares)
+        if (service.category === 'vehicular') {
+          const vehicleMultipliers = {
+            'auto': 1.0,
+            'pickup': 1.3,  // 30% más
+            'suv': 1.5      // 50% más
+          };
+          basePrice *= vehicleMultipliers[this.currentVehicleType] || 1.0;
+        }
+
+        // Multiplicador por variante
+        if (this.currentVariant === 'special') {
+          basePrice *= 1.5; // 50% más para especial
+        }
+
+        return Math.round(basePrice);
+      }
+
+      getVehicleDisplayName() {
+        const names = {
+          'auto': 'Auto',
+          'pickup': 'Pickup',
+          'suv': 'SUV'
+        };
+        return names[this.currentVehicleType] || 'Auto';
+      }
+
+      getServiceDescription(service) {
+        const descriptions = {
+          'Lavado de Vehículo': 'Lavado completo interior y exterior con productos profesionales de alta calidad.',
+          'Limpieza de Motor': 'Limpieza profunda del motor con productos especializados y secado cuidadoso.',
+          'Tapizado de Vehículo': 'Limpieza completa de asientos y tapizados con equipos profesionales.',
+          'Detallado Premium': 'Servicio completo de detallado con encerado y protección UV.'
+        };
+        return descriptions[service.name] || service.description || 'Servicio profesional de alta calidad.';
+      }
+
+      getServiceTime(service) {
+        const times = {
+          'Lavado de Vehículo': '2-3 horas',
+          'Limpieza de Motor': '1-2 horas',
+          'Tapizado de Vehículo': '2-4 horas',
+          'Detallado Premium': '4-6 horas'
+        };
+        return times[service.name] || '2-3 horas';
+      }
+
+      getServiceRecommendations(service) {
+        const recommendations = {
+          'Lavado de Vehículo': 'Ideal para mantenimiento regular. Recomendamos cada 2-3 semanas.',
+          'Limpieza de Motor': 'Recomendamos cada 6 meses para mantener el motor en óptimas condiciones.',
+          'Tapizado de Vehículo': 'Perfecto para eliminar manchas y olores. Cada 3-4 meses.',
+          'Detallado Premium': 'Servicio premium para protección total. Cada 4-6 meses.'
+        };
+        return recommendations[service.name] || 'Servicio profesional recomendado regularmente.';
+      }
+
+      getServiceFeatures(service) {
+        const features = {
+          'Lavado de Vehículo': [
+            'Lavado exterior completo con shampoo profesional',
+            'Aspirado profundo del interior',
+            'Limpieza de superficies plásticas',
+            'Limpieza de vidrios interior y exterior',
+            'Secado manual sin rayas'
+          ],
+          'Limpieza de Motor': [
+            'Limpieza profunda del motor',
+            'Desengrase completo',
+            'Protección de componentes eléctricos',
+            'Secado cuidadoso',
+            'Aplicación de protector de goma'
+          ],
+          'Tapizado de Vehículo': [
+            'Aspirado profundo de asientos',
+            'Limpieza con productos especializados',
+            'Eliminación de manchas difíciles',
+            'Desinfección completa',
+            'Secado rápido'
+          ],
+          'Detallado Premium': [
+            'Lavado completo premium',
+            'Encerado profesional',
+            'Pulido de carrocería',
+            'Tratamiento de cueros',
+            'Protección UV completa'
+          ]
+        };
+        return features[service.name] || ['Servicio profesional de alta calidad', 'Productos especializados', 'Atención personalizada'];
       }
 
       closeModal() {
@@ -2346,6 +2592,7 @@
         
         this.currentServiceId = null;
         this.currentVariant = 'standard';
+        this.currentVehicleType = 'auto';
       }
     }
 
@@ -2582,6 +2829,9 @@
         this.currentFilter = 'todos';
         this.currentIndex = 0;
         this.serviciosData = {};
+        this.currentServiceId = null;
+        this.currentVariant = 'standard';
+        this.currentVehicleType = 'auto';
         this.init();
       }
 
@@ -2699,36 +2949,44 @@
       }
 
       getUniqueServices(services) {
-        // Para evitar duplicados, usar Set con nombres únicos
-        const uniqueServiceNames = new Set();
-        const uniqueServices = [];
+        // Agrupar servicios por tipo base para evitar duplicados
+        const serviceGroups = new Map();
         
         services.forEach(service => {
-          let serviceName = service.name;
+          let serviceType = this.getServiceBaseType(service.name, service.category);
           
-          // Para servicios vehiculares, remover " Especial" del nombre
+          if (!serviceGroups.has(serviceType)) {
+            serviceGroups.set(serviceType, {
+              baseService: service,
+              variants: [service],
+              types: new Set()
+            });
+          } else {
+            serviceGroups.get(serviceType).variants.push(service);
+          }
+          
+          // Agregar tipos de vehículo si es vehicular
           if (service.category === 'vehicular') {
-            serviceName = service.name.replace(' Especial', '');
+            const vehicleType = this.getVehicleType(service.name);
+            serviceGroups.get(serviceType).types.add(vehicleType);
           }
+        });
+
+        // Convertir a array de servicios únicos
+        const uniqueServices = [];
+        serviceGroups.forEach((group, serviceType) => {
+          // Usar servicio estándar como base, o el primero disponible
+          let baseService = group.variants.find(s => !s.name.includes('Especial')) || group.variants[0];
           
-          // Solo agregar si no hemos visto este nombre antes
-          if (!uniqueServiceNames.has(serviceName)) {
-            uniqueServiceNames.add(serviceName);
-            
-            // Para vehiculares, usar el servicio estándar si existe, sino el especial
-            let serviceToAdd = service;
-            if (service.category === 'vehicular' && service.name.includes('Especial')) {
-              // Buscar la versión estándar
-              const standardVersion = services.find(s => 
-                s.name === serviceName && s.category === 'vehicular'
-              );
-              if (standardVersion) {
-                serviceToAdd = standardVersion;
-              }
-            }
-            
-            uniqueServices.push(serviceToAdd);
-          }
+          // Crear servicio agrupado
+          const groupedService = {
+            ...baseService,
+            name: serviceType,
+            groupedTypes: Array.from(group.types),
+            allVariants: group.variants
+          };
+          
+          uniqueServices.push(groupedService);
         });
 
         // Ordenar servicios por categoría y nombre
@@ -2738,13 +2996,57 @@
           if (a.category === 'tapizados' && b.category === 'vehicular') return 1;
           
           // Dentro de cada categoría, ordenar alfabéticamente
-          const aName = a.name.replace(' Especial', '');
-          const bName = b.name.replace(' Especial', '');
-          return aName.localeCompare(bName);
+          return a.name.localeCompare(b.name);
         });
 
-        console.log('🔄 Servicios únicos:', uniqueServices.map(s => s.name));
+        console.log('🔄 Servicios agrupados:', uniqueServices.map(s => `${s.name} (${s.groupedTypes?.join(', ') || 'N/A'})`));
         return uniqueServices;
+      }
+
+      getServiceBaseType(serviceName, category) {
+        // Agrupar servicios similares por tipo base
+        const cleanName = serviceName.replace(' Especial', '').toLowerCase();
+        
+        if (category === 'vehicular') {
+          if (cleanName.includes('lavado')) {
+            return 'Lavado de Vehículo';
+          } else if (cleanName.includes('motor') || cleanName.includes('engine')) {
+            return 'Limpieza de Motor';
+          } else if (cleanName.includes('tapizado') || cleanName.includes('asiento')) {
+            return 'Tapizado de Vehículo';
+          } else if (cleanName.includes('detallado') || cleanName.includes('detail')) {
+            return 'Detallado Premium';
+          }
+        } else if (category === 'tapizados') {
+          if (cleanName.includes('sillon') || cleanName.includes('sofá')) {
+            return 'Limpieza de Sillón/Sofá';
+          } else if (cleanName.includes('silla')) {
+            return 'Limpieza de Sillas';
+          } else if (cleanName.includes('colchon') || cleanName.includes('colchón')) {
+            return 'Limpieza de Colchón';
+          } else if (cleanName.includes('alfombra')) {
+            return 'Limpieza de Alfombra';
+          } else if (cleanName.includes('puff')) {
+            return 'Limpieza de Puff';
+          } else if (cleanName.includes('respaldo') || cleanName.includes('cama')) {
+            return 'Limpieza de Respaldo/Cama';
+          }
+        }
+        
+        // Si no coincide con ningún patrón, usar el nombre original
+        return serviceName.replace(' Especial', '');
+      }
+
+      getVehicleType(serviceName) {
+        const cleanName = serviceName.toLowerCase();
+        if (cleanName.includes('auto') || cleanName.includes('sedan')) {
+          return 'Auto';
+        } else if (cleanName.includes('pickup') || cleanName.includes('camioneta')) {
+          return 'Pickup';
+        } else if (cleanName.includes('suv') || cleanName.includes('4x4')) {
+          return 'SUV';
+        }
+        return 'Auto'; // Por defecto
       }
 
       createServiceCard(service, category, index) {
