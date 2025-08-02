@@ -509,6 +509,42 @@
       padding: 0 !important;
     }
 
+    /* Estilos para botones de variantes en el modal */
+    .variant-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .variant-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+      backdrop-filter: blur(5px);
+    }
+
+    .variant-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .variant-btn.active {
+      background: rgba(255, 59, 63, 0.8);
+      border-color: #ff3b3f;
+      box-shadow: 0 4px 12px rgba(255, 59, 63, 0.4);
+    }
+
+    .variant-btn.active:hover {
+      background: rgba(255, 59, 63, 0.9);
+    }
+
     /* Estilos para las opciones de servicio en las cards */
     .service-options {
       display: flex;
@@ -1959,6 +1995,16 @@
         <div class="modal-overlay">
           <h2 id="modalTitle"></h2>
           <div class="modal-price" id="modalPrice"></div>
+          
+          <!-- Botones para cambiar entre variantes -->
+          <div class="variant-buttons" id="variantButtons" style="display: none; margin-top: 15px;">
+            <button class="variant-btn active" id="standardBtn" data-variant="standard">
+              <i class="fas fa-star me-1"></i>Estándar
+            </button>
+            <button class="variant-btn" id="specialBtn" data-variant="special">
+              <i class="fas fa-crown me-1"></i>Especial
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-body">
@@ -1995,206 +2041,341 @@
 
   <!-- Script para el modal de servicios -->
   <script>
-    // Datos de los servicios
-    const serviciosData = {
-      'limpieza-auto': {
-        title: 'Limpieza de Auto',
-        price: '$20.000',
-        image: 'img/autodetalle1.jpg',
-        description: 'Lavado completo interior y exterior de tu vehículo con productos profesionales de alta calidad. Este servicio incluye una limpieza exhaustiva que devuelve el brillo y la frescura original a tu auto.',
-        features: [
-          'Lavado exterior completo con shampoo profesional',
-          'Aspirado profundo de todo el interior',
-          'Limpieza de superficies plásticas y vinílicas',
-          'Limpieza de vidrios interior y exterior',
-          'Aplicación de protectores UV en plásticos',
-          'Secado manual para evitar rayas'
-        ],
-        time: '2-3 horas',
-        recommendations: 'Ideal para mantenimiento regular. Recomendamos realizar este servicio cada 15-20 días para mantener tu auto en óptimas condiciones.'
-      },
-      'limpieza-detallada': {
-        title: 'Limpieza Detallada de Auto',
-        price: '$100.000',
-        image: 'img/asientosucio.jpg',
-        description: 'Servicio premium de limpieza profunda que elimina manchas difíciles, olores y suciedad acumulada. Utilizamos tecnología de vapor y productos especializados para resultados excepcionales.',
-        features: [
-          'Limpieza profunda de tapizados con extractor',
-          'Eliminación de manchas difíciles',
-          'Desinfección con vapor a alta temperatura',
-          'Limpieza de techos y alfombras',
-          'Tratamiento anti-ácaros y bacterias',
-          'Aplicación de protectores de tapizados',
-          'Limpieza de conductos de aire acondicionado'
-        ],
-        time: '4-6 horas',
-        recommendations: 'Servicio recomendado cada 3-6 meses. Especialmente útil para vehículos con niños, mascotas o uso intensivo.'
-      },
-      'limpieza-motor': {
-        title: 'Limpieza de Motor',
-        price: '$50.000',
-        image: 'img/motorauto1.jpg',
-        description: 'Limpieza profesional del compartimento del motor utilizando productos seguros que no dañan los componentes eléctricos. Mejora el rendimiento y facilita la detección de posibles problemas.',
-        features: [
-          'Desengrasado completo del motor',
-          'Limpieza de componentes plásticos',
-          'Protección de componentes eléctricos',
-          'Limpieza de filtros de aire',
-          'Aplicación de protectores anti-corrosión',
-          'Inspección visual de posibles problemas'
-        ],
-        time: '2-3 horas',
-        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante antes de vender el vehículo o para mantenimiento preventivo.'
-      },
-      'limpieza-sillones': {
-        title: 'Limpieza de Sillones',
-        price: '$125.000',
-        image: 'img/sillon123.jpg',
-        description: 'Servicio especializado en la limpieza profunda de sillones de todo tipo. Eliminamos manchas, ácaros, olores y devolvemos la frescura original a tus muebles.',
-        features: [
-          'Limpieza profunda con extractor profesional',
-          'Eliminación de manchas difíciles',
-          'Desinfección con vapor a alta temperatura',
-          'Tratamiento anti-ácaros y bacterias',
-          'Aplicación de protectores de tela',
-          'Limpieza de respaldos y costuras',
-          'Eliminación de olores persistentes'
-        ],
-        time: '3-4 horas por sillón',
-        recommendations: 'Ideal para sillones con manchas, olores o uso intensivo. Recomendado cada 6-12 meses para mantener la higiene.'
-      },
-      'limpieza-colchones': {
-        title: 'Limpieza de Colchones',
-        price: '$100.000',
-        image: 'img/colchonlimpio.jpg',
-        description: 'Limpieza y desinfección profunda de colchones para eliminar ácaros, bacterias y manchas. Mejora la calidad del sueño y la salud respiratoria.',
-        features: [
-          'Limpieza profunda con extractor especializado',
-          'Desinfección con vapor a alta temperatura',
-          'Eliminación de ácaros y bacterias',
-          'Tratamiento anti-alérgico',
-          'Limpieza de manchas de sudor y fluidos',
-          'Aplicación de protectores anti-ácaros',
-          'Secado completo para evitar humedad'
-        ],
-        time: '2-3 horas por colchón',
-        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante para personas alérgicas o con problemas respiratorios.'
-      },
-      'limpieza-sillas': {
-        title: 'Limpieza de Sillas',
-        price: '$12.500',
-        image: 'img/sillacomedor1234.jpeg',
-        description: 'Limpieza profesional de sillas tapizadas y plásticas. Ideal para comedores, oficinas y espacios comerciales. Devolvemos la higiene y el aspecto original.',
-        features: [
-          'Limpieza de tapizados con productos especializados',
-          'Limpieza de sillas plásticas',
-          'Eliminación de manchas y suciedad',
-          'Desinfección con productos bactericidas',
-          'Aplicación de protectores',
-          'Limpieza de patas y estructura'
-        ],
-        time: '30-45 minutos por silla',
-        recommendations: 'Ideal para comedores, restaurantes y oficinas. Recomendado cada 3-6 meses para mantener la higiene.'
-      },
-      'limpieza-alfombras': {
-        title: 'Limpieza de Alfombras',
-        price: '$25.000',
-        image: 'img/alfombralimpia.jpg',
-        description: 'Limpieza profunda de alfombras para devolver el color y la suavidad original. Eliminamos manchas profundas, suciedad y olores persistentes.',
-        features: [
-          'Limpieza profunda con extractor industrial',
-          'Eliminación de manchas difíciles',
-          'Desinfección con vapor',
-          'Tratamiento anti-ácaros',
-          'Aplicación de protectores',
-          'Secado rápido y completo',
-          'Limpieza de respaldo de alfombra'
-        ],
-        time: '2-4 horas dependiendo del tamaño',
-        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante para alfombras en áreas de alto tráfico.'
-      },
-      'limpieza-respaldar': {
-        title: 'Limpieza de Respaldar',
-        price: '$35.000',
-        image: 'img/respaldar1.jpeg',
-        description: 'Servicio especializado en la limpieza de respaldos de sillas y sillones. Eliminamos manchas, suciedad y devolvemos la frescura original.',
-        features: [
-          'Limpieza profunda de respaldos',
-          'Eliminación de manchas difíciles',
-          'Desinfección con vapor',
-          'Tratamiento anti-ácaros',
-          'Aplicación de protectores',
-          'Limpieza de costuras y detalles'
-        ],
-        time: '1-2 horas por respaldo',
-        recommendations: 'Ideal para respaldos con manchas o uso intensivo. Recomendado cada 6-12 meses.'
+    // Clase para manejar servicios dinámicos en index
+    class IndexServiceManager {
+      constructor() {
+        this.apiService = new ApiService();
+        this.serviciosData = {};
+        this.currentServiceId = null;
+        this.currentVariant = 'standard';
+        this.init();
       }
-    };
 
-    // Función para abrir el modal
-    function openServiceModal(serviceId) {
-      const service = serviciosData[serviceId];
-      if (!service) return;
+      async init() {
+        console.log('🚀 Cargando servicios para index...');
+        await this.loadServices();
+        this.setupEventListeners();
+      }
 
-      // Llenar el modal con la información del servicio
-      document.getElementById('modalImage').src = service.image;
-      document.getElementById('modalTitle').textContent = service.title;
-      document.getElementById('modalPrice').textContent = service.price;
-      document.getElementById('modalDescription').textContent = service.description;
-      document.getElementById('modalTime').textContent = service.time;
-      document.getElementById('modalRecommendations').textContent = service.recommendations;
+      async loadServices() {
+        try {
+          const response = await this.apiService.request('/appointments/services');
+          if (response.success && response.services) {
+            console.log('✅ Servicios cargados:', response.services.length);
+            this.createServiceData(response.services);
+          } else {
+            console.error('❌ Error cargando servicios:', response.message);
+            this.loadFallbackServices();
+          }
+        } catch (error) {
+          console.error('❌ Error de conexión:', error);
+          this.loadFallbackServices();
+        }
+      }
 
-      // Llenar las características
-      const featuresList = document.getElementById('modalFeatures');
-      featuresList.innerHTML = '';
-      service.features.forEach(feature => {
-        const li = document.createElement('li');
-        li.textContent = feature;
-        featuresList.appendChild(li);
-      });
-
-      // Mostrar el modal
-      document.getElementById('serviceModal').style.display = 'block';
-      document.body.style.overflow = 'hidden'; // Prevenir scroll
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-      document.getElementById('serviceModal').style.display = 'none';
-      document.body.style.overflow = 'auto'; // Restaurar scroll
-    }
-
-
-
-    // Event listeners LEGACY - COMENTADO - Ahora se maneja en IndexServiceManager
-    /*
-    document.addEventListener('DOMContentLoaded', function() {
-      // Event listeners para los botones de información
-      document.querySelectorAll('.info-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const serviceId = this.getAttribute('data-service');
-          openServiceModal(serviceId);
+      createServiceData(services) {
+        // Crear estructura de datos para todos los servicios
+        services.forEach(service => {
+          const serviceKey = this.generateServiceKey(service);
+          
+          // Si ya existe un grupo para este servicio, agregarlo como variante
+          const baseName = service.name.replace(' Especial', '');
+          const baseKey = this.generateServiceKey({...service, name: baseName});
+          
+          if (!this.serviciosData[baseKey]) {
+            this.serviciosData[baseKey] = {
+              baseName: baseName,
+              image: this.getServiceImage(service),
+              category: service.category,
+              variants: {}
+            };
+          }
+          
+          // Determinar si es estándar o especial
+          const variantType = service.name.includes('Especial') ? 'special' : 'standard';
+          
+          this.serviciosData[baseKey].variants[variantType] = {
+            id: service.id,
+            title: service.name,
+            price: `$${service.price.toLocaleString()}`,
+            description: service.description || this.generateDescription(service),
+            features: this.generateFeatures(service),
+            time: `${service.duration} minutos`,
+            recommendations: this.generateRecommendations(service)
+          };
         });
-      });
+        
+        console.log('📋 Datos de servicios creados:', Object.keys(this.serviciosData).length);
+      }
 
-      // Event listener para cerrar el modal
-      document.querySelector('.close-modal').addEventListener('click', closeModal);
+      generateServiceKey(service) {
+        // Crear una clave única basada en el nombre del servicio
+        return service.name.toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[áéíóú]/g, match => ({'á':'a','é':'e','í':'i','ó':'o','ú':'u'}[match]))
+          .replace(/[^a-z0-9-]/g, '');
+      }
 
-      // Cerrar modal al hacer clic fuera de él
-      document.getElementById('serviceModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-          closeModal();
+      getServiceImage(service) {
+        const name = service.name.toLowerCase();
+        
+        // Mapeo de imágenes por tipo de servicio
+        if (name.includes('auto') && !name.includes('tapizado')) return 'img/autodetalle1.jpg';
+        if (name.includes('pickup') && !name.includes('tapizado')) return 'img/camioneta3.jpg';
+        if (name.includes('suv') && !name.includes('tapizado')) return 'img/toyota5.jpg';
+        if (name.includes('motor')) return 'img/motorauto1.jpg';
+        if (name.includes('tapizado') && name.includes('auto')) return 'img/asientosucio.jpg';
+        if (name.includes('tapizado') && name.includes('pickup')) return 'img/hilux1.jpg';
+        if (name.includes('tapizado') && name.includes('suv')) return 'img/hilux2.jpg';
+        if (name.includes('sillon')) return 'img/sillon123.jpg';
+        if (name.includes('silla')) return 'img/sillacomedor1234.jpeg';
+        if (name.includes('colchon')) return 'img/colchonlimpio.jpg';
+        if (name.includes('alfombra')) return 'img/alfombralimpia.jpg';
+        if (name.includes('puff')) return 'img/puff12.jpeg';
+        if (name.includes('respaldar') || name.includes('respaldo')) return 'img/respaldar1.jpeg';
+        
+        // Imagen por defecto
+        return 'img/autodetalle1.jpg';
+      }
+
+      generateDescription(service) {
+        const category = service.category;
+        const name = service.name.toLowerCase();
+        
+        if (category === 'vehicular') {
+          if (name.includes('tapizado')) {
+            return 'Limpieza profunda de tapizados vehiculares con tecnología avanzada. Eliminamos manchas, olores y suciedad acumulada para dejar tu vehículo como nuevo.';
+          } else if (name.includes('motor')) {
+            return 'Limpieza profesional del compartimento del motor con productos seguros. Mejora el rendimiento y facilita la detección de problemas.';
+          } else {
+            return 'Lavado completo de vehículo con productos profesionales. Incluye limpieza interior y exterior para resultados excepcionales.';
+          }
+        } else {
+          return 'Limpieza profesional de tapizados para el hogar. Eliminamos manchas, ácaros y olores para devolver la frescura original.';
         }
-      });
+      }
 
-      // Cerrar modal con la tecla Escape
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeModal();
+      generateFeatures(service) {
+        const baseFeatures = [
+          'Limpieza con productos profesionales',
+          'Equipo especializado',
+          'Personal capacitado',
+          'Garantía de satisfacción'
+        ];
+
+        const name = service.name.toLowerCase();
+        
+        if (name.includes('especial')) {
+          baseFeatures.push(
+            'Máquina de inyección-extracción',
+            'Productos 3D profesionales',
+            'Tratamiento impermeabilizante',
+            'Aromatización incluida'
+          );
         }
-      });
+
+        if (service.category === 'vehicular') {
+          baseFeatures.push('Limpieza de vidrios', 'Aspirado profundo');
+        } else {
+          baseFeatures.push('Desinfección con vapor', 'Tratamiento anti-ácaros');
+        }
+
+        return baseFeatures;
+      }
+
+      generateRecommendations(service) {
+        const name = service.name.toLowerCase();
+        
+        if (name.includes('tapizado')) {
+          return 'Ideal para eliminar manchas difíciles y olores. Recomendado cada 3-6 meses.';
+        } else if (name.includes('motor')) {
+          return 'Recomendado cada 6-12 meses para mantener el motor en óptimas condiciones.';
+        } else if (name.includes('colchon')) {
+          return 'Recomendado cada 6-12 meses. Especialmente importante para personas alérgicas.';
+        } else {
+          return 'Servicio recomendado para mantener en perfectas condiciones.';
+        }
+      }
+
+      loadFallbackServices() {
+        console.log('⚠️ Cargando servicios de respaldo...');
+        this.serviciosData = {
+          'limpieza-de-auto': {
+            baseName: 'Limpieza de Auto',
+            image: 'img/autodetalle1.jpg',
+            category: 'vehicular',
+            variants: {
+              standard: {
+                title: 'Limpieza de Auto',
+                price: '$20.000',
+                description: 'Lavado completo interior y exterior con productos profesionales.',
+                features: ['Lavado exterior completo', 'Aspirado profundo', 'Limpieza de vidrios', 'Aplicación de protectores'],
+                time: '180 minutos',
+                recommendations: 'Ideal para mantenimiento regular cada 15-20 días.'
+              }
+            }
+          }
+        };
+      }
+
+      setupEventListeners() {
+        // Event listener para botones de "Ver Detalles"
+        document.addEventListener('click', (e) => {
+          if (e.target.classList.contains('info-btn') || 
+              (e.target.parentElement && e.target.parentElement.classList.contains('info-btn'))) {
+            
+            const button = e.target.classList.contains('info-btn') ? e.target : e.target.parentElement;
+            const serviceId = button.getAttribute('data-service');
+            
+            if (serviceId) {
+              this.openServiceModal(serviceId);
+            }
+          }
+        });
+
+        // Event listeners para botones de variantes en el modal
+        const standardBtn = document.getElementById('standardBtn');
+        const specialBtn = document.getElementById('specialBtn');
+        
+        if (standardBtn) {
+          standardBtn.addEventListener('click', () => {
+            if (this.currentServiceId) {
+              this.switchVariant('standard');
+            }
+          });
+        }
+        
+        if (specialBtn) {
+          specialBtn.addEventListener('click', () => {
+            if (this.currentServiceId) {
+              this.switchVariant('special');
+            }
+          });
+        }
+
+        // Event listeners para cerrar modal
+        const closeBtn = document.querySelector('.close-modal');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => this.closeModal());
+        }
+
+        const modal = document.getElementById('serviceModal');
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              this.closeModal();
+            }
+          });
+        }
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.closeModal();
+          }
+        });
+      }
+
+      openServiceModal(serviceId) {
+        // Buscar el servicio en los datos
+        const service = this.serviciosData[serviceId];
+        if (!service) {
+          console.warn('⚠️ Servicio no encontrado:', serviceId);
+          return;
+        }
+
+        this.currentServiceId = serviceId;
+        this.currentVariant = 'standard'; // Empezar siempre con estándar
+
+        // Configurar imagen
+        document.getElementById('modalImage').src = service.image;
+
+        // Mostrar/ocultar botones de variantes
+        const variantButtons = document.getElementById('variantButtons');
+        if (service.variants.special) {
+          variantButtons.style.display = 'flex';
+        } else {
+          variantButtons.style.display = 'none';
+        }
+
+        // Mostrar contenido inicial (estándar)
+        this.updateModalContent();
+
+        // Actualizar estados de botones
+        this.updateVariantButtons();
+
+        // Mostrar el modal
+        document.getElementById('serviceModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+
+      switchVariant(variant) {
+        this.currentVariant = variant;
+        this.updateModalContent();
+        this.updateVariantButtons();
+      }
+
+      updateVariantButtons() {
+        const standardBtn = document.getElementById('standardBtn');
+        const specialBtn = document.getElementById('specialBtn');
+        
+        if (standardBtn && specialBtn) {
+          standardBtn.classList.toggle('active', this.currentVariant === 'standard');
+          specialBtn.classList.toggle('active', this.currentVariant === 'special');
+        }
+      }
+
+      updateModalContent() {
+        const service = this.serviciosData[this.currentServiceId];
+        const variantData = service.variants[this.currentVariant] || service.variants.standard;
+        
+        if (!variantData) {
+          console.warn('⚠️ Variante no encontrada:', this.currentVariant);
+          return;
+        }
+
+        // Actualizar contenido del modal
+        document.getElementById('modalTitle').textContent = service.baseName;
+        document.getElementById('modalPrice').textContent = variantData.price;
+        document.getElementById('modalDescription').textContent = variantData.description;
+        document.getElementById('modalTime').textContent = variantData.time;
+        document.getElementById('modalRecommendations').textContent = variantData.recommendations;
+
+        // Actualizar características
+        const featuresList = document.getElementById('modalFeatures');
+        featuresList.innerHTML = '';
+        variantData.features.forEach(feature => {
+          const li = document.createElement('li');
+          li.textContent = feature;
+          featuresList.appendChild(li);
+        });
+      }
+
+      closeModal() {
+        document.getElementById('serviceModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+        
+        this.currentServiceId = null;
+        this.currentVariant = 'standard';
+      }
+    }
+
+    // Inicializar el gestor de servicios cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+      window.indexServiceManager = new IndexServiceManager();
     });
-    */
+
+    // Funciones globales para compatibilidad
+    function openServiceModal(serviceId) {
+      if (window.indexServiceManager) {
+        window.indexServiceManager.openServiceModal(serviceId);
+      }
+    }
+
+    function closeModal() {
+      if (window.indexServiceManager) {
+        window.indexServiceManager.closeModal();
+      }
+    }
   </script>
 
   <!-- Hero Slider Script -->
