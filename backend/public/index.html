@@ -2039,17 +2039,7 @@
   <script src="js/send-whatsapp.js"></script>
   <script src="js/test-header.js"></script>
 
-  <!-- Script para el modal de servicios -->
-  <script>
-    // Clase para manejar servicios dinámicos en index
-    class IndexServiceManager {
-      constructor() {
-        this.apiService = new ApiService();
-        this.serviciosData = {};
-        this.currentServiceId = null;
-        this.currentVariant = 'standard';
-        this.init();
-      }
+  <!-- Script para el modal de servicios será manejado por IndexServiceManager -->
 
       async init() {
         console.log('🚀 Cargando servicios para index...');
