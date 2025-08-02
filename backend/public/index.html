@@ -2059,6 +2059,28 @@
               <i class="fas fa-truck-pickup me-1"></i>SUV
             </button>
           </div>
+          
+          <!-- Selector de tipos de tapizados -->
+          <div class="vehicle-type-buttons" id="tapizadosTypeButtons" style="display: none; margin-top: 15px;">
+            <button class="vehicle-type-btn active" id="sillonBtn" data-tapizado="sillon">
+              <i class="fas fa-couch me-1"></i>Sillón
+            </button>
+            <button class="vehicle-type-btn" id="sillaBtn" data-tapizado="silla">
+              <i class="fas fa-chair me-1"></i>Silla
+            </button>
+            <button class="vehicle-type-btn" id="colchonBtn" data-tapizado="colchon">
+              <i class="fas fa-bed me-1"></i>Colchón
+            </button>
+            <button class="vehicle-type-btn" id="alfombraBtn" data-tapizado="alfombra">
+              <i class="fas fa-rug me-1"></i>Alfombra
+            </button>
+            <button class="vehicle-type-btn" id="puffBtn" data-tapizado="puff">
+              <i class="fas fa-couch me-1"></i>Puff
+            </button>
+            <button class="vehicle-type-btn" id="respaldoBtn" data-tapizado="respaldo">
+              <i class="fas fa-bed me-1"></i>Respaldo
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-body">
@@ -2176,6 +2198,7 @@
       loadFallbackServices() {
         console.log('⚠️ Cargando servicios de respaldo...');
         const fallbackServices = [
+          // Servicios Vehiculares
           { 
             id: 1, 
             name: 'Lavado de Auto', 
@@ -2208,6 +2231,16 @@
           },
           { 
             id: 4, 
+            name: 'Lavado de Pickup Especial', 
+            category: 'vehicular', 
+            price: 35000, 
+            duration: 260, 
+            description: 'Lavado premium para camionetas con protección adicional.', 
+            features: ['Lavado exterior completo', 'Limpieza profunda de caja de carga', 'Aplicación de cera protectora', 'Protección UV', 'Desinfección con vapor'], 
+            recommendations: 'Ideal para vehículos de trabajo que requieren máxima protección.' 
+          },
+          { 
+            id: 5, 
             name: 'Lavado de SUV', 
             category: 'vehicular', 
             price: 30000, 
@@ -2217,7 +2250,19 @@
             recommendations: 'Ideal para vehículos familiares y de gran tamaño.' 
           },
           { 
-            id: 5, 
+            id: 6, 
+            name: 'Lavado de SUV Especial', 
+            category: 'vehicular', 
+            price: 40000, 
+            duration: 280, 
+            description: 'Lavado premium para SUVs con protección completa.', 
+            features: ['Lavado exterior completo', 'Limpieza profunda de tercera fila', 'Aplicación de cera protectora', 'Protección UV', 'Desinfección completa'], 
+            recommendations: 'Perfecto para SUVs de lujo y uso familiar intensivo.' 
+          },
+          
+          // Servicios de Tapizados
+          { 
+            id: 7, 
             name: 'Limpieza de Sillón', 
             category: 'tapizados', 
             price: 15000, 
@@ -2227,7 +2272,17 @@
             recommendations: 'Cada 6 meses para mantener la higiene del hogar.' 
           },
           { 
-            id: 6, 
+            id: 8, 
+            name: 'Limpieza de Sillón Especial', 
+            category: 'tapizados', 
+            price: 25000, 
+            duration: 180, 
+            description: 'Limpieza premium de sillones con protección duradera.', 
+            features: ['Limpieza profunda con extractor', 'Eliminación de manchas difíciles', 'Desinfección completa', 'Protección anti-manchas', 'Aroma fresco'], 
+            recommendations: 'Anual para sillones de uso intensivo.' 
+          },
+          { 
+            id: 9, 
             name: 'Limpieza de Sofá', 
             category: 'tapizados', 
             price: 25000, 
@@ -2237,7 +2292,17 @@
             recommendations: 'Anual para sofás de uso intensivo.' 
           },
           { 
-            id: 7, 
+            id: 10, 
+            name: 'Limpieza de Sofá Especial', 
+            category: 'tapizados', 
+            price: 35000, 
+            duration: 240, 
+            description: 'Limpieza premium de sofás con protección máxima.', 
+            features: ['Limpieza profunda con extractor', 'Eliminación de manchas difíciles', 'Desinfección completa', 'Protección anti-manchas', 'Aroma premium'], 
+            recommendations: 'Cada 8 meses para sofás de lujo.' 
+          },
+          { 
+            id: 11, 
             name: 'Limpieza de Colchón', 
             category: 'tapizados', 
             price: 20000, 
@@ -2245,6 +2310,46 @@
             description: 'Limpieza y desinfección profunda de colchones.', 
             features: ['Desinfección con vapor a alta temperatura', 'Eliminación de ácaros', 'Tratamiento anti-alérgico', 'Eliminación de olores'], 
             recommendations: 'Cada 4 meses para un descanso saludable.' 
+          },
+          { 
+            id: 12, 
+            name: 'Limpieza de Colchón Especial', 
+            category: 'tapizados', 
+            price: 30000, 
+            duration: 200, 
+            description: 'Limpieza premium de colchones con protección sanitaria.', 
+            features: ['Desinfección profunda con vapor', 'Eliminación completa de ácaros', 'Tratamiento anti-alérgico avanzado', 'Protección sanitaria', 'Aroma fresco'], 
+            recommendations: 'Cada 6 meses para máxima higiene.' 
+          },
+          { 
+            id: 13, 
+            name: 'Limpieza de Silla', 
+            category: 'tapizados', 
+            price: 8000, 
+            duration: 60, 
+            description: 'Limpieza especializada de sillas individuales.', 
+            features: ['Limpieza con extractor', 'Eliminación de manchas', 'Desinfección básica'], 
+            recommendations: 'Cada 3 meses para sillas de uso diario.' 
+          },
+          { 
+            id: 14, 
+            name: 'Limpieza de Puff', 
+            category: 'tapizados', 
+            price: 12000, 
+            duration: 90, 
+            description: 'Limpieza de puffs y asientos individuales.', 
+            features: ['Limpieza con extractor', 'Eliminación de manchas', 'Desinfección con vapor'], 
+            recommendations: 'Cada 4 meses para puffs de uso frecuente.' 
+          },
+          { 
+            id: 15, 
+            name: 'Limpieza de Alfombra', 
+            category: 'tapizados', 
+            price: 18000, 
+            duration: 120, 
+            description: 'Limpieza profunda de alfombras y tapetes.', 
+            features: ['Limpieza con extractor industrial', 'Eliminación de manchas', 'Protección anti-manchas'], 
+            recommendations: 'Cada 6 meses para alfombras de tránsito intenso.' 
           }
         ];
         this.allServices = fallbackServices;
@@ -2287,9 +2392,18 @@
         document.getElementById('standardBtn')?.addEventListener('click', () => this.switchVariant('standard'));
         document.getElementById('specialBtn')?.addEventListener('click', () => this.switchVariant('special'));
         
+        // Event listeners para botones de vehículos
         document.getElementById('autoBtn')?.addEventListener('click', () => this.switchVehicleType('auto'));
         document.getElementById('pickupBtn')?.addEventListener('click', () => this.switchVehicleType('pickup'));
         document.getElementById('suvBtn')?.addEventListener('click', () => this.switchVehicleType('suv'));
+        
+        // Event listeners para botones de tapizados
+        document.getElementById('sillonBtn')?.addEventListener('click', () => this.switchVehicleType('sillon'));
+        document.getElementById('sillaBtn')?.addEventListener('click', () => this.switchVehicleType('silla'));
+        document.getElementById('colchonBtn')?.addEventListener('click', () => this.switchVehicleType('colchon'));
+        document.getElementById('alfombraBtn')?.addEventListener('click', () => this.switchVehicleType('alfombra'));
+        document.getElementById('puffBtn')?.addEventListener('click', () => this.switchVehicleType('puff'));
+        document.getElementById('respaldoBtn')?.addEventListener('click', () => this.switchVehicleType('respaldo'));
         
         // Event listeners para cerrar modal
         document.querySelector('.close-modal')?.addEventListener('click', () => this.closeModal());
@@ -2313,25 +2427,70 @@
         
         this.currentServiceId = serviceId;
         this.currentVariant = 'standard';
-        this.currentVehicleType = service.groupedTypes?.includes('Auto') ? 'auto' : service.groupedTypes?.[0]?.toLowerCase() || 'auto';
+        
+        // Determinar el tipo por defecto según el servicio
+        if (service.serviceCategory === 'vehicular') {
+          // Para servicios vehiculares, mostrar tipos de vehículo
+          if (service.name.toLowerCase().includes('pickup') || service.name.toLowerCase().includes('camioneta')) {
+            this.currentVehicleType = 'pickup';
+          } else if (service.name.toLowerCase().includes('suv')) {
+            this.currentVehicleType = 'suv';
+          } else {
+            this.currentVehicleType = 'auto';
+          }
+        } else if (service.serviceCategory === 'tapizados') {
+          // Para servicios de tapizados, mostrar tipos específicos
+          if (service.name.toLowerCase().includes('sillon') || service.name.toLowerCase().includes('sofá')) {
+            this.currentVehicleType = 'sillon';
+          } else if (service.name.toLowerCase().includes('silla')) {
+            this.currentVehicleType = 'silla';
+          } else if (service.name.toLowerCase().includes('colchon')) {
+            this.currentVehicleType = 'colchon';
+          } else if (service.name.toLowerCase().includes('alfombra')) {
+            this.currentVehicleType = 'alfombra';
+          } else if (service.name.toLowerCase().includes('puff')) {
+            this.currentVehicleType = 'puff';
+          } else if (service.name.toLowerCase().includes('respaldo')) {
+            this.currentVehicleType = 'respaldo';
+          } else {
+            this.currentVehicleType = 'sillon'; // Por defecto
+          }
+        }
         
         const modalImage = document.getElementById('modalImage');
         if (modalImage) {
           modalImage.src = this.getServiceImage(service);
         }
         
+        // Configurar botones de variantes (Estándar/Especial)
         const variantButtons = document.getElementById('variantButtons');
         if (variantButtons) {
-          variantButtons.style.display = service.variants.special ? 'flex' : 'none';
+          const hasSpecialVariant = service.variants && service.variants.special;
+          variantButtons.style.display = hasSpecialVariant ? 'flex' : 'none';
+          
+          if (hasSpecialVariant) {
+            console.log('✨ Servicio tiene variante especial');
+          }
         }
 
+        // Configurar botones de tipos específicos
         const vehicleTypeButtons = document.getElementById('vehicleTypeButtons');
-        if (vehicleTypeButtons) {
-          if (service.category === 'vehicular' && service.groupedTypes?.length > 1) {
-              vehicleTypeButtons.style.display = 'flex';
-              this.setupVehicleTypeButtons(service.groupedTypes);
+        const tapizadosTypeButtons = document.getElementById('tapizadosTypeButtons');
+        
+        if (vehicleTypeButtons && tapizadosTypeButtons) {
+          if (service.serviceCategory === 'vehicular') {
+            // Para servicios vehiculares, mostrar tipos de vehículo
+            vehicleTypeButtons.style.display = 'flex';
+            tapizadosTypeButtons.style.display = 'none';
+            this.setupVehicleTypeButtons(service.groupedTypes || ['Auto', 'Pickup', 'SUV']);
+          } else if (service.serviceCategory === 'tapizados') {
+            // Para servicios de tapizados, mostrar tipos específicos
+            vehicleTypeButtons.style.display = 'none';
+            tapizadosTypeButtons.style.display = 'flex';
+            this.setupTapizadosTypeButtons(service.groupedTypes || ['Sillón', 'Silla', 'Colchón', 'Alfombra', 'Puff', 'Respaldo']);
           } else {
-              vehicleTypeButtons.style.display = 'none';
+            vehicleTypeButtons.style.display = 'none';
+            tapizadosTypeButtons.style.display = 'none';
           }
         }
 
@@ -2349,9 +2508,37 @@
             pickup: document.getElementById('pickupBtn'),
             suv: document.getElementById('suvBtn')
         };
+        
+        console.log('🚗 Configurando botones de tipo de vehículo:', availableTypes);
+        
         for (const type in buttons) {
             if (buttons[type]) {
-                buttons[type].style.display = availableTypes.includes(type.charAt(0).toUpperCase() + type.slice(1)) ? 'flex' : 'none';
+                const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                const isAvailable = availableTypes.includes(typeName);
+                buttons[type].style.display = isAvailable ? 'flex' : 'none';
+                console.log(`  - ${typeName}: ${isAvailable ? 'disponible' : 'no disponible'}`);
+            }
+        }
+      }
+
+      setupTapizadosTypeButtons(availableTypes) {
+        const buttons = {
+            sillon: document.getElementById('sillonBtn'),
+            silla: document.getElementById('sillaBtn'),
+            colchon: document.getElementById('colchonBtn'),
+            alfombra: document.getElementById('alfombraBtn'),
+            puff: document.getElementById('puffBtn'),
+            respaldo: document.getElementById('respaldoBtn')
+        };
+        
+        console.log('🛋️ Configurando botones de tipo de tapizado:', availableTypes);
+        
+        for (const type in buttons) {
+            if (buttons[type]) {
+                const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                const isAvailable = availableTypes.includes(typeName);
+                buttons[type].style.display = isAvailable ? 'flex' : 'none';
+                console.log(`  - ${typeName}: ${isAvailable ? 'disponible' : 'no disponible'}`);
             }
         }
       }
@@ -2390,15 +2577,51 @@
         
         this.updateVariantButtons();
         this.updateVehicleTypeButtons();
+        
+        console.log('📋 Modal actualizado:', {
+          service: serviceData.name,
+          variant: this.currentVariant,
+          vehicleType: this.currentVehicleType,
+          price: price
+        });
       }
 
       calculatePrice(service) {
         let basePrice = service.variants[this.currentVariant]?.price || service.price || 0;
-        if (service.category === 'vehicular') {
+        
+        // Aplicar multiplicadores según el tipo de servicio
+        if (service.serviceCategory === 'vehicular') {
+            // Multiplicadores para vehículos
             const multipliers = { auto: 1.0, pickup: 1.3, suv: 1.5 };
-            basePrice *= multipliers[this.currentVehicleType] || 1.0;
+            const multiplier = multipliers[this.currentVehicleType] || 1.0;
+            basePrice = Math.round(basePrice * multiplier);
+            console.log('🚗 Precio calculado:', {
+              basePrice: service.variants[this.currentVariant]?.price || service.price,
+              vehicleType: this.currentVehicleType,
+              multiplier: multiplier,
+              finalPrice: basePrice
+            });
+        } else if (service.serviceCategory === 'tapizados') {
+            // Multiplicadores para tapizados
+            const multipliers = { 
+              sillon: 1.0, 
+              silla: 0.6, 
+              colchon: 1.2, 
+              alfombra: 1.1, 
+              puff: 0.8, 
+              respaldo: 0.7 
+            };
+            const multiplier = multipliers[this.currentVehicleType] || 1.0;
+            basePrice = Math.round(basePrice * multiplier);
+            console.log('🛋️ Precio calculado:', {
+              basePrice: service.variants[this.currentVariant]?.price || service.price,
+              tapizadoType: this.currentVehicleType,
+              multiplier: multiplier,
+              finalPrice: basePrice
+            });
         }
-        return Math.round(basePrice);
+        
+        return basePrice;
       }
 
       switchVariant(variant) {
@@ -2423,9 +2646,26 @@
         const pickupBtn = document.getElementById('pickupBtn');
         const suvBtn = document.getElementById('suvBtn');
         
+        // Botones de tapizados
+        const sillonBtn = document.getElementById('sillonBtn');
+        const sillaBtn = document.getElementById('sillaBtn');
+        const colchonBtn = document.getElementById('colchonBtn');
+        const alfombraBtn = document.getElementById('alfombraBtn');
+        const puffBtn = document.getElementById('puffBtn');
+        const respaldoBtn = document.getElementById('respaldoBtn');
+        
+        // Actualizar botones de vehículos
         if (autoBtn) autoBtn.classList.toggle('active', this.currentVehicleType === 'auto');
         if (pickupBtn) pickupBtn.classList.toggle('active', this.currentVehicleType === 'pickup');
         if (suvBtn) suvBtn.classList.toggle('active', this.currentVehicleType === 'suv');
+        
+        // Actualizar botones de tapizados
+        if (sillonBtn) sillonBtn.classList.toggle('active', this.currentVehicleType === 'sillon');
+        if (sillaBtn) sillaBtn.classList.toggle('active', this.currentVehicleType === 'silla');
+        if (colchonBtn) colchonBtn.classList.toggle('active', this.currentVehicleType === 'colchon');
+        if (alfombraBtn) alfombraBtn.classList.toggle('active', this.currentVehicleType === 'alfombra');
+        if (puffBtn) puffBtn.classList.toggle('active', this.currentVehicleType === 'puff');
+        if (respaldoBtn) respaldoBtn.classList.toggle('active', this.currentVehicleType === 'respaldo');
       }
 
       closeModal() {
@@ -2459,9 +2699,18 @@
           btn.classList.toggle('active', btn.dataset.filter === category);
         });
         
-        // Filtrar servicios
-        const servicesToShow = category === 'todos' ? this.allServices : this.allServices.filter(s => s.category === category.replace('s', ''));
+        // Filtrar servicios según la categoría
+        let servicesToShow = [];
+        if (category === 'todos') {
+          servicesToShow = this.allServices;
+        } else if (category === 'vehiculos') {
+          servicesToShow = this.allServices.filter(s => s.category === 'vehicular');
+        } else if (category === 'tapizados') {
+          servicesToShow = this.allServices.filter(s => s.category === 'tapizados');
+        }
+        
         console.log('📊 Servicios a mostrar:', servicesToShow.length);
+        console.log('📋 Servicios filtrados:', servicesToShow.map(s => s.name));
         this.updateCarousel(servicesToShow);
       }
 
@@ -2501,17 +2750,49 @@
               ...service,
               name: serviceType,
               groupedTypes: new Set(),
-              allVariants: []
+              allVariants: [],
+              serviceCategory: service.category
             });
           }
           const group = serviceGroups.get(serviceType);
           group.allVariants.push(service);
+          
+          // Agregar tipos específicos según la categoría
           if (service.category === 'vehicular') {
-              group.groupedTypes.add(this.getVehicleType(service.name));
+            if (service.name.toLowerCase().includes('pickup') || service.name.toLowerCase().includes('camioneta')) {
+              group.groupedTypes.add('Pickup');
+            } else if (service.name.toLowerCase().includes('suv')) {
+              group.groupedTypes.add('SUV');
+            } else {
+              group.groupedTypes.add('Auto');
+            }
+          } else if (service.category === 'tapizados') {
+            if (service.name.toLowerCase().includes('sillon') || service.name.toLowerCase().includes('sofá')) {
+              group.groupedTypes.add('Sillón');
+            } else if (service.name.toLowerCase().includes('silla')) {
+              group.groupedTypes.add('Silla');
+            } else if (service.name.toLowerCase().includes('colchon')) {
+              group.groupedTypes.add('Colchón');
+            } else if (service.name.toLowerCase().includes('alfombra')) {
+              group.groupedTypes.add('Alfombra');
+            } else if (service.name.toLowerCase().includes('puff')) {
+              group.groupedTypes.add('Puff');
+            } else if (service.name.toLowerCase().includes('respaldo') || service.name.toLowerCase().includes('cama')) {
+              group.groupedTypes.add('Respaldo');
+            }
           }
         });
+        
         const result = Array.from(serviceGroups.values());
         result.forEach(s => s.groupedTypes = Array.from(s.groupedTypes));
+        
+        console.log('📋 Servicios únicos agrupados:', result.map(s => ({
+          name: s.name,
+          category: s.serviceCategory,
+          types: s.groupedTypes,
+          variants: s.allVariants.length
+        })));
+        
         return result;
       }
 
@@ -2519,8 +2800,13 @@
         if (!serviceName) return 'Servicio';
         
         const cleanName = serviceName.replace(' Especial', '').toLowerCase();
+        
         if (category === 'vehicular') {
-          if (cleanName.includes('lavado')) return 'Lavado de Vehículo';
+          if (cleanName.includes('lavado')) {
+            if (cleanName.includes('pickup') || cleanName.includes('camioneta')) return 'Lavado de Pickup';
+            if (cleanName.includes('suv')) return 'Lavado de SUV';
+            return 'Lavado de Auto';
+          }
           if (cleanName.includes('motor')) return 'Limpieza de Motor';
           if (cleanName.includes('tapizado')) return 'Tapizado de Vehículo';
           if (cleanName.includes('detallado')) return 'Detallado Premium';
@@ -2532,16 +2818,8 @@
           if (cleanName.includes('puff')) return 'Limpieza de Puffs';
           if (cleanName.includes('respaldo') || cleanName.includes('cama')) return 'Limpieza de Respaldos y Camas';
         }
-        return serviceName.replace(' Especial', '');
-      }
-
-      getVehicleType(serviceName) {
-        if (!serviceName) return 'Auto';
         
-        const lower = serviceName.toLowerCase();
-        if (lower.includes('pickup') || lower.includes('camioneta')) return 'Pickup';
-        if (lower.includes('suv')) return 'SUV';
-        return 'Auto';
+        return serviceName.replace(' Especial', '');
       }
 
       createServiceCard(service) {
@@ -2585,7 +2863,9 @@
           
           const name = service.name.toLowerCase();
           const imageMap = {
-              'lavado de vehículo': 'img/autodetalle1.jpg',
+              'lavado de auto': 'img/autodetalle1.jpg',
+              'lavado de pickup': 'img/camioneta1.jpg',
+              'lavado de suv': 'img/toyota1.jpg',
               'limpieza de motor': 'img/motorauto1.jpg',
               'tapizado de vehículo': 'img/asientosucio.jpg',
               'detallado premium': 'img/audi1.jpg',
@@ -2708,102 +2988,6 @@
         }, 1000);
       }
     }
-  </script>
-
-  <script src="js/send-whatsapp.js"></script>
-
-  <!-- Script de debugging para las cards -->
-  <script>
-    // Función de debugging para verificar el estado de las cards
-    window.debugCards = function() {
-      console.log('🔍 DEBUGGING DE CARDS');
-      console.log('======================');
-      
-      // Verificar si el manager existe
-      if (window.indexManager) {
-        console.log('✅ IndexServiceManager existe');
-        console.log('📊 Estado:', {
-          isInitialized: window.indexManager.isInitialized,
-          allServices: window.indexManager.allServices?.length || 0,
-          vehicularServices: window.indexManager.vehicularServices?.length || 0,
-          tapizadosServices: window.indexManager.tapizadosServices?.length || 0,
-          currentFilter: window.indexManager.currentFilter
-        });
-      } else {
-        console.log('❌ IndexServiceManager no existe');
-      }
-      
-      // Verificar elementos del DOM
-      const track = document.getElementById('servicesTrack');
-      if (track) {
-        console.log('✅ servicesTrack encontrado');
-        console.log('📦 Contenido actual:', track.innerHTML.substring(0, 200) + '...');
-        console.log('🎴 Cards visibles:', track.querySelectorAll('.carousel-item').length);
-      } else {
-        console.log('❌ servicesTrack no encontrado');
-      }
-      
-      // Verificar botones de filtro
-      const filterButtons = document.querySelectorAll('.service-filter-btn');
-      console.log('🔘 Botones de filtro encontrados:', filterButtons.length);
-      
-      // Verificar modal
-      const modal = document.getElementById('serviceModal');
-      if (modal) {
-        console.log('✅ Modal encontrado');
-        console.log('👁️ Modal visible:', modal.style.display === 'block');
-      } else {
-        console.log('❌ Modal no encontrado');
-      }
-      
-      // Verificar API
-      if (window.getApiUrl) {
-        console.log('🌐 URL de API:', window.getApiUrl());
-      }
-      
-      console.log('🔍 Fin del debugging');
-    };
-    
-    // Función para forzar recarga de servicios
-    window.reloadServices = function() {
-      console.log('🔄 Recargando servicios...');
-      if (window.indexManager) {
-        window.indexManager.loadServices().then(() => {
-          console.log('✅ Servicios recargados');
-          window.debugCards();
-        }).catch(error => {
-          console.error('❌ Error recargando servicios:', error);
-        });
-      } else {
-        console.log('❌ IndexServiceManager no disponible');
-      }
-    };
-    
-    // Función para mostrar servicios de respaldo
-    window.showFallbackServices = function() {
-      console.log('🆘 Cargando servicios de respaldo...');
-      if (window.indexManager) {
-        window.indexManager.loadFallbackServices();
-        console.log('✅ Servicios de respaldo cargados');
-        window.debugCards();
-      } else {
-        console.log('❌ IndexServiceManager no disponible');
-      }
-    };
-    
-    // Ejecutar debugging automáticamente después de 3 segundos
-    setTimeout(() => {
-      console.log('🔧 Debugging automático iniciado...');
-      window.debugCards();
-    }, 3000);
-    
-    // Agregar comandos útiles a la consola
-    console.log('🔧 Comandos de debugging disponibles:');
-    console.log('  - debugCards() - Verificar estado de las cards');
-    console.log('  - reloadServices() - Recargar servicios desde la API');
-    console.log('  - showFallbackServices() - Cargar servicios de respaldo');
-  </script>
-
+</script>
 </body>
-
 </html>
