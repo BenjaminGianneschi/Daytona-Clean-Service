@@ -2136,9 +2136,9 @@
       async init() {
         console.log('🚀 Iniciando IndexServiceManager...');
         try {
-          await this.loadServices();
-          this.setupEventListeners();
-          this.setupCarouselControls();
+        await this.loadServices();
+        this.setupEventListeners();
+        this.setupCarouselControls();
           this.isInitialized = true;
           console.log('✅ IndexServiceManager inicializado correctamente');
         } catch (error) {
@@ -2488,7 +2488,7 @@
             vehicleTypeButtons.style.display = 'none';
             tapizadosTypeButtons.style.display = 'flex';
             this.setupTapizadosTypeButtons(service.groupedTypes || ['Sillón', 'Silla', 'Colchón', 'Alfombra', 'Puff', 'Respaldo']);
-          } else {
+        } else {
             vehicleTypeButtons.style.display = 'none';
             tapizadosTypeButtons.style.display = 'none';
           }
@@ -2498,7 +2498,7 @@
         const modal = document.getElementById('serviceModal');
         if (modal) {
           modal.style.display = 'block';
-          document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
         }
       }
       
@@ -2565,13 +2565,13 @@
         if (modalRecommendations) modalRecommendations.textContent = variant.recommendations || 'Sin recomendaciones específicas';
 
         if (featuresList) {
-          featuresList.innerHTML = '';
+        featuresList.innerHTML = '';
           if (variant.features && Array.isArray(variant.features)) {
             variant.features.forEach(feature => {
-              const li = document.createElement('li');
-              li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
-              featuresList.appendChild(li);
-            });
+          const li = document.createElement('li');
+          li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
+          featuresList.appendChild(li);
+        });
           }
         }
         
@@ -2672,7 +2672,7 @@
         const modal = document.getElementById('serviceModal');
         if (modal) {
           modal.style.display = 'none';
-          document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
         }
       }
 
@@ -2825,28 +2825,28 @@
       createServiceCard(service) {
         try {
           console.log('🎴 Creando card para servicio:', service.name);
-          const div = document.createElement('div');
-          div.className = 'servicio-card-custom carousel-item';
-          const serviceKey = this.generateServiceKey(service);
+        const div = document.createElement('div');
+        div.className = 'servicio-card-custom carousel-item';
+        const serviceKey = this.generateServiceKey(service);
           
           const imageSrc = this.getServiceImage(service);
           const description = service.description || 'Descripción no disponible.';
           
-          div.innerHTML = `
+        div.innerHTML = `
             <img src="${imageSrc}" alt="${service.name}" onerror="this.src='img/daytona2.jpg'">
-            <div class="servicio-card-body">
-              <h5>${service.name}</h5>
+          <div class="servicio-card-body">
+            <h5>${service.name}</h5>
               <p>${description}</p>
-              <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="${serviceKey}">
-                  <i class="fas fa-info-circle me-2"></i>Ver Detalles
-                </button>
-              </div>
+            <div class="service-options">
+              <button class="servicio-btn info-btn" data-service="${serviceKey}">
+                <i class="fas fa-info-circle me-2"></i>Ver Detalles
+              </button>
             </div>
-          `;
+          </div>
+        `;
           
           console.log('✅ Card creada exitosamente para:', service.name);
-          return div;
+        return div;
         } catch (error) {
           console.error('❌ Error creando card para servicio:', service.name, error);
           return null;
@@ -2885,11 +2885,11 @@
         const nextBtn = document.getElementById('nextBtn');
         
         if (prevBtn) {
-          prevBtn.addEventListener('click', () => this.moveCarousel(-1));
+        prevBtn.addEventListener('click', () => this.moveCarousel(-1));
         }
         
         if (nextBtn) {
-          nextBtn.addEventListener('click', () => this.moveCarousel(1));
+        nextBtn.addEventListener('click', () => this.moveCarousel(1));
         }
         
         window.addEventListener('resize', () => this.updateCarouselButtons());
@@ -2964,7 +2964,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       console.log('🌐 DOM cargado, inicializando IndexServiceManager...');
       try {
-        window.indexManager = new IndexServiceManager();
+      window.indexManager = new IndexServiceManager();
       } catch (error) {
         console.error('❌ Error creando IndexServiceManager:', error);
         // Crear una instancia de respaldo
@@ -2982,12 +2982,12 @@
         console.warn('⚠️ IndexServiceManager no está inicializado aún');
         // Esperar un poco y reintentar
         setTimeout(() => {
-          if (window.indexManager) {
-            window.indexManager.filterServices(category);
+      if (window.indexManager) {
+        window.indexManager.filterServices(category);
           }
         }, 1000);
       }
     }
-</script>
+  </script>
 </body>
 </html>
