@@ -82,7 +82,6 @@
   <!-- CSS personalizado -->
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/components/header.css" />
-
   <link rel="stylesheet" href="css/components/forms.css" />
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
@@ -705,7 +704,7 @@
 
     }
     
-
+    
     
     /* Responsive para el carrusel */
     @media (max-width: 1200px) {
@@ -1240,7 +1239,7 @@
                   </span>
                   <div>
                     <strong class="text-white">Control de Calidad</strong><br>
-                    <span class="text-light small">Revisión exhaustiva junto al cliente, verificación de resultados y aplicación de protectores finales para mantener la limpieza.</span>
+                    <span class="text-light small">Revisión exhaustiva junto al cliente, verificación de resultados y aplicación de protectores finais para mantener la limpieza.</span>
                   </div>
                 </div>
               </div>
@@ -1907,7 +1906,7 @@
               <span class="bg-dark rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 38px; height: 38px;"><i class="fas fa-building" style="color: #ff3b3f;"></i></span>
               <div>
                 <strong class="text-white">Planes Empresariales</strong><br>
-                <span class="text-white small">Ofrecemos convenios especiales para flotas, concesionarias o negocios con necesidades recurrentes de limpieza</span>
+                <span class="text-white small">Ofrecemos convenios especiais para flotas, concesionarias o negocios con necesidades recurrentes de limpieza</span>
     </div>
             </div>
             <div class="mb-3 d-flex align-items-start">
@@ -2091,765 +2090,8 @@
   <script src="js/test-connection.js"></script>
   <script src="js/faq-toggle.js"></script>
   <script src="js/whatsapp-float.js"></script>
-  <script src="js/send-whatsapp.js"></script>
-
-
-  <!-- Script para el modal de servicios será manejado por IndexServiceManager -->
-
-      async init() {
-        console.log('🚀 Cargando servicios para index...');
-        await this.loadServices();
-        this.setupEventListeners();
-      }
-
-      async loadServices() {
-        try {
-          const response = await this.apiService.request('/appointments/services');
-          if (response.success && response.services) {
-            console.log('✅ Servicios cargados:', response.services.length);
-            this.createServiceData(response.services);
-          } else {
-            console.error('❌ Error cargando servicios:', response.message);
-            this.loadFallbackServices();
-          }
-        } catch (error) {
-          console.error('❌ Error de conexión:', error);
-          this.loadFallbackServices();
-        }
-      }
-
-      createServiceData(services) {
-        // Procesar servicios agrupados después de usar getUniqueServices
-        const uniqueServices = this.getUniqueServices(services);
-        
-        uniqueServices.forEach(service => {
-          const serviceKey = this.generateServiceKey(service);
-          
-          this.serviciosData[serviceKey] = {
-            name: service.name,
-            baseName: service.name,
-            image: this.getServiceImage(service),
-            category: service.category,
-            price: service.price,
-            description: service.description || this.generateDescription(service),
-            features: this.generateFeatures(service),
-            time: service.duration ? `${service.duration} minutos` : '2-3 horas',
-            recommendations: this.generateRecommendations(service),
-            groupedTypes: service.groupedTypes || [],
-            allVariants: service.allVariants || [service],
-            variants: this.createVariantsForService(service)
-          };
-        });
-        
-        console.log('📋 Datos de servicios agrupados creados:', Object.keys(this.serviciosData).length);
-      }
-
-      createVariantsForService(service) {
-        const variants = {
-          standard: {
-            id: service.id,
-            title: service.name,
-            price: service.price ? `$${service.price.toLocaleString()}` : '$20.000',
-            description: service.description || this.generateDescription(service),
-            features: this.generateFeatures(service),
-            time: service.duration ? `${service.duration} minutos` : '2-3 horas',
-            recommendations: this.generateRecommendations(service)
-          }
-        };
-
-        // Buscar variante especial si existe en allVariants
-        if (service.allVariants) {
-          const specialVariant = service.allVariants.find(v => v.name.includes('Especial'));
-          if (specialVariant) {
-            variants.special = {
-              id: specialVariant.id,
-              title: specialVariant.name,
-              price: specialVariant.price ? `$${specialVariant.price.toLocaleString()}` : '$30.000',
-              description: specialVariant.description || this.generateDescription(specialVariant),
-              features: this.generateFeatures(specialVariant),
-              time: specialVariant.duration ? `${specialVariant.duration} minutos` : '3-4 horas',
-              recommendations: this.generateRecommendations(specialVariant)
-            };
-          }
-        }
-
-        return variants;
-      }
-
-
-
-      getServiceImage(service) {
-        const name = service.name.toLowerCase();
-        
-        // Mapeo de imágenes por tipo de servicio
-        if (name.includes('auto') && !name.includes('tapizado')) return 'img/autodetalle1.jpg';
-        if (name.includes('pickup') && !name.includes('tapizado')) return 'img/camioneta3.jpg';
-        if (name.includes('suv') && !name.includes('tapizado')) return 'img/toyota5.jpg';
-        if (name.includes('motor')) return 'img/motorauto1.jpg';
-        if (name.includes('tapizado') && name.includes('auto')) return 'img/asientosucio.jpg';
-        if (name.includes('tapizado') && name.includes('pickup')) return 'img/hilux1.jpg';
-        if (name.includes('tapizado') && name.includes('suv')) return 'img/hilux2.jpg';
-        if (name.includes('sillon')) return 'img/sillon123.jpg';
-        if (name.includes('silla')) return 'img/sillacomedor1234.jpeg';
-        if (name.includes('colchon')) return 'img/colchonlimpio.jpg';
-        if (name.includes('alfombra')) return 'img/alfombralimpia.jpg';
-        if (name.includes('puff')) return 'img/puff12.jpeg';
-        if (name.includes('respaldar') || name.includes('respaldo')) return 'img/respaldar1.jpeg';
-        
-        // Imagen por defecto
-        return 'img/autodetalle1.jpg';
-      }
-
-      generateDescription(service) {
-        const category = service.category;
-        const name = service.name.toLowerCase();
-        
-        if (category === 'vehicular') {
-          if (name.includes('tapizado')) {
-            return 'Limpieza profunda de tapizados vehiculares con tecnología avanzada. Eliminamos manchas, olores y suciedad acumulada para dejar tu vehículo como nuevo.';
-          } else if (name.includes('motor')) {
-            return 'Limpieza profesional del compartimento del motor con productos seguros. Mejora el rendimiento y facilita la detección de problemas.';
-          } else {
-            return 'Lavado completo de vehículo con productos profesionales. Incluye limpieza interior y exterior para resultados excepcionales.';
-          }
-        } else {
-          return 'Limpieza profesional de tapizados para el hogar. Eliminamos manchas, ácaros y olores para devolver la frescura original.';
-        }
-      }
-
-      generateFeatures(service) {
-        const baseFeatures = [
-          'Limpieza con productos profesionales',
-          'Equipo especializado',
-          'Personal capacitado',
-          'Garantía de satisfacción'
-        ];
-
-        const name = service.name.toLowerCase();
-        
-        if (name.includes('especial')) {
-          baseFeatures.push(
-            'Máquina de inyección-extracción',
-            'Productos 3D profesionales',
-            'Tratamiento impermeabilizante',
-            'Aromatización incluida'
-          );
-        }
-
-        if (service.category === 'vehicular') {
-          baseFeatures.push('Limpieza de vidrios', 'Aspirado profundo');
-        } else {
-          baseFeatures.push('Desinfección con vapor', 'Tratamiento anti-ácaros');
-        }
-
-        return baseFeatures;
-      }
-
-      generateRecommendations(service) {
-        const name = service.name.toLowerCase();
-        
-        if (name.includes('tapizado')) {
-          return 'Ideal para eliminar manchas difíciles y olores. Recomendado cada 3-6 meses.';
-        } else if (name.includes('motor')) {
-          return 'Recomendado cada 6-12 meses para mantener el motor en óptimas condiciones.';
-        } else if (name.includes('colchon')) {
-          return 'Recomendado cada 6-12 meses. Especialmente importante para personas alérgicas.';
-        } else {
-          return 'Servicio recomendado para mantener en perfectas condiciones.';
-        }
-      }
-
-      loadFallbackServices() {
-        console.log('⚠️ Cargando servicios de respaldo...');
-        
-        // Crear servicios de fallback que coincidan con la nueva estructura
-        const fallbackServices = [
-          { id: 1, name: 'Lavado de Auto', category: 'vehicular', price: 20000, duration: 180 },
-          { id: 2, name: 'Lavado de Auto Especial', category: 'vehicular', price: 30000, duration: 240 },
-          { id: 3, name: 'Lavado de Pickup', category: 'vehicular', price: 26000, duration: 200 },
-          { id: 4, name: 'Lavado de SUV', category: 'vehicular', price: 30000, duration: 220 },
-          { id: 5, name: 'Limpieza de Sillón', category: 'tapizados', price: 15000, duration: 120 },
-          { id: 6, name: 'Limpieza de Sofá', category: 'tapizados', price: 25000, duration: 180 },
-          { id: 7, name: 'Limpieza de Colchón', category: 'tapizados', price: 20000, duration: 150 }
-        ];
-
-        // Crear datos agrupados
-        this.allServices = fallbackServices;
-        this.vehicularServices = fallbackServices.filter(s => s.category === 'vehicular');
-        this.tapizadosServices = fallbackServices.filter(s => s.category === 'tapizados');
-        
-        // Crear datos para modales usando la nueva estructura
-        this.createServiceData(fallbackServices);
-        
-        // Mostrar servicios según el filtro actual
-        this.filterServices(this.currentFilter);
-        
-        console.log('✅ Servicios de respaldo cargados:', Object.keys(this.serviciosData).length);
-      }
-
-      setupEventListeners() {
-        // Event listener para botones de "Ver Detalles"
-        document.addEventListener('click', (e) => {
-          if (e.target.classList.contains('info-btn') || 
-              (e.target.parentElement && e.target.parentElement.classList.contains('info-btn'))) {
-            
-            const button = e.target.classList.contains('info-btn') ? e.target : e.target.parentElement;
-            const serviceId = button.getAttribute('data-service');
-            
-            console.log('🔍 Click en Ver Detalles:', serviceId);
-            console.log('📋 Servicios disponibles:', Object.keys(this.serviciosData));
-            
-            if (serviceId) {
-              // Buscar la clave exacta en serviciosData
-              let foundKey = null;
-              
-              // Primero buscar coincidencia exacta
-              if (this.serviciosData[serviceId]) {
-                foundKey = serviceId;
-              } else {
-                // Buscar por nombre similar
-                foundKey = Object.keys(this.serviciosData).find(key => {
-                  const serviceName = this.serviciosData[key].name.toLowerCase().replace(/\s+/g, '-');
-                  return serviceName === serviceId;
-                });
-              }
-              
-              if (foundKey) {
-                console.log('✅ Abriendo modal para:', foundKey);
-                this.openServiceModal(foundKey);
-              } else {
-                console.warn('⚠️ Servicio no encontrado:', serviceId);
-                console.log('Disponibles:', Object.keys(this.serviciosData));
-              }
-            }
-          }
-        });
-
-        // Event listeners para botones de variantes en el modal
-        const standardBtn = document.getElementById('standardBtn');
-        const specialBtn = document.getElementById('specialBtn');
-        
-        if (standardBtn) {
-          standardBtn.addEventListener('click', () => {
-            if (this.currentServiceId) {
-              this.switchVariant('standard');
-            }
-          });
-        }
-        
-        if (specialBtn) {
-          specialBtn.addEventListener('click', () => {
-            if (this.currentServiceId) {
-              this.switchVariant('special');
-            }
-          });
-        }
-
-        // Event listeners para botones de tipos de vehículo
-        const autoBtn = document.getElementById('autoBtn');
-        const pickupBtn = document.getElementById('pickupBtn');
-        const suvBtn = document.getElementById('suvBtn');
-        
-        if (autoBtn) {
-          autoBtn.addEventListener('click', () => {
-            if (this.currentServiceId) {
-              this.switchVehicleType('auto');
-            }
-          });
-        }
-        
-        if (pickupBtn) {
-          pickupBtn.addEventListener('click', () => {
-            if (this.currentServiceId) {
-              this.switchVehicleType('pickup');
-            }
-          });
-        }
-        
-        if (suvBtn) {
-          suvBtn.addEventListener('click', () => {
-            if (this.currentServiceId) {
-              this.switchVehicleType('suv');
-            }
-          });
-        }
-
-        // Event listeners para cerrar modal
-        const closeBtn = document.querySelector('.close-modal');
-        if (closeBtn) {
-          closeBtn.addEventListener('click', () => this.closeModal());
-        }
-
-        const modal = document.getElementById('serviceModal');
-        if (modal) {
-          modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-              this.closeModal();
-            }
-          });
-        }
-
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            this.closeModal();
-          }
-        });
-      }
-
-      openServiceModal(serviceId) {
-        // Buscar el servicio en los datos
-        const service = this.serviciosData[serviceId];
-        if (!service) {
-          console.warn('⚠️ Servicio no encontrado:', serviceId);
-          return;
-        }
-
-        this.currentServiceId = serviceId;
-        this.currentVariant = 'standard'; // Empezar siempre con estándar
-        this.currentVehicleType = 'auto'; // Empezar con auto por defecto
-
-        // Configurar imagen
-        document.getElementById('modalImage').src = service.image;
-
-        // Mostrar/ocultar botones de variantes
-        const variantButtons = document.getElementById('variantButtons');
-        if (service.variants && service.variants.special) {
-          variantButtons.style.display = 'flex';
-        } else {
-          variantButtons.style.display = 'none';
-        }
-
-        // Mostrar/ocultar botones de tipos de vehículo
-        const vehicleTypeButtons = document.getElementById('vehicleTypeButtons');
-        if (service.category === 'vehicular' && service.groupedTypes && service.groupedTypes.length > 1) {
-          vehicleTypeButtons.style.display = 'flex';
-          this.setupVehicleTypeButtons(service.groupedTypes);
-        } else {
-          vehicleTypeButtons.style.display = 'none';
-        }
-
-        // Mostrar contenido inicial
-        this.updateModalContent();
-
-        // Actualizar estados de botones
-        this.updateVariantButtons();
-        this.updateVehicleTypeButtons();
-
-        // Mostrar el modal
-        document.getElementById('serviceModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-      }
-
-      switchVariant(variant) {
-        this.currentVariant = variant;
-        this.updateModalContent();
-        this.updateVariantButtons();
-      }
-
-      updateVariantButtons() {
-        const standardBtn = document.getElementById('standardBtn');
-        const specialBtn = document.getElementById('specialBtn');
-        
-        if (standardBtn && specialBtn) {
-          standardBtn.classList.toggle('active', this.currentVariant === 'standard');
-          specialBtn.classList.toggle('active', this.currentVariant === 'special');
-        }
-      }
-
-      setupVehicleTypeButtons(availableTypes) {
-        const autoBtn = document.getElementById('autoBtn');
-        const pickupBtn = document.getElementById('pickupBtn');
-        const suvBtn = document.getElementById('suvBtn');
-
-        // Mostrar/ocultar botones según tipos disponibles
-        if (autoBtn) autoBtn.style.display = availableTypes.includes('Auto') ? 'flex' : 'none';
-        if (pickupBtn) pickupBtn.style.display = availableTypes.includes('Pickup') ? 'flex' : 'none';
-        if (suvBtn) suvBtn.style.display = availableTypes.includes('SUV') ? 'flex' : 'none';
-
-        // Seleccionar el primer tipo disponible
-        if (availableTypes.length > 0) {
-          this.currentVehicleType = availableTypes[0].toLowerCase();
-        }
-      }
-
-      switchVehicleType(vehicleType) {
-        this.currentVehicleType = vehicleType;
-        this.updateModalContent();
-        this.updateVehicleTypeButtons();
-      }
-
-      updateVehicleTypeButtons() {
-        const autoBtn = document.getElementById('autoBtn');
-        const pickupBtn = document.getElementById('pickupBtn');
-        const suvBtn = document.getElementById('suvBtn');
-        
-        if (autoBtn) autoBtn.classList.toggle('active', this.currentVehicleType === 'auto');
-        if (pickupBtn) pickupBtn.classList.toggle('active', this.currentVehicleType === 'pickup');
-        if (suvBtn) suvBtn.classList.toggle('active', this.currentVehicleType === 'suv');
-      }
-
-      updateModalContent() {
-        const service = this.serviciosData[this.currentServiceId];
-        if (!service) return;
-
-        // Calcular precio según variante y tipo de vehículo
-        const finalPrice = this.calculatePrice(service);
-        const variantText = this.currentVariant === 'special' ? ' (Especial)' : '';
-        const vehicleText = service.category === 'vehicular' ? ` - ${this.getVehicleDisplayName()}` : '';
-
-        // Actualizar contenido del modal
-        document.getElementById('modalTitle').textContent = service.name;
-        document.getElementById('modalPrice').textContent = `$${finalPrice.toLocaleString()}${variantText}${vehicleText}`;
-        document.getElementById('modalDescription').textContent = service.description || this.getServiceDescription(service);
-        document.getElementById('modalTime').textContent = service.time || this.getServiceTime(service);
-        document.getElementById('modalRecommendations').textContent = service.recommendations || this.getServiceRecommendations(service);
-
-        // Actualizar características
-        const featuresList = document.getElementById('modalFeatures');
-        featuresList.innerHTML = '';
-        const features = service.features || this.getServiceFeatures(service);
-        features.forEach(feature => {
-          const li = document.createElement('li');
-          li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
-          featuresList.appendChild(li);
-        });
-      }
-
-      calculatePrice(service) {
-        // Precio base del servicio
-        let basePrice = parseInt(service.price?.toString().replace(/[^\d]/g, '')) || 20000;
-
-        // Multiplicador por tipo de vehículo (solo para vehiculares)
-        if (service.category === 'vehicular') {
-          const vehicleMultipliers = {
-            'auto': 1.0,
-            'pickup': 1.3,  // 30% más
-            'suv': 1.5      // 50% más
-          };
-          basePrice *= vehicleMultipliers[this.currentVehicleType] || 1.0;
-        }
-
-        // Multiplicador por variante
-        if (this.currentVariant === 'special') {
-          basePrice *= 1.5; // 50% más para especial
-        }
-
-        return Math.round(basePrice);
-      }
-
-      getVehicleDisplayName() {
-        const names = {
-          'auto': 'Auto',
-          'pickup': 'Pickup',
-          'suv': 'SUV'
-        };
-        return names[this.currentVehicleType] || 'Auto';
-      }
-
-      getServiceDescription(service) {
-        const descriptions = {
-          'Lavado de Vehículo': 'Lavado completo interior y exterior con productos profesionales de alta calidad.',
-          'Limpieza de Motor': 'Limpieza profunda del motor con productos especializados y secado cuidadoso.',
-          'Tapizado de Vehículo': 'Limpieza completa de asientos y tapizados con equipos profesionales.',
-          'Detallado Premium': 'Servicio completo de detallado con encerado y protección UV.'
-        };
-        return descriptions[service.name] || service.description || 'Servicio profesional de alta calidad.';
-      }
-
-      getServiceTime(service) {
-        const times = {
-          'Lavado de Vehículo': '2-3 horas',
-          'Limpieza de Motor': '1-2 horas',
-          'Tapizado de Vehículo': '2-4 horas',
-          'Detallado Premium': '4-6 horas'
-        };
-        return times[service.name] || '2-3 horas';
-      }
-
-      getServiceRecommendations(service) {
-        const recommendations = {
-          'Lavado de Vehículo': 'Ideal para mantenimiento regular. Recomendamos cada 2-3 semanas.',
-          'Limpieza de Motor': 'Recomendamos cada 6 meses para mantener el motor en óptimas condiciones.',
-          'Tapizado de Vehículo': 'Perfecto para eliminar manchas y olores. Cada 3-4 meses.',
-          'Detallado Premium': 'Servicio premium para protección total. Cada 4-6 meses.'
-        };
-        return recommendations[service.name] || 'Servicio profesional recomendado regularmente.';
-      }
-
-      getServiceFeatures(service) {
-        const features = {
-          'Lavado de Vehículo': [
-            'Lavado exterior completo con shampoo profesional',
-            'Aspirado profundo del interior',
-            'Limpieza de superficies plásticas',
-            'Limpieza de vidrios interior y exterior',
-            'Secado manual sin rayas'
-          ],
-          'Limpieza de Motor': [
-            'Limpieza profunda del motor',
-            'Desengrase completo',
-            'Protección de componentes eléctricos',
-            'Secado cuidadoso',
-            'Aplicación de protector de goma'
-          ],
-          'Tapizado de Vehículo': [
-            'Aspirado profundo de asientos',
-            'Limpieza con productos especializados',
-            'Eliminación de manchas difíciles',
-            'Desinfección completa',
-            'Secado rápido'
-          ],
-          'Detallado Premium': [
-            'Lavado completo premium',
-            'Encerado profesional',
-            'Pulido de carrocería',
-            'Tratamiento de cueros',
-            'Protección UV completa'
-          ]
-        };
-        return features[service.name] || ['Servicio profesional de alta calidad', 'Productos especializados', 'Atención personalizada'];
-      }
-
-      closeModal() {
-        document.getElementById('serviceModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-        
-        this.currentServiceId = null;
-        this.currentVariant = 'standard';
-        this.currentVehicleType = 'auto';
-      }
-
-      generateServiceKey(service) {
-        // Crear una clave única basada en el nombre del servicio
-        return service.name.toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[áéíóú]/g, match => ({'á':'a','é':'e','í':'i','ó':'o','ú':'u'}[match]))
-          .replace(/[^a-z0-9-]/g, '');
-      }
-    }
-
-    // Inicializar el gestor de servicios cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-      window.indexServiceManager = new IndexServiceManager();
-    });
-
-    // Funciones globales para compatibilidad
-    function openServiceModal(serviceId) {
-      if (window.indexServiceManager) {
-        window.indexServiceManager.openServiceModal(serviceId);
-      }
-    }
-
-    function closeModal() {
-      if (window.indexServiceManager) {
-        window.indexServiceManager.closeModal();
-      }
-    }
-  </script>
-
-  <!-- Hero Slider Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const slides = document.querySelectorAll('.slide');
-      let currentSlide = 0;
-      
-      // Verificar que hay slides
-      if (slides.length === 0) return;
-      
-      function nextSlide() {
-        // Ocultar slide actual
-        slides[currentSlide].classList.remove('active');
-        
-        // Avanzar al siguiente slide
-        currentSlide = (currentSlide + 1) % slides.length;
-        
-        // Mostrar nuevo slide
-        slides[currentSlide].classList.add('active');
-      }
-      
-      // Asegurar que el primer slide esté activo
-      slides[0].classList.add('active');
-      
-      // Cambiar slide cada 4 segundos
-      setInterval(nextSlide, 4000);
-    });
-  </script>
-
-  <!-- Carrusel de Servicios Script - VERSIÓN SIMPLE -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const carousel = document.getElementById('servicesCarousel');
-      const track = carousel.querySelector('.carousel-track');
-      const items = carousel.querySelectorAll('.carousel-item');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-
-      
-      console.log('=== DEBUG CARRUSEL ===');
-      console.log('Items encontrados:', items.length);
-      console.log('Ancho del contenedor:', carousel.offsetWidth);
-      console.log('Ancho del track:', track.offsetWidth);
-      console.log('Ancho de ventana:', window.innerWidth);
-      
-      // Función para obtener el número de tarjetas visibles según el tamaño de pantalla
-      function getItemsPerView() {
-        if (window.innerWidth <= 576) return 1;
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1200) return 2;
-        return 3; // Siempre mostrar 3 en desktop
-      }
-      
-      // Función para obtener el ancho de cada tarjeta según el tamaño de pantalla
-      function getItemWidth() {
-        if (window.innerWidth <= 576) return 260;
-        if (window.innerWidth <= 768) return 280;
-        if (window.innerWidth <= 1200) return 300;
-        return 320;
-      }
-      
-      // Función para calcular el ancho disponible del carrusel
-      function getCarouselWidth() {
-        const container = document.querySelector('.services-carousel-container');
-        if (container) {
-          return container.offsetWidth - 200; // Restar el espacio de los botones
-        }
-        return 1200; // Valor por defecto
-      }
-      
-      // Función para mover el carrusel
-      let currentIndex = 0;
-      const gap = 25; // Espacio entre tarjetas
-      
-      function moveCarousel() {
-        const itemsPerView = getItemsPerView();
-        const itemWidth = getItemWidth();
-        const moveDistance = itemWidth + gap;
-        
-        // Calcular el centrado inicial
-        const carouselWidth = carousel.offsetWidth;
-        const totalItemsWidth = itemsPerView * itemWidth + (itemsPerView - 1) * gap;
-        const initialOffset = (carouselWidth - totalItemsWidth) / 2;
-        
-        // Calcular la posición para mostrar las tarjetas centradas
-        // Para el índice 0, mostrar las primeras 3 tarjetas
-        // Para otros índices, mover de acuerdo al número de items por vista
-        let translateX;
-        if (currentIndex === 0) {
-          translateX = 0; // Empezar desde la primera tarjeta
-        } else {
-          translateX = -(currentIndex * itemsPerView * moveDistance);
-        }
-        
-        console.log('=== MOVE CARRUSEL ===');
-        console.log('Items por vista:', itemsPerView);
-        console.log('Ancho de item:', itemWidth);
-        console.log('Distancia de movimiento por item:', moveDistance);
-        console.log('Distancia total de movimiento:', currentIndex * itemsPerView * moveDistance);
-        console.log('TranslateX:', translateX);
-        console.log('CurrentIndex:', currentIndex);
-        console.log('Total de items:', items.length);
-        console.log('Ancho del carrusel:', carousel.offsetWidth);
-        console.log('Ancho del contenedor:', getCarouselWidth());
-        console.log('Ancho total de items:', totalItemsWidth);
-        console.log('Offset inicial:', initialOffset);
-        console.log('TranslateX final:', translateX);
-        
-        // Aplicar la transformación
-        track.style.transform = `translateX(${translateX}px)`;
-        track.style.transition = 'transform 0.5s ease-in-out';
-        
-        // Actualizar botones
-        prevBtn.disabled = currentIndex === 0;
-        // Calcular cuántas "páginas" de tarjetas hay
-        const totalPages = Math.ceil(items.length / itemsPerView);
-        nextBtn.disabled = currentIndex >= totalPages - 1;
-        
-        console.log('Botón prev deshabilitado:', prevBtn.disabled);
-        console.log('Botón next deshabilitado:', nextBtn.disabled);
-        console.log('Total de páginas:', totalPages);
-        
-        // Debug: mostrar información del track
-        console.log('Track transform:', track.style.transform);
-        console.log('Track width:', track.offsetWidth);
-        console.log('Track scrollWidth:', track.scrollWidth);
-        
-
-      }
-      
-
-      
-      prevBtn.addEventListener('click', () => {
-        console.log('Click en botón prev');
-        if (currentIndex > 0) {
-          currentIndex--;
-          // Usar la función apropiada según si hay filtros activos
-          if (currentFilter !== 'todos') {
-            moveCarouselWithFilter();
-          } else {
-            moveCarousel();
-          }
-        }
-      });
-      
-      nextBtn.addEventListener('click', () => {
-        console.log('Click en botón next');
-        const itemsPerView = getItemsPerView();
-        
-        // Calcular total de páginas basado en items visibles
-        let totalItems;
-        if (currentFilter !== 'todos') {
-          totalItems = getVisibleItemsCount();
-        } else {
-          totalItems = items.length;
-        }
-        
-        const totalPages = Math.ceil(totalItems / itemsPerView);
-        if (currentIndex < totalPages - 1) {
-          currentIndex++;
-          // Usar la función apropiada según si hay filtros activos
-          if (currentFilter !== 'todos') {
-            moveCarouselWithFilter();
-          } else {
-            moveCarousel();
-          }
-        }
-      });
-      
-      // Función para reiniciar el carrusel cuando cambie el tamaño de pantalla
-      function handleResize() {
-        console.log('Redimensionando ventana');
-        currentIndex = 0;
-        moveCarousel();
-      }
-      
-      // Escuchar cambios de tamaño de ventana
-      window.addEventListener('resize', handleResize);
-      
-      // Los event listeners para los indicadores se generan dinámicamente en generateIndicators()
-      
-      // Inicializar con un pequeño retraso para asegurar que todo esté cargado
-      console.log('Inicializando carrusel...');
-      setTimeout(() => {
-        // Verificar que todos los items estén presentes
-        items.forEach((item, index) => {
-          console.log(`Tarjeta ${index + 1}:`, item.querySelector('h5')?.textContent);
-          console.log(`Tarjeta ${index + 1} width:`, item.offsetWidth);
-          console.log(`Tarjeta ${index + 1} display:`, window.getComputedStyle(item).display);
-        });
-        
-        // Verificar el estado inicial del carrusel
-        console.log('=== ESTADO INICIAL ===');
-        console.log('Track transform inicial:', track.style.transform);
-        console.log('Track width inicial:', track.offsetWidth);
-        console.log('Carousel width:', carousel.offsetWidth);
-        console.log('Container width:', carousel.parentElement.offsetWidth);
-        
-        moveCarousel();
-      }, 100);
-    });
-  </script>
-
-  <!-- Script para cargar servicios dinámicamente con filtrado -->
+  
+  <!-- Scripts de la página -->
   <script>
     // Clase para manejar servicios dinámicos del index
     class IndexServiceManager {
@@ -2870,9 +2112,8 @@
       async init() {
         console.log('🚀 Cargando servicios del index...');
         await this.loadServices();
-        this.setupFilterButtons();
+        this.setupEventListeners();
         this.setupCarouselControls();
-        this.setupServiceButtons();
       }
 
       async loadServices() {
@@ -2880,725 +2121,351 @@
           const response = await this.apiService.request('/appointments/services');
           if (response.success && response.services) {
             this.allServices = response.services;
-            
-            // Separar servicios por categoría
             this.vehicularServices = response.services.filter(s => s.category === 'vehicular');
             this.tapizadosServices = response.services.filter(s => s.category === 'tapizados');
-            
-            console.log('✅ Servicios vehiculares:', this.vehicularServices.length);
-            console.log('✅ Servicios de tapizados:', this.tapizadosServices.length);
-            
-            // Actualizar contadores en botones
+            this.createServiceData(this.allServices);
             this.updateServiceCounts();
-            
-            // Crear datos para modales
-            this.createServiceData();
-            
-            // Mostrar todos los servicios por defecto
             this.filterServices('todos');
-            
           } else {
             console.error('❌ Error cargando servicios:', response.message);
-            this.showError('Error cargando servicios');
+            this.loadFallbackServices();
           }
         } catch (error) {
           console.error('❌ Error de conexión:', error);
-          this.showError('Error de conexión');
+          this.loadFallbackServices();
         }
+      }
+
+      createServiceData(services) {
+        const uniqueServices = this.getUniqueServices(services);
+        uniqueServices.forEach(service => {
+          const serviceKey = this.generateServiceKey(service);
+          this.serviciosData[serviceKey] = {
+            ...service,
+            variants: this.createVariantsForService(service)
+          };
+        });
+        console.log('📋 Datos de servicios agrupados creados:', Object.keys(this.serviciosData).length);
+      }
+
+      createVariantsForService(service) {
+          const variants = { standard: service };
+          if (service.allVariants) {
+              const specialVariant = service.allVariants.find(v => v.name.includes('Especial'));
+              if (specialVariant) {
+                  variants.special = specialVariant;
+              }
+          }
+          return variants;
+      }
+      
+      loadFallbackServices() {
+        console.log('⚠️ Cargando servicios de respaldo...');
+        const fallbackServices = [
+          { id: 1, name: 'Lavado de Auto', category: 'vehicular', price: 20000, duration: 180, description: 'Descripción detallada para Lavado de Auto.', features: ['Feature 1', 'Feature 2'], recommendations: 'Recomendado cada mes.' },
+          { id: 2, name: 'Lavado de Auto Especial', category: 'vehicular', price: 30000, duration: 240, description: 'Descripción detallada para Lavado de Auto Especial.', features: ['Feature 1', 'Feature 2', 'Feature 3'], recommendations: 'Recomendado cada 2 meses.' },
+          { id: 3, name: 'Lavado de Pickup', category: 'vehicular', price: 26000, duration: 200, description: 'Descripción detallada para Lavado de Pickup.', features: ['Feature A', 'Feature B'], recommendations: 'Recomendado para vehículos de trabajo.' },
+          { id: 4, name: 'Lavado de SUV', category: 'vehicular', price: 30000, duration: 220, description: 'Descripción detallada para Lavado de SUV.', features: ['Feature X', 'Feature Y'], recommendations: 'Ideal para vehículos familiares.' },
+          { id: 5, name: 'Limpieza de Sillón', category: 'tapizados', price: 15000, duration: 120, description: 'Descripción detallada para Limpieza de Sillón.', features: ['Sofá Feature 1', 'Sofá Feature 2'], recommendations: 'Cada 6 meses.' },
+          { id: 6, name: 'Limpieza de Sofá', category: 'tapizados', price: 25000, duration: 180, description: 'Descripción detallada para Limpieza de Sofá.', features: ['Sofá Grande Feature 1'], recommendations: 'Anual.' },
+          { id: 7, name: 'Limpieza de Colchón', category: 'tapizados', price: 20000, duration: 150, description: 'Descripción detallada para Limpieza de Colchón.', features: ['Anti-ácaros', 'Desinfección'], recommendations: 'Cada 4 meses.' }
+        ];
+        this.allServices = fallbackServices;
+        this.vehicularServices = fallbackServices.filter(s => s.category === 'vehicular');
+        this.tapizadosServices = fallbackServices.filter(s => s.category === 'tapizados');
+        this.createServiceData(fallbackServices);
+        this.updateServiceCounts();
+        this.filterServices(this.currentFilter);
+      }
+
+      setupEventListeners() {
+        document.querySelectorAll('.service-filter-btn').forEach(btn => {
+          btn.addEventListener('click', () => this.filterServices(btn.dataset.filter));
+        });
+
+        document.addEventListener('click', (e) => {
+          const button = e.target.closest('.info-btn');
+          if (button) {
+            const serviceId = button.getAttribute('data-service');
+            if (serviceId && this.serviciosData[serviceId]) {
+              this.openServiceModal(serviceId);
+            } else {
+              console.error('Servicio no encontrado para el ID:', serviceId);
+            }
+          }
+        });
+
+        document.getElementById('standardBtn')?.addEventListener('click', () => this.switchVariant('standard'));
+        document.getElementById('specialBtn')?.addEventListener('click', () => this.switchVariant('special'));
+        
+        document.getElementById('autoBtn')?.addEventListener('click', () => this.switchVehicleType('auto'));
+        document.getElementById('pickupBtn')?.addEventListener('click', () => this.switchVehicleType('pickup'));
+        document.getElementById('suvBtn')?.addEventListener('click', () => this.switchVehicleType('suv'));
+        
+        document.querySelector('.close-modal')?.addEventListener('click', () => this.closeModal());
+        document.getElementById('serviceModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'serviceModal') this.closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.closeModal();
+        });
+      }
+
+      openServiceModal(serviceId) {
+        const service = this.serviciosData[serviceId];
+        this.currentServiceId = serviceId;
+        this.currentVariant = 'standard';
+        this.currentVehicleType = service.groupedTypes?.includes('Auto') ? 'auto' : service.groupedTypes?.[0]?.toLowerCase() || 'auto';
+        
+        document.getElementById('modalImage').src = this.getServiceImage(service);
+        
+        const variantButtons = document.getElementById('variantButtons');
+        if (service.variants.special) {
+          variantButtons.style.display = 'flex';
+        } else {
+          variantButtons.style.display = 'none';
+        }
+
+        const vehicleTypeButtons = document.getElementById('vehicleTypeButtons');
+        if (service.category === 'vehicular' && service.groupedTypes?.length > 1) {
+            vehicleTypeButtons.style.display = 'flex';
+            this.setupVehicleTypeButtons(service.groupedTypes);
+        } else {
+            vehicleTypeButtons.style.display = 'none';
+        }
+
+        this.updateModalContent();
+        document.getElementById('serviceModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+      
+      setupVehicleTypeButtons(availableTypes) {
+        const buttons = {
+            auto: document.getElementById('autoBtn'),
+            pickup: document.getElementById('pickupBtn'),
+            suv: document.getElementById('suvBtn')
+        };
+        for (const type in buttons) {
+            if (buttons[type]) {
+                buttons[type].style.display = availableTypes.includes(type.charAt(0).toUpperCase() + type.slice(1)) ? 'flex' : 'none';
+            }
+        }
+      }
+
+      updateModalContent() {
+        if (!this.currentServiceId) return;
+        const serviceData = this.serviciosData[this.currentServiceId];
+        const variant = serviceData.variants[this.currentVariant] || serviceData;
+        const price = this.calculatePrice(serviceData);
+
+        document.getElementById('modalTitle').textContent = serviceData.name;
+        document.getElementById('modalPrice').textContent = `$${price.toLocaleString()}`;
+        document.getElementById('modalDescription').textContent = variant.description;
+        document.getElementById('modalTime').textContent = variant.duration ? `${variant.duration} min` : 'N/A';
+        document.getElementById('modalRecommendations').textContent = variant.recommendations;
+
+        const featuresList = document.getElementById('modalFeatures');
+        featuresList.innerHTML = '';
+        variant.features?.forEach(feature => {
+          const li = document.createElement('li');
+          li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
+          featuresList.appendChild(li);
+        });
+        
+        this.updateVariantButtons();
+        this.updateVehicleTypeButtons();
+      }
+
+      calculatePrice(service) {
+        let basePrice = service.variants[this.currentVariant]?.price || service.price;
+        if (service.category === 'vehicular') {
+            const multipliers = { auto: 1.0, pickup: 1.3, suv: 1.5 };
+            basePrice *= multipliers[this.currentVehicleType] || 1.0;
+        }
+        return Math.round(basePrice);
+      }
+
+      switchVariant(variant) {
+        this.currentVariant = variant;
+        this.updateModalContent();
+      }
+
+      switchVehicleType(type) {
+        this.currentVehicleType = type;
+        this.updateModalContent();
+      }
+      
+      updateVariantButtons() {
+        document.getElementById('standardBtn')?.classList.toggle('active', this.currentVariant === 'standard');
+        document.getElementById('specialBtn')?.classList.toggle('active', this.currentVariant === 'special');
+      }
+
+      updateVehicleTypeButtons() {
+        document.getElementById('autoBtn')?.classList.toggle('active', this.currentVehicleType === 'auto');
+        document.getElementById('pickupBtn')?.classList.toggle('active', this.currentVehicleType === 'pickup');
+        document.getElementById('suvBtn')?.classList.toggle('active', this.currentVehicleType === 'suv');
+      }
+
+      closeModal() {
+        document.getElementById('serviceModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
       }
 
       updateServiceCounts() {
-        const totalCount = this.getUniqueServicesCount(this.allServices);
-        const vehicularCount = this.getUniqueServicesCount(this.vehicularServices);
-        const tapizadosCount = this.getUniqueServicesCount(this.tapizadosServices);
-        
-        document.getElementById('count-todos').textContent = `(${totalCount})`;
-        document.getElementById('count-vehiculos').textContent = `(${vehicularCount})`;
-        document.getElementById('count-tapizados').textContent = `(${tapizadosCount})`;
+        document.getElementById('count-todos').textContent = `(${this.getUniqueServicesCount(this.allServices)})`;
+        document.getElementById('count-vehiculos').textContent = `(${this.getUniqueServicesCount(this.vehicularServices)})`;
+        document.getElementById('count-tapizados').textContent = `(${this.getUniqueServicesCount(this.tapizadosServices)})`;
       }
 
       getUniqueServicesCount(services) {
-        // Contar servicios únicos (sin contar estándar y especial como separados)
-        const uniqueNames = new Set();
-        services.forEach(service => {
-          const baseName = service.name.replace(' Especial', '');
-          uniqueNames.add(baseName);
-        });
-        return uniqueNames.size;
+        return new Set(services.map(s => this.getServiceBaseType(s.name, s.category))).size;
       }
 
       filterServices(category) {
-        console.log('🔄 Filtrando por categoría:', category);
-        
-        // Actualizar botones activos
-        document.querySelectorAll('.service-filter-btn').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        document.querySelector(`[data-filter="${category}"]`).classList.add('active');
-        
-        // Obtener servicios según la categoría
-        let servicesToShow = [];
-        if (category === 'todos') {
-          servicesToShow = this.allServices;
-        } else if (category === 'vehiculos') {
-          servicesToShow = this.vehicularServices;
-        } else if (category === 'tapizados') {
-          servicesToShow = this.tapizadosServices;
-        }
-        
-        // Actualizar el carrusel
-        this.updateCarousel(servicesToShow, category);
         this.currentFilter = category;
-        this.currentIndex = 0;
-        
-        // Reiniciar carrusel
-        setTimeout(() => {
-          this.resetCarousel();
-          this.updateCarouselButtons();
-        }, 100);
+        document.querySelectorAll('.service-filter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.filter === category);
+        });
+        const servicesToShow = category === 'todos' ? this.allServices : this.allServices.filter(s => s.category === category.replace('s', ''));
+        this.updateCarousel(servicesToShow);
       }
 
-      updateCarousel(services, category) {
+      updateCarousel(services) {
         const track = document.getElementById('servicesTrack');
-        if (!track) return;
-
-        // Limpiar carrusel
         track.innerHTML = '';
-
-        // Obtener servicios únicos
         const uniqueServices = this.getUniqueServices(services);
-
         if (uniqueServices.length === 0) {
-          track.innerHTML = '<div class="text-center p-5"><p class="text-light">No hay servicios disponibles en esta categoría</p></div>';
+          track.innerHTML = '<p class="text-light text-center">No hay servicios disponibles.</p>';
           return;
         }
-
-        // Crear cards según la categoría
-        uniqueServices.forEach((service, index) => {
-          const serviceElement = this.createServiceCard(service, category, index);
-          track.appendChild(serviceElement);
+        uniqueServices.forEach(service => {
+          track.appendChild(this.createServiceCard(service));
         });
+        this.resetCarousel();
       }
 
       getUniqueServices(services) {
-        // Agrupar servicios por tipo base para evitar duplicados
         const serviceGroups = new Map();
-        
         services.forEach(service => {
           let serviceType = this.getServiceBaseType(service.name, service.category);
-          
           if (!serviceGroups.has(serviceType)) {
             serviceGroups.set(serviceType, {
-              baseService: service,
-              variants: [service],
-              types: new Set()
+              ...service,
+              name: serviceType,
+              groupedTypes: new Set(),
+              allVariants: []
             });
-          } else {
-            serviceGroups.get(serviceType).variants.push(service);
           }
-          
-          // Agregar tipos de vehículo si es vehicular
+          const group = serviceGroups.get(serviceType);
+          group.allVariants.push(service);
           if (service.category === 'vehicular') {
-            const vehicleType = this.getVehicleType(service.name);
-            serviceGroups.get(serviceType).types.add(vehicleType);
+              group.groupedTypes.add(this.getVehicleType(service.name));
           }
         });
-
-        // Convertir a array de servicios únicos
-        const uniqueServices = [];
-        serviceGroups.forEach((group, serviceType) => {
-          // Usar servicio estándar como base, o el primero disponible
-          let baseService = group.variants.find(s => !s.name.includes('Especial')) || group.variants[0];
-          
-          // Crear servicio agrupado
-          const groupedService = {
-            ...baseService,
-            name: serviceType,
-            groupedTypes: Array.from(group.types),
-            allVariants: group.variants
-          };
-          
-          uniqueServices.push(groupedService);
-        });
-
-        // Ordenar servicios por categoría y nombre
-        uniqueServices.sort((a, b) => {
-          // Primero vehiculares, luego tapizados
-          if (a.category === 'vehicular' && b.category === 'tapizados') return -1;
-          if (a.category === 'tapizados' && b.category === 'vehicular') return 1;
-          
-          // Dentro de cada categoría, ordenar alfabéticamente
-          return a.name.localeCompare(b.name);
-        });
-
-        console.log('🔄 Servicios agrupados:', uniqueServices.map(s => `${s.name} (${s.groupedTypes?.join(', ') || 'N/A'})`));
-        return uniqueServices;
+        const result = Array.from(serviceGroups.values());
+        result.forEach(s => s.groupedTypes = Array.from(s.groupedTypes));
+        return result;
       }
 
       getServiceBaseType(serviceName, category) {
-        // Agrupar servicios similares por tipo base
         const cleanName = serviceName.replace(' Especial', '').toLowerCase();
-        
         if (category === 'vehicular') {
-          if (cleanName.includes('lavado')) {
-            return 'Lavado de Vehículo';
-          } else if (cleanName.includes('motor') || cleanName.includes('engine')) {
-            return 'Limpieza de Motor';
-          } else if (cleanName.includes('tapizado') || cleanName.includes('asiento')) {
-            return 'Tapizado de Vehículo';
-          } else if (cleanName.includes('detallado') || cleanName.includes('detail')) {
-            return 'Detallado Premium';
-          }
+          if (cleanName.includes('lavado')) return 'Lavado de Vehículo';
+          if (cleanName.includes('motor')) return 'Limpieza de Motor';
+          if (cleanName.includes('tapizado')) return 'Tapizado de Vehículo';
+          if (cleanName.includes('detallado')) return 'Detallado Premium';
         } else if (category === 'tapizados') {
-          // Agrupar todos los tipos de sillones/sofás
-          if (cleanName.includes('sillon') || cleanName.includes('sofá') || 
-              cleanName.includes('sofa') || cleanName.includes('mueble')) {
-            return 'Limpieza de Sillones y Sofás';
-          } else if (cleanName.includes('silla') && !cleanName.includes('sillon')) {
-            return 'Limpieza de Sillas';
-          } else if (cleanName.includes('colchon') || cleanName.includes('colchón')) {
-            return 'Limpieza de Colchón';
-          } else if (cleanName.includes('alfombra') || cleanName.includes('carpet')) {
-            return 'Limpieza de Alfombras';
-          } else if (cleanName.includes('puff') || cleanName.includes('pouf')) {
-            return 'Limpieza de Puffs';
-          } else if (cleanName.includes('respaldo') || cleanName.includes('cama') || 
-                     cleanName.includes('cabecera')) {
-            return 'Limpieza de Respaldos y Camas';
-          }
+          if (cleanName.includes('sillon') || cleanName.includes('sofá')) return 'Limpieza de Sillones y Sofás';
+          if (cleanName.includes('silla')) return 'Limpieza de Sillas';
+          if (cleanName.includes('colchon')) return 'Limpieza de Colchón';
+          if (cleanName.includes('alfombra')) return 'Limpieza de Alfombras';
+          if (cleanName.includes('puff')) return 'Limpieza de Puffs';
+          if (cleanName.includes('respaldo') || cleanName.includes('cama')) return 'Limpieza de Respaldos y Camas';
         }
-        
-        // Si no coincide con ningún patrón, usar el nombre original
         return serviceName.replace(' Especial', '');
       }
 
       getVehicleType(serviceName) {
-        const cleanName = serviceName.toLowerCase();
-        if (cleanName.includes('auto') || cleanName.includes('sedan')) {
-          return 'Auto';
-        } else if (cleanName.includes('pickup') || cleanName.includes('camioneta')) {
-          return 'Pickup';
-        } else if (cleanName.includes('suv') || cleanName.includes('4x4')) {
-          return 'SUV';
-        }
-        return 'Auto'; // Por defecto
+        const lower = serviceName.toLowerCase();
+        if (lower.includes('pickup') || lower.includes('camioneta')) return 'Pickup';
+        if (lower.includes('suv')) return 'SUV';
+        return 'Auto';
       }
 
-      createServiceCard(service, category, index) {
+      createServiceCard(service) {
         const div = document.createElement('div');
         div.className = 'servicio-card-custom carousel-item';
-        div.setAttribute('data-category', category);
-        
-        // Usar las mismas imágenes que las páginas específicas
-        const imageMap = this.getServiceImageMap(category);
-        const serviceName = service.name.toLowerCase();
-        let imageSrc = this.determineImage(serviceName, imageMap, category);
-
-        // Obtener datos de servicios estándar y especial si existen
-        const baseName = service.name.replace(' Especial', '');
-        const serviceGroup = this.getServiceGroup(baseName);
-
-        if (category === 'vehiculos') {
-          // Usar estructura EXACTA de vehiculos.html con botón Ver Detalles
-          const serviceKey = this.generateServiceKey(service);
-          div.innerHTML = `
-            <img src="${imageSrc}" alt="${baseName}">
-            <div class="servicio-card-body">
-              <h5>${baseName}</h5>
-              <p>${this.getServiceDescription(service, category)}</p>
-              <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="${serviceKey}" data-type="info">
-                  <i class="fas fa-info-circle me-2"></i>Ver Detalles
-                </button>
-              </div>
+        const serviceKey = this.generateServiceKey(service);
+        div.innerHTML = `
+          <img src="${this.getServiceImage(service)}" alt="${service.name}">
+          <div class="servicio-card-body">
+            <h5>${service.name}</h5>
+            <p>${service.description || 'Descripción no disponible.'}</p>
+            <div class="service-options">
+              <button class="servicio-btn info-btn" data-service="${serviceKey}">
+                <i class="fas fa-info-circle me-2"></i>Ver Detalles
+              </button>
             </div>
-          `;
-        } else if (category === 'tapizados') {
-          // Usar estructura EXACTA de tapizados.html con botón Ver Detalles
-          const serviceKey = this.generateServiceKey(service);
-          div.innerHTML = `
-            <img src="${imageSrc}" alt="${service.name}">
-            <div class="servicio-card-body">
-              <h5>${service.name}</h5>
-              <p>${this.getServiceDescription(service, category)}</p>
-              <div class="service-options">
-                <button class="servicio-btn info-btn" data-service="${serviceKey}">
-                  <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                </button>
-              </div>
-            </div>
-          `;
-        } else {
-          // Para "todos", determinar tipo según la categoría del servicio
-          const serviceKey = this.generateServiceKey(service);
-          if (service.category === 'vehicular') {
-            div.innerHTML = `
-              <img src="${imageSrc}" alt="${baseName}">
-              <div class="servicio-card-body">
-                <h5>${baseName}</h5>
-                <p>${this.getServiceDescription(service, category)}</p>
-                <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="${serviceKey}" data-type="info">
-                    <i class="fas fa-info-circle me-2"></i>Ver Detalles
-                  </button>
-                </div>
-              </div>
-            `;
-          } else {
-            div.innerHTML = `
-              <img src="${imageSrc}" alt="${service.name}">
-              <div class="servicio-card-body">
-                <h5>${service.name}</h5>
-                <p>${this.getServiceDescription(service, category)}</p>
-                <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="${serviceKey}">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
-                </div>
-              </div>
-            `;
-          }
-        }
-
+          </div>
+        `;
         return div;
       }
 
-      getServiceImageMap(category) {
-        if (category === 'vehiculos') {
-          return {
-            'auto': 'img/autodetalle1.jpg',
-            'pickup': 'img/camioneta3.jpg',
-            'suv': 'img/toyota5.jpg',
-            'motor': 'img/motorauto1.jpg',
-            'tapizado': 'img/asientosucio.jpg'
-          };
-        } else if (category === 'tapizados') {
-          return {
-            'sillon': 'img/sillon123.jpg',
-            'silla': 'img/sillacomedor1234.jpeg',
-            'colchon': 'img/colchonlimpio.jpg',
-            'colchón': 'img/colchonlimpio.jpg',
-            'alfombra': 'img/alfombralimpia.jpg',
-            'puff': 'img/puff12.jpeg',
-            'respaldo': 'img/respaldar1.jpeg',
-            'cama': 'img/respaldar1.jpeg'
-          };
-        }
-        return {};
+      generateServiceKey(service) {
+        return service.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       }
-
-      determineImage(serviceName, imageMap, category) {
-        if (category === 'vehiculos') {
-          if (serviceName.includes('pickup')) return imageMap.pickup;
-          if (serviceName.includes('suv')) return imageMap.suv;
-          if (serviceName.includes('motor')) return imageMap.motor;
-          if (serviceName.includes('tapizado')) return imageMap.tapizado;
-          return imageMap.auto;
-        } else if (category === 'tapizados') {
-          // Detectar por palabras clave en el nombre del servicio
-          if (serviceName.includes('sillón') || serviceName.includes('sillon')) return imageMap.sillon;
-          if (serviceName.includes('silla')) return imageMap.silla;
-          if (serviceName.includes('colchón') || serviceName.includes('colchon')) return imageMap.colchon;
-          if (serviceName.includes('alfombra')) return imageMap.alfombra;
-          if (serviceName.includes('puff')) return imageMap.puff;
-          if (serviceName.includes('respaldo') || serviceName.includes('cama')) return imageMap.respaldo;
-          // Si no coincide con ningún patrón, usar sillón como default
-          return imageMap.sillon;
-        }
-        return 'img/autodetalle1.jpg';
-      }
-
-      getServiceDescription(service, category) {
-        if (service.description) return service.description;
-        
-        // Descripciones por defecto según el tipo
-        if (category === 'vehiculos') {
-          if (service.name.includes('Tapizado')) return 'Limpieza profunda de tapizados y alfombras';
-          if (service.name.includes('Motor')) return 'Limpieza y mantenimiento del compartimento';
-          return 'Limpieza profesional exterior e interior';
-        } else if (category === 'tapizados') {
-          return 'Limpieza profunda con tecnología avanzada';
-        }
-        return 'Servicio de limpieza profesional';
-      }
-
-      createServiceData() {
-        // Crear datos para modales agrupando estándar y especial
-        const allServices = [...this.vehicularServices, ...this.tapizadosServices];
-        const serviceGroups = {};
-        
-        allServices.forEach(service => {
-          const baseName = service.name.replace(' Especial', '');
-          if (!serviceGroups[baseName]) {
-            serviceGroups[baseName] = { standard: null, special: null };
-          }
-          
-          if (service.name.includes('Especial')) {
-            serviceGroups[baseName].special = service;
-          } else {
-            serviceGroups[baseName].standard = service;
-          }
-        });
-
-        Object.keys(serviceGroups).forEach(baseName => {
-          const group = serviceGroups[baseName];
-          const standardService = group.standard;
-          const specialService = group.special;
-          
-          if (standardService) {
-            // Clave para servicios con variantes (vehicular)
-            const serviceKey = baseName.toLowerCase().replace(/\s+/g, '-');
-            this.serviciosData[serviceKey] = {
-              baseName: baseName,
-              standard: standardService ? {
-                id: standardService.id,
-                title: standardService.name,
-                price: `$${standardService.price.toLocaleString()}`,
-                description: standardService.description || this.generateDescription(standardService),
-                features: this.generateFeatures(standardService),
-                time: `${standardService.duration} minutos`,
-                recommendations: this.generateRecommendations(standardService)
-              } : null,
-              special: specialService ? {
-                id: specialService.id,
-                title: specialService.name,
-                price: `$${specialService.price.toLocaleString()}`,
-                description: specialService.description || this.generateDescription(specialService),
-                features: this.generateFeatures(specialService),
-                time: `${specialService.duration} minutos`,
-                recommendations: this.generateRecommendations(specialService)
-              } : null,
-              image: this.getServiceImage(standardService),
-              category: standardService.category
-            };
-            
-            // Para servicios que no tienen variantes (tapizados), crear entradas individuales
-            if (standardService.category === 'tapizados') {
-              const individualKey = standardService.name.toLowerCase().replace(/\s+/g, '-');
-              this.serviciosData[individualKey] = {
-                title: standardService.name,
-                price: `$${standardService.price.toLocaleString()}`,
-                image: this.getServiceImage(standardService),
-                description: standardService.description || this.generateDescription(standardService),
-                features: this.generateFeatures(standardService),
-                time: `${standardService.duration} minutos`,
-                recommendations: this.generateRecommendations(standardService),
-                category: standardService.category
-              };
-            }
-          }
-        });
-      }
-
-      getServiceGroup(baseName) {
-        const serviceKey = baseName.toLowerCase().replace(/\s+/g, '-');
-        return this.serviciosData[serviceKey];
-      }
-
-      generateDescription(service) {
-        if (service.category === 'vehicular') {
-          if (service.name.includes('Tapizado')) {
-            return 'Limpieza profunda de tapizados con tecnología avanzada. Eliminación efectiva de manchas y olores.';
-          }
-          if (service.name.includes('Motor')) {
-            return 'Limpieza profesional del compartimento del motor con productos especializados.';
-          }
-          return 'Lavado completo exterior e interior profesional con productos de primera calidad.';
-        } else {
-          return 'Limpieza profunda y desinfección profesional con tecnología avanzada.';
-        }
-      }
-
-      generateFeatures(service) {
-        const baseFeatures = [
-          'Limpieza con productos profesionales',
-          'Personal capacitado y certificado',
-          'Garantía de satisfacción',
-          'Servicio a domicilio disponible'
-        ];
-
-        if (service.category === 'vehicular') {
-          if (service.name.includes('Especial')) {
-            baseFeatures.push(
-              'Máquina de inyección-extracción',
-              'Productos 3D profesionales',
-              'Tratamiento impermeabilizante',
-              'Aromatización incluida'
-            );
-          } else {
-            baseFeatures.push(
-              'Aspirado profundo',
-              'Limpieza de superficies',
-              'Secado manual',
-              'Inspección final'
-            );
-          }
-        } else {
-          baseFeatures.push(
-            'Desinfección con vapor',
-            'Eliminación de ácaros',
-            'Tratamiento anti-manchas',
-            'Secado rápido'
-          );
-        }
-
-        return baseFeatures;
-      }
-
-      generateRecommendations(service) {
-        if (service.category === 'vehicular') {
-          if (service.name.includes('Tapizado')) {
-            return 'Ideal para eliminar manchas difíciles y olores. Recomendado cada 3-6 meses.';
-          }
-          if (service.name.includes('Motor')) {
-            return 'Recomendado cada 6-12 meses para mantener el motor en óptimas condiciones.';
-          }
-          return 'Ideal para mantenimiento regular. Recomendado cada 15-30 días.';
-        } else {
-          return 'Recomendado cada 6-12 meses para mantener la higiene y prolongar la vida útil.';
-        }
-      }
-
+      
       getServiceImage(service) {
-        const name = service.name.toLowerCase();
-        if (service.category === 'vehicular') {
-          if (name.includes('pickup')) return 'img/camioneta3.jpg';
-          if (name.includes('suv')) return 'img/toyota5.jpg';
-          if (name.includes('motor')) return 'img/motorauto1.jpg';
-          if (name.includes('tapizado')) return 'img/asientosucio.jpg';
-          return 'img/autodetalle1.jpg';
-        } else {
-          if (name.includes('sillon')) return 'img/sillon123.jpg';
-          if (name.includes('silla')) return 'img/sillacomedor1234.jpeg';
-          if (name.includes('colchon')) return 'img/colchonlimpio.jpg';
-          if (name.includes('alfombra')) return 'img/alfombralimpia.jpg';
-          if (name.includes('puff')) return 'img/puff12.jpeg';
-          if (name.includes('respaldo')) return 'img/respaldar1.jpeg';
-          return 'img/sillon123.jpg';
-        }
-      }
-
-      setupFilterButtons() {
-        // Event listeners para botones de filtro
-        document.querySelectorAll('.service-filter-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const category = e.currentTarget.getAttribute('data-filter');
-            this.filterServices(category);
-          });
-        });
+          const name = service.name.toLowerCase();
+          const imageMap = {
+              'lavado de vehículo': 'img/autodetalle1.jpg',
+              'limpieza de motor': 'img/motorauto1.jpg',
+              'tapizado de vehículo': 'img/asientosucio.jpg',
+              'detallado premium': 'img/audi1.jpg',
+              'limpieza de sillones y sofás': 'img/sillon123.jpg',
+              'limpieza de sillas': 'img/sillacomedor1234.jpeg',
+              'limpieza de colchón': 'img/colchonlimpio.jpg',
+              'limpieza de alfombras': 'img/alfombralimpia.jpg',
+              'limpieza de puffs': 'img/puff12.jpeg',
+              'limpieza de respaldos y camas': 'img/respaldar1.jpeg'
+          };
+          return imageMap[name] || 'img/daytona2.jpg';
       }
 
       setupCarouselControls() {
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-
-        if (prevBtn) {
-          prevBtn.addEventListener('click', () => {
-            if (this.currentIndex > 0) {
-              this.currentIndex--;
-              this.moveCarousel();
-            }
-          });
-        }
-
-        if (nextBtn) {
-          nextBtn.addEventListener('click', () => {
-            const visibleItems = document.querySelectorAll('.carousel-item[data-category]');
-            const itemsPerView = this.getItemsPerView();
-            const totalPages = Math.ceil(visibleItems.length / itemsPerView);
-            if (this.currentIndex < totalPages - 1) {
-              this.currentIndex++;
-              this.moveCarousel();
-            }
-          });
-        }
-
-        window.addEventListener('resize', () => {
-          this.currentIndex = 0;
-          this.moveCarousel();
-        });
+        prevBtn.addEventListener('click', () => this.moveCarousel(-1));
+        nextBtn.addEventListener('click', () => this.moveCarousel(1));
+        window.addEventListener('resize', () => this.updateCarouselButtons());
       }
-
-      setupServiceButtons() {
-        document.addEventListener('click', (e) => {
-          if (e.target.classList.contains('servicio-btn') || e.target.closest('.servicio-btn')) {
-            const btn = e.target.classList.contains('servicio-btn') ? e.target : e.target.closest('.servicio-btn');
-            const serviceId = btn.getAttribute('data-service');
-            const serviceType = btn.getAttribute('data-type');
-            
-            console.log('🔥 Click en botón:', serviceId, serviceType);
-            
-            if (serviceId && serviceType === 'info') {
-              // Determinar si es servicio vehicular o de tapizados
-              const service = this.serviciosData[serviceId];
-              if (service && service.category === 'vehicular') {
-                // Para servicios vehiculares, abrir modal con variantes
-                this.openVehicularModal(serviceId, 'standard'); // Por defecto mostrar estándar
-              } else {
-                // Para servicios de tapizados sin variantes
-                this.openTapizadosModal(serviceId);
-              }
-            }
-          }
-        });
-      }
-
-      openVehicularModal(serviceId, variant) {
-        const service = this.serviciosData[serviceId];
-        if (!service) {
-          console.log('⚠️ Servicio vehicular no encontrado:', serviceId);
-          return;
-        }
-
-        console.log('🚗 Abriendo modal vehicular:', serviceId, variant);
-
-        // Configurar modal con variantes como en vehiculos.html
-        document.getElementById('modalImage').src = service.image;
-        
-        // Mostrar botones de variantes
-        const variantButtons = document.getElementById('variantButtons');
-        if (variantButtons) {
-          variantButtons.style.display = 'flex';
-          
-          // Configurar event listeners para los botones
-          const standardBtn = document.getElementById('standardBtn');
-          const specialBtn = document.getElementById('specialBtn');
-          
-          if (standardBtn && specialBtn) {
-            standardBtn.onclick = () => this.switchVehicularVariant(serviceId, 'standard');
-            specialBtn.onclick = () => this.switchVehicularVariant(serviceId, 'special');
-          }
-        }
-
-        // Mostrar la variante seleccionada (por defecto estándar)
-        this.switchVehicularVariant(serviceId, variant);
-
-        document.getElementById('serviceModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-      }
-
-      openTapizadosModal(serviceId) {
-        const service = this.serviciosData[serviceId];
-        if (!service) {
-          console.log('⚠️ Servicio de tapizados no encontrado:', serviceId);
-          return;
-        }
-
-        console.log('🏠 Abriendo modal tapizados:', serviceId);
-
-        // Configurar modal sin variantes como en tapizados.html
-        document.getElementById('modalImage').src = service.image;
-        document.getElementById('modalTitle').textContent = service.title;
-        document.getElementById('modalPrice').textContent = service.price;
-        document.getElementById('modalDescription').textContent = service.description;
-        document.getElementById('modalTime').textContent = service.time;
-        document.getElementById('modalRecommendations').textContent = service.recommendations;
-
-        // Ocultar botones de variantes
-        const variantButtons = document.getElementById('variantButtons');
-        if (variantButtons) {
-          variantButtons.style.display = 'none';
-        }
-
-        // Llenar características
-        const featuresList = document.getElementById('modalFeatures');
-        if (featuresList) {
-          featuresList.innerHTML = '';
-          service.features.forEach(feature => {
-            const li = document.createElement('li');
-            li.textContent = feature;
-            featuresList.appendChild(li);
-          });
-        }
-
-        document.getElementById('serviceModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
-      }
-
-      switchVehicularVariant(serviceId, variant) {
-        const service = this.serviciosData[serviceId];
-        if (!service) return;
-
-        const variantData = service[variant];
-        if (!variantData) return;
-
-        console.log('🔄 Cambiando a variante:', variant);
-
-        // Actualizar contenido del modal
-        document.getElementById('modalTitle').textContent = service.baseName;
-        document.getElementById('modalPrice').textContent = variantData.price;
-        document.getElementById('modalDescription').textContent = variantData.description;
-        document.getElementById('modalTime').textContent = variantData.time;
-        document.getElementById('modalRecommendations').textContent = variantData.recommendations;
-
-        // Actualizar características
-        const featuresList = document.getElementById('modalFeatures');
-        if (featuresList) {
-          featuresList.innerHTML = '';
-          variantData.features.forEach(feature => {
-            const li = document.createElement('li');
-            li.textContent = feature;
-            featuresList.appendChild(li);
-          });
-        }
-
-        // Actualizar botones activos
-        const standardBtn = document.getElementById('standardBtn');
-        const specialBtn = document.getElementById('specialBtn');
-        
-        if (standardBtn && specialBtn) {
-          standardBtn.classList.toggle('active', variant === 'standard');
-          specialBtn.classList.toggle('active', variant === 'special');
-        }
-      }
-
-      // Método de compatibilidad - redirigir a los nuevos métodos
-      openServiceModal(serviceId) {
-        console.log('⚠️ Método legacy openServiceModal llamado:', serviceId);
-        // Este método es para compatibilidad, los nuevos métodos son más específicos
-      }
-
-      getItemsPerView() {
-        if (window.innerWidth <= 576) return 1;
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1200) return 2;
-        return 3;
-      }
-
-      getItemWidth() {
-        if (window.innerWidth <= 576) return 260;
-        if (window.innerWidth <= 768) return 280;
-        if (window.innerWidth <= 1200) return 300;
-        return 320;
-      }
-
-      moveCarousel() {
+      
+      moveCarousel(direction) {
         const track = document.getElementById('servicesTrack');
-        const visibleItems = track.querySelectorAll('.carousel-item');
-        
-        if (!track || visibleItems.length === 0) return;
-
+        const items = track.querySelectorAll('.carousel-item');
         const itemsPerView = this.getItemsPerView();
-        const itemWidth = this.getItemWidth();
-        const gap = 25;
-        const moveDistance = itemWidth + gap;
+        const totalPages = Math.ceil(items.length / itemsPerView);
         
-        const translateX = this.currentIndex === 0 ? 0 : -(this.currentIndex * itemsPerView * moveDistance);
+        this.currentIndex = (this.currentIndex + direction + totalPages) % totalPages;
         
-        track.style.transform = `translateX(${translateX}px)`;
-        track.style.transition = 'transform 0.5s ease-in-out';
-        
+        const cardWidth = items[0].offsetWidth + parseInt(getComputedStyle(track).gap);
+        track.style.transform = `translateX(-${this.currentIndex * cardWidth * itemsPerView}px)`;
         this.updateCarouselButtons();
+      }
+      
+      getItemsPerView() {
+          if (window.innerWidth < 768) return 1;
+          if (window.innerWidth < 1200) return 2;
+          return 3;
       }
 
       updateCarouselButtons() {
         const track = document.getElementById('servicesTrack');
-        const visibleItems = track.querySelectorAll('.carousel-item');
+        const visibleItems = Array.from(track.children).filter(el => el.style.display !== 'none');
+        if (visibleItems.length === 0) return;
+        
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        
-        if (!prevBtn || !nextBtn) return;
-
         const itemsPerView = this.getItemsPerView();
         const totalPages = Math.ceil(visibleItems.length / itemsPerView);
         
@@ -3611,6 +2478,7 @@
         if (track) {
           track.style.transform = 'translateX(0px)';
           this.currentIndex = 0;
+          this.updateCarouselButtons();
         }
       }
 
@@ -3618,11 +2486,11 @@
         const track = document.getElementById('servicesTrack');
         if (track) {
           track.innerHTML = `
-            <div class="text-center p-5">
+            <div class="text-center p-5 w-100">
               <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
               <p class="text-light">${message}</p>
               <button class="btn btn-primary" onclick="window.indexManager.loadServices()">
-                <i class="fas fa-refresh me-2"></i>Reintentar
+                <i class="fas fa-sync-alt me-2"></i>Reintentar
               </button>
             </div>
           `;
@@ -3630,99 +2498,19 @@
       }
     }
 
-    // Función global para el filtrado (compatibilidad)
+    document.addEventListener('DOMContentLoaded', () => {
+      window.indexManager = new IndexServiceManager();
+    });
+
+    // Función global para compatibilidad con onclick
     function filterServices(category) {
       if (window.indexManager) {
         window.indexManager.filterServices(category);
       }
     }
-
-    // Función para cerrar el modal
-    function closeModal() {
-      document.getElementById('serviceModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-
-    // Inicializar cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('🚀 Inicializando IndexServiceManager...');
-      
-      // Crear instancia del gestor
-      window.indexManager = new IndexServiceManager();
-
-      // Event listeners para el modal
-      const closeModalBtn = document.querySelector('.close-modal');
-      const serviceModal = document.getElementById('serviceModal');
-      
-      if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', closeModal);
-        console.log('✅ Event listener para cerrar modal configurado');
-      }
-      
-      if (serviceModal) {
-        serviceModal.addEventListener('click', function(e) {
-          if (e.target === this) {
-            closeModal();
-          }
-        });
-        console.log('✅ Event listener para click fuera del modal configurado');
-      }
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          const modal = document.getElementById('serviceModal');
-          if (modal && modal.style.display === 'block') {
-            closeModal();
-          }
-        }
-      });
-      
-      console.log('✅ Event listener para tecla Escape configurado');
-    });
   </script>
 
-  <!-- Formulario Mejorado -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('whatsapp-form');
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const name = document.getElementById('name').value;
-          const phone = document.getElementById('phone').value;
-          const service = document.getElementById('service').value;
-          const urgency = document.getElementById('urgency').value;
-          const message = document.getElementById('message').value;
-          
-          if (!name || !phone || !service) {
-            alert('Por favor completá los campos obligatorios');
-            return;
-          }
-          
-          let whatsappMessage = `Hola Daytona! 👋\n\n`;
-          whatsappMessage += `*Nombre:* ${name}\n`;
-          whatsappMessage += `*Teléfono:* ${phone}\n`;
-          whatsappMessage += `*Servicio:* ${service}\n`;
-          
-          if (urgency) {
-            whatsappMessage += `*Urgencia:* ${urgency}\n`;
-          }
-          
-          if (message) {
-            whatsappMessage += `*Detalles:* ${message}\n`;
-          }
-          
-          whatsappMessage += `\nQuiero un presupuesto personalizado. ¡Gracias!`;
-          
-          const encodedMessage = encodeURIComponent(whatsappMessage);
-          const whatsappUrl = `https://wa.me/5493482588383?text=${encodedMessage}`;
-          
-          window.open(whatsappUrl, '_blank');
-        });
-      }
-    });
-  </script>
+  <script src="js/send-whatsapp.js"></script>
 
 </body>
 
