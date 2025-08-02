@@ -2150,7 +2150,7 @@
       async loadServices() {
         console.log('📡 Cargando servicios desde la API...');
         try {
-          const response = await this.apiService.request('/appointments/services');
+          const response = await this.apiService.request('/services');
           console.log('📦 Respuesta de la API:', response);
           
           if (response.success && response.services && Array.isArray(response.services)) {
@@ -2186,12 +2186,19 @@
 
       createVariantsForService(service) {
           const variants = { standard: service };
-          if (service.allVariants && Array.isArray(service.allVariants)) {
-              const specialVariant = service.allVariants.find(v => v.name && v.name.includes('Especial'));
+          
+          // Buscar variante especial en el mismo grupo de servicios
+          if (this.allServices) {
+              const specialVariant = this.allServices.find(s => 
+                  s.name.includes('Especial') && 
+                  s.name.replace(' Especial', '') === service.name.replace(' Especial', '') &&
+                  s.category === service.category
+              );
               if (specialVariant) {
                   variants.special = specialVariant;
               }
           }
+          
           return variants;
       }
       
@@ -2763,6 +2770,11 @@
               group.groupedTypes.add('Pickup');
             } else if (service.name.toLowerCase().includes('suv')) {
               group.groupedTypes.add('SUV');
+            } else if (service.name.toLowerCase().includes('tapizado') && service.name.toLowerCase().includes('autos')) {
+              // Para Limpieza de Tapizado de Autos, incluir todos los tipos de vehículo
+              group.groupedTypes.add('Auto');
+              group.groupedTypes.add('Pickup');
+              group.groupedTypes.add('SUV');
             } else {
               group.groupedTypes.add('Auto');
             }
@@ -2808,6 +2820,7 @@
             return 'Lavado de Auto';
           }
           if (cleanName.includes('motor')) return 'Limpieza de Motor';
+          if (cleanName.includes('tapizado') && cleanName.includes('autos')) return 'Limpieza de Tapizado de Autos';
           if (cleanName.includes('tapizado')) return 'Tapizado de Vehículo';
           if (cleanName.includes('detallado')) return 'Detallado Premium';
         } else if (category === 'tapizados') {
@@ -2868,6 +2881,7 @@
               'lavado de suv': 'img/toyota1.jpg',
               'limpieza de motor': 'img/motorauto1.jpg',
               'tapizado de vehículo': 'img/asientosucio.jpg',
+              'limpieza de tapizado de autos': 'img/asientosucio.jpg',
               'detallado premium': 'img/audi1.jpg',
               'limpieza de sillones y sofás': 'img/sillon123.jpg',
               'limpieza de sillas': 'img/sillacomedor1234.jpeg',
