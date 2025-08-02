@@ -2090,6 +2090,7 @@
   <script src="js/test-connection.js"></script>
   <script src="js/faq-toggle.js"></script>
   <script src="js/whatsapp-float.js"></script>
+  <script src="js/debug-cards.js"></script>
   
   <!-- Scripts de la página -->
   <script>
@@ -2106,37 +2107,50 @@
         this.currentServiceId = null;
         this.currentVariant = 'standard';
         this.currentVehicleType = 'auto';
+        this.isInitialized = false;
         this.init();
       }
 
       async init() {
-        console.log('🚀 Cargando servicios del index...');
-        await this.loadServices();
-        this.setupEventListeners();
-        this.setupCarouselControls();
+        console.log('🚀 Iniciando IndexServiceManager...');
+        try {
+          await this.loadServices();
+          this.setupEventListeners();
+          this.setupCarouselControls();
+          this.isInitialized = true;
+          console.log('✅ IndexServiceManager inicializado correctamente');
+        } catch (error) {
+          console.error('❌ Error inicializando IndexServiceManager:', error);
+          this.loadFallbackServices();
+        }
       }
 
       async loadServices() {
+        console.log('📡 Cargando servicios desde la API...');
         try {
           const response = await this.apiService.request('/appointments/services');
-          if (response.success && response.services) {
+          console.log('📦 Respuesta de la API:', response);
+          
+          if (response.success && response.services && Array.isArray(response.services)) {
             this.allServices = response.services;
             this.vehicularServices = response.services.filter(s => s.category === 'vehicular');
             this.tapizadosServices = response.services.filter(s => s.category === 'tapizados');
             this.createServiceData(this.allServices);
             this.updateServiceCounts();
             this.filterServices('todos');
+            console.log('✅ Servicios cargados exitosamente:', this.allServices.length);
           } else {
-            console.error('❌ Error cargando servicios:', response.message);
-            this.loadFallbackServices();
+            console.error('❌ Respuesta inválida de la API:', response);
+            throw new Error('Respuesta inválida de la API');
           }
         } catch (error) {
-          console.error('❌ Error de conexión:', error);
-          this.loadFallbackServices();
+          console.error('❌ Error cargando servicios:', error);
+          throw error;
         }
       }
 
       createServiceData(services) {
+        console.log('🔧 Creando datos de servicios...');
         const uniqueServices = this.getUniqueServices(services);
         uniqueServices.forEach(service => {
           const serviceKey = this.generateServiceKey(service);
@@ -2145,13 +2159,13 @@
             variants: this.createVariantsForService(service)
           };
         });
-        console.log('📋 Datos de servicios agrupados creados:', Object.keys(this.serviciosData).length);
+        console.log('📋 Datos de servicios creados:', Object.keys(this.serviciosData).length);
       }
 
       createVariantsForService(service) {
           const variants = { standard: service };
-          if (service.allVariants) {
-              const specialVariant = service.allVariants.find(v => v.name.includes('Especial'));
+          if (service.allVariants && Array.isArray(service.allVariants)) {
+              const specialVariant = service.allVariants.find(v => v.name && v.name.includes('Especial'));
               if (specialVariant) {
                   variants.special = specialVariant;
               }
@@ -2162,13 +2176,76 @@
       loadFallbackServices() {
         console.log('⚠️ Cargando servicios de respaldo...');
         const fallbackServices = [
-          { id: 1, name: 'Lavado de Auto', category: 'vehicular', price: 20000, duration: 180, description: 'Descripción detallada para Lavado de Auto.', features: ['Feature 1', 'Feature 2'], recommendations: 'Recomendado cada mes.' },
-          { id: 2, name: 'Lavado de Auto Especial', category: 'vehicular', price: 30000, duration: 240, description: 'Descripción detallada para Lavado de Auto Especial.', features: ['Feature 1', 'Feature 2', 'Feature 3'], recommendations: 'Recomendado cada 2 meses.' },
-          { id: 3, name: 'Lavado de Pickup', category: 'vehicular', price: 26000, duration: 200, description: 'Descripción detallada para Lavado de Pickup.', features: ['Feature A', 'Feature B'], recommendations: 'Recomendado para vehículos de trabajo.' },
-          { id: 4, name: 'Lavado de SUV', category: 'vehicular', price: 30000, duration: 220, description: 'Descripción detallada para Lavado de SUV.', features: ['Feature X', 'Feature Y'], recommendations: 'Ideal para vehículos familiares.' },
-          { id: 5, name: 'Limpieza de Sillón', category: 'tapizados', price: 15000, duration: 120, description: 'Descripción detallada para Limpieza de Sillón.', features: ['Sofá Feature 1', 'Sofá Feature 2'], recommendations: 'Cada 6 meses.' },
-          { id: 6, name: 'Limpieza de Sofá', category: 'tapizados', price: 25000, duration: 180, description: 'Descripción detallada para Limpieza de Sofá.', features: ['Sofá Grande Feature 1'], recommendations: 'Anual.' },
-          { id: 7, name: 'Limpieza de Colchón', category: 'tapizados', price: 20000, duration: 150, description: 'Descripción detallada para Limpieza de Colchón.', features: ['Anti-ácaros', 'Desinfección'], recommendations: 'Cada 4 meses.' }
+          { 
+            id: 1, 
+            name: 'Lavado de Auto', 
+            category: 'vehicular', 
+            price: 20000, 
+            duration: 180, 
+            description: 'Lavado completo del exterior e interior del vehículo con productos profesionales.', 
+            features: ['Lavado exterior con shampoo profesional', 'Limpieza de llantas y ruedas', 'Aspirado completo del interior', 'Limpieza de vidrios'], 
+            recommendations: 'Recomendado cada mes para mantener el vehículo en óptimas condiciones.' 
+          },
+          { 
+            id: 2, 
+            name: 'Lavado de Auto Especial', 
+            category: 'vehicular', 
+            price: 30000, 
+            duration: 240, 
+            description: 'Lavado premium con cera y protección UV incluida.', 
+            features: ['Lavado exterior con shampoo profesional', 'Aplicación de cera protectora', 'Protección UV en plásticos', 'Limpieza profunda de tapizados', 'Desinfección con vapor'], 
+            recommendations: 'Recomendado cada 2 meses para máxima protección.' 
+          },
+          { 
+            id: 3, 
+            name: 'Lavado de Pickup', 
+            category: 'vehicular', 
+            price: 26000, 
+            duration: 200, 
+            description: 'Lavado especializado para camionetas y pickups.', 
+            features: ['Lavado exterior completo', 'Limpieza de caja de carga', 'Aspirado del interior', 'Limpieza de vidrios'], 
+            recommendations: 'Recomendado para vehículos de trabajo y uso intensivo.' 
+          },
+          { 
+            id: 4, 
+            name: 'Lavado de SUV', 
+            category: 'vehicular', 
+            price: 30000, 
+            duration: 220, 
+            description: 'Lavado especializado para SUVs y vehículos grandes.', 
+            features: ['Lavado exterior completo', 'Limpieza de tercera fila', 'Aspirado profundo', 'Limpieza de vidrios'], 
+            recommendations: 'Ideal para vehículos familiares y de gran tamaño.' 
+          },
+          { 
+            id: 5, 
+            name: 'Limpieza de Sillón', 
+            category: 'tapizados', 
+            price: 15000, 
+            duration: 120, 
+            description: 'Limpieza profunda de sillones y sofás con extractor profesional.', 
+            features: ['Limpieza con extractor profesional', 'Eliminación de manchas', 'Desinfección con vapor', 'Protección anti-ácaros'], 
+            recommendations: 'Cada 6 meses para mantener la higiene del hogar.' 
+          },
+          { 
+            id: 6, 
+            name: 'Limpieza de Sofá', 
+            category: 'tapizados', 
+            price: 25000, 
+            duration: 180, 
+            description: 'Limpieza completa de sofás grandes y seccionales.', 
+            features: ['Limpieza profunda con extractor', 'Eliminación de olores', 'Desinfección completa', 'Protección duradera'], 
+            recommendations: 'Anual para sofás de uso intensivo.' 
+          },
+          { 
+            id: 7, 
+            name: 'Limpieza de Colchón', 
+            category: 'tapizados', 
+            price: 20000, 
+            duration: 150, 
+            description: 'Limpieza y desinfección profunda de colchones.', 
+            features: ['Desinfección con vapor a alta temperatura', 'Eliminación de ácaros', 'Tratamiento anti-alérgico', 'Eliminación de olores'], 
+            recommendations: 'Cada 4 meses para un descanso saludable.' 
+          }
         ];
         this.allServices = fallbackServices;
         this.vehicularServices = fallbackServices.filter(s => s.category === 'vehicular');
@@ -2176,25 +2253,37 @@
         this.createServiceData(fallbackServices);
         this.updateServiceCounts();
         this.filterServices(this.currentFilter);
+        console.log('✅ Servicios de respaldo cargados');
       }
 
       setupEventListeners() {
+        console.log('🔗 Configurando event listeners...');
+        
+        // Event listeners para botones de filtro
         document.querySelectorAll('.service-filter-btn').forEach(btn => {
-          btn.addEventListener('click', () => this.filterServices(btn.dataset.filter));
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filter = btn.dataset.filter;
+            console.log('🔍 Aplicando filtro:', filter);
+            this.filterServices(filter);
+          });
         });
 
+        // Event listener para botones de información
         document.addEventListener('click', (e) => {
           const button = e.target.closest('.info-btn');
           if (button) {
             const serviceId = button.getAttribute('data-service');
+            console.log('ℹ️ Abriendo modal para servicio:', serviceId);
             if (serviceId && this.serviciosData[serviceId]) {
               this.openServiceModal(serviceId);
             } else {
-              console.error('Servicio no encontrado para el ID:', serviceId);
+              console.error('❌ Servicio no encontrado para el ID:', serviceId);
             }
           }
         });
 
+        // Event listeners para botones del modal
         document.getElementById('standardBtn')?.addEventListener('click', () => this.switchVariant('standard'));
         document.getElementById('specialBtn')?.addEventListener('click', () => this.switchVariant('special'));
         
@@ -2202,6 +2291,7 @@
         document.getElementById('pickupBtn')?.addEventListener('click', () => this.switchVehicleType('pickup'));
         document.getElementById('suvBtn')?.addEventListener('click', () => this.switchVehicleType('suv'));
         
+        // Event listeners para cerrar modal
         document.querySelector('.close-modal')?.addEventListener('click', () => this.closeModal());
         document.getElementById('serviceModal')?.addEventListener('click', (e) => {
             if (e.target.id === 'serviceModal') this.closeModal();
@@ -2209,34 +2299,48 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') this.closeModal();
         });
+        
+        console.log('✅ Event listeners configurados');
       }
 
       openServiceModal(serviceId) {
+        console.log('📋 Abriendo modal para servicio:', serviceId);
         const service = this.serviciosData[serviceId];
+        if (!service) {
+          console.error('❌ Servicio no encontrado:', serviceId);
+          return;
+        }
+        
         this.currentServiceId = serviceId;
         this.currentVariant = 'standard';
         this.currentVehicleType = service.groupedTypes?.includes('Auto') ? 'auto' : service.groupedTypes?.[0]?.toLowerCase() || 'auto';
         
-        document.getElementById('modalImage').src = this.getServiceImage(service);
+        const modalImage = document.getElementById('modalImage');
+        if (modalImage) {
+          modalImage.src = this.getServiceImage(service);
+        }
         
         const variantButtons = document.getElementById('variantButtons');
-        if (service.variants.special) {
-          variantButtons.style.display = 'flex';
-        } else {
-          variantButtons.style.display = 'none';
+        if (variantButtons) {
+          variantButtons.style.display = service.variants.special ? 'flex' : 'none';
         }
 
         const vehicleTypeButtons = document.getElementById('vehicleTypeButtons');
-        if (service.category === 'vehicular' && service.groupedTypes?.length > 1) {
-            vehicleTypeButtons.style.display = 'flex';
-            this.setupVehicleTypeButtons(service.groupedTypes);
-        } else {
-            vehicleTypeButtons.style.display = 'none';
+        if (vehicleTypeButtons) {
+          if (service.category === 'vehicular' && service.groupedTypes?.length > 1) {
+              vehicleTypeButtons.style.display = 'flex';
+              this.setupVehicleTypeButtons(service.groupedTypes);
+          } else {
+              vehicleTypeButtons.style.display = 'none';
+          }
         }
 
         this.updateModalContent();
-        document.getElementById('serviceModal').style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        const modal = document.getElementById('serviceModal');
+        if (modal) {
+          modal.style.display = 'block';
+          document.body.style.overflow = 'hidden';
+        }
       }
       
       setupVehicleTypeButtons(availableTypes) {
@@ -2255,29 +2359,41 @@
       updateModalContent() {
         if (!this.currentServiceId) return;
         const serviceData = this.serviciosData[this.currentServiceId];
+        if (!serviceData) return;
+        
         const variant = serviceData.variants[this.currentVariant] || serviceData;
         const price = this.calculatePrice(serviceData);
 
-        document.getElementById('modalTitle').textContent = serviceData.name;
-        document.getElementById('modalPrice').textContent = `$${price.toLocaleString()}`;
-        document.getElementById('modalDescription').textContent = variant.description;
-        document.getElementById('modalTime').textContent = variant.duration ? `${variant.duration} min` : 'N/A';
-        document.getElementById('modalRecommendations').textContent = variant.recommendations;
-
+        const modalTitle = document.getElementById('modalTitle');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalTime = document.getElementById('modalTime');
+        const modalRecommendations = document.getElementById('modalRecommendations');
         const featuresList = document.getElementById('modalFeatures');
-        featuresList.innerHTML = '';
-        variant.features?.forEach(feature => {
-          const li = document.createElement('li');
-          li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
-          featuresList.appendChild(li);
-        });
+
+        if (modalTitle) modalTitle.textContent = serviceData.name;
+        if (modalPrice) modalPrice.textContent = `$${price.toLocaleString()}`;
+        if (modalDescription) modalDescription.textContent = variant.description || 'Descripción no disponible';
+        if (modalTime) modalTime.textContent = variant.duration ? `${variant.duration} min` : 'N/A';
+        if (modalRecommendations) modalRecommendations.textContent = variant.recommendations || 'Sin recomendaciones específicas';
+
+        if (featuresList) {
+          featuresList.innerHTML = '';
+          if (variant.features && Array.isArray(variant.features)) {
+            variant.features.forEach(feature => {
+              const li = document.createElement('li');
+              li.innerHTML = `<i class="fas fa-check text-success me-2"></i>${feature}`;
+              featuresList.appendChild(li);
+            });
+          }
+        }
         
         this.updateVariantButtons();
         this.updateVehicleTypeButtons();
       }
 
       calculatePrice(service) {
-        let basePrice = service.variants[this.currentVariant]?.price || service.price;
+        let basePrice = service.variants[this.currentVariant]?.price || service.price || 0;
         if (service.category === 'vehicular') {
             const multipliers = { auto: 1.0, pickup: 1.3, suv: 1.5 };
             basePrice *= multipliers[this.currentVehicleType] || 1.0;
@@ -2296,25 +2412,38 @@
       }
       
       updateVariantButtons() {
-        document.getElementById('standardBtn')?.classList.toggle('active', this.currentVariant === 'standard');
-        document.getElementById('specialBtn')?.classList.toggle('active', this.currentVariant === 'special');
+        const standardBtn = document.getElementById('standardBtn');
+        const specialBtn = document.getElementById('specialBtn');
+        if (standardBtn) standardBtn.classList.toggle('active', this.currentVariant === 'standard');
+        if (specialBtn) specialBtn.classList.toggle('active', this.currentVariant === 'special');
       }
 
       updateVehicleTypeButtons() {
-        document.getElementById('autoBtn')?.classList.toggle('active', this.currentVehicleType === 'auto');
-        document.getElementById('pickupBtn')?.classList.toggle('active', this.currentVehicleType === 'pickup');
-        document.getElementById('suvBtn')?.classList.toggle('active', this.currentVehicleType === 'suv');
+        const autoBtn = document.getElementById('autoBtn');
+        const pickupBtn = document.getElementById('pickupBtn');
+        const suvBtn = document.getElementById('suvBtn');
+        
+        if (autoBtn) autoBtn.classList.toggle('active', this.currentVehicleType === 'auto');
+        if (pickupBtn) pickupBtn.classList.toggle('active', this.currentVehicleType === 'pickup');
+        if (suvBtn) suvBtn.classList.toggle('active', this.currentVehicleType === 'suv');
       }
 
       closeModal() {
-        document.getElementById('serviceModal').style.display = 'none';
-        document.body.style.overflow = 'auto';
+        const modal = document.getElementById('serviceModal');
+        if (modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
       }
 
       updateServiceCounts() {
-        document.getElementById('count-todos').textContent = `(${this.getUniqueServicesCount(this.allServices)})`;
-        document.getElementById('count-vehiculos').textContent = `(${this.getUniqueServicesCount(this.vehicularServices)})`;
-        document.getElementById('count-tapizados').textContent = `(${this.getUniqueServicesCount(this.tapizadosServices)})`;
+        const countTodos = document.getElementById('count-todos');
+        const countVehiculos = document.getElementById('count-vehiculos');
+        const countTapizados = document.getElementById('count-tapizados');
+        
+        if (countTodos) countTodos.textContent = `(${this.getUniqueServicesCount(this.allServices)})`;
+        if (countVehiculos) countVehiculos.textContent = `(${this.getUniqueServicesCount(this.vehicularServices)})`;
+        if (countTapizados) countTapizados.textContent = `(${this.getUniqueServicesCount(this.tapizadosServices)})`;
       }
 
       getUniqueServicesCount(services) {
@@ -2322,26 +2451,45 @@
       }
 
       filterServices(category) {
+        console.log('🔍 Filtrando servicios por categoría:', category);
         this.currentFilter = category;
+        
+        // Actualizar botones de filtro
         document.querySelectorAll('.service-filter-btn').forEach(btn => {
           btn.classList.toggle('active', btn.dataset.filter === category);
         });
+        
+        // Filtrar servicios
         const servicesToShow = category === 'todos' ? this.allServices : this.allServices.filter(s => s.category === category.replace('s', ''));
+        console.log('📊 Servicios a mostrar:', servicesToShow.length);
         this.updateCarousel(servicesToShow);
       }
 
       updateCarousel(services) {
+        console.log('🎠 Actualizando carrusel con', services.length, 'servicios');
         const track = document.getElementById('servicesTrack');
+        if (!track) {
+          console.error('❌ No se encontró el elemento servicesTrack');
+          return;
+        }
+        
         track.innerHTML = '';
         const uniqueServices = this.getUniqueServices(services);
+        
         if (uniqueServices.length === 0) {
           track.innerHTML = '<p class="text-light text-center">No hay servicios disponibles.</p>';
           return;
         }
+        
         uniqueServices.forEach(service => {
-          track.appendChild(this.createServiceCard(service));
+          const card = this.createServiceCard(service);
+          if (card) {
+            track.appendChild(card);
+          }
         });
+        
         this.resetCarousel();
+        console.log('✅ Carrusel actualizado con', uniqueServices.length, 'cards');
       }
 
       getUniqueServices(services) {
@@ -2368,6 +2516,8 @@
       }
 
       getServiceBaseType(serviceName, category) {
+        if (!serviceName) return 'Servicio';
+        
         const cleanName = serviceName.replace(' Especial', '').toLowerCase();
         if (category === 'vehicular') {
           if (cleanName.includes('lavado')) return 'Lavado de Vehículo';
@@ -2386,6 +2536,8 @@
       }
 
       getVehicleType(serviceName) {
+        if (!serviceName) return 'Auto';
+        
         const lower = serviceName.toLowerCase();
         if (lower.includes('pickup') || lower.includes('camioneta')) return 'Pickup';
         if (lower.includes('suv')) return 'SUV';
@@ -2393,29 +2545,44 @@
       }
 
       createServiceCard(service) {
-        const div = document.createElement('div');
-        div.className = 'servicio-card-custom carousel-item';
-        const serviceKey = this.generateServiceKey(service);
-        div.innerHTML = `
-          <img src="${this.getServiceImage(service)}" alt="${service.name}">
-          <div class="servicio-card-body">
-            <h5>${service.name}</h5>
-            <p>${service.description || 'Descripción no disponible.'}</p>
-            <div class="service-options">
-              <button class="servicio-btn info-btn" data-service="${serviceKey}">
-                <i class="fas fa-info-circle me-2"></i>Ver Detalles
-              </button>
+        try {
+          console.log('🎴 Creando card para servicio:', service.name);
+          const div = document.createElement('div');
+          div.className = 'servicio-card-custom carousel-item';
+          const serviceKey = this.generateServiceKey(service);
+          
+          const imageSrc = this.getServiceImage(service);
+          const description = service.description || 'Descripción no disponible.';
+          
+          div.innerHTML = `
+            <img src="${imageSrc}" alt="${service.name}" onerror="this.src='img/daytona2.jpg'">
+            <div class="servicio-card-body">
+              <h5>${service.name}</h5>
+              <p>${description}</p>
+              <div class="service-options">
+                <button class="servicio-btn info-btn" data-service="${serviceKey}">
+                  <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                </button>
+              </div>
             </div>
-          </div>
-        `;
-        return div;
+          `;
+          
+          console.log('✅ Card creada exitosamente para:', service.name);
+          return div;
+        } catch (error) {
+          console.error('❌ Error creando card para servicio:', service.name, error);
+          return null;
+        }
       }
 
       generateServiceKey(service) {
+        if (!service || !service.name) return 'default-service';
         return service.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       }
       
       getServiceImage(service) {
+          if (!service || !service.name) return 'img/daytona2.jpg';
+          
           const name = service.name.toLowerCase();
           const imageMap = {
               'lavado de vehículo': 'img/autodetalle1.jpg',
@@ -2433,22 +2600,35 @@
       }
 
       setupCarouselControls() {
+        console.log('🎮 Configurando controles del carrusel...');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        prevBtn.addEventListener('click', () => this.moveCarousel(-1));
-        nextBtn.addEventListener('click', () => this.moveCarousel(1));
+        
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => this.moveCarousel(-1));
+        }
+        
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => this.moveCarousel(1));
+        }
+        
         window.addEventListener('resize', () => this.updateCarouselButtons());
+        console.log('✅ Controles del carrusel configurados');
       }
       
       moveCarousel(direction) {
         const track = document.getElementById('servicesTrack');
+        if (!track) return;
+        
         const items = track.querySelectorAll('.carousel-item');
+        if (items.length === 0) return;
+        
         const itemsPerView = this.getItemsPerView();
         const totalPages = Math.ceil(items.length / itemsPerView);
         
         this.currentIndex = (this.currentIndex + direction + totalPages) % totalPages;
         
-        const cardWidth = items[0].offsetWidth + parseInt(getComputedStyle(track).gap);
+        const cardWidth = items[0].offsetWidth + parseInt(getComputedStyle(track).gap || 25);
         track.style.transform = `translateX(-${this.currentIndex * cardWidth * itemsPerView}px)`;
         this.updateCarouselButtons();
       }
@@ -2461,6 +2641,8 @@
 
       updateCarouselButtons() {
         const track = document.getElementById('servicesTrack');
+        if (!track) return;
+        
         const visibleItems = Array.from(track.children).filter(el => el.style.display !== 'none');
         if (visibleItems.length === 0) return;
         
@@ -2469,8 +2651,8 @@
         const itemsPerView = this.getItemsPerView();
         const totalPages = Math.ceil(visibleItems.length / itemsPerView);
         
-        prevBtn.disabled = this.currentIndex === 0;
-        nextBtn.disabled = this.currentIndex >= totalPages - 1 || visibleItems.length <= itemsPerView;
+        if (prevBtn) prevBtn.disabled = this.currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = this.currentIndex >= totalPages - 1 || visibleItems.length <= itemsPerView;
       }
 
       resetCarousel() {
@@ -2498,19 +2680,129 @@
       }
     }
 
+    // Inicialización cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
-      window.indexManager = new IndexServiceManager();
+      console.log('🌐 DOM cargado, inicializando IndexServiceManager...');
+      try {
+        window.indexManager = new IndexServiceManager();
+      } catch (error) {
+        console.error('❌ Error creando IndexServiceManager:', error);
+        // Crear una instancia de respaldo
+        window.indexManager = new IndexServiceManager();
+        window.indexManager.loadFallbackServices();
+      }
     });
 
     // Función global para compatibilidad con onclick
     function filterServices(category) {
-      if (window.indexManager) {
+      console.log('🔍 Función global filterServices llamada con:', category);
+      if (window.indexManager && window.indexManager.isInitialized) {
         window.indexManager.filterServices(category);
+      } else {
+        console.warn('⚠️ IndexServiceManager no está inicializado aún');
+        // Esperar un poco y reintentar
+        setTimeout(() => {
+          if (window.indexManager) {
+            window.indexManager.filterServices(category);
+          }
+        }, 1000);
       }
     }
   </script>
 
   <script src="js/send-whatsapp.js"></script>
+
+  <!-- Script de debugging para las cards -->
+  <script>
+    // Función de debugging para verificar el estado de las cards
+    window.debugCards = function() {
+      console.log('🔍 DEBUGGING DE CARDS');
+      console.log('======================');
+      
+      // Verificar si el manager existe
+      if (window.indexManager) {
+        console.log('✅ IndexServiceManager existe');
+        console.log('📊 Estado:', {
+          isInitialized: window.indexManager.isInitialized,
+          allServices: window.indexManager.allServices?.length || 0,
+          vehicularServices: window.indexManager.vehicularServices?.length || 0,
+          tapizadosServices: window.indexManager.tapizadosServices?.length || 0,
+          currentFilter: window.indexManager.currentFilter
+        });
+      } else {
+        console.log('❌ IndexServiceManager no existe');
+      }
+      
+      // Verificar elementos del DOM
+      const track = document.getElementById('servicesTrack');
+      if (track) {
+        console.log('✅ servicesTrack encontrado');
+        console.log('📦 Contenido actual:', track.innerHTML.substring(0, 200) + '...');
+        console.log('🎴 Cards visibles:', track.querySelectorAll('.carousel-item').length);
+      } else {
+        console.log('❌ servicesTrack no encontrado');
+      }
+      
+      // Verificar botones de filtro
+      const filterButtons = document.querySelectorAll('.service-filter-btn');
+      console.log('🔘 Botones de filtro encontrados:', filterButtons.length);
+      
+      // Verificar modal
+      const modal = document.getElementById('serviceModal');
+      if (modal) {
+        console.log('✅ Modal encontrado');
+        console.log('👁️ Modal visible:', modal.style.display === 'block');
+      } else {
+        console.log('❌ Modal no encontrado');
+      }
+      
+      // Verificar API
+      if (window.getApiUrl) {
+        console.log('🌐 URL de API:', window.getApiUrl());
+      }
+      
+      console.log('🔍 Fin del debugging');
+    };
+    
+    // Función para forzar recarga de servicios
+    window.reloadServices = function() {
+      console.log('🔄 Recargando servicios...');
+      if (window.indexManager) {
+        window.indexManager.loadServices().then(() => {
+          console.log('✅ Servicios recargados');
+          window.debugCards();
+        }).catch(error => {
+          console.error('❌ Error recargando servicios:', error);
+        });
+      } else {
+        console.log('❌ IndexServiceManager no disponible');
+      }
+    };
+    
+    // Función para mostrar servicios de respaldo
+    window.showFallbackServices = function() {
+      console.log('🆘 Cargando servicios de respaldo...');
+      if (window.indexManager) {
+        window.indexManager.loadFallbackServices();
+        console.log('✅ Servicios de respaldo cargados');
+        window.debugCards();
+      } else {
+        console.log('❌ IndexServiceManager no disponible');
+      }
+    };
+    
+    // Ejecutar debugging automáticamente después de 3 segundos
+    setTimeout(() => {
+      console.log('🔧 Debugging automático iniciado...');
+      window.debugCards();
+    }, 3000);
+    
+    // Agregar comandos útiles a la consola
+    console.log('🔧 Comandos de debugging disponibles:');
+    console.log('  - debugCards() - Verificar estado de las cards');
+    console.log('  - reloadServices() - Recargar servicios desde la API');
+    console.log('  - showFallbackServices() - Cargar servicios de respaldo');
+  </script>
 
 </body>
 

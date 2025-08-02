@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cards - Daytona</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .test-card {
+            background: rgba(33, 37, 41, 1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .test-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .test-card-body {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .test-card h5 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .test-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Test de Cards - Daytona</h1>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="test-card">
+                    <img src="img/autodetalle1.jpg" alt="Lavado de Auto">
+                    <div class="test-card-body">
+                        <h5>Lavado de Auto</h5>
+                        <p>Lavado completo del exterior e interior del vehículo con productos profesionales.</p>
+                        <button class="test-btn">
+                            <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="test-card">
+                    <img src="img/sillon123.jpg" alt="Limpieza de Sillones">
+                    <div class="test-card-body">
+                        <h5>Limpieza de Sillones</h5>
+                        <p>Limpieza profunda de sillones y sofás con extractor profesional.</p>
+                        <button class="test-btn">
+                            <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="test-card">
+                    <img src="img/colchonlimpio.jpg" alt="Limpieza de Colchón">
+                    <div class="test-card-body">
+                        <h5>Limpieza de Colchón</h5>
+                        <p>Limpieza y desinfección profunda de colchones con vapor a alta temperatura.</p>
+                        <button class="test-btn">
+                            <i class="fas fa-info-circle me-2"></i>Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="index.html" class="btn btn-primary">Volver al Index</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
