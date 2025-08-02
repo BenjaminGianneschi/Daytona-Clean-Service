@@ -1392,17 +1392,11 @@
       
       <!-- Botones de Filtro -->
       <div class="service-filter-buttons mb-4">
-        <button class="service-filter-btn active" data-filter="todos" onclick="filterServices('todos')">
-          <i class="fas fa-th me-2"></i>Todos los Servicios
-          <span class="service-count" id="count-todos">(8)</span>
-        </button>
-        <button class="service-filter-btn" data-filter="vehiculos" onclick="filterServices('vehiculos')">
+        <button class="service-filter-btn active" data-filter="vehiculos" onclick="filterServices('vehiculos')">
           <i class="fas fa-car me-2"></i>Vehículos
-          <span class="service-count" id="count-vehiculos">(3)</span>
         </button>
         <button class="service-filter-btn" data-filter="tapizados" onclick="filterServices('tapizados')">
           <i class="fas fa-couch me-2"></i>Tapizados & Hogar
-          <span class="service-count" id="count-tapizados">(5)</span>
         </button>
       </div>
     </div>
@@ -1415,12 +1409,185 @@
       
       <div class="services-carousel" id="servicesCarousel">
         <div class="carousel-track" id="servicesTrack">
-          <!-- Las cards se cargarán dinámicamente desde la API -->
-          <div class="loading-placeholder text-center p-5">
-            <div class="spinner-border text-light" role="status">
-              <span class="visually-hidden">Cargando servicios...</span>
+          <!-- Cards de Vehículos -->
+          <div class="servicios-vehiculos">
+            <!-- Card 1: Lavado de Auto -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/autodetalle1.jpg" alt="Lavado de Auto">
+              <div class="servicio-card-body">
+                <h5>Lavado de Auto</h5>
+                <p>Limpieza profesional exterior e interior</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="lavado-auto" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="lavado-auto" data-type="special">Especial</button>
+                </div>
+              </div>
             </div>
-            <p class="text-light mt-3">Cargando servicios disponibles...</p>
+            
+            <!-- Card 2: Lavado de Pickup -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/camioneta3.jpg" alt="Lavado de Pickup">
+              <div class="servicio-card-body">
+                <h5>Lavado de Pickup</h5>
+                <p>Limpieza profesional incluyendo caja de carga</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="lavado-pickup" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="lavado-pickup" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 3: Lavado de SUV -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/toyota5.jpg" alt="Lavado de SUV">
+              <div class="servicio-card-body">
+                <h5>Lavado de SUV</h5>
+                <p>Limpieza profesional para vehículos grandes</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="lavado-suv" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="lavado-suv" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 4: Limpieza de Motor -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/motorauto1.jpg" alt="Limpieza de Motor">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Motor</h5>
+                <p>Limpieza y mantenimiento del compartimento</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="limpieza-motor" data-type="standard">Completo</button>
+                  <button class="servicio-btn special-btn" data-service="limpieza-motor" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 5: Tapizado de Auto -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/asientosucio.jpg" alt="Tapizado de Auto">
+              <div class="servicio-card-body">
+                <h5>Tapizado de Auto</h5>
+                <p>Limpieza profunda de tapizados y alfombras</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="tapizado-auto" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="tapizado-auto" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 6: Tapizado de Pickup -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/hilux1.jpg" alt="Tapizado de Pickup">
+              <div class="servicio-card-body">
+                <h5>Tapizado de Pickup</h5>
+                <p>Limpieza profunda incluyendo caja de carga</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="tapizado-pickup" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="tapizado-pickup" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 7: Tapizado de SUV -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/hilux2.jpg" alt="Tapizado de SUV">
+              <div class="servicio-card-body">
+                <h5>Tapizado de SUV</h5>
+                <p>Limpieza profunda para vehículos grandes</p>
+                <div class="service-options">
+                  <button class="servicio-btn standard-btn" data-service="tapizado-suv" data-type="standard">Estándar</button>
+                  <button class="servicio-btn special-btn" data-service="tapizado-suv" data-type="special">Especial</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Cards de Tapizados -->
+          <div class="servicios-tapizados" style="display: none;">
+            <!-- Card 1: Sillón -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/sillon123.jpg" alt="Limpieza de Sillón">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Sillón</h5>
+                <p>Limpieza profunda de sillones de 1, 2 o 3 cuerpos con tecnología avanzada</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="sillon">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 2: Silla -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/sillacomedor1234.jpeg" alt="Limpieza de Silla">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Silla</h5>
+                <p>Limpieza profunda de sillas simples y de comedor con tecnología avanzada</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="silla">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 3: Colchón -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/colchonlimpio.jpg" alt="Limpieza de Colchón">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Colchón</h5>
+                <p>Limpieza profunda y desinfección de colchones de 1 y 2 plazas</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="colchon">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 4: Alfombra -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/alfombralimpia.jpg" alt="Limpieza de Alfombra">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Alfombra</h5>
+                <p>Limpieza profunda por metro cuadrado</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="alfombra">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 5: Puff -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/puff12.jpeg" alt="Limpieza de Puff">
+              <div class="servicio-card-body">
+                <h5>Limpieza de Puff</h5>
+                <p>Limpieza profunda de puffs simples y grandes con tecnología avanzada</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="puff">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Card 6: Respaldo de Cama -->
+            <div class="servicio-card-custom carousel-item">
+              <img src="img/respaldar1.jpeg" alt="Respaldo de Cama">
+              <div class="servicio-card-body">
+                <h5>Respaldo de Cama</h5>
+                <p>Limpieza profunda por metro cuadrado</p>
+                <div class="service-options">
+                  <button class="servicio-btn info-btn" data-service="respaldo-cama">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1429,8 +1596,6 @@
         <i class="fas fa-chevron-right"></i>
       </button>
     </div>
-    
-    
   </section>
 
   <!-- MANTENIMIENTO PREVENTIVO - CUIDADO QUE TRASCIENDE -->
@@ -2116,6 +2281,92 @@
   
   <!-- Scripts de la página -->
   <script>
+    // Función global para filtrar servicios
+    function filterServices(category) {
+      console.log('🔍 Filtrando servicios por:', category);
+      
+      // Ocultar todos los servicios
+      document.querySelector('.servicios-vehiculos').style.display = 'none';
+      document.querySelector('.servicios-tapizados').style.display = 'none';
+      
+      // Mostrar servicios según la categoría
+      if (category === 'vehiculos') {
+        document.querySelector('.servicios-vehiculos').style.display = 'flex';
+      } else if (category === 'tapizados') {
+        document.querySelector('.servicios-tapizados').style.display = 'flex';
+      }
+      
+      // Actualizar botones de filtro
+      document.querySelectorAll('.service-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+      
+      // Reiniciar carrusel
+      resetCarousel();
+    }
+    
+    // Función para reiniciar el carrusel
+    function resetCarousel() {
+      const track = document.querySelector('.carousel-track');
+      if (track) {
+        track.style.transform = 'translateX(0px)';
+        currentIndex = 0;
+        updateCarouselButtons();
+      }
+    }
+    
+    // Variables para el carrusel
+    let currentIndex = 0;
+    
+    // Función para mover el carrusel
+    function moveCarousel(direction) {
+      const track = document.querySelector('.carousel-track');
+      if (!track) return;
+      
+      const visibleServices = track.querySelector('.servicios-vehiculos[style*="flex"], .servicios-tapizados[style*="flex"]');
+      if (!visibleServices) return;
+      
+      const items = visibleServices.querySelectorAll('.carousel-item');
+      if (items.length === 0) return;
+      
+      const itemsPerView = getItemsPerView();
+      const totalPages = Math.ceil(items.length / itemsPerView);
+      
+      currentIndex = (currentIndex + direction + totalPages) % totalPages;
+      
+      const cardWidth = items[0].offsetWidth + 25; // 25px gap
+      track.style.transform = `translateX(-${currentIndex * cardWidth * itemsPerView}px)`;
+      updateCarouselButtons();
+    }
+    
+    // Función para obtener items por vista
+    function getItemsPerView() {
+      if (window.innerWidth < 768) return 1;
+      if (window.innerWidth < 1200) return 2;
+      return 3;
+    }
+    
+    // Función para actualizar botones del carrusel
+    function updateCarouselButtons() {
+      const track = document.querySelector('.carousel-track');
+      if (!track) return;
+      
+      const visibleServices = track.querySelector('.servicios-vehiculos[style*="flex"], .servicios-tapizados[style*="flex"]');
+      if (!visibleServices) return;
+      
+      const items = visibleServices.querySelectorAll('.carousel-item');
+      if (items.length === 0) return;
+      
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const itemsPerView = getItemsPerView();
+      const totalPages = Math.ceil(items.length / itemsPerView);
+      
+      if (prevBtn) prevBtn.disabled = currentIndex === 0;
+      if (nextBtn) nextBtn.disabled = currentIndex >= totalPages - 1 || items.length <= itemsPerView;
+    }
+    
     // Clase para manejar servicios dinámicos del index
     class IndexServiceManager {
       constructor() {
@@ -2123,7 +2374,7 @@
         this.allServices = [];
         this.vehicularServices = [];
         this.tapizadosServices = [];
-        this.currentFilter = 'todos';
+        this.currentFilter = 'vehiculos';
         this.currentIndex = 0;
         this.serviciosData = {};
         this.currentServiceId = null;
@@ -2993,6 +3244,36 @@
         window.indexManager = new IndexServiceManager();
         window.indexManager.loadFallbackServices();
       }
+      
+      // Event listeners para el carrusel estático
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => moveCarousel(-1));
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => moveCarousel(1));
+      }
+      
+      // Event listeners para botones de servicios
+      document.querySelectorAll('.servicio-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const serviceId = this.getAttribute('data-service');
+          const serviceType = this.getAttribute('data-type');
+          
+          if (serviceId) {
+            console.log('🔍 Botón de servicio clickeado:', serviceId, serviceType);
+            // Aquí puedes agregar la lógica para abrir modales o redirigir
+          }
+        });
+      });
+      
+      // Inicializar carrusel
+      setTimeout(() => {
+        updateCarouselButtons();
+      }, 100);
     });
 
     // Función global para compatibilidad con onclick
