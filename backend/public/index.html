@@ -2150,7 +2150,7 @@
       async loadServices() {
         console.log('📡 Cargando servicios desde la API...');
         try {
-          const response = await this.apiService.request('/services');
+          const response = await this.apiService.request('/appointments/services');
           console.log('📦 Respuesta de la API:', response);
           
           if (response.success && response.services && Array.isArray(response.services)) {
@@ -2173,6 +2173,7 @@
 
       createServiceData(services) {
         console.log('🔧 Creando datos de servicios...');
+        console.log('📊 Servicios recibidos:', services.map(s => ({ name: s.name, category: s.category })));
         const uniqueServices = this.getUniqueServices(services);
         uniqueServices.forEach(service => {
           const serviceKey = this.generateServiceKey(service);
@@ -2180,6 +2181,7 @@
             ...service,
             variants: this.createVariantsForService(service)
           };
+          console.log(`📋 Servicio procesado: ${service.name} - Variantes:`, Object.keys(this.serviciosData[serviceKey].variants));
         });
         console.log('📋 Datos de servicios creados:', Object.keys(this.serviciosData).length);
       }
@@ -2189,9 +2191,10 @@
           
           // Buscar variante especial en el mismo grupo de servicios
           if (this.allServices) {
+              const baseName = service.name.replace(' Especial', '');
               const specialVariant = this.allServices.find(s => 
                   s.name.includes('Especial') && 
-                  s.name.replace(' Especial', '') === service.name.replace(' Especial', '') &&
+                  s.name.replace(' Especial', '') === baseName &&
                   s.category === service.category
               );
               if (specialVariant) {
@@ -2772,6 +2775,11 @@
               group.groupedTypes.add('SUV');
             } else if (service.name.toLowerCase().includes('tapizado') && service.name.toLowerCase().includes('autos')) {
               // Para Limpieza de Tapizado de Autos, incluir todos los tipos de vehículo
+              group.groupedTypes.add('Auto');
+              group.groupedTypes.add('Pickup');
+              group.groupedTypes.add('SUV');
+            } else if (service.name.toLowerCase().includes('tapizado')) {
+              // Para otros servicios de tapizado vehicular, incluir todos los tipos
               group.groupedTypes.add('Auto');
               group.groupedTypes.add('Pickup');
               group.groupedTypes.add('SUV');
