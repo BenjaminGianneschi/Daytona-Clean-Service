@@ -82,7 +82,7 @@
   <!-- CSS personalizado -->
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/components/header.css" />
-  <link rel="stylesheet" href="css/components/buttons.css" />
+
   <link rel="stylesheet" href="css/components/forms.css" />
   <link rel="stylesheet" href="css/vehiculos.css">
   <link rel="stylesheet" href="css/tapizados.css">
@@ -2092,7 +2092,7 @@
   <script src="js/faq-toggle.js"></script>
   <script src="js/whatsapp-float.js"></script>
   <script src="js/send-whatsapp.js"></script>
-  <script src="js/test-header.js"></script>
+
 
   <!-- Script para el modal de servicios será manejado por IndexServiceManager -->
 
@@ -2176,13 +2176,7 @@
         return variants;
       }
 
-      generateServiceKey(service) {
-        // Crear una clave única basada en el nombre del servicio
-        return service.name.toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[áéíóú]/g, match => ({'á':'a','é':'e','í':'i','ó':'o','ú':'u'}[match]))
-          .replace(/[^a-z0-9-]/g, '');
-      }
+
 
       getServiceImage(service) {
         const name = service.name.toLowerCase();
@@ -2623,6 +2617,14 @@
         this.currentServiceId = null;
         this.currentVariant = 'standard';
         this.currentVehicleType = 'auto';
+      }
+
+      generateServiceKey(service) {
+        // Crear una clave única basada en el nombre del servicio
+        return service.name.toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[áéíóú]/g, match => ({'á':'a','é':'e','í':'i','ó':'o','ú':'u'}[match]))
+          .replace(/[^a-z0-9-]/g, '');
       }
     }
 
