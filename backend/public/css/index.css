@@ -1452,6 +1452,258 @@
   }
 }
 
+/* ===== CARDS DE TAPIZADOS EN INDEX.HTML ===== */
+/* Estilos específicos para que las cards de tapizados se vean igual que en tapizados.html */
+
+.servicios-tapizados {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+  width: 100% !important;
+}
+
+.servicios-tapizados .servicio-card-custom {
+  background: rgba(33, 37, 41, 1) !important;
+  border-radius: 15px !important;
+  width: 350px !important;
+  min-height: 420px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  transition: transform 0.2s !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.servicios-tapizados .servicio-card-custom:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.servicios-tapizados .servicio-card-custom img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.servicios-tapizados .servicio-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 16px 18px;
+  background: rgba(33, 37, 41, 1);
+}
+
+.servicios-tapizados .servicio-card-body h5 {
+  color: #fff;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.servicios-tapizados .servicio-card-body p {
+  color: #ffffff;
+  font-size: 0.98rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.servicios-tapizados .service-options {
+  margin-top: auto;
+}
+
+.servicios-tapizados .servicio-btn {
+  margin-top: auto;
+  background: #ff3b3f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: block;
+  width: 100%;
+}
+
+.servicios-tapizados .servicio-btn:hover {
+  background: #b31217;
+  color: #fff;
+}
+
+/* Responsive para cards de tapizados */
+@media (max-width: 1100px) {
+  .servicios-tapizados {
+    gap: 28px 16px;
+  }
+  .servicios-tapizados .servicio-card-custom {
+    width: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  .servicios-tapizados {
+    gap: 24px 12px;
+  }
+  .servicios-tapizados .servicio-card-custom {
+    width: 90vw;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .servicios-tapizados {
+    flex-direction: column;
+    gap: 18px 0;
+    align-items: center;
+  }
+  .servicios-tapizados .servicio-card-custom {
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+  }
+  .servicios-tapizados .servicio-card-custom img {
+    height: 220px !important;
+  }
+  .servicios-tapizados .servicio-card-body {
+    padding: 12px 8px 12px 8px;
+  }
+}
+
+/* ===== CARDS DE VEHÍCULOS EN INDEX.HTML ===== */
+/* Estilos específicos para que las cards de vehículos se vean igual que en vehiculos.html */
+
+.servicios-vehiculos {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+  width: 100% !important;
+}
+
+.servicios-vehiculos .servicio-card-custom {
+  background: rgba(33, 37, 41, 1) !important;
+  border-radius: 15px !important;
+  width: 350px !important;
+  min-height: 420px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  transition: transform 0.2s !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.servicios-vehiculos .servicio-card-custom:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.servicios-vehiculos .servicio-card-custom img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.servicios-vehiculos .servicio-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 18px 16px 18px;
+  background: rgba(33, 37, 41, 1);
+}
+
+.servicios-vehiculos .servicio-card-body h5 {
+  color: #fff;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.servicios-vehiculos .servicio-card-body p {
+  color: #ffffff;
+  font-size: 0.98rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.servicios-vehiculos .service-options {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.servicios-vehiculos .servicio-btn {
+  flex: 1;
+  background: #ff3b3f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.servicios-vehiculos .servicio-btn:hover {
+  background: #b31217;
+  color: #fff;
+}
+
+/* Responsive para cards de vehículos */
+@media (max-width: 1100px) {
+  .servicios-vehiculos {
+    gap: 28px 16px;
+  }
+  .servicios-vehiculos .servicio-card-custom {
+    width: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  .servicios-vehiculos {
+    gap: 24px 12px;
+  }
+  .servicios-vehiculos .servicio-card-custom {
+    width: 90vw;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .servicios-vehiculos {
+    flex-direction: column;
+    gap: 18px 0;
+    align-items: center;
+  }
+  .servicios-vehiculos .servicio-card-custom {
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+  }
+  .servicios-vehiculos .servicio-card-custom img {
+    height: 220px !important;
+  }
+  .servicios-vehiculos .servicio-card-body {
+    padding: 12px 8px 12px 8px;
+  }
+  .servicios-vehiculos .service-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 /* === FUNDADOR PRESENTACIÓN === */
 #fundador {
   background: #18191c;
