@@ -1411,93 +1411,44 @@
         <!-- Cards de Vehículos -->
         <div class="servicios-vehiculos" style="display: none;">
           <div class="carousel-track">
-            <!-- Card 1: Lavado de Auto -->
+            <!-- Card 1: Lavado Convencional -->
             <div class="servicio-card-custom carousel-item">
-              <img src="img/autodetalle1.jpg" alt="Lavado de Auto">
+              <img src="img/autodetalle1.jpg" alt="Lavado Convencional">
               <div class="servicio-card-body">
-                <h5>Lavado de Auto</h5>
-                <p>Limpieza profesional exterior e interior</p>
+                <h5>Lavado Convencional</h5>
+                <p>Limpieza profesional exterior e interior para todos los tipos de vehículos</p>
                 <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="lavado-auto" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="lavado-auto" data-type="special">Especial</button>
-            </div>
-              </div>
-            </div>
-            
-            <!-- Card 2: Lavado de Pickup -->
-            <div class="servicio-card-custom carousel-item">
-              <img src="img/camioneta3.jpg" alt="Lavado de Pickup">
-              <div class="servicio-card-body">
-                <h5>Lavado de Pickup</h5>
-                <p>Limpieza profesional incluyendo caja de carga</p>
-                <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="lavado-pickup" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="lavado-pickup" data-type="special">Especial</button>
+                  <button class="servicio-btn info-btn" data-service="lavado-convencional">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
                 </div>
               </div>
             </div>
             
-            <!-- Card 3: Lavado de SUV -->
-            <div class="servicio-card-custom carousel-item">
-              <img src="img/toyota5.jpg" alt="Lavado de SUV">
-              <div class="servicio-card-body">
-                <h5>Lavado de SUV</h5>
-                <p>Limpieza profesional para vehículos grandes</p>
-                <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="lavado-suv" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="lavado-suv" data-type="special">Especial</button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Card 4: Limpieza de Motor -->
+            <!-- Card 2: Limpieza de Motor -->
             <div class="servicio-card-custom carousel-item">
               <img src="img/motorauto1.jpg" alt="Limpieza de Motor">
               <div class="servicio-card-body">
                 <h5>Limpieza de Motor</h5>
-                <p>Limpieza y mantenimiento del compartimento</p>
+                <p>Limpieza y mantenimiento del compartimento del motor</p>
                 <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="limpieza-motor" data-type="standard">Completo</button>
-                  <button class="servicio-btn special-btn" data-service="limpieza-motor" data-type="special">Especial</button>
+                  <button class="servicio-btn info-btn" data-service="limpieza-motor">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
                 </div>
               </div>
             </div>
             
-            <!-- Card 5: Tapizado de Auto -->
+            <!-- Card 3: Limpieza de Tapizado -->
             <div class="servicio-card-custom carousel-item">
-              <img src="img/asientosucio.jpg" alt="Tapizado de Auto">
+              <img src="img/asientosucio.jpg" alt="Limpieza de Tapizado">
               <div class="servicio-card-body">
-                <h5>Tapizado de Auto</h5>
-                <p>Limpieza profunda de tapizados y alfombras</p>
+                <h5>Limpieza de Tapizado</h5>
+                <p>Limpieza profunda de tapizados y alfombras para todos los tipos de vehículos</p>
                 <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="tapizado-auto" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="tapizado-auto" data-type="special">Especial</button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Card 6: Tapizado de Pickup -->
-            <div class="servicio-card-custom carousel-item">
-              <img src="img/hilux1.jpg" alt="Tapizado de Pickup">
-              <div class="servicio-card-body">
-                <h5>Tapizado de Pickup</h5>
-                <p>Limpieza profunda incluyendo caja de carga</p>
-                <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="tapizado-pickup" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="tapizado-pickup" data-type="special">Especial</button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Card 7: Tapizado de SUV -->
-            <div class="servicio-card-custom carousel-item">
-              <img src="img/hilux2.jpg" alt="Tapizado de SUV">
-              <div class="servicio-card-body">
-                <h5>Tapizado de SUV</h5>
-                <p>Limpieza profunda para vehículos grandes</p>
-                <div class="service-options">
-                  <button class="servicio-btn standard-btn" data-service="tapizado-suv" data-type="standard">Estándar</button>
-                  <button class="servicio-btn special-btn" data-service="tapizado-suv" data-type="special">Especial</button>
+                  <button class="servicio-btn info-btn" data-service="limpieza-tapizado">
+                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
+                  </button>
                 </div>
               </div>
             </div>
@@ -2619,12 +2570,106 @@
         standard: { price: '$25.000/m²', time: '1 hora/m²' },
         special: { price: '$50.000/m²', time: '1.5 horas/m²' },
         recommendations: 'Ideal para respaldos con manchas o uso intensivo. Recomendado cada 6-12 meses.'
+      },
+      'lavado-convencional': {
+        title: 'Lavado Convencional',
+        image: 'img/autodetalle1.jpg',
+        description: 'Limpieza profesional exterior e interior para todos los tipos de vehículos. Incluye lavado exterior completo, limpieza de llantas, aspirado interior, limpieza de vidrios y aplicación de productos protectores.',
+        features: [
+          'Lavado exterior completo con shampoo profesional',
+          'Limpieza de llantas y neumáticos',
+          'Aspirado completo del interior',
+          'Limpieza de vidrios y espejos',
+          'Aplicación de productos protectores',
+          'Secado manual con paños de microfibra'
+        ],
+        recommendations: 'Recomendado cada 2-4 semanas para mantener el vehículo en óptimas condiciones.',
+        vehicleTypes: {
+          'auto': {
+            name: 'Auto',
+            standard: { price: '$45.000', time: '1.5 horas' },
+            special: { price: '$75.000', time: '2 horas' }
+          },
+          'pickup': {
+            name: 'Pickup',
+            standard: { price: '$55.000', time: '2 horas' },
+            special: { price: '$85.000', time: '2.5 horas' }
+          },
+          'suv': {
+            name: 'SUV',
+            standard: { price: '$65.000', time: '2.5 horas' },
+            special: { price: '$95.000', time: '3 horas' }
+          }
+        }
+      },
+      'limpieza-motor': {
+        title: 'Limpieza de Motor',
+        image: 'img/motorauto1.jpg',
+        description: 'Limpieza y mantenimiento del compartimento del motor. Incluye desengrasado, limpieza de componentes, aplicación de protectores y verificación de niveles.',
+        features: [
+          'Desengrasado completo del motor',
+          'Limpieza de componentes principales',
+          'Aplicación de protectores anti-corrosión',
+          'Verificación de niveles de fluidos',
+          'Limpieza de filtros de aire',
+          'Secado y acabado profesional'
+        ],
+        recommendations: 'Recomendado cada 6-12 meses para mantener el motor en óptimas condiciones.',
+        vehicleTypes: {
+          'auto': {
+            name: 'Auto',
+            standard: { price: '$35.000', time: '1 hora' },
+            special: { price: '$55.000', time: '1.5 horas' }
+          },
+          'pickup': {
+            name: 'Pickup',
+            standard: { price: '$45.000', time: '1.5 horas' },
+            special: { price: '$65.000', time: '2 horas' }
+          },
+          'suv': {
+            name: 'SUV',
+            standard: { price: '$55.000', time: '2 horas' },
+            special: { price: '$75.000', time: '2.5 horas' }
+          }
+        }
+      },
+      'limpieza-tapizado': {
+        title: 'Limpieza de Tapizado',
+        image: 'img/asientosucio.jpg',
+        description: 'Limpieza profunda de tapizados y alfombras para todos los tipos de vehículos. Incluye aspirado, limpieza con productos especializados y aplicación de protectores.',
+        features: [
+          'Aspirado completo de asientos y alfombras',
+          'Limpieza con productos especializados',
+          'Eliminación de manchas y olores',
+          'Aplicación de protectores anti-manchas',
+          'Secado completo',
+          'Aromatización profesional'
+        ],
+        recommendations: 'Recomendado cada 3-6 meses para mantener el interior del vehículo higiénico.',
+        vehicleTypes: {
+          'auto': {
+            name: 'Auto',
+            standard: { price: '$40.000', time: '1.5 horas' },
+            special: { price: '$70.000', time: '2 horas' }
+          },
+          'pickup': {
+            name: 'Pickup',
+            standard: { price: '$50.000', time: '2 horas' },
+            special: { price: '$80.000', time: '2.5 horas' }
+          },
+          'suv': {
+            name: 'SUV',
+            standard: { price: '$60.000', time: '2.5 horas' },
+            special: { price: '$90.000', time: '3 horas' }
+          }
+        }
       }
     };
     // Variables globales para el modal
     let currentServiceId = null;
     let currentVariant = 'standard';
-    let currentSize = null; 
+    let currentSize = null;
+    let currentVehicleType = null; 
     // Función para abrir el modal
     function openServiceModal(serviceId) { 
       console.log('🔍 Abriendo modal para servicio:', serviceId);
@@ -2637,16 +2682,25 @@
       currentServiceId = serviceId;
       currentVariant = 'standard';
 
-      // Crear botones de tamaño si el servicio los tiene
-      createSizeButtons(serviceId);
-      // Determinar tamaño inicial
+      // Crear botones según el tipo de servicio
       if (service.sizes) {
-        currentSize = Object.keys(service.sizes)[0]; // Primer tamaño disponible
-      } else {
+        // Servicio de tapizados con tamaños
+        createSizeButtons(serviceId);
+        currentSize = Object.keys(service.sizes)[0];
+        currentVehicleType = null;
+      } else if (service.vehicleTypes) {
+        // Servicio de vehículos con tipos de vehículo
+        createVehicleTypeButtons(serviceId);
+        currentVehicleType = Object.keys(service.vehicleTypes)[0];
         currentSize = null;
+      } else {
+        // Servicio simple (alfombra, respaldo)
+        currentSize = null;
+        currentVehicleType = null;
       }
+      
       // Mostrar la información del servicio
-      updateModalContent(serviceId, 'standard', currentSize);
+      updateModalContent(serviceId, 'standard', currentSize, currentVehicleType);
 
       // Configurar botones de variantes
       const standardBtn = document.getElementById('standardBtn');
@@ -2655,6 +2709,7 @@
       // Actualizar estados de botones
       standardBtn.classList.toggle('active', true);
       specialBtn.classList.toggle('active', false);
+      
       // Mostrar el modal
       const modal = document.getElementById('serviceModal');
       modal.style.display = 'flex';
@@ -2687,8 +2742,35 @@
         sizeButtonsContainer.style.display = 'none';
       }
     }
+
+    // Función para crear botones de tipo de vehículo
+    function createVehicleTypeButtons(serviceId) {
+      const service = serviciosData[serviceId];
+      const sizeButtonsContainer = document.getElementById('sizeButtons');
+      
+      // Limpiar botones existentes
+      sizeButtonsContainer.innerHTML = '';
+      
+      if (service.vehicleTypes) {
+        // Mostrar contenedor de botones de tipo de vehículo
+        sizeButtonsContainer.style.display = 'flex';
+        
+        // Crear botón para cada tipo de vehículo
+        Object.keys(service.vehicleTypes).forEach((vehicleKey, index) => {
+          const vehicleData = service.vehicleTypes[vehicleKey];
+          const button = document.createElement('button');
+          button.className = `size-btn ${index === 0 ? 'active' : ''}`;
+          button.textContent = vehicleData.name;
+          button.onclick = () => switchVehicleType(vehicleKey);
+          sizeButtonsContainer.appendChild(button);
+        });
+      } else {
+        // Ocultar contenedor si no hay tipos de vehículo
+        sizeButtonsContainer.style.display = 'none';
+      }
+    }
     // Función para actualizar el contenido del modal
-    function updateModalContent(serviceId, serviceType, sizeKey = null) {
+    function updateModalContent(serviceId, serviceType, sizeKey = null, vehicleTypeKey = null) {
       const service = serviciosData[serviceId];
       if (!service) return;
 
@@ -2709,11 +2791,19 @@
       let timeText = '';
       
       if (service.sizes && sizeKey && service.sizes[sizeKey]) {
+        // Servicio de tapizados con tamaños
         const sizeData = service.sizes[sizeKey];
         const variant = sizeData[serviceType];
         priceText = variant.price;
         timeText = variant.time;
+      } else if (service.vehicleTypes && vehicleTypeKey && service.vehicleTypes[vehicleTypeKey]) {
+        // Servicio de vehículos con tipos de vehículo
+        const vehicleData = service.vehicleTypes[vehicleTypeKey];
+        const variant = vehicleData[serviceType];
+        priceText = variant.price;
+        timeText = variant.time;
       } else if (service.standard && service.special) {
+        // Servicio simple (alfombra, respaldo)
         const variant = service[serviceType];
         priceText = variant.price;
         timeText = variant.time;
@@ -2722,13 +2812,13 @@
       document.getElementById('modalPrice').textContent = priceText;
       document.getElementById('modalTime').textContent = timeText;
       
-      console.log(`📊 Modal actualizado: ${serviceId} - ${serviceType} - ${sizeKey}`);
+      console.log(`📊 Modal actualizado: ${serviceId} - ${serviceType} - ${sizeKey} - ${vehicleTypeKey}`);
     }
 
     // Función para cambiar variante
     function switchVariant(variant) {
       currentVariant = variant;
-      updateModalContent(currentServiceId, variant, currentSize);
+      updateModalContent(currentServiceId, variant, currentSize, currentVehicleType);
       
       // Actualizar estados de botones
       const standardBtn = document.getElementById('standardBtn');
@@ -2740,13 +2830,28 @@
     // Función para cambiar tamaño
     function switchSize(sizeKey) {
       currentSize = sizeKey;
-      updateModalContent(currentServiceId, currentVariant, sizeKey);
+      updateModalContent(currentServiceId, currentVariant, sizeKey, currentVehicleType);
       
       // Actualizar estados de botones de tamaño
       const sizeButtons = document.querySelectorAll('.size-btn');
       sizeButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.textContent === serviciosData[currentServiceId].sizes[sizeKey].name) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    // Función para cambiar tipo de vehículo
+    function switchVehicleType(vehicleTypeKey) {
+      currentVehicleType = vehicleTypeKey;
+      updateModalContent(currentServiceId, currentVariant, currentSize, vehicleTypeKey);
+      
+      // Actualizar estados de botones de tipo de vehículo
+      const sizeButtons = document.querySelectorAll('.size-btn');
+      sizeButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent === serviciosData[currentServiceId].vehicleTypes[vehicleTypeKey].name) {
           btn.classList.add('active');
         }
       });
@@ -2759,6 +2864,7 @@
       currentServiceId = null;
       currentVariant = 'standard';
       currentSize = null;
+      currentVehicleType = null;
       console.log('✅ Modal cerrado');
     }
 
@@ -2859,19 +2965,7 @@
         });
       });
 
-      // Event listeners para botones de vehículos (Estándar/Especial)
-      document.querySelectorAll('.standard-btn, .special-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          const serviceId = this.getAttribute('data-service');
-          const serviceType = this.getAttribute('data-type');
-          console.log('🚗 Botón de vehículo clickeado:', serviceId, serviceType);
-          
-          // Aquí puedes agregar la lógica para manejar los servicios de vehículos
-          // Por ahora, solo mostrar un alert con la información
-          alert(`Servicio: ${serviceId}\nTipo: ${serviceType}`);
-        });
-      });
+
 
       // Event listeners para botones del carrusel
       const prevBtn = document.getElementById('prevBtn');
