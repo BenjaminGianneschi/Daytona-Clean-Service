@@ -1470,17 +1470,9 @@
   display: flex !important;
 }
 
-.servicios-vehiculos {
-  display: none !important;
-}
-
-/* Asegurar estado inicial correcto */
+/* Estado inicial - tapizados visible por defecto */
 .services-carousel .servicios-tapizados {
   display: flex !important;
-}
-
-.services-carousel .servicios-vehiculos {
-  display: none !important;
 }
 
 .servicios-tapizados .carousel-track {
