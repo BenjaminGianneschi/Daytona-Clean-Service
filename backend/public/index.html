@@ -2341,11 +2341,11 @@
       });
       
       if (tapizadosSection) {
-        tapizadosSection.style.display = 'flex';
+        tapizadosSection.style.setProperty('display', 'flex', 'important');
         console.log('✅ Tapizados mostrado');
       }
       if (vehiculosSection) {
-        vehiculosSection.style.display = 'none';
+        vehiculosSection.style.setProperty('display', 'none', 'important');
         console.log('❌ Vehículos oculto');
       }
       
@@ -2775,26 +2775,26 @@
         tapizados: !!tapizadosSection
       });
       
-      if (vehiculosSection) vehiculosSection.style.display = 'none';
-      if (tapizadosSection) tapizadosSection.style.display = 'none';
+      if (vehiculosSection) vehiculosSection.style.setProperty('display', 'none', 'important');
+      if (tapizadosSection) tapizadosSection.style.setProperty('display', 'none', 'important');
       
       // Mostrar servicios según la categoría
       if (category === 'vehiculos') {
         if (vehiculosSection) {
-          vehiculosSection.style.display = 'flex';
+          vehiculosSection.style.setProperty('display', 'flex', 'important');
           console.log('✅ Vehículos mostrado');
         }
         if (tapizadosSection) {
-          tapizadosSection.style.display = 'none';
+          tapizadosSection.style.setProperty('display', 'none', 'important');
           console.log('❌ Tapizados oculto');
         }
       } else if (category === 'tapizados') {
         if (tapizadosSection) {
-          tapizadosSection.style.display = 'flex';
+          tapizadosSection.style.setProperty('display', 'flex', 'important');
           console.log('✅ Tapizados mostrado');
         }
         if (vehiculosSection) {
-          vehiculosSection.style.display = 'none';
+          vehiculosSection.style.setProperty('display', 'none', 'important');
           console.log('❌ Vehículos oculto');
         }
       }
