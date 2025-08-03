@@ -1598,6 +1598,50 @@
     </div>
   </section>
 
+  <!-- Modal de Información de Servicio -->
+  <div id="serviceModal" class="service-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <img id="modalImage" src="" alt="Servicio">
+        <div class="modal-overlay">
+          <h2 id="modalTitle"></h2>
+          <div class="modal-price" id="modalPrice"></div>
+          
+          <!-- Botones para cambiar entre variantes -->
+          <div class="variant-buttons" id="variantButtons" style="margin-top: 15px;">
+            <button class="variant-btn active" id="standardBtn" data-variant="standard">
+              <i class="fas fa-star me-1"></i>Estándar
+            </button>
+            <button class="variant-btn" id="specialBtn" data-variant="special">
+              <i class="fas fa-crown me-1"></i>Especial
+            </button>
+          </div>
+          
+          <!-- Botones para cambiar tamaño -->
+          <div class="size-buttons" id="sizeButtons" style="margin-top: 10px; display: none;">
+            <!-- Los botones se cargarán dinámicamente según el servicio -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="service-details">
+          <h3>Descripción Detallada</h3>
+          <p id="modalDescription"></p>
+          
+          <h3>¿Qué incluye este servicio?</h3>
+          <ul id="modalFeatures"></ul>
+          
+          <h3>Tiempo estimado</h3>
+          <p id="modalTime"></p>
+          
+          <h3>Recomendaciones</h3>
+          <p id="modalRecommendations"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MANTENIMIENTO PREVENTIVO - CUIDADO QUE TRASCIENDE -->
   <section id="mantenimiento-preventivo" class="py-5" style="background: #1a1a1a;">
     <div class="container">
@@ -3267,7 +3311,10 @@
           
           if (serviceId) {
             console.log('🔍 Botón de servicio clickeado:', serviceId, serviceType);
-            // Aquí puedes agregar la lógica para abrir modales o redirigir
+            if (serviceType === 'info-btn' || !serviceType) {
+              // Abrir modal para servicios de tapizados
+              openServiceModal(serviceId, 'standard');
+            }
           }
         });
       });
@@ -3293,6 +3340,334 @@
         }, 1000);
       }
     }
+
+    // ===== DATOS Y FUNCIONES DEL MODAL (IGUAL QUE TAPIZADOS.HTML) =====
+    // Datos consolidados de los servicios de tapizados
+    const serviciosData = {
+      'sillon': {
+        title: 'Limpieza de Sillón',
+        image: 'img/sillon123.jpg',
+        description: 'Limpieza profunda de sillones con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado para asiento, respaldo y brazos. Eliminación efectiva de manchas y olores.',
+        features: [
+          'Aspirado completo del sillón',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Limpieza de asiento, respaldo y brazos',
+          'Eliminación efectiva de manchas y olores',
+          'Secado completo'
+        ],
+        recommendations: 'Ideal para sillones con manchas, olores o uso intensivo. Recomendado cada 6-12 meses para mantener la higiene.',
+        sizes: {
+          '1-cuerpo': {
+            name: '1 Cuerpo',
+            standard: { price: '$85.000', time: '2 horas' },
+            special: { price: '$150.000', time: '2.5 horas' }
+          },
+          '2-cuerpos': {
+            name: '2 Cuerpos',
+            standard: { price: '$120.000', time: '3 horas' },
+            special: { price: '$150.000', time: '3.5 horas' }
+          },
+          '3-cuerpos': {
+            name: '3 Cuerpos',
+            standard: { price: '$150.000', time: '4 horas' },
+            special: { price: '$185.000', time: '4.5 horas' }
+          }
+        }
+      },
+      'silla': {
+        title: 'Limpieza de Silla',
+        image: 'img/sillacomedor1234.jpeg',
+        description: 'Limpieza profunda de sillas con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado para asiento y respaldo. Eliminación efectiva de manchas y olores.',
+        features: [
+          'Aspirado completo de la silla',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Limpieza de asiento y respaldo',
+          'Eliminación efectiva de manchas y olores',
+          'Secado completo'
+        ],
+        recommendations: 'Ideal para sillas con manchas o uso intensivo. Recomendado cada 3-6 meses para mantener la higiene.',
+        sizes: {
+          'simple': {
+            name: 'Simple',
+            standard: { price: '$15.000', time: '1 hora' },
+            special: { price: '$35.000', time: '1.5 horas' }
+          },
+          'comedor': {
+            name: 'Comedor',
+            standard: { price: '$25.000', time: '1 hora' },
+            special: { price: '$45.000', time: '1.5 horas' }
+          }
+        }
+      },
+      'colchon': {
+        title: 'Limpieza de Colchón',
+        image: 'img/colchonlimpio.jpg',
+        description: 'Limpieza profunda de colchones con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado. Eliminación efectiva de ácaros, bacterias, manchas y olores.',
+        features: [
+          'Aspirado completo del colchón',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Eliminación efectiva de ácaros, bacterias, manchas y olores',
+          'Desinfección completa',
+          'Secado completo'
+        ],
+        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante para personas alérgicas o con problemas respiratorios.',
+        sizes: {
+          '1-plaza': {
+            name: '1 Plaza',
+            standard: { price: '$70.000', time: '2 horas' },
+            special: { price: '$130.000', time: '2.5 horas' }
+          },
+          '2-plazas': {
+            name: '2 Plazas',
+            standard: { price: '$130.000', time: '3 horas' },
+            special: { price: '$180.000', time: '3.5 horas' }
+          }
+        }
+      },
+      'puff': {
+        title: 'Limpieza de Puff',
+        image: 'img/puff12.jpeg',
+        description: 'Limpieza profunda de puffs con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado para asiento y respaldo. Eliminación efectiva de manchas y olores.',
+        features: [
+          'Aspirado completo del puff',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Limpieza de asiento y respaldo',
+          'Eliminación efectiva de manchas y olores',
+          'Secado completo'
+        ],
+        recommendations: 'Ideal para puffs con manchas o uso intensivo. Recomendado cada 3-6 meses para mantener la higiene.',
+        sizes: {
+          'simple': {
+            name: 'Simple',
+            standard: { price: '$20.000', time: '1 hora' },
+            special: { price: '$45.000', time: '1.5 horas' }
+          },
+          'grande': {
+            name: 'Grande',
+            standard: { price: '$30.000', time: '1.5 horas' },
+            special: { price: '$55.000', time: '2 horas' }
+          }
+        }
+      },
+      'alfombra': {
+        title: 'Limpieza de Alfombra',
+        image: 'img/alfombralimpia.jpg',
+        description: 'Limpieza profunda de alfombra por metro cuadrado con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado. Eliminación efectiva de manchas y olores.',
+        features: [
+          'Aspirado completo de la alfombra',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Eliminación efectiva de manchas y olores',
+          'Desinfección completa',
+          'Secado completo'
+        ],
+        standard: { price: '$30.000/m²', time: '30 min/m²' },
+        special: { price: '$55.000/m²', time: '45 min/m²' },
+        recommendations: 'Recomendado cada 6-12 meses. Especialmente importante para alfombras en áreas de alto tráfico.'
+      },
+      'respaldo-cama': {
+        title: 'Respaldo de Cama',
+        image: 'img/respaldar1.jpeg',
+        description: 'Limpieza profunda de respaldo de cama por metro cuadrado con tecnología avanzada. Incluye aspirado completo, sopleteado para eliminar polvo profundo, limpieza con APC y taladro con cepillo especializado. Eliminación efectiva de manchas y olores.',
+        features: [
+          'Aspirado completo del respaldo',
+          'Sopleteado para eliminar polvo profundo',
+          'Limpieza con APC y taladro con cepillo especializado',
+          'Eliminación efectiva de manchas y olores',
+          'Desinfección completa',
+          'Secado completo'
+        ],
+        standard: { price: '$25.000/m²', time: '1 hora/m²' },
+        special: { price: '$50.000/m²', time: '1.5 horas/m²' },
+        recommendations: 'Ideal para respaldos con manchas o uso intensivo. Recomendado cada 6-12 meses.'
+      }
+    };
+
+    // Variables globales para el modal
+    let currentServiceId = null;
+    let currentVariant = 'standard';
+    let currentSize = null;
+
+    // Función para abrir el modal
+    function openServiceModal(serviceId, serviceType = 'standard') {
+      const service = serviciosData[serviceId];
+      if (!service) return;
+
+      // Guardar el servicio actual
+      currentServiceId = serviceId;
+      currentVariant = serviceType;
+
+      // Crear botones de tamaño si el servicio los tiene
+      createSizeButtons(serviceId);
+
+      // Determinar tamaño inicial
+      if (service.sizes) {
+        currentSize = Object.keys(service.sizes)[0]; // Primer tamaño disponible
+      } else {
+        currentSize = null;
+      }
+
+      // Mostrar la información del servicio
+      updateModalContent(serviceId, serviceType, currentSize);
+
+      // Configurar botones de variantes
+      const standardBtn = document.getElementById('standardBtn');
+      const specialBtn = document.getElementById('specialBtn');
+      
+      // Actualizar estados de botones
+      standardBtn.classList.toggle('active', serviceType === 'standard');
+      specialBtn.classList.toggle('active', serviceType === 'special');
+
+      // Mostrar el modal
+      document.getElementById('serviceModal').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Función para crear botones de tamaño
+    function createSizeButtons(serviceId) {
+      const service = serviciosData[serviceId];
+      const sizeButtonsContainer = document.getElementById('sizeButtons');
+      
+      // Limpiar botones existentes
+      sizeButtonsContainer.innerHTML = '';
+      
+      if (service.sizes) {
+        // Mostrar contenedor de botones de tamaño
+        sizeButtonsContainer.style.display = 'flex';
+        
+        // Crear botón para cada tamaño
+        Object.keys(service.sizes).forEach((sizeKey, index) => {
+          const sizeData = service.sizes[sizeKey];
+          const button = document.createElement('button');
+          button.className = `size-btn ${index === 0 ? 'active' : ''}`;
+          button.setAttribute('data-size', sizeKey);
+          button.innerHTML = sizeData.name;
+          
+          // Event listener para cambio de tamaño
+          button.addEventListener('click', function() {
+            // Actualizar tamaño actual
+            currentSize = sizeKey;
+            
+            // Actualizar estado de botones
+            sizeButtonsContainer.querySelectorAll('.size-btn').forEach(btn => {
+              btn.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Actualizar contenido del modal
+            updateModalContent(currentServiceId, currentVariant, currentSize);
+          });
+          
+          sizeButtonsContainer.appendChild(button);
+        });
+      } else {
+        // Ocultar contenedor si no hay tamaños
+        sizeButtonsContainer.style.display = 'none';
+      }
+    }
+
+    // Función para actualizar el contenido del modal
+    function updateModalContent(serviceId, serviceType, sizeKey = null) {
+      const service = serviciosData[serviceId];
+      if (!service) return;
+
+      // Determinar título, precio y tiempo según tamaño y variante
+      let modalTitle = service.title;
+      let modalPrice, modalTime;
+      let modalDescription = service.description;
+      let modalFeatures = service.features;
+      let modalRecommendations = service.recommendations;
+
+      // Determinar precio y tiempo según estructura del servicio
+      if (service.sizes && sizeKey) {
+        // Servicio con tamaños (sillón, silla, colchón, puff)
+        const sizeData = service.sizes[sizeKey];
+        const variantData = sizeData[serviceType];
+        
+        modalTitle = `${service.title} - ${sizeData.name}`;
+        modalPrice = variantData.price;
+        modalTime = variantData.time;
+      } else {
+        // Servicio sin tamaños (alfombra, respaldo-cama)
+        const variantData = service[serviceType];
+        modalPrice = variantData.price;
+        modalTime = variantData.time;
+      }
+
+      // Si es servicio especial, ajustar descripción y características
+      if (serviceType === 'special') {
+        modalTitle += ' - Especial';
+        modalDescription = service.description + ' (Servicio Especial con máquina de inyección-extracción)';
+        // Agregar características especiales
+        modalFeatures = [...service.features, 'Máquina de inyección-extracción profesional', '3D Extractor Shampoo', 'Tratamiento impermeabilizante Impermax', 'Aromatización profesional'];
+      }
+
+      // Llenar el modal con la información del servicio
+      document.getElementById('modalImage').src = service.image;
+      document.getElementById('modalTitle').textContent = modalTitle;
+      document.getElementById('modalPrice').textContent = modalPrice;
+      document.getElementById('modalDescription').textContent = modalDescription;
+      document.getElementById('modalTime').textContent = modalTime;
+      document.getElementById('modalRecommendations').textContent = modalRecommendations;
+
+      // Llenar las características
+      const featuresList = document.getElementById('modalFeatures');
+      featuresList.innerHTML = '';
+      modalFeatures.forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        featuresList.appendChild(li);
+      });
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+      document.getElementById('serviceModal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners para el modal
+    document.addEventListener('DOMContentLoaded', function() {
+      // Event listeners para botones de variantes
+      document.getElementById('standardBtn')?.addEventListener('click', function() {
+        currentVariant = 'standard';
+        updateModalContent(currentServiceId, 'standard', currentSize);
+        
+        // Actualizar estados de botones
+        document.getElementById('standardBtn').classList.add('active');
+        document.getElementById('specialBtn').classList.remove('active');
+      });
+
+      document.getElementById('specialBtn')?.addEventListener('click', function() {
+        currentVariant = 'special';
+        updateModalContent(currentServiceId, 'special', currentSize);
+        
+        // Actualizar estados de botones
+        document.getElementById('specialBtn').classList.add('active');
+        document.getElementById('standardBtn').classList.remove('active');
+      });
+
+      // Event listener para cerrar el modal
+      document.querySelector('.close-modal')?.addEventListener('click', closeModal);
+
+      // Cerrar modal al hacer clic fuera de él
+      document.getElementById('serviceModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+
+      // Cerrar modal con la tecla Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+    });
   </script>
 </body>
 </html>
