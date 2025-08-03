@@ -1420,7 +1420,7 @@
                 <div class="service-options">
                   <button class="servicio-btn standard-btn" data-service="lavado-auto" data-type="standard">Estándar</button>
                   <button class="servicio-btn special-btn" data-service="lavado-auto" data-type="special">Especial</button>
-                </div>
+            </div>
               </div>
             </div>
             
@@ -2371,7 +2371,16 @@
     
     // Función para reiniciar el carrusel
     function resetCarousel() {
-      const visibleServices = document.querySelector('.servicios-vehiculos[style*="flex"], .servicios-tapizados[style*="flex"]');
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
+      
+      let visibleServices = null;
+      if (tapizadosSection && tapizadosSection.style.display === 'flex') {
+        visibleServices = tapizadosSection;
+      } else if (vehiculosSection && vehiculosSection.style.display === 'flex') {
+        visibleServices = vehiculosSection;
+      }
+      
       if (!visibleServices) return;
       
       const track = visibleServices.querySelector('.carousel-track');
@@ -2387,7 +2396,16 @@
     
     // Función para mover el carrusel
     function moveCarousel(direction) {
-      const visibleServices = document.querySelector('.servicios-vehiculos[style*="flex"], .servicios-tapizados[style*="flex"]');
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
+      
+      let visibleServices = null;
+      if (tapizadosSection && tapizadosSection.style.display === 'flex') {
+        visibleServices = tapizadosSection;
+      } else if (vehiculosSection && vehiculosSection.style.display === 'flex') {
+        visibleServices = vehiculosSection;
+      }
+      
       if (!visibleServices) return;
       
       const track = visibleServices.querySelector('.carousel-track');
@@ -2415,7 +2433,16 @@
     
     // Función para actualizar botones del carrusel
     function updateCarouselButtons() {
-      const visibleServices = document.querySelector('.servicios-vehiculos[style*="flex"], .servicios-tapizados[style*="flex"]');
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
+      
+      let visibleServices = null;
+      if (tapizadosSection && tapizadosSection.style.display === 'flex') {
+        visibleServices = tapizadosSection;
+      } else if (vehiculosSection && vehiculosSection.style.display === 'flex') {
+        visibleServices = vehiculosSection;
+      }
+      
       if (!visibleServices) return;
       
       const track = visibleServices.querySelector('.carousel-track');
@@ -3331,6 +3358,16 @@
         });
       });
       
+      // Event listeners para botones de filtro
+      document.querySelectorAll('.service-filter-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const filter = this.getAttribute('data-filter');
+          console.log('🔍 Botón de filtro clickeado:', filter);
+          filterServices(filter);
+        });
+      });
+      
       // Inicializar carrusel
       setTimeout(() => {
         updateCarouselButtons();
@@ -3345,16 +3382,33 @@
       const vehiculosSection = document.querySelector('.servicios-vehiculos');
       const tapizadosSection = document.querySelector('.servicios-tapizados');
       
+      console.log('📋 Secciones encontradas:', {
+        vehiculos: !!vehiculosSection,
+        tapizados: !!tapizadosSection
+      });
+      
       if (vehiculosSection) vehiculosSection.style.display = 'none';
       if (tapizadosSection) tapizadosSection.style.display = 'none';
       
       // Mostrar servicios según la categoría
       if (category === 'vehiculos') {
-        if (vehiculosSection) vehiculosSection.style.display = 'flex';
-        if (tapizadosSection) tapizadosSection.style.display = 'none';
+        if (vehiculosSection) {
+          vehiculosSection.style.display = 'flex';
+          console.log('✅ Vehículos mostrado');
+        }
+        if (tapizadosSection) {
+          tapizadosSection.style.display = 'none';
+          console.log('❌ Tapizados oculto');
+        }
       } else if (category === 'tapizados') {
-        if (tapizadosSection) tapizadosSection.style.display = 'flex';
-        if (vehiculosSection) vehiculosSection.style.display = 'none';
+        if (tapizadosSection) {
+          tapizadosSection.style.display = 'flex';
+          console.log('✅ Tapizados mostrado');
+        }
+        if (vehiculosSection) {
+          vehiculosSection.style.display = 'none';
+          console.log('❌ Vehículos oculto');
+        }
       }
       
       // Actualizar botones de filtro
@@ -3362,10 +3416,14 @@
         btn.classList.remove('active');
       });
       const activeBtn = document.querySelector(`[data-filter="${category}"]`);
-      if (activeBtn) activeBtn.classList.add('active');
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        console.log('✅ Botón activado:', category);
+      }
       
       // Reiniciar carrusel
       resetCarousel();
+      console.log('🎠 Carrusel reiniciado');
     }
 
     // ===== DATOS Y FUNCIONES DEL MODAL (IGUAL QUE TAPIZADOS.HTML) =====
