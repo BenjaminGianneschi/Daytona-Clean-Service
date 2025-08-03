@@ -2762,6 +2762,58 @@
       console.log('✅ Modal cerrado');
     }
 
+    // Función global para compatibilidad con onclick
+    function filterServices(category) {
+      console.log('🔍 Función global filterServices llamada con:', category);
+      
+      // Ocultar todos los servicios
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      
+      console.log('📋 Secciones encontradas:', {
+        vehiculos: !!vehiculosSection,
+        tapizados: !!tapizadosSection
+      });
+      
+      if (vehiculosSection) vehiculosSection.style.display = 'none';
+      if (tapizadosSection) tapizadosSection.style.display = 'none';
+      
+      // Mostrar servicios según la categoría
+      if (category === 'vehiculos') {
+        if (vehiculosSection) {
+          vehiculosSection.style.display = 'flex';
+          console.log('✅ Vehículos mostrado');
+        }
+        if (tapizadosSection) {
+          tapizadosSection.style.display = 'none';
+          console.log('❌ Tapizados oculto');
+        }
+      } else if (category === 'tapizados') {
+        if (tapizadosSection) {
+          tapizadosSection.style.display = 'flex';
+          console.log('✅ Tapizados mostrado');
+        }
+        if (vehiculosSection) {
+          vehiculosSection.style.display = 'none';
+          console.log('❌ Vehículos oculto');
+        }
+      }
+      
+      // Actualizar botones de filtro
+      document.querySelectorAll('.service-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      const activeBtn = document.querySelector(`[data-filter="${category}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        console.log('✅ Botón activado:', category);
+      }
+      
+      // Reiniciar carrusel
+      resetCarousel();
+      console.log('🎠 Carrusel reiniciado');
+    }
+
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
       console.log('🚀 Inicializando event listeners del modal...');
@@ -2804,6 +2856,20 @@
             const serviceId = this.getAttribute('data-service');
             openServiceModal(serviceId, 'standard');
           }
+        });
+      });
+
+      // Event listeners para botones de vehículos (Estándar/Especial)
+      document.querySelectorAll('.standard-btn, .special-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const serviceId = this.getAttribute('data-service');
+          const serviceType = this.getAttribute('data-type');
+          console.log('🚗 Botón de vehículo clickeado:', serviceId, serviceType);
+          
+          // Aquí puedes agregar la lógica para manejar los servicios de vehículos
+          // Por ahora, solo mostrar un alert con la información
+          alert(`Servicio: ${serviceId}\nTipo: ${serviceType}`);
         });
       });
 
