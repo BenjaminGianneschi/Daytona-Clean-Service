@@ -1465,6 +1465,15 @@
   position: relative !important;
 }
 
+/* Mostrar tapizados por defecto */
+.servicios-tapizados {
+  display: flex !important;
+}
+
+.servicios-vehiculos {
+  display: none !important;
+}
+
 .servicios-tapizados .carousel-track {
   display: flex;
   gap: 25px;

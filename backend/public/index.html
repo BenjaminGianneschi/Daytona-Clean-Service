@@ -3286,15 +3286,7 @@
 
     // Inicialización cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('🌐 DOM cargado, inicializando IndexServiceManager...');
-      try {
-      window.indexManager = new IndexServiceManager();
-      } catch (error) {
-        console.error('❌ Error creando IndexServiceManager:', error);
-        // Crear una instancia de respaldo
-        window.indexManager = new IndexServiceManager();
-        window.indexManager.loadFallbackServices();
-      }
+      console.log('🌐 DOM cargado, configurando event listeners...');
       
       // Event listeners para el carrusel estático
       const prevBtn = document.getElementById('prevBtn');
@@ -3333,17 +3325,28 @@
     // Función global para compatibilidad con onclick
     function filterServices(category) {
       console.log('🔍 Función global filterServices llamada con:', category);
-      if (window.indexManager && window.indexManager.isInitialized) {
-        window.indexManager.filterServices(category);
-      } else {
-        console.warn('⚠️ IndexServiceManager no está inicializado aún');
-        // Esperar un poco y reintentar
-        setTimeout(() => {
-      if (window.indexManager) {
-        window.indexManager.filterServices(category);
-          }
-        }, 1000);
+      
+      // Ocultar todos los servicios
+      document.querySelector('.servicios-vehiculos').style.display = 'none';
+      document.querySelector('.servicios-tapizados').style.display = 'none';
+      
+      // Mostrar servicios según la categoría
+      if (category === 'vehiculos') {
+        document.querySelector('.servicios-vehiculos').style.display = 'flex';
+        document.querySelector('.servicios-tapizados').style.display = 'none';
+      } else if (category === 'tapizados') {
+        document.querySelector('.servicios-tapizados').style.display = 'flex';
+        document.querySelector('.servicios-vehiculos').style.display = 'none';
       }
+      
+      // Actualizar botones de filtro
+      document.querySelectorAll('.service-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-filter="${category}"]`)?.classList.add('active');
+      
+      // Reiniciar carrusel
+      resetCarousel();
     }
 
     // ===== DATOS Y FUNCIONES DEL MODAL (IGUAL QUE TAPIZADOS.HTML) =====
