@@ -2328,7 +2328,7 @@
   <!-- Scripts de la página -->
   <script>
     // Inicialización por defecto - mostrar tapizados
-    document.addEventListener('DOMContentLoaded', function() {
+    function initializePage() {
       console.log('🚀 Inicializando página...');
       
       // Asegurar que tapizados esté visible por defecto
@@ -2367,7 +2367,7 @@
         updateCarouselButtons();
         console.log('🎠 Carrusel inicializado');
       }, 100);
-    });
+    }
     
     // Función para reiniciar el carrusel
     function resetCarousel() {
@@ -3717,6 +3717,11 @@
 
     // Event listeners para el modal
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('🎯 Configurando event listeners del modal...');
+      
+      // Inicializar página
+      initializePage();
+      
       // Event listeners para botones de variantes
       document.getElementById('standardBtn')?.addEventListener('click', function() {
         currentVariant = 'standard';
@@ -3758,6 +3763,7 @@
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           const filter = this.getAttribute('data-filter');
+          console.log('🔍 Botón de filtro clickeado:', filter);
           filterServices(filter);
         });
       });
@@ -3774,17 +3780,27 @@
       });
 
       // Event listeners para botones del carrusel
-      document.getElementById('prevBtn')?.addEventListener('click', function() {
-        moveCarousel(-1);
-      });
-
-      document.getElementById('nextBtn')?.addEventListener('click', function() {
-        moveCarousel(1);
-      });
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          console.log('⬅️ Botón previo clickeado');
+          moveCarousel(-1);
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          console.log('➡️ Botón siguiente clickeado');
+          moveCarousel(1);
+        });
+      }
 
       // Inicializar carrusel
       setTimeout(() => {
         updateCarouselButtons();
+        console.log('🎠 Carrusel inicializado desde modal listeners');
       }, 100);
     });
   </script>
