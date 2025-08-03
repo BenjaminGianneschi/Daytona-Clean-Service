@@ -1392,11 +1392,11 @@
       
       <!-- Botones de Filtro -->
       <div class="service-filter-buttons mb-4">
-        <button class="service-filter-btn active" data-filter="vehiculos" onclick="filterServices('vehiculos')">
-          <i class="fas fa-car me-2"></i>Vehículos
-        </button>
-        <button class="service-filter-btn" data-filter="tapizados" onclick="filterServices('tapizados')">
+        <button class="service-filter-btn active" data-filter="tapizados" onclick="filterServices('tapizados')">
           <i class="fas fa-couch me-2"></i>Tapizados & Hogar
+        </button>
+        <button class="service-filter-btn" data-filter="vehiculos" onclick="filterServices('vehiculos')">
+          <i class="fas fa-car me-2"></i>Vehículos
         </button>
       </div>
     </div>
@@ -1410,7 +1410,7 @@
       <div class="services-carousel" id="servicesCarousel">
         <div class="carousel-track" id="servicesTrack">
           <!-- Cards de Vehículos -->
-          <div class="servicios-vehiculos">
+          <div class="servicios-vehiculos" style="display: none;">
             <!-- Card 1: Lavado de Auto -->
             <div class="servicio-card-custom carousel-item">
               <img src="img/autodetalle1.jpg" alt="Lavado de Auto">
@@ -1504,7 +1504,7 @@
           </div>
           
           <!-- Cards de Tapizados -->
-          <div class="servicios-tapizados" style="display: none;">
+          <div class="servicios-tapizados">
             <!-- Card 1: Sillón -->
             <div class="servicio-card-custom carousel-item">
               <img src="img/sillon123.jpg" alt="Limpieza de Sillón">
@@ -2292,8 +2292,10 @@
       // Mostrar servicios según la categoría
       if (category === 'vehiculos') {
         document.querySelector('.servicios-vehiculos').style.display = 'flex';
+        document.querySelector('.servicios-tapizados').style.display = 'none';
       } else if (category === 'tapizados') {
         document.querySelector('.servicios-tapizados').style.display = 'flex';
+        document.querySelector('.servicios-vehiculos').style.display = 'none';
       }
       
       // Actualizar botones de filtro
@@ -2374,7 +2376,7 @@
         this.allServices = [];
         this.vehicularServices = [];
         this.tapizadosServices = [];
-        this.currentFilter = 'vehiculos';
+        this.currentFilter = 'tapizados';
         this.currentIndex = 0;
         this.serviciosData = {};
         this.currentServiceId = null;
