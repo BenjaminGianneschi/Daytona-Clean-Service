@@ -2327,32 +2327,47 @@
   
   <!-- Scripts de la página -->
   <script>
-    // Función global para filtrar servicios
-    function filterServices(category) {
-      console.log('🔍 Filtrando servicios por:', category);
+    // Inicialización por defecto - mostrar tapizados
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Inicializando página...');
       
-      // Ocultar todos los servicios
-      document.querySelector('.servicios-vehiculos').style.display = 'none';
-      document.querySelector('.servicios-tapizados').style.display = 'none';
+      // Asegurar que tapizados esté visible por defecto
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
       
-      // Mostrar servicios según la categoría
-      if (category === 'vehiculos') {
-        document.querySelector('.servicios-vehiculos').style.display = 'flex';
-        document.querySelector('.servicios-tapizados').style.display = 'none';
-      } else if (category === 'tapizados') {
-        document.querySelector('.servicios-tapizados').style.display = 'flex';
-        document.querySelector('.servicios-vehiculos').style.display = 'none';
+      console.log('📋 Secciones encontradas:', {
+        tapizados: !!tapizadosSection,
+        vehiculos: !!vehiculosSection
+      });
+      
+      if (tapizadosSection) {
+        tapizadosSection.style.display = 'flex';
+        console.log('✅ Tapizados mostrado');
+      }
+      if (vehiculosSection) {
+        vehiculosSection.style.display = 'none';
+        console.log('❌ Vehículos oculto');
       }
       
-      // Actualizar botones de filtro
-      document.querySelectorAll('.service-filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+      // Asegurar que el botón de tapizados esté activo
+      const tapizadosBtn = document.querySelector('[data-filter="tapizados"]');
+      const vehiculosBtn = document.querySelector('[data-filter="vehiculos"]');
       
-      // Reiniciar carrusel
-      resetCarousel();
-    }
+      if (tapizadosBtn) {
+        tapizadosBtn.classList.add('active');
+        console.log('✅ Botón tapizados activado');
+      }
+      if (vehiculosBtn) {
+        vehiculosBtn.classList.remove('active');
+        console.log('❌ Botón vehículos desactivado');
+      }
+      
+      // Inicializar carrusel
+      setTimeout(() => {
+        updateCarouselButtons();
+        console.log('🎠 Carrusel inicializado');
+      }, 100);
+    });
     
     // Función para reiniciar el carrusel
     function resetCarousel() {
@@ -3327,23 +3342,27 @@
       console.log('🔍 Función global filterServices llamada con:', category);
       
       // Ocultar todos los servicios
-      document.querySelector('.servicios-vehiculos').style.display = 'none';
-      document.querySelector('.servicios-tapizados').style.display = 'none';
+      const vehiculosSection = document.querySelector('.servicios-vehiculos');
+      const tapizadosSection = document.querySelector('.servicios-tapizados');
+      
+      if (vehiculosSection) vehiculosSection.style.display = 'none';
+      if (tapizadosSection) tapizadosSection.style.display = 'none';
       
       // Mostrar servicios según la categoría
       if (category === 'vehiculos') {
-        document.querySelector('.servicios-vehiculos').style.display = 'flex';
-        document.querySelector('.servicios-tapizados').style.display = 'none';
+        if (vehiculosSection) vehiculosSection.style.display = 'flex';
+        if (tapizadosSection) tapizadosSection.style.display = 'none';
       } else if (category === 'tapizados') {
-        document.querySelector('.servicios-tapizados').style.display = 'flex';
-        document.querySelector('.servicios-vehiculos').style.display = 'none';
+        if (tapizadosSection) tapizadosSection.style.display = 'flex';
+        if (vehiculosSection) vehiculosSection.style.display = 'none';
       }
       
       // Actualizar botones de filtro
       document.querySelectorAll('.service-filter-btn').forEach(btn => {
         btn.classList.remove('active');
       });
-      document.querySelector(`[data-filter="${category}"]`)?.classList.add('active');
+      const activeBtn = document.querySelector(`[data-filter="${category}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
       
       // Reiniciar carrusel
       resetCarousel();
