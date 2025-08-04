@@ -10,404 +10,345 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components/header.css">
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components/header.css" />
+  <link rel="stylesheet" href="css/admin-panel.css" />
   <link rel="stylesheet" href="css/components/forms.css">
   
   <style>
-    .account-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      padding-top: 120px; /* Agregar espacio para el header fijo */
-      background: #1a1a1a;
+    body {
+      background: #181818;
+      color: #fff;
+      font-family: 'Roboto', Arial, sans-serif;
       min-height: 100vh;
-      color: #fff;
     }
-    
-    .account-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding: 2rem 0;
-      border-bottom: 2px solid #333;
-    }
-    
-    .account-header h1 {
-      color: #00d4ff;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .logout-btn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    
-    .logout-btn:hover {
-      background: #c82333;
-    }
-    
-    .user-info-card, .appointments-section {
-      background: #232323;
-      padding: 2rem;
-      border-radius: 10px;
-      margin-bottom: 2rem;
-      border: 1px solid #333;
-    }
-    
-    .user-info-card h3, .active-appointments-section h3, .appointments-history-section h3 {
-      color: #00d4ff;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px solid #00d4ff;
-      padding-bottom: 0.8rem;
-      font-weight: 600;
-    }
-    
-    .user-details {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .detail-item {
+    .wizard-step {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      background: #2a2a2a;
-      border-radius: 5px;
-      border-left: 4px solid #00d4ff;
+      gap: 10px;
+      color: #fff;
+      font-weight: 500;
+      padding: 10px 0;
     }
-    
-    .detail-item i {
+    .wizard-step.active {
       color: #00d4ff;
-      width: 20px;
     }
-    
-    .appointment-card {
-      background: #2a2a2a;
-      padding: 1.5rem;
-      border-radius: 12px;
-      border: 1px solid #333;
-      margin-bottom: 1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    .appointment-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      border-color: #00d4ff;
-    }
-    
-    .appointment-card .btn {
-      margin: 0.25rem;
-    }
-    
-    .loading {
-      text-align: center;
-      color: #888;
-      padding: 2rem;
-    }
-    
-    .alert {
-      border-radius: 8px;
-      border: none;
-    }
-    
-    .alert-warning {
-      background: #332701;
-      color: #ffc107;
-      border-left: 4px solid #ffc107;
-    }
-    
-    .alert-danger {
-      background: #331a1a;
-      color: #dc3545;
-      border-left: 4px solid #dc3545;
-    }
-    
-    .alert-success {
-      background: #1a331a;
+    .wizard-step.completed {
       color: #28a745;
-      border-left: 4px solid #28a745;
     }
-    
-    /* Modal personalizado */
-    .modal-content {
-      background: #232323 !important;
-      color: #fff !important;
-      border: 1px solid #333;
+    .wizard-step.pending {
+      color: #6c757d;
     }
-    
-    .modal-header {
-      border-bottom: 1px solid #333;
+    .wizard-step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
     }
-    
-    .modal-title {
-      color: #00d4ff;
+    .wizard-step.active .wizard-step-number {
+      background: #00d4ff;
+      color: #000;
     }
-    
-    .btn-close {
-      filter: invert(1);
-    }
-    
-    .form-control {
-      background: #2a2a2a !important;
-      border: 1px solid #333 !important;
-      color: #fff !important;
-    }
-    
-    .form-control:focus {
-      background: #2a2a2a !important;
-      border-color: #00d4ff !important;
-      color: #fff !important;
-      box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25) !important;
-    }
-    
-    .form-label {
+    .wizard-step.completed .wizard-step-number {
+      background: #28a745;
       color: #fff;
     }
-    
-    .btn-primary {
+    .wizard-step.pending .wizard-step-number {
+      background: #6c757d;
+      color: #fff;
+    }
+    .wizard-step-line {
+      flex: 1;
+      height: 2px;
+      background: #6c757d;
+      margin: 0 10px;
+    }
+    .wizard-step.completed .wizard-step-line {
+      background: #28a745;
+    }
+    .wizard-step.active .wizard-step-line {
       background: #00d4ff;
-      border-color: #00d4ff;
     }
-    
-    .btn-primary:hover {
-      background: #00b8e6;
-      border-color: #00b8e6;
+    .wizard-step.pending .wizard-step-line {
+      background: #6c757d;
     }
-    
-    .btn-danger {
-      background: #dc3545;
-      border-color: #dc3545;
+    .wizard-step:last-child .wizard-step-line {
+      display: none;
     }
-    
-    .btn-danger:hover {
-      background: #c82333;
-      border-color: #c82333;
+    .wizard-step-icon {
+      font-size: 18px;
     }
-    
-    /* Responsive para móviles */
-    @media (max-width: 768px) {
-      .action-buttons-container {
-        flex-direction: row;
-        justify-content: center;
-        margin-top: 15px;
-      }
-      
-      .action-btn,
-      .status-badge {
-        max-width: 120px;
-        padding: 10px 12px;
-        font-size: 13px;
-      }
-      
-      .appointment-card .row {
-        flex-direction: column;
-      }
-      
-      .appointment-card .col-md-4 {
-        margin-top: 15px;
-      }
-    }
-    
-    /* Estilos para los botones de acción */
-    .action-buttons-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      height: 100%;
-      justify-content: center;
-      align-items: flex-end;
-    }
-    
-    .action-btn {
-      width: 100%;
-      max-width: 140px;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-      color: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .action-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      text-decoration: none;
-      color: white;
-    }
-    
-    .action-btn:active {
-      transform: translateY(0);
-    }
-    
-    .edit-btn {
-      background: linear-gradient(135deg, #00d4ff 0%, #00b8e6 100%);
-    }
-    
-    .edit-btn:hover {
-      background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
-    }
-    
-    .cancel-btn {
-      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    }
-    
-    .cancel-btn:hover {
-      background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
-    }
-    
-    /* Estilos para los badges de estado */
-    .status-badge {
-      width: 100%;
-      max-width: 140px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-    
-    .status-badge.cancelled {
-      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    }
-    
-    .status-badge.completed {
-      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    }
-    
-    .status-badge.unknown {
-      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-    }
-    
-    /* Efecto de highlight para sección activa */
-    .active-appointments-section.highlight {
-      animation: highlightSection 2s ease-in-out;
-    }
-    
-    @keyframes highlightSection {
-      0% { box-shadow: var(--shadow-primary); }
-      50% { 
-        box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-        border-color: #00d4ff;
-      }
-      100% { box-shadow: var(--shadow-primary); }
-    }
-
-    /* Estilos para el panel de administración */
-    .admin-dashboard-section,
-    .admin-appointments-section {
-      background: #232323;
-      padding: 2rem;
-      border-radius: 10px;
-      margin-bottom: 2rem;
-      border: 1px solid #333;
-    }
-
-    .admin-dashboard-section h3,
-    .admin-appointments-section h3 {
+    .wizard-step.active .wizard-step-icon {
       color: #00d4ff;
-      margin-bottom: 1.5rem;
-      border-bottom: 2px solid #00d4ff;
-      padding-bottom: 0.8rem;
-      font-weight: 600;
+    }
+    .wizard-step.completed .wizard-step-icon {
+      color: #28a745;
+    }
+    .wizard-step.pending .wizard-step-icon {
+      color: #6c757d;
+    }
+    .wizard-step-text {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .wizard-step.active .wizard-step-text {
+      color: #00d4ff;
+    }
+    .wizard-step.completed .wizard-step-text {
+      color: #28a745;
+    }
+    .wizard-step.pending .wizard-step-text {
+      color: #6c757d;
+    }
+
+    /* Estilos para el panel de administración mejorado */
+    .admin-dashboard-section {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid #333;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     .admin-stat-card {
-      padding: 1.5rem;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     .admin-stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .admin-appointments-section {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid #333;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Estilos para filtros avanzados */
+    .filter-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+      border-radius: 12px;
+      border: 1px solid #444;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .filter-card .card-header {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      border-radius: 12px 12px 0 0;
+      border-bottom: 1px solid #444;
+    }
+
+    .filter-stats-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+      border-radius: 12px;
+      border: 1px solid #444;
+      transition: all 0.3s ease;
+    }
+
+    .filter-stats-card:hover {
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .admin-stat-card h4 {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
+    /* Estilos para acciones masivas */
+    .bulk-actions-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+      border-radius: 12px;
+      border: 1px solid #ffc107;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .admin-badge {
-      border-left-color: #ff6b35 !important;
+    .bulk-actions-card .card-header {
+      background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+      border-radius: 12px 12px 0 0;
+      border-bottom: 1px solid #444;
     }
 
-    .admin-badge i {
-      color: #ff6b35 !important;
-    }
-
+    /* Estilos para la tabla mejorada */
     .table-dark {
-      background: #2a2a2a;
-      color: #fff;
+      background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .table-dark th {
-      background: #1a1a1a;
-      border-color: #333;
-      color: #ff6b35;
+    .table-dark thead th {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 15px 12px;
     }
 
-    .table-dark td {
-      border-color: #333;
+    .table-dark tbody tr {
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #444;
     }
 
-    .btn-group .btn {
-      border-color: #333;
+    .table-dark tbody tr:hover {
+      background: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 100%);
+      transform: scale(1.01);
     }
 
-    .btn-group .btn:hover {
-      background-color: #ff6b35;
-      border-color: #ff6b35;
+    .table-dark tbody td {
+      padding: 12px;
+      vertical-align: middle;
+      border: none;
     }
 
-    .btn-outline-secondary {
-      border-color: #333;
-      color: #fff;
+    /* Estilos para checkboxes personalizados */
+    .form-check-input {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #00d4ff;
+      background-color: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
-    .btn-outline-secondary:hover {
-      background-color: #ff6b35;
-      border-color: #ff6b35;
-      color: #fff;
+    .form-check-input:checked {
+      background-color: #00d4ff;
+      border-color: #00d4ff;
     }
 
-    /* Estilos para campos deshabilitados */
-    .form-control:disabled {
-      background: #2a2a2a !important;
-      border: 1px solid #333 !important;
+    .form-check-input:focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25);
+    }
+
+    /* Estilos para botones de acción */
+    .btn-group-sm .btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      border-radius: 0.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-group-sm .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilos para badges de estado */
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Estilos para modales personalizados */
+    .modal-content {
+      background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+      border: 1px solid #444;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      border-bottom: 1px solid #444;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #444;
+      border-radius: 0 0 15px 15px;
+    }
+
+    /* Estilos para formularios en modo oscuro */
+    .form-control, .form-select {
+      background-color: #2a2a2a !important;
+      border: 1px solid #444 !important;
+      color: #fff !important;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background-color: #3a3a3a !important;
+      border-color: #00d4ff !important;
+      box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25);
+      color: #fff !important;
+    }
+
+    .form-control::placeholder {
       color: #888 !important;
-      cursor: not-allowed;
     }
 
-    .form-control:disabled:focus {
-      background: #2a2a2a !important;
-      border-color: #333 !important;
-      box-shadow: none !important;
+    /* Estilos para alertas personalizadas */
+    .alert {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .alert-info {
+      background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+      color: white;
+    }
+
+    .alert-success {
+      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+      color: white;
+    }
+
+    .alert-warning {
+      background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+      color: #212529;
+    }
+
+    .alert-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+      color: white;
+    }
+
+    /* Animaciones */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .admin-dashboard-section,
+      .admin-appointments-section {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .table-responsive {
+        font-size: 0.875rem;
+      }
+
+      .btn-group-sm .btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
@@ -527,37 +468,186 @@
       <div class="admin-appointments-section" id="gestion-turnos">
         <h3><i class="fas fa-list me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Gestión de Todos los Turnos</span></h3>
         
-        <!-- Filtros y búsqueda -->
-        <div class="row mb-4">
-          <div class="col-md-8">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-outline-primary" onclick="filterAdminAppointments('all')">Todos</button>
-              <button type="button" class="btn btn-outline-warning" onclick="filterAdminAppointments('pending')">Pendientes</button>
-              <button type="button" class="btn btn-outline-success" onclick="filterAdminAppointments('confirmed')">Confirmados</button>
-              <button type="button" class="btn btn-outline-danger" onclick="filterAdminAppointments('cancelled')">Cancelados</button>
-            </div>
-            <button type="button" class="btn btn-outline-secondary ms-3" onclick="exportAppointments()">
-              <i class="fas fa-download me-2"></i>Exportar
-            </button>
-            <button type="button" class="btn btn-outline-info ms-3" onclick="testNotifications()">
-              <i class="fas fa-bell me-2"></i>Probar Notificaciones
-            </button>
+        <!-- Filtros Avanzados -->
+        <div class="card bg-dark border-secondary mb-4">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtros Avanzados</h5>
           </div>
-          <div class="col-md-4">
-            <div class="input-group">
-              <input type="text" class="form-control" id="searchInput" placeholder="Buscar turnos...">
-              <button class="btn btn-outline-secondary" type="button" onclick="searchAdminAppointments()">
-                <i class="fas fa-search"></i>
-              </button>
+          <div class="card-body">
+            <div class="row">
+              <!-- Filtro por Estado -->
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Estado:</label>
+                <select class="form-select bg-dark text-light border-secondary" id="statusFilter">
+                  <option value="all">Todos los estados</option>
+                  <option value="pending">🕐 Pendientes</option>
+                  <option value="confirmed">✅ Confirmados</option>
+                  <option value="completed">🎯 Completados</option>
+                  <option value="cancelled">❌ Cancelados</option>
+                </select>
+              </div>
+              
+              <!-- Filtro por Fecha -->
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Fecha desde:</label>
+                <input type="date" class="form-control bg-dark text-light border-secondary" id="dateFromFilter">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Fecha hasta:</label>
+                <input type="date" class="form-control bg-dark text-light border-secondary" id="dateToFilter">
+              </div>
+              
+              <!-- Filtro por Servicio -->
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Servicio:</label>
+                <select class="form-select bg-dark text-light border-secondary" id="serviceFilter">
+                  <option value="all">Todos los servicios</option>
+                  <option value="vehiculos">🚗 Vehículos</option>
+                  <option value="tapizados">🪑 Tapizados</option>
+                  <option value="detailing">✨ Detailing</option>
+                </select>
+              </div>
+              
+              <!-- Filtro por Precio -->
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Precio mínimo:</label>
+                <input type="number" class="form-control bg-dark text-light border-secondary" id="priceMinFilter" placeholder="$0">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label class="form-label text-light">Precio máximo:</label>
+                <input type="number" class="form-control bg-dark text-light border-secondary" id="priceMaxFilter" placeholder="$999999">
+              </div>
+            </div>
+            
+            <!-- Segunda fila de filtros -->
+            <div class="row">
+              <!-- Búsqueda por texto -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label text-light">Buscar:</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="searchInput" placeholder="Nombre, teléfono, ID...">
+              </div>
+              
+              <!-- Filtro por Logística -->
+              <div class="col-md-3 mb-3">
+                <label class="form-label text-light">Logística:</label>
+                <select class="form-select bg-dark text-light border-secondary" id="logisticsFilter">
+                  <option value="all">Todas</option>
+                  <option value="domicilio">🏠 A domicilio</option>
+                  <option value="retiro">🚚 Con retiro</option>
+                  <option value="cliente">🚗 Cliente trae</option>
+                </select>
+              </div>
+              
+              <!-- Ordenar por -->
+              <div class="col-md-3 mb-3">
+                <label class="form-label text-light">Ordenar por:</label>
+                <select class="form-select bg-dark text-light border-secondary" id="sortFilter">
+                  <option value="date_desc">📅 Fecha (más reciente)</option>
+                  <option value="date_asc">📅 Fecha (más antigua)</option>
+                  <option value="price_desc">💰 Precio (mayor)</option>
+                  <option value="price_asc">💰 Precio (menor)</option>
+                  <option value="name_asc">👤 Nombre (A-Z)</option>
+                  <option value="name_desc">👤 Nombre (Z-A)</option>
+                </select>
+              </div>
+              
+              <!-- Botones de acción -->
+              <div class="col-md-2 mb-3 d-flex align-items-end">
+                <div class="d-grid gap-2 w-100">
+                  <button class="btn btn-primary" onclick="applyAdvancedFilters()">
+                    <i class="fas fa-search me-1"></i>Aplicar
+                  </button>
+                  <button class="btn btn-outline-secondary" onclick="clearFilters()">
+                    <i class="fas fa-times me-1"></i>Limpiar
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Tabla de turnos -->
+        <!-- Estadísticas de Filtros -->
+        <div class="row mb-4" id="filterStats">
+          <div class="col-md-3">
+            <div class="card bg-dark border-info">
+              <div class="card-body text-center">
+                <h5 class="text-info" id="filteredCount">0</h5>
+                <p class="mb-0 text-light">Turnos filtrados</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-dark border-warning">
+              <div class="card-body text-center">
+                <h5 class="text-warning" id="pendingCount">0</h5>
+                <p class="mb-0 text-light">Pendientes</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-dark border-success">
+              <div class="card-body text-center">
+                <h5 class="text-success" id="confirmedCount">0</h5>
+                <p class="mb-0 text-light">Confirmados</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-dark border-primary">
+              <div class="card-body text-center">
+                <h5 class="text-primary" id="totalRevenueFiltered">$0</h5>
+                <p class="mb-0 text-light">Ingresos filtrados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de Acción Masiva -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card bg-dark border-warning">
+              <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0"><i class="fas fa-bolt me-2"></i>Acciones Masivas</h6>
+              </div>
+              <div class="card-body">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-outline-success" onclick="bulkConfirm()" id="bulkConfirmBtn" disabled>
+                    <i class="fas fa-check me-1"></i>Confirmar Seleccionados
+                  </button>
+                  <button type="button" class="btn btn-outline-danger" onclick="bulkCancel()" id="bulkCancelBtn" disabled>
+                    <i class="fas fa-times me-1"></i>Cancelar Seleccionados
+                  </button>
+                  <button type="button" class="btn btn-outline-info" onclick="bulkReminder()" id="bulkReminderBtn" disabled>
+                    <i class="fas fa-bell me-1"></i>Recordatorio Masivo
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary" onclick="exportFilteredAppointments()">
+                    <i class="fas fa-download me-1"></i>Exportar Filtrados
+                  </button>
+                  <button type="button" class="btn btn-outline-warning" onclick="testNotifications()">
+                    <i class="fas fa-bell me-1"></i>Probar Notificaciones
+                  </button>
+                </div>
+                <div class="mt-2">
+                  <small class="text-light">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Selecciona turnos para habilitar acciones masivas
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de turnos mejorada -->
         <div class="table-responsive">
           <table class="table table-dark table-hover">
             <thead>
               <tr>
+                <th>
+                  <input type="checkbox" class="form-check-input" id="selectAllCheckbox" onchange="toggleSelectAll()">
+                </th>
                 <th><i class="fas fa-hashtag me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">ID</span></th>
                 <th><i class="fas fa-user me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Cliente</span></th>
                 <th><i class="fas fa-calendar-alt me-1" style="color:#00d4ff;"></i><span style="font-weight:bold;color:#fff;">Fecha</span></th>
@@ -570,7 +660,7 @@
             </thead>
             <tbody id="adminAppointmentsTableBody">
               <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="9" class="text-center">
           <i class="fas fa-spinner fa-spin me-2"></i>Cargando turnos...
                 </td>
               </tr>
@@ -1703,74 +1793,259 @@
 
       // Confirmar turno (admin)
       window.confirmAdminAppointment = function(appointmentId) {
-        if (confirm('¿Confirmar este turno?')) {
-          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/status`, {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: 'confirmed' })
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              showAlert('Turno confirmado exitosamente', 'success');
-              
-              // Mostrar notificación web si está disponible
-              if (window.showAppointmentConfirmation) {
-                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
-                if (appointment) {
-                  window.showAppointmentConfirmation(appointment);
-                }
-              }
-              
-              loadAllAppointments();
-              loadAdminStats();
-            } else {
-              showAlert('Error confirmando turno: ' + (data.message || ''), 'danger');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            showAlert('Error de conexión al confirmar turno', 'danger');
-          });
+        const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+        if (!appointment) {
+          showAlert('No se encontró el turno', 'danger');
+          return;
         }
+
+        // Crear modal de confirmación profesional
+        const modalHtml = `
+          <div class="modal fade" id="confirmAppointmentModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content bg-dark text-light">
+                <div class="modal-header bg-success text-white">
+                  <h5 class="modal-title">
+                    <i class="fas fa-check-circle me-2"></i>Confirmar Turno
+                  </h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h6><i class="fas fa-user me-2"></i>Información del Cliente</h6>
+                      <p><strong>Nombre:</strong> ${appointment.client_name || 'N/A'}</p>
+                      <p><strong>Teléfono:</strong> ${appointment.client_phone || 'N/A'}</p>
+                      <p><strong>Email:</strong> ${appointment.client_email || 'No especificado'}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <h6><i class="fas fa-calendar me-2"></i>Detalles del Turno</h6>
+                      <p><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</p>
+                      <p><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</p>
+                      <p><strong>Total:</strong> $${parseInt(appointment.total_amount || appointment.totalAmount || appointment.total_price || 0).toLocaleString('es-AR')}</p>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <h6><i class="fas fa-tools me-2"></i>Servicios</h6>
+                      <div class="alert alert-info">
+                        ${appointment.services && appointment.services.length > 0 
+                          ? appointment.services.map(s => {
+                              const nombre = s.nombre || s.name || s.service_name || 'Sin nombre';
+                              const cantidad = s.cantidad || s.quantity || 1;
+                              return `<div>• ${nombre} x${cantidad}</div>`;
+                            }).join('')
+                          : appointment.service_type || 'No especificado'
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <h6><i class="fas fa-map-marker-alt me-2"></i>Dirección/Logística</h6>
+                      <div class="alert alert-warning">
+                        ${appointment.service_location || appointment.serviceLocation || 'No especificada'}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert alert-success">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Al confirmar este turno:</strong>
+                    <ul class="mb-0 mt-2">
+                      <li>Se enviará una notificación automática al cliente por WhatsApp</li>
+                      <li>El estado cambiará a "Confirmado"</li>
+                      <li>Se registrará la acción en el sistema</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                  </button>
+                  <button type="button" class="btn btn-success" onclick="executeConfirmAppointment(${appointmentId})">
+                    <i class="fas fa-check me-2"></i>Confirmar Turno
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Remover modal anterior si existe
+        const existingModal = document.getElementById('confirmAppointmentModal');
+        if (existingModal) {
+          existingModal.remove();
+        }
+
+        // Agregar modal al DOM
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Mostrar modal
+        const modal = new bootstrap.Modal(document.getElementById('confirmAppointmentModal'));
+        modal.show();
+      };
+
+      // Ejecutar confirmación de turno
+      window.executeConfirmAppointment = function(appointmentId) {
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirmAppointmentModal'));
+        modal.hide();
+
+        // Mostrar loading
+        showAlert('<i class="fas fa-spinner fa-spin me-2"></i>Confirmando turno...', 'info');
+
+        fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: 'confirmed' })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('✅ Turno confirmado exitosamente. Se envió notificación al cliente.', 'success');
+            
+            // Mostrar notificación web si está disponible
+            if (window.showAppointmentConfirmation) {
+              const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+              if (appointment) {
+                window.showAppointmentConfirmation(appointment);
+              }
+            }
+            
+            loadAllAppointments();
+            loadAdminStats();
+          } else {
+            showAlert('❌ Error confirmando turno: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('❌ Error de conexión al confirmar turno', 'danger');
+        });
       };
 
       // Cancelar turno (admin)
       window.cancelAdminAppointment = function(appointmentId) {
-        if (confirm('¿Cancelar este turno?')) {
-          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/cancel`, {
-            method: 'PUT',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              showAlert('Turno cancelado exitosamente', 'success');
-              
-              // Mostrar notificación web si está disponible
-              if (window.showAppointmentCancellation) {
-                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
-                if (appointment) {
-                  window.showAppointmentCancellation(appointment, 'Cancelado por el administrador');
-                }
-              }
-              
-              loadAllAppointments();
-              loadAdminStats();
-            } else {
-              showAlert('Error cancelando turno: ' + (data.message || ''), 'danger');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            showAlert('Error de conexión al cancelar turno', 'danger');
-          });
+        const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+        if (!appointment) {
+          showAlert('No se encontró el turno', 'danger');
+          return;
         }
+
+        // Crear modal de cancelación profesional
+        const modalHtml = `
+          <div class="modal fade" id="cancelAppointmentModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content bg-dark text-light">
+                <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title">
+                    <i class="fas fa-times-circle me-2"></i>Cancelar Turno
+                  </h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>¿Estás seguro de que quieres cancelar este turno?</strong>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h6><i class="fas fa-user me-2"></i>Cliente</h6>
+                      <p><strong>Nombre:</strong> ${appointment.client_name || 'N/A'}</p>
+                      <p><strong>Teléfono:</strong> ${appointment.client_phone || 'N/A'}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <h6><i class="fas fa-calendar me-2"></i>Turno</h6>
+                      <p><strong>Fecha:</strong> ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}</p>
+                      <p><strong>Hora:</strong> ${appointment.start_time || appointment.appointment_time || 'N/A'}</p>
+                    </div>
+                  </div>
+                  <div class="form-group mt-3">
+                    <label for="cancelReason" class="form-label">Motivo de cancelación (opcional):</label>
+                    <textarea class="form-control bg-dark text-light border-secondary" id="cancelReason" rows="3" placeholder="Ej: Cliente solicitó reprogramar, horario no disponible..."></textarea>
+                  </div>
+                  <div class="alert alert-warning">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Al cancelar este turno:</strong>
+                    <ul class="mb-0 mt-2">
+                      <li>Se enviará una notificación automática al cliente por WhatsApp</li>
+                      <li>El estado cambiará a "Cancelado"</li>
+                      <li>Se registrará la acción en el sistema</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                  </button>
+                  <button type="button" class="btn btn-danger" onclick="executeCancelAppointment(${appointmentId})">
+                    <i class="fas fa-times me-2"></i>Cancelar Turno
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Remover modal anterior si existe
+        const existingModal = document.getElementById('cancelAppointmentModal');
+        if (existingModal) {
+          existingModal.remove();
+        }
+
+        // Agregar modal al DOM
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Mostrar modal
+        const modal = new bootstrap.Modal(document.getElementById('cancelAppointmentModal'));
+        modal.show();
+      };
+
+      // Ejecutar cancelación de turno
+      window.executeCancelAppointment = function(appointmentId) {
+        const reason = document.getElementById('cancelReason')?.value || 'Cancelado por el administrador';
+        
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('cancelAppointmentModal'));
+        modal.hide();
+
+        // Mostrar loading
+        showAlert('<i class="fas fa-spinner fa-spin me-2"></i>Cancelando turno...', 'info');
+
+        fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/cancel`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ reason })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('✅ Turno cancelado exitosamente. Se envió notificación al cliente.', 'success');
+            
+            // Mostrar notificación web si está disponible
+            if (window.showAppointmentCancellation) {
+              const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+              if (appointment) {
+                window.showAppointmentCancellation(appointment, reason);
+              }
+            }
+            
+            loadAllAppointments();
+            loadAdminStats();
+          } else {
+            showAlert('❌ Error cancelando turno: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('❌ Error de conexión al cancelar turno', 'danger');
+        });
       };
 
       // Enviar recordatorio (admin)
@@ -1853,7 +2128,7 @@
                 window.showNotification('❌ Notificación de cancelación de prueba', 'cancellation', 5000);
               }, 2000);
               setTimeout(() => {
-                window.showNotification('⏰ Notificación de recordatorio de prueba', 'reminder', 5000);
+                window.showNotification('⏰ Recordatorio de prueba', 'reminder', 5000);
               }, 4000);
             }
           } else {
@@ -1861,26 +2136,46 @@
           }
         })
         .catch(error => {
-          console.error('Error probando notificaciones:', error);
+          console.error('Error:', error);
           showAlert('Error de conexión al probar notificaciones', 'danger');
         });
       };
 
       // Crear contenido CSV
       function createCSV(appointments) {
-        const headers = ['ID', 'Cliente', 'Teléfono', 'Fecha', 'Hora', 'Servicios', 'Total', 'Estado'];
-        const rows = appointments.map(a => [
-          a.id,
-          a.client_name || 'N/A',
-          a.client_phone || 'N/A',
-          new Date(a.appointment_date).toLocaleDateString('es-AR'),
-          a.start_time || 'N/A',
-          a.services ? a.services.map(s => `${s.service_name} x${s.quantity}`).join(', ') : 'N/A',
-          a.total_amount ? `$${parseInt(a.total_amount).toLocaleString()}` : 'N/A',
-          getStatusText(a.status)
+        const headers = [
+          'ID',
+          'Cliente',
+          'Teléfono',
+          'Email',
+          'Fecha',
+          'Hora',
+          'Servicios',
+          'Total',
+          'Estado',
+          'Dirección',
+          'Fecha Creación'
+        ];
+
+        const rows = appointments.map(appointment => [
+          appointment.id,
+          appointment.client_name || '',
+          appointment.client_phone || '',
+          appointment.client_email || '',
+          appointment.appointment_date,
+          appointment.start_time || appointment.appointment_time || '',
+          appointment.service_type || '',
+          appointment.total_amount || appointment.totalAmount || appointment.total_price || '',
+          appointment.status,
+          appointment.service_location || appointment.serviceLocation || '',
+          appointment.created_at
         ]);
-        
-        return [headers, ...rows].map(row => row.join(',')).join('\n');
+
+        const csvContent = [headers, ...rows]
+          .map(row => row.map(cell => `"${cell}"`).join(','))
+          .join('\n');
+
+        return csvContent;
       }
 
       // Descargar CSV
