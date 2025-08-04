@@ -472,7 +472,7 @@
         <div class="card bg-dark border-secondary mb-4">
           <div class="card-header bg-secondary text-white">
             <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtros Avanzados</h5>
-          </div>
+            </div>
           <div class="card-body">
             <div class="row">
               <!-- Filtro por Estado -->
@@ -558,11 +558,11 @@
                 <div class="d-grid gap-2 w-100">
                   <button class="btn btn-primary" onclick="applyAdvancedFilters()">
                     <i class="fas fa-search me-1"></i>Aplicar
-                  </button>
+            </button>
                   <button class="btn btn-outline-secondary" onclick="clearFilters()">
                     <i class="fas fa-times me-1"></i>Limpiar
-                  </button>
-                </div>
+            </button>
+          </div>
               </div>
             </div>
           </div>
@@ -627,7 +627,7 @@
                   </button>
                   <button type="button" class="btn btn-outline-warning" onclick="testNotifications()">
                     <i class="fas fa-bell me-1"></i>Probar Notificaciones
-                  </button>
+              </button>
                 </div>
                 <div class="mt-2">
                   <small class="text-light">
@@ -1894,37 +1894,37 @@
         // Mostrar loading
         showAlert('<i class="fas fa-spinner fa-spin me-2"></i>Confirmando turno...', 'info');
 
-        fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/status`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ status: 'confirmed' })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/status`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'confirmed' })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
             showAlert('✅ Turno confirmado exitosamente. Se envió notificación al cliente.', 'success');
-            
-            // Mostrar notificación web si está disponible
-            if (window.showAppointmentConfirmation) {
-              const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
-              if (appointment) {
-                window.showAppointmentConfirmation(appointment);
+              
+              // Mostrar notificación web si está disponible
+              if (window.showAppointmentConfirmation) {
+                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+                if (appointment) {
+                  window.showAppointmentConfirmation(appointment);
+                }
               }
-            }
-            
-            loadAllAppointments();
-            loadAdminStats();
-          } else {
+              
+              loadAllAppointments();
+              loadAdminStats();
+            } else {
             showAlert('❌ Error confirmando turno: ' + (data.message || ''), 'danger');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
           showAlert('❌ Error de conexión al confirmar turno', 'danger');
-        });
+          });
       };
 
       // Cancelar turno (admin)
@@ -2015,37 +2015,37 @@
         // Mostrar loading
         showAlert('<i class="fas fa-spinner fa-spin me-2"></i>Cancelando turno...', 'info');
 
-        fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/cancel`, {
-          method: 'PUT',
-          headers: {
+          fetch(`https://daytona-clean-service.onrender.com/api/appointments/admin/${appointmentId}/cancel`, {
+            method: 'PUT',
+            headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({ reason })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
             showAlert('✅ Turno cancelado exitosamente. Se envió notificación al cliente.', 'success');
-            
-            // Mostrar notificación web si está disponible
-            if (window.showAppointmentCancellation) {
-              const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
-              if (appointment) {
+              
+              // Mostrar notificación web si está disponible
+              if (window.showAppointmentCancellation) {
+                const appointment = window.lastAdminAppointments?.find(a => a.id === appointmentId);
+                if (appointment) {
                 window.showAppointmentCancellation(appointment, reason);
+                }
               }
-            }
-            
-            loadAllAppointments();
-            loadAdminStats();
-          } else {
+              
+              loadAllAppointments();
+              loadAdminStats();
+            } else {
             showAlert('❌ Error cancelando turno: ' + (data.message || ''), 'danger');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
           showAlert('❌ Error de conexión al cancelar turno', 'danger');
-        });
+          });
       };
 
       // Enviar recordatorio (admin)

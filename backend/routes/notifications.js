@@ -1,50 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const { auth } = require('../middleware/auth');
-const notificationService = require('../services/notificationService');
+const notificationController = require('../controllers/notificationController');
+const authMiddleware = require('../middleware/auth');
 
-// Verificar notificaciones nuevas (para polling)
-router.get('/check', auth, async (req, res) => {
-  try {
-    // Por ahora retornamos un array vacío
-    // En el futuro se implementará con base de datos
-    res.json({ 
-      success: true, 
-      notifications: [] 
-    });
-  } catch (error) {
-    console.error('Error verificando notificaciones:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
-  }
-});
+// Aplicar middleware de autenticación a todas las rutas
+router.use(authMiddleware);
+
+// Obtener notificaciones del usuario
+router.get('/user', notificationController.getUserNotifications);
+
+// Obtener notificaciones no leídas
+router.get('/unread', notificationController.getUnreadNotifications);
+
+// Contar notificaciones no leídas
+router.get('/count', notificationController.countUnreadNotifications);
 
 // Marcar notificación como leída
-router.put('/:id/read', auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    // Por ahora solo simulamos
-    console.log(`Notificación ${id} marcada como leída`);
-    
-    res.json({ success: true, message: 'Notificación marcada como leída' });
-  } catch (error) {
-    console.error('Error marcando notificación como leída:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
-  }
-});
+router.put('/:id/read', notificationController.markAsRead);
 
-// Probar sistema de notificaciones
-router.post('/test', auth, async (req, res) => {
-  try {
-    const { phone } = req.body;
-    
-    const result = await notificationService.testNotifications(phone);
-    
-    res.json(result);
-  } catch (error) {
-    console.error('Error probando notificaciones:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
-  }
-});
+// Marcar todas las notificaciones como leídas
+router.put('/mark-all-read', notificationController.markAllAsRead);
+
+// Eliminar notificación
+router.delete('/:id', notificationController.deleteNotification);
+
+// Limpiar notificaciones antiguas (solo admin)
+router.delete('/cleanup', notificationController.cleanupOldNotifications);
 
 module.exports = router; 

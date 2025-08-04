@@ -1,50 +1,13 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log('🔄 include-header.js: DOM cargado, generando header...');
-  
+// Función para incluir el header
+function includeHeader() {
+  const headerContainer = document.getElementById('header-container');
+  if (!headerContainer) return;
+
   // Verificar si el usuario está logueado
-  const isLoggedIn = localStorage.getItem('token') !== null;
-  const userData = localStorage.getItem('userData');
-  let user = null;
-  
-  if (userData) {
-    try {
-      user = JSON.parse(userData);
-    } catch (e) {
-      console.error('Error parseando userData:', e);
-    }
-  }
+  const token = localStorage.getItem('token');
+  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
-  // Verificar si es admin
-  const isAdmin = user && user.role === 'admin';
-
-  console.log('🔄 include-header.js: Usuario logueado:', isLoggedIn, user, 'Admin:', isAdmin);
-
-  // Generar header dinámico
-  const headerContainer = document.getElementById("header-container");
-  if (headerContainer) {
-    const headerHTML = generateHeader(isLoggedIn, user);
-    headerContainer.innerHTML = headerHTML;
-    console.log('✅ include-header.js: Header generado correctamente');
-    
-    // Inicializar dropdowns después de generar el header
-    setTimeout(() => {
-      if (typeof bootstrap !== 'undefined') {
-        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-          return new bootstrap.Dropdown(dropdownToggleEl);
-        });
-        console.log('✅ include-header.js: Dropdowns inicializados');
-      } else {
-        console.warn('⚠️ include-header.js: Bootstrap no está disponible');
-      }
-    }, 50);
-  } else {
-    console.error('❌ include-header.js: No se encontró header-container');
-  }
-});
-
-function generateHeader(isLoggedIn, user) {
-  const baseHeader = `
+  let headerHTML = `
     <header>
       <nav class="navbar navbar-expand-lg" style="background-color: #1e1e1e;">
         <div class="container" style="padding-left: 0;">
@@ -80,65 +43,39 @@ function generateHeader(isLoggedIn, user) {
                 <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="ayuda.html" style="color: #fff;">Ayuda</a>
-              </li>`;
-
-  if (isLoggedIn && user) {
-    // Usuario logueado - mostrar menú de usuario profesional
-    const userName = user.name || 'Usuario';
-    const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-    const isAdmin = user.role === 'admin';
-    
-    return baseHeader + `
+                <a class="nav-link" href="ayuda.html" style="color: #fff;">
+                  <i class="fas fa-question-circle me-1"></i>Ayuda
+                </a>
+              </li>
               <!-- Separador visual -->
               <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
-              <!-- Menú de usuario -->
+  `;
+
+  if (token && userInfo.name) {
+    // Usuario logueado - mostrar menú de usuario
+    headerHTML += `
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ff3b3f; font-weight: 500;">
-                  <div class="user-avatar me-2" style="width: 32px; height: 32px; background: linear-gradient(45deg, #ff3b3f, #b31217); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">
-                    ${userInitials}
-                  </div>
-                  <span style="max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${userName}</span>
-                  <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i>
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false" style="color: #fff;">
+                  <i class="fas fa-user-circle me-1"></i>
+                  ${userInfo.name.split(' ').map(n => n[0]).join('').toUpperCase()} ${userInfo.name}
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" style="background-color: #222; border: 1px solid #444; min-width: 220px; margin-top: 8px;">
-                  <li class="dropdown-header" style="color: #ff3b3f; font-weight: 600; padding: 8px 16px; border-bottom: 1px solid #444;">
-                    <i class="fas fa-user-circle me-2"></i>Mi Cuenta
-                  </li>
-                  <li><a class="dropdown-item" href="mi-cuenta.html" style="color: #fff; padding: 10px 16px;">
-                    <i class="fas fa-user me-2" style="width: 16px;"></i>Perfil
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown"
+                  style="background-color: #222; border: none; min-width: 200px;">
+                  <li><a class="dropdown-item" href="mi-cuenta.html"><i class="fas fa-user me-2"></i>Mi Cuenta</a></li>
+                  <li><a class="dropdown-item" href="mi-cuenta.html#mis-turnos"><i class="fas fa-calendar me-2"></i>Mis Turnos</a></li>
+                  <li><a class="dropdown-item" href="notifications.html">
+                    <i class="fas fa-bell me-2"></i>Notificaciones
+                    <span class="badge bg-danger notification-badge ms-2" style="display: none;">0</span>
                   </a></li>
-                  <li><a class="dropdown-item" href="${isAdmin ? 'mi-cuenta.html#gestion-turnos' : (window.location.pathname.includes('mi-cuenta.html') ? '#turnos-activos' : 'mi-cuenta.html#turnos-activos')}" style="color: #fff; padding: 10px 16px;">
-                    <i class="fas fa-calendar-alt me-2" style="width: 16px;"></i>${isAdmin ? 'Gestión' : 'Mis Turnos'}
-                  </a></li>
-                  <li><a class="dropdown-item" href="#" onclick="showNotifications()" style="color: #fff; padding: 10px 16px;">
-                    <i class="fas fa-bell me-2" style="width: 16px;"></i>Notificaciones
-                    <span class="badge bg-danger ms-2" style="font-size: 10px;">2</span>
-                  </a></li>
-                  <li><hr class="dropdown-divider" style="border-color: #444; margin: 8px 0;"></li>
-                  <li><a class="dropdown-item" href="#" onclick="showHelp()" style="color: #fff; padding: 10px 16px;">
-                    <i class="fas fa-question-circle me-2" style="width: 16px;"></i>Ayuda
-                  </a></li>
-                  <li><a class="dropdown-item" href="#" onclick="logout()" style="color: #ff6b6b; padding: 10px 16px;">
-                    <i class="fas fa-sign-out-alt me-2" style="width: 16px;"></i>Cerrar Sesión
-                  </a></li>
+                  <li><hr class="dropdown-divider" style="border-color: #444;"></li>
+                  <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
                 </ul>
               </li>
-              <li class="nav-item ms-lg-2">
-                <a class="btn" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; border-radius: 8px; padding: 8px 18px; border: none; transition: all 0.3s ease;">
-                  <i class="fas fa-calendar-plus me-1"></i>Agendar Turno
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>`;
+    `;
   } else {
-    // Usuario no logueado - mostrar botones de login/registro
-    return baseHeader + `
-              <!-- Separador visual -->
-              <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
+    // Usuario no logueado - mostrar botones de login/register
+    headerHTML += `
               <li class="nav-item">
                 <a class="nav-link" href="login.html" style="color: #fff;">
                   <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
@@ -149,6 +86,10 @@ function generateHeader(isLoggedIn, user) {
                   <i class="fas fa-user-plus me-1"></i>Registrarse
                 </a>
               </li>
+    `;
+  }
+
+  headerHTML += `
               <li class="nav-item ms-lg-2">
                 <a class="btn" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; border-radius: 8px; padding: 8px 18px; border: none; transition: all 0.3s ease;">
                   <i class="fas fa-calendar-plus me-1"></i>Agendar Turno
@@ -158,23 +99,131 @@ function generateHeader(isLoggedIn, user) {
           </div>
         </div>
       </nav>
-    </header>`;
+    </header>
+  `;
+
+  headerContainer.innerHTML = headerHTML;
+
+  // Si el usuario está logueado, cargar el contador de notificaciones
+  if (token) {
+    loadNotificationCount();
   }
 }
 
-// Función global para logout
+// Función para cargar el contador de notificaciones
+async function loadNotificationCount() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const response = await fetch('https://daytona-clean-service.onrender.com/api/notifications/count', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    
+    if (data.success) {
+      const notificationBadge = document.querySelector('.notification-badge');
+      if (notificationBadge) {
+        notificationBadge.textContent = data.count;
+        notificationBadge.style.display = data.count > 0 ? 'inline' : 'none';
+      }
+    }
+  } catch (error) {
+    console.error('Error cargando contador de notificaciones:', error);
+  }
+}
+
+// Función para cerrar sesión
 function logout() {
   localStorage.removeItem('token');
-  localStorage.removeItem('userData');
-  window.location.href = 'index.html';
+  localStorage.removeItem('userInfo');
+  window.location.href = '/index.html';
 }
 
-// Función para mostrar notificaciones
-function showNotifications() {
-  alert('Sistema de notificaciones en desarrollo. Próximamente podrás ver tus recordatorios de turnos aquí.');
+// Función para mostrar alertas
+function showAlert(message, type = 'info', duration = 3000) {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+  alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+  alertDiv.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  
+  document.body.appendChild(alertDiv);
+  
+  if (duration > 0) {
+    setTimeout(() => {
+      if (alertDiv.parentNode) {
+        alertDiv.remove();
+      }
+    }, duration);
+  }
 }
 
-// Función para mostrar ayuda
-function showHelp() {
-  window.location.href = 'ayuda.html';
+// Incluir el header cuando se carga la página
+document.addEventListener('DOMContentLoaded', includeHeader);
+
+// Estilos para el header
+const headerStyles = `
+<style>
+/* Efectos hover para los enlaces */
+.navbar-nav .nav-link:hover {
+  color: #ff3b3f !important;
+  background-color: rgba(255, 59, 63, 0.1);
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
+
+/* Efecto hover para el botón CTA */
+.navbar-nav .btn:hover {
+  background: linear-gradient(45deg, #b31217, #ff3b3f) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 59, 63, 0.3);
+}
+
+/* Estilos para el dropdown de usuario */
+.dropdown-menu {
+  background-color: #222 !important;
+  border: 1px solid #444 !important;
+}
+
+.dropdown-item {
+  color: #fff !important;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 59, 63, 0.2) !important;
+  color: #ff3b3f !important;
+}
+
+.dropdown-divider {
+  border-color: #444 !important;
+}
+
+/* Badge de notificaciones */
+.notification-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .navbar-nav {
+    gap: 5px !important;
+    margin-top: 15px;
+  }
+  
+  .nav-item {
+    margin-bottom: 3px;
+  }
+}
+</style>
+`;
+
+// Agregar estilos al head
+document.head.insertAdjacentHTML('beforeend', headerStyles);

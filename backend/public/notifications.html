@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones - Daytona Clean Service</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components/header.css">
+  <link rel="stylesheet" href="css/admin-panel.css">
+  
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+</head>
+
+<body class="bg-dark text-light">
+  <!-- Header -->
+  <div id="header-container"></div>
+
+  <main class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="text-center mb-4">
+          <i class="fas fa-bell text-warning me-2"></i>
+          <span style="color:#00d4ff;">Notificaciones</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row mb-4" id="statsContainer">
+      <div class="col-md-4">
+        <div class="card bg-dark border-info">
+          <div class="card-body text-center">
+            <h3 class="text-info" id="totalNotifications">0</h3>
+            <p class="mb-0">Total Notificaciones</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-dark border-warning">
+          <div class="card-body text-center">
+            <h3 class="text-warning" id="unreadNotifications">0</h3>
+            <p class="mb-0">No Leídas</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-dark border-success">
+          <div class="card-body text-center">
+            <h3 class="text-success" id="readNotifications">0</h3>
+            <p class="mb-0">Leídas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card bg-dark border-secondary">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Acciones</h5>
+          </div>
+          <div class="card-body">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-success" onclick="markAllAsRead()">
+                <i class="fas fa-check-double me-2"></i>Marcar Todas como Leídas
+              </button>
+              <button type="button" class="btn btn-outline-danger" onclick="deleteAllRead()">
+                <i class="fas fa-trash me-2"></i>Eliminar Leídas
+              </button>
+              <button type="button" class="btn btn-outline-info" onclick="refreshNotifications()">
+                <i class="fas fa-sync-alt me-2"></i>Actualizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Notificaciones -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card bg-dark border-primary">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Lista de Notificaciones</h5>
+          </div>
+          <div class="card-body">
+            <div id="notificationsList">
+              <div class="text-center">
+                <i class="fas fa-spinner fa-spin fa-2x text-muted"></i>
+                <p class="mt-2 text-muted">Cargando notificaciones...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/include-header.js"></script>
+  <script src="js/api-service.js"></script>
+  
+  <script>
+    // Verificar autenticación
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+    }
+
+    // Cargar notificaciones al iniciar
+    document.addEventListener('DOMContentLoaded', function() {
+      loadNotifications();
+      updateNotificationCount();
+    });
+
+    // Cargar notificaciones
+    async function loadNotifications() {
+      try {
+        const response = await fetch('https://daytona-clean-service.onrender.com/api/notifications/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          displayNotifications(data.notifications);
+          updateStats(data.notifications);
+        } else {
+          showAlert('Error cargando notificaciones: ' + data.message, 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión al cargar notificaciones', 'danger');
+      }
+    }
+
+    // Mostrar notificaciones
+    function displayNotifications(notifications) {
+      const container = document.getElementById('notificationsList');
+      
+      if (!notifications || notifications.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-4">
+            <i class="fas fa-bell-slash fa-3x text-muted"></i>
+            <h5 class="mt-3 text-muted">No hay notificaciones</h5>
+            <p class="text-muted">Cuando tengas notificaciones nuevas, aparecerán aquí.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = notifications.map(notification => {
+        const isUnread = !notification.is_read;
+        const typeIcon = getNotificationIcon(notification.type);
+        const typeClass = getNotificationClass(notification.type);
+        const date = new Date(notification.created_at).toLocaleDateString('es-AR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        return `
+          <div class="notification-item ${isUnread ? 'unread' : ''} mb-3 p-3 border rounded ${typeClass}">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center mb-2">
+                  <span class="notification-icon me-2">${typeIcon}</span>
+                  <h6 class="mb-0 ${isUnread ? 'fw-bold' : ''}">${notification.title}</h6>
+                  ${isUnread ? '<span class="badge bg-warning ms-2">Nueva</span>' : ''}
+                </div>
+                <p class="mb-2 text-light">${notification.message}</p>
+                ${notification.appointment_date ? `
+                  <small class="text-muted">
+                    <i class="fas fa-calendar me-1"></i>
+                    Turno: ${new Date(notification.appointment_date).toLocaleDateString('es-AR')} 
+                    ${notification.appointment_time ? `a las ${notification.appointment_time}` : ''}
+                  </small>
+                ` : ''}
+                <small class="text-muted d-block mt-1">
+                  <i class="fas fa-clock me-1"></i>${date}
+                </small>
+              </div>
+              <div class="notification-actions">
+                ${isUnread ? `
+                  <button class="btn btn-sm btn-outline-success" onclick="markAsRead(${notification.id})" title="Marcar como leída">
+                    <i class="fas fa-check"></i>
+                  </button>
+                ` : ''}
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteNotification(${notification.id})" title="Eliminar">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Obtener icono según tipo de notificación
+    function getNotificationIcon(type) {
+      switch (type) {
+        case 'confirmation': return '✅';
+        case 'cancellation': return '❌';
+        case 'reminder': return '⏰';
+        case 'reschedule': return '🔄';
+        default: return '📢';
+      }
+    }
+
+    // Obtener clase CSS según tipo de notificación
+    function getNotificationClass(type) {
+      switch (type) {
+        case 'confirmation': return 'border-success bg-success bg-opacity-10';
+        case 'cancellation': return 'border-danger bg-danger bg-opacity-10';
+        case 'reminder': return 'border-warning bg-warning bg-opacity-10';
+        case 'reschedule': return 'border-info bg-info bg-opacity-10';
+        default: return 'border-secondary bg-secondary bg-opacity-10';
+      }
+    }
+
+    // Actualizar estadísticas
+    function updateStats(notifications) {
+      const total = notifications.length;
+      const unread = notifications.filter(n => !n.is_read).length;
+      const read = total - unread;
+
+      document.getElementById('totalNotifications').textContent = total;
+      document.getElementById('unreadNotifications').textContent = unread;
+      document.getElementById('readNotifications').textContent = read;
+    }
+
+    // Marcar como leída
+    async function markAsRead(notificationId) {
+      try {
+        const response = await fetch(`https://daytona-clean-service.onrender.com/api/notifications/${notificationId}/read`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          showAlert('Notificación marcada como leída', 'success');
+          loadNotifications();
+          updateNotificationCount();
+        } else {
+          showAlert('Error marcando notificación: ' + data.message, 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión', 'danger');
+      }
+    }
+
+    // Marcar todas como leídas
+    async function markAllAsRead() {
+      if (!confirm('¿Marcar todas las notificaciones como leídas?')) return;
+
+      try {
+        const response = await fetch('https://daytona-clean-service.onrender.com/api/notifications/mark-all-read', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          showAlert('Todas las notificaciones marcadas como leídas', 'success');
+          loadNotifications();
+          updateNotificationCount();
+        } else {
+          showAlert('Error: ' + data.message, 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión', 'danger');
+      }
+    }
+
+    // Eliminar notificación
+    async function deleteNotification(notificationId) {
+      if (!confirm('¿Eliminar esta notificación?')) return;
+
+      try {
+        const response = await fetch(`https://daytona-clean-service.onrender.com/api/notifications/${notificationId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          showAlert('Notificación eliminada', 'success');
+          loadNotifications();
+          updateNotificationCount();
+        } else {
+          showAlert('Error eliminando notificación: ' + data.message, 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión', 'danger');
+      }
+    }
+
+    // Eliminar todas las leídas
+    async function deleteAllRead() {
+      if (!confirm('¿Eliminar todas las notificaciones leídas?')) return;
+
+      try {
+        const response = await fetch('https://daytona-clean-service.onrender.com/api/notifications/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          const readNotifications = data.notifications.filter(n => n.is_read);
+          
+          for (const notification of readNotifications) {
+            await fetch(`https://daytona-clean-service.onrender.com/api/notifications/${notification.id}`, {
+              method: 'DELETE',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+          }
+
+          showAlert('Notificaciones leídas eliminadas', 'success');
+          loadNotifications();
+          updateNotificationCount();
+        } else {
+          showAlert('Error: ' + data.message, 'danger');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error de conexión', 'danger');
+      }
+    }
+
+    // Actualizar contador de notificaciones
+    async function updateNotificationCount() {
+      try {
+        const response = await fetch('https://daytona-clean-service.onrender.com/api/notifications/count', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          // Actualizar badge en el header si existe
+          const notificationBadge = document.querySelector('.notification-badge');
+          if (notificationBadge) {
+            notificationBadge.textContent = data.count;
+            notificationBadge.style.display = data.count > 0 ? 'inline' : 'none';
+          }
+        }
+      } catch (error) {
+        console.error('Error actualizando contador:', error);
+      }
+    }
+
+    // Refrescar notificaciones
+    function refreshNotifications() {
+      loadNotifications();
+      updateNotificationCount();
+    }
+
+    // Función para mostrar alertas
+    function showAlert(message, type = 'info', duration = 3000) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+      alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      `;
+      
+      document.body.appendChild(alertDiv);
+      
+      if (duration > 0) {
+        setTimeout(() => {
+          if (alertDiv.parentNode) {
+            alertDiv.remove();
+          }
+        }, duration);
+      }
+    }
+  </script>
+
+  <style>
+    .notification-item {
+      transition: all 0.3s ease;
+    }
+    
+    .notification-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .notification-item.unread {
+      border-left: 4px solid #ffc107 !important;
+    }
+    
+    .notification-icon {
+      font-size: 1.2rem;
+    }
+    
+    .notification-actions {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .notification-item:hover .notification-actions {
+      opacity: 1;
+    }
+  </style>
+</body>
+</html> 

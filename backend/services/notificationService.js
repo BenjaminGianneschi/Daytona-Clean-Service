@@ -1,4 +1,5 @@
 const whatsappService = require('./whatsappService');
+const notificationModel = require('../models/notificationModel');
 const logger = require('../utils/logger');
 
 class NotificationService {
@@ -18,7 +19,7 @@ class NotificationService {
     try {
       const results = {
         whatsapp: null,
-        web: null
+        inApp: null
       };
 
       // Enviar WhatsApp
@@ -27,8 +28,11 @@ class NotificationService {
         logger.info(`WhatsApp confirmation sent to ${appointment.client_phone} for appointment #${appointment.id}`);
       }
 
-      // Enviar notificación web (se implementará con WebSockets)
-      results.web = await this.sendWebNotification(appointment, 'confirmation');
+      // Crear notificación in-app
+      if (appointment.user_id) {
+        results.inApp = await notificationModel.createConfirmationNotification(appointment);
+        logger.info(`In-app notification created for appointment #${appointment.id}`);
+      }
 
       return {
         success: true,
@@ -53,7 +57,7 @@ class NotificationService {
     try {
       const results = {
         whatsapp: null,
-        web: null
+        inApp: null
       };
 
       // Enviar WhatsApp
@@ -62,8 +66,11 @@ class NotificationService {
         logger.info(`WhatsApp cancellation sent to ${appointment.client_phone} for appointment #${appointment.id}`);
       }
 
-      // Enviar notificación web
-      results.web = await this.sendWebNotification(appointment, 'cancellation', reason);
+      // Crear notificación in-app
+      if (appointment.user_id) {
+        results.inApp = await notificationModel.createCancellationNotification(appointment, reason);
+        logger.info(`In-app cancellation notification created for appointment #${appointment.id}`);
+      }
 
       return {
         success: true,
@@ -88,7 +95,7 @@ class NotificationService {
     try {
       const results = {
         whatsapp: null,
-        web: null
+        inApp: null
       };
 
       // Enviar WhatsApp
@@ -97,8 +104,11 @@ class NotificationService {
         logger.info(`WhatsApp reminder sent to ${appointment.client_phone} for appointment #${appointment.id}`);
       }
 
-      // Enviar notificación web
-      results.web = await this.sendWebNotification(appointment, 'reminder');
+      // Crear notificación in-app
+      if (appointment.user_id) {
+        results.inApp = await notificationModel.createReminderNotification(appointment);
+        logger.info(`In-app reminder notification created for appointment #${appointment.id}`);
+      }
 
       return {
         success: true,
@@ -113,60 +123,6 @@ class NotificationService {
   }
 
   /**
-   * Enviar notificación web (simulada - se implementará con WebSockets)
-   */
-  async sendWebNotification(appointment, type, reason = null) {
-    try {
-      // Por ahora simulamos la notificación web
-      // En el futuro se implementará con WebSockets o Server-Sent Events
-      const notification = {
-        id: `notif_${Date.now()}`,
-        type: type,
-        appointmentId: appointment.id,
-        clientName: appointment.client_name,
-        clientEmail: appointment.client_email,
-        message: this.formatWebNotificationMessage(appointment, type, reason),
-        timestamp: new Date().toISOString(),
-        read: false
-      };
-
-      logger.info(`Web notification created: ${notification.id} for appointment #${appointment.id}`);
-
-      return {
-        success: true,
-        notification
-      };
-
-    } catch (error) {
-      logger.error('Error sending web notification:', error);
-      return { success: false, message: error.message };
-    }
-  }
-
-  /**
-   * Formatear mensaje para notificación web
-   */
-  formatWebNotificationMessage(appointment, type, reason = null) {
-    console.log('DEBUG APPOINTMENT:', appointment); 
-    const date = new Date(appointment.appointment_date).toLocaleDateString('es-AR');
-    const time = appointment.appointment_time || 'No especificada';
-
-    switch (type) {
-      case 'confirmation':
-        return `✅ Tu turno ha sido confirmado para el ${date} a las ${time}. ¡Te esperamos!`;
-      
-      case 'cancellation':
-        return `❌ Tu turno del ${date} a las ${time} ha sido cancelado. ${reason ? `Motivo: ${reason}` : ''}`;
-      
-      case 'reminder':
-        return `⏰ Recordatorio: Tu turno es hoy ${date} a las ${time}. ¡No te olvides!`;
-      
-      default:
-        return `Notificación sobre tu turno del ${date}`;
-    }
-  }
-
-  /**
    * Enviar notificación de reprogramación
    */
   async sendRescheduleNotification(appointment, newDate, newTime) {
@@ -177,7 +133,7 @@ class NotificationService {
     try {
       const results = {
         whatsapp: null,
-        web: null
+        inApp: null
       };
 
       // Enviar WhatsApp
@@ -186,8 +142,11 @@ class NotificationService {
         logger.info(`WhatsApp reschedule sent to ${appointment.client_phone} for appointment #${appointment.id}`);
       }
 
-      // Enviar notificación web
-      results.web = await this.sendWebNotification(appointment, 'reschedule');
+      // Crear notificación in-app
+      if (appointment.user_id) {
+        results.inApp = await notificationModel.createRescheduleNotification(appointment, newDate, newTime);
+        logger.info(`In-app reschedule notification created for appointment #${appointment.id}`);
+      }
 
       return {
         success: true,
@@ -208,16 +167,17 @@ class NotificationService {
     try {
       const testAppointment = {
         id: 999,
+        user_id: 1, // Usuario de prueba
         client_name: 'Cliente de Prueba',
         client_phone: testPhone || process.env.WHATSAPP_PHONE_NUMBER,
         client_email: 'test@example.com',
         appointment_date: new Date().toISOString().split('T')[0],
-        start_time: '10:00',
+        appointment_time: '10:00',
         total_amount: 5000,
         services: [
           { service_name: 'Limpieza de Interior', quantity: 1 }
         ],
-        address: 'Dirección de prueba'
+        service_location: 'Dirección de prueba'
       };
 
       const results = await Promise.all([
