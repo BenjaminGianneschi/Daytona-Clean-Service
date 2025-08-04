@@ -6,6 +6,11 @@ function includeHeader() {
   // Verificar si el usuario está logueado
   const token = localStorage.getItem('token');
   const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+  const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+  
+  // Usar userData como fallback si userInfo no tiene datos
+  const user = userInfo.name ? userInfo : userData;
+  const isLoggedIn = token && (user.name || user.email);
 
   let headerHTML = `
     <header>
@@ -51,14 +56,18 @@ function includeHeader() {
               <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
   `;
 
-  if (token && userInfo.name) {
+  if (isLoggedIn) {
     // Usuario logueado - mostrar menú de usuario
+    const userName = user.name || user.email || 'Usuario';
+    const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+    const isAdmin = user.role === 'admin';
+    
     headerHTML += `
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="color: #fff;">
                   <i class="fas fa-user-circle me-1"></i>
-                  ${userInfo.name.split(' ').map(n => n[0]).join('').toUpperCase()} ${userInfo.name}
+                  ${userInitials} ${userName}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown"
                   style="background-color: #222; border: none; min-width: 200px;">
@@ -68,6 +77,7 @@ function includeHeader() {
                     <i class="fas fa-bell me-2"></i>Notificaciones
                     <span class="badge bg-danger notification-badge ms-2" style="display: none;">0</span>
                   </a></li>
+                  ${isAdmin ? '<li><a class="dropdown-item" href="mi-cuenta.html#gestion-turnos"><i class="fas fa-cogs me-2"></i>Gestión de Turnos</a></li>' : ''}
                   <li><hr class="dropdown-divider" style="border-color: #444;"></li>
                   <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
                 </ul>
@@ -105,7 +115,7 @@ function includeHeader() {
   headerContainer.innerHTML = headerHTML;
 
   // Si el usuario está logueado, cargar el contador de notificaciones
-  if (token) {
+  if (isLoggedIn) {
     loadNotificationCount();
   }
 }
