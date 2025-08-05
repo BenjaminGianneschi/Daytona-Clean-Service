@@ -105,6 +105,8 @@ function includeHeader() {
               </li>
     `;
   }
+  
+  headerHTML += `
             </ul>
           </div>
         </div>
