@@ -108,24 +108,101 @@
       transform: translateY(-1px);
     }
 
-    @media (max-width: 768px) {
-      .filter-row {
-        flex-direction: column;
-        align-items: stretch;
+          @media (max-width: 768px) {
+        .filter-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        
+        .filter-group {
+          min-width: auto;
+        }
+        
+        .admin-review-actions {
+          flex-direction: column;
+        }
+        
+        .admin-review-actions .action-btn {
+          width: 100%;
+        }
+      }
+
+      /* Estilos para sistema de notificaciones integrado */
+      .notification-item {
+        background: #2a2a2a;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid #00d4ff;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: all 0.3s ease;
       }
       
-      .filter-group {
-        min-width: auto;
+      .notification-item.unread {
+        background: #1a2332;
+        border-left-color: #ffc107;
       }
       
-      .admin-review-actions {
-        flex-direction: column;
+      .notification-item:hover {
+        background: #333;
+        transform: translateX(5px);
       }
       
-      .admin-review-actions .action-btn {
-        width: 100%;
+      .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
       }
-    }
+      
+      .notification-content {
+        flex: 1;
+      }
+      
+      .notification-title {
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+      
+      .notification-message {
+        color: #ccc;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+      
+      .notification-date {
+        color: #888;
+        font-size: 0.8rem;
+      }
+      
+      .notification-actions {
+        display: flex;
+        gap: 5px;
+      }
+      
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #888;
+      }
+      
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #666;
+      }
+      
+      .empty-state h4 {
+        color: #999;
+        margin-bottom: 10px;
+      }
     .wizard-step-number {
       width: 30px;
       height: 30px;
@@ -1211,9 +1288,9 @@
             // Configurar navegación y orden de secciones para usuario normal
             setupUserNavigation();
             
-            // Cargar reseñas para usuarios normales
+            // Cargar funcionalidades de usuario
             loadUserReviews();
-            
+            loadUserNotifications();
             loadAppointments();
           }
         } else {
@@ -3097,6 +3174,12 @@
                     <i class="fas fa-calendar-check me-2"></i>Turnos Activos
                   </button>
                 </div>
+                <div class="col-md-2 mb-2">
+                  <button class="btn btn-outline-danger w-100" onclick="scrollToSection('notifications-section')">
+                    <i class="fas fa-bell me-2"></i>Notificaciones
+                    <span class="badge bg-danger ms-1" id="nav-notification-count" style="display: none;">0</span>
+                  </button>
+                </div>
                 <div class="col-md-3 mb-2">
                   <button class="btn btn-outline-success w-100" onclick="scrollToSection('reviews-section')">
                     <i class="fas fa-star me-2"></i>Mis Reseñas
@@ -3136,9 +3219,14 @@
           // Crear un contenedor temporal para organizar las secciones
           const tempContainer = document.createElement('div');
           
-          // Orden correcto: Información Personal → Turnos Activos → Reseñas → Historial
+          // Orden correcto: Información Personal → Turnos Activos → Notificaciones → Reseñas → Historial
           tempContainer.appendChild(userInfoCard);
           tempContainer.appendChild(turnosActivos);
+          
+          // Crear sección de notificaciones
+          const notificationsSection = createNotificationsSection();
+          tempContainer.appendChild(notificationsSection);
+          
           tempContainer.appendChild(reviewsSection);
           tempContainer.appendChild(historialSection);
           
@@ -3147,6 +3235,90 @@
             dashboard.insertBefore(tempContainer.firstChild, adminPanel);
           }
         }
+      }
+      
+      // Crear sección de notificaciones integrada
+      function createNotificationsSection() {
+        const notificationsSection = document.createElement('div');
+        notificationsSection.className = 'dashboard-section';
+        notificationsSection.id = 'notifications-section';
+        notificationsSection.innerHTML = `
+          <div class="section-header">
+            <h3 class="section-title">
+              <i class="fas fa-bell"></i>
+              Notificaciones
+              <span class="badge bg-danger ms-2" id="section-notification-count" style="display: none;">0</span>
+            </h3>
+            <div class="section-actions">
+              <button class="action-btn view" onclick="refreshUserNotifications()">
+                <i class="fas fa-sync-alt"></i>
+                Actualizar
+              </button>
+            </div>
+          </div>
+          
+          <!-- Estadísticas de Notificaciones -->
+          <div class="row mb-4" id="notificationStats">
+            <div class="col-md-4">
+              <div class="card bg-dark border-info">
+                <div class="card-body text-center">
+                  <h4 class="text-info" id="totalUserNotifications">0</h4>
+                  <p class="mb-0">Total</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-dark border-warning">
+                <div class="card-body text-center">
+                  <h4 class="text-warning" id="unreadUserNotifications">0</h4>
+                  <p class="mb-0">No Leídas</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card bg-dark border-success">
+                <div class="card-body text-center">
+                  <h4 class="text-success" id="readUserNotifications">0</h4>
+                  <p class="mb-0">Leídas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Acciones Rápidas -->
+          <div class="notification-actions mb-4">
+            <div class="card bg-dark border-secondary">
+              <div class="card-header bg-secondary text-white">
+                <h6 class="mb-0"><i class="fas fa-cogs me-2"></i>Acciones Rápidas</h6>
+              </div>
+              <div class="card-body">
+                <div class="btn-group flex-wrap" role="group">
+                  <button type="button" class="btn btn-outline-success btn-sm" onclick="markAllUserNotificationsAsRead()">
+                    <i class="fas fa-check-double me-1"></i>Marcar Todas como Leídas
+                  </button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteAllReadUserNotifications()">
+                    <i class="fas fa-trash me-1"></i>Eliminar Leídas
+                  </button>
+                  <button type="button" class="btn btn-outline-info btn-sm" onclick="refreshUserNotifications()">
+                    <i class="fas fa-sync-alt me-1"></i>Actualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Lista de Notificaciones -->
+          <div class="notifications-list">
+            <div id="userNotificationsList">
+              <div class="loading text-center">
+                <i class="fas fa-spinner fa-spin fa-2x text-muted mb-2"></i>
+                <p class="text-muted">Cargando notificaciones...</p>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        return notificationsSection;
       }
 
       // ===== FUNCIONES DE NAVEGACIÓN RÁPIDA =====
@@ -3181,6 +3353,220 @@
         appointmentCheckboxes.forEach(checkbox => {
           checkbox.checked = selectAllCheckbox.checked;
         });
+      };
+
+      // ===== SISTEMA DE NOTIFICACIONES INTEGRADO =====
+      
+      // Cargar notificaciones del usuario
+      function loadUserNotifications() {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        
+        fetch('https://daytona-clean-service.onrender.com/api/notifications/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            displayUserNotifications(data.notifications || []);
+            updateUserNotificationStats(data.notifications || []);
+          } else {
+            document.getElementById('userNotificationsList').innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-bell-slash"></i>
+                <h4>No hay notificaciones</h4>
+                <p>No tienes notificaciones en este momento.</p>
+              </div>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error cargando notificaciones:', error);
+          document.getElementById('userNotificationsList').innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h4>Error cargando notificaciones</h4>
+              <p>No se pudieron cargar las notificaciones.</p>
+            </div>`;
+        });
+      }
+      
+      // Mostrar notificaciones del usuario
+      function displayUserNotifications(notifications) {
+        const notificationsList = document.getElementById('userNotificationsList');
+        
+        if (!notifications.length) {
+          notificationsList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-bell-slash"></i>
+              <h4>No hay notificaciones</h4>
+              <p>No tienes notificaciones en este momento.</p>
+            </div>`;
+          return;
+        }
+        
+        notificationsList.innerHTML = notifications.map(notification => {
+          const isRead = notification.is_read || notification.read_at;
+          const date = new Date(notification.created_at).toLocaleString('es-AR');
+          const iconClass = getNotificationIcon(notification.type);
+          const colorClass = getNotificationColor(notification.type);
+          
+          return `
+            <div class="notification-item ${isRead ? 'read' : 'unread'}" data-id="${notification.id}">
+              <div class="notification-icon ${colorClass}">
+                <i class="${iconClass}"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-date">${date}</div>
+              </div>
+              <div class="notification-actions">
+                ${!isRead ? `
+                  <button class="btn btn-sm btn-outline-success" onclick="markUserNotificationAsRead(${notification.id})" title="Marcar como leída">
+                    <i class="fas fa-check"></i>
+                  </button>
+                ` : ''}
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteUserNotification(${notification.id})" title="Eliminar">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      // Actualizar estadísticas de notificaciones
+      function updateUserNotificationStats(notifications) {
+        const total = notifications.length;
+        const unread = notifications.filter(n => !n.is_read && !n.read_at).length;
+        const read = total - unread;
+        
+        document.getElementById('totalUserNotifications').textContent = total;
+        document.getElementById('unreadUserNotifications').textContent = unread;
+        document.getElementById('readUserNotifications').textContent = read;
+        
+        // Actualizar badges de navegación
+        const navBadge = document.getElementById('nav-notification-count');
+        const sectionBadge = document.getElementById('section-notification-count');
+        
+        if (unread > 0) {
+          if (navBadge) {
+            navBadge.textContent = unread;
+            navBadge.style.display = 'inline';
+          }
+          if (sectionBadge) {
+            sectionBadge.textContent = unread;
+            sectionBadge.style.display = 'inline';
+          }
+        } else {
+          if (navBadge) navBadge.style.display = 'none';
+          if (sectionBadge) sectionBadge.style.display = 'none';
+        }
+      }
+      
+      // Obtener icono según tipo de notificación
+      function getNotificationIcon(type) {
+        const icons = {
+          'appointment_confirmed': 'fas fa-calendar-check',
+          'appointment_cancelled': 'fas fa-calendar-times',
+          'appointment_reminder': 'fas fa-bell',
+          'payment_received': 'fas fa-dollar-sign',
+          'general': 'fas fa-info-circle'
+        };
+        return icons[type] || 'fas fa-info-circle';
+      }
+      
+      // Obtener color según tipo de notificación
+      function getNotificationColor(type) {
+        const colors = {
+          'appointment_confirmed': 'text-success',
+          'appointment_cancelled': 'text-danger',
+          'appointment_reminder': 'text-warning',
+          'payment_received': 'text-info',
+          'general': 'text-primary'
+        };
+        return colors[type] || 'text-primary';
+      }
+      
+      // Funciones de acción para notificaciones
+      window.refreshUserNotifications = function() {
+        loadUserNotifications();
+      };
+      
+      window.markUserNotificationAsRead = function(notificationId) {
+        const token = localStorage.getItem('token');
+        fetch(`https://daytona-clean-service.onrender.com/api/notifications/${notificationId}/read`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            loadUserNotifications(); // Recargar lista
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      };
+      
+      window.deleteUserNotification = function(notificationId) {
+        if (!confirm('¿Estás seguro de que quieres eliminar esta notificación?')) return;
+        
+        const token = localStorage.getItem('token');
+        fetch(`https://daytona-clean-service.onrender.com/api/notifications/${notificationId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            loadUserNotifications(); // Recargar lista
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      };
+      
+      window.markAllUserNotificationsAsRead = function() {
+        const token = localStorage.getItem('token');
+        fetch('https://daytona-clean-service.onrender.com/api/notifications/mark-all-read', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Todas las notificaciones marcadas como leídas', 'success');
+            loadUserNotifications();
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      };
+      
+      window.deleteAllReadUserNotifications = function() {
+        if (!confirm('¿Estás seguro de que quieres eliminar todas las notificaciones leídas?')) return;
+        
+        const token = localStorage.getItem('token');
+        fetch('https://daytona-clean-service.onrender.com/api/notifications/delete-read', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Notificaciones leídas eliminadas', 'success');
+            loadUserNotifications();
+          }
+        })
+        .catch(error => console.error('Error:', error));
       };
 
       // Función para eliminar reseña
