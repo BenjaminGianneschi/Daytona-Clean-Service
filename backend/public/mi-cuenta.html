@@ -485,7 +485,7 @@
       </div>
     </div>
 
-    <!-- Sección de Reseñas -->
+    <!-- Sección de Reseñas (se mueve al panel de admin para usuarios admin) -->
     <div class="dashboard-section" id="reviews-section">
       <div class="section-header">
         <h3 class="section-title">
@@ -623,8 +623,37 @@
 
     <!-- PANEL DE ADMINISTRACIÓN (Solo visible para admins) -->
     <div id="adminPanel" style="display: none;">
+      
+      <!-- Navegación Rápida del Admin -->
+      <div class="admin-nav-section mb-4">
+        <div class="card bg-dark border-secondary">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>Panel de Control - Navegación Rápida</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 mb-2">
+                <button class="btn btn-outline-info w-100" onclick="scrollToSection('dashboard-admin')">
+                  <i class="fas fa-chart-line me-2"></i>Dashboard de Administración
+                </button>
+              </div>
+              <div class="col-md-4 mb-2">
+                <button class="btn btn-outline-warning w-100" onclick="scrollToSection('gestion-turnos')">
+                  <i class="fas fa-list me-2"></i>Gestión de Turnos
+                </button>
+              </div>
+              <div class="col-md-4 mb-2">
+                <button class="btn btn-outline-success w-100" onclick="scrollToSection('reviews-section')">
+                  <i class="fas fa-star me-2"></i>Gestión de Reseñas
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Dashboard Admin -->
-      <div class="admin-dashboard-section">
+      <div class="admin-dashboard-section" id="dashboard-admin">
         <h3><i class="fas fa-chart-line me-2" style="color:#00d4ff;"></i><span style="color:#00d4ff;">Dashboard de Administración</span></h3>
         <div class="row mb-4">
           <div class="col-md-3">
@@ -2821,6 +2850,21 @@
       
       // Configurar sección de reseñas para administradores
       function setupAdminReviewsSection() {
+        const reviewsSection = document.getElementById('reviews-section');
+        const adminPanel = document.getElementById('adminPanel');
+        
+        // Mover la sección de reseñas al final del panel de admin
+        if (reviewsSection && adminPanel) {
+          // Remover de su ubicación actual
+          reviewsSection.remove();
+          
+          // Agregar estilos de administrador a la sección
+          reviewsSection.className = 'admin-dashboard-section';
+          
+          // Insertar al final del panel de admin (antes del cierre)
+          adminPanel.appendChild(reviewsSection);
+        }
+        
         // Cambiar título de la sección
         document.querySelector('#reviews-section .section-title').innerHTML = `
           <i class="fas fa-star"></i>
@@ -3022,6 +3066,28 @@
         });
       };
       
+      // ===== FUNCIONES DE NAVEGACIÓN RÁPIDA =====
+      
+      // Función para hacer scroll a una sección específica
+      window.scrollToSection = function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start',
+            inline: 'nearest' 
+          });
+          
+          // Agregar efecto visual temporal
+          section.style.border = '2px solid #00d4ff';
+          section.style.borderRadius = '15px';
+          setTimeout(() => {
+            section.style.border = '';
+            section.style.borderRadius = '';
+          }, 2000);
+        }
+      };
+
       // ===== FUNCIONES PARA GESTIÓN MASIVA DE TURNOS =====
       
       // Función para seleccionar/deseleccionar todos los turnos
