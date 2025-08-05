@@ -1146,17 +1146,43 @@
     let currentAppointments = [];
 
     function hideUserSectionsForAdmin() {
+      // Ocultar cards de estadísticas de usuario
+      const userStats = document.getElementById('user-stats');
+      
+      // Ocultar botón de agendar turno
+      const quickAction = document.querySelector('.quick-action');
+      
+      // Secciones de usuario que no son relevantes para admin
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
+      
+      // Ocultar estadísticas y acción rápida para admin
+      if (userStats) userStats.style.display = 'none';
+      if (quickAction) quickAction.style.display = 'none';
+      
+      // Ocultar secciones de turnos de usuario
       if (info) info.style.display = 'none';
       if (activos) activos.style.display = 'none';
       if (historial) historial.style.display = 'none';
     }
     function showUserSectionsForNormal() {
+      // Mostrar cards de estadísticas de usuario
+      const userStats = document.getElementById('user-stats');
+      
+      // Mostrar botón de agendar turno
+      const quickAction = document.querySelector('.quick-action');
+      
+      // Secciones de usuario normales
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
+      
+      // Mostrar estadísticas y acción rápida para usuarios normales
+      if (userStats) userStats.style.display = 'block';
+      if (quickAction) quickAction.style.display = 'block';
+      
+      // Mostrar secciones de turnos de usuario
       if (info) info.style.display = 'block';
       if (activos) activos.style.display = 'block';
       if (historial) historial.style.display = 'block';
