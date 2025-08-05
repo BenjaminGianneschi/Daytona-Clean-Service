@@ -1141,22 +1141,26 @@
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
+      const userNav = document.querySelector('.user-nav-section');
       
       // Ocultar secciones de turnos de usuario
       if (info) info.style.display = 'none';
       if (activos) activos.style.display = 'none';
       if (historial) historial.style.display = 'none';
+      if (userNav) userNav.style.display = 'none';
     }
     function showUserSectionsForNormal() {
       // Secciones de usuario normales
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
+      const userNav = document.querySelector('.user-nav-section');
       
       // Mostrar secciones de turnos de usuario
       if (info) info.style.display = 'block';
       if (activos) activos.style.display = 'block';
       if (historial) historial.style.display = 'block';
+      if (userNav) userNav.style.display = 'block';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -1203,6 +1207,9 @@
             // Mostrar encabezado para usuario normal
             const header = document.getElementById('account-header');
             if (header) header.style.display = 'block';
+            
+            // Configurar navegación y orden de secciones para usuario normal
+            setupUserNavigation();
             
             // Cargar reseñas para usuarios normales
             loadUserReviews();
@@ -3066,6 +3073,82 @@
         });
       };
       
+      // ===== FUNCIONES PARA USUARIOS NORMALES =====
+      
+      // Configurar navegación rápida para usuarios normales
+      function setupUserNavigation() {
+        // Crear barra de navegación rápida para usuarios
+        const userNavSection = document.createElement('div');
+        userNavSection.className = 'user-nav-section mb-4';
+        userNavSection.innerHTML = `
+          <div class="card bg-dark border-secondary">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="fas fa-compass me-2"></i>Navegación Rápida</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <button class="btn btn-outline-info w-100" onclick="scrollToSection('user-info-card')">
+                    <i class="fas fa-user me-2"></i>Información Personal
+                  </button>
+                </div>
+                <div class="col-md-3 mb-2">
+                  <button class="btn btn-outline-warning w-100" onclick="scrollToSection('turnos-activos')">
+                    <i class="fas fa-calendar-check me-2"></i>Turnos Activos
+                  </button>
+                </div>
+                <div class="col-md-3 mb-2">
+                  <button class="btn btn-outline-success w-100" onclick="scrollToSection('reviews-section')">
+                    <i class="fas fa-star me-2"></i>Mis Reseñas
+                  </button>
+                </div>
+                <div class="col-md-3 mb-2">
+                  <button class="btn btn-outline-primary w-100" onclick="scrollToSection('appointments-history-section')">
+                    <i class="fas fa-history me-2"></i>Historial
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Insertar la navegación después del header del dashboard
+        const accountHeader = document.getElementById('account-header');
+        const alertContainer = document.getElementById('alert-container');
+        if (accountHeader && alertContainer) {
+          alertContainer.insertAdjacentElement('afterend', userNavSection);
+        }
+        
+        // Reorganizar secciones en el orden correcto
+        reorganizeUserSections();
+      }
+      
+      // Reorganizar secciones para usuarios normales
+      function reorganizeUserSections() {
+        const dashboard = document.querySelector('.client-dashboard');
+        const userInfoCard = document.getElementById('user-info-card');
+        const reviewsSection = document.getElementById('reviews-section');
+        const turnosActivos = document.getElementById('turnos-activos');
+        const historialSection = document.getElementById('appointments-history-section');
+        const adminPanel = document.getElementById('adminPanel');
+        
+        if (dashboard && userInfoCard && reviewsSection && turnosActivos && historialSection) {
+          // Crear un contenedor temporal para organizar las secciones
+          const tempContainer = document.createElement('div');
+          
+          // Orden correcto: Información Personal → Turnos Activos → Reseñas → Historial
+          tempContainer.appendChild(userInfoCard);
+          tempContainer.appendChild(turnosActivos);
+          tempContainer.appendChild(reviewsSection);
+          tempContainer.appendChild(historialSection);
+          
+          // Insertar las secciones reorganizadas antes del panel de admin
+          while (tempContainer.firstChild) {
+            dashboard.insertBefore(tempContainer.firstChild, adminPanel);
+          }
+        }
+      }
+
       // ===== FUNCIONES DE NAVEGACIÓN RÁPIDA =====
       
       // Función para hacer scroll a una sección específica
