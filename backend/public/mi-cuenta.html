@@ -1222,7 +1222,11 @@
             // Configurar sección de reseñas para admin
             setupAdminReviewsSection();
             
+            // Cargar funcionalidades de admin
             loadAdminFeatures();
+            
+            // Cargar todos los turnos para gestión
+            loadAllAppointments();
           } else {
             document.getElementById('adminPanel').style.display = 'none';
             showUserSectionsForNormal();
@@ -1892,13 +1896,13 @@
             displayAdminAppointments(data.appointments);
           } else {
             document.getElementById('adminAppointmentsTableBody').innerHTML = 
-              '<tr><td colspan="8" class="text-center">No se encontraron turnos</td></tr>';
+              '<tr><td colspan="9" class="text-center">No se encontraron turnos</td></tr>';
           }
         })
         .catch(error => {
           console.error('Error cargando turnos:', error);
           document.getElementById('adminAppointmentsTableBody').innerHTML = 
-            '<tr><td colspan="8" class="text-center text-danger">Error cargando turnos</td></tr>';
+            '<tr><td colspan="9" class="text-center text-danger">Error cargando turnos</td></tr>';
         });
       }
 
@@ -1907,7 +1911,7 @@
         const tbody = document.getElementById('adminAppointmentsTableBody');
         
         if (!appointments.length) {
-          tbody.innerHTML = '<tr><td colspan="8" class="text-center">No se encontraron turnos</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" class="text-center">No se encontraron turnos</td></tr>';
           return;
         }
 
@@ -1949,6 +1953,9 @@
 
           return `
             <tr>
+              <td>
+                <input type="checkbox" class="form-check-input appointment-checkbox" value="${appointment.id}">
+              </td>
               <td><i class='fas fa-hashtag me-1' style='color:#00d4ff;'></i>#${appointment.id}</td>
               <td>
                 <div style="margin-bottom: 6px;"><i class='fas fa-user me-1' style='color:#00d4ff;'></i><span style='font-weight:bold;color:#fff;'>Nombre:</span> <span style='font-weight:normal;color:#fff;'>${appointment.client_name || 'N/A'}</span></div>
@@ -1967,24 +1974,23 @@
               </td>
               <td>
                 <div class="d-flex align-items-center gap-2">
-                  <i class="fas fa-cogs me-1" style="color:#adb5bd;"></i>
                   <div class="btn-group btn-group-sm">
                     <button class="btn btn-outline-primary" onclick="viewAdminAppointment(${appointment.id})" title="Ver detalles">
-                      <i class="fas fa-eye" style="color:#adb5bd;"></i>
+                      <i class="fas fa-eye"></i>
                     </button>
                     ${appointment.status === 'pending' ? `
                       <button class="btn btn-outline-success" onclick="confirmAdminAppointment(${appointment.id})" title="Confirmar">
-                        <i class="fas fa-check" style="color:#adb5bd;"></i>
+                        <i class="fas fa-check"></i>
                       </button>
                     ` : ''}
                     ${appointment.status === 'confirmed' ? `
                       <button class="btn btn-outline-info" onclick="sendReminderAdmin(${appointment.id})" title="Enviar Recordatorio">
-                        <i class="fas fa-bell" style="color:#adb5bd;"></i>
+                        <i class="fas fa-bell"></i>
                       </button>
                     ` : ''}
                     ${appointment.status !== 'cancelled' && appointment.status !== 'completed' ? `
                       <button class="btn btn-outline-danger" onclick="cancelAdminAppointment(${appointment.id})" title="Cancelar">
-                        <i class="fas fa-times" style="color:#adb5bd;"></i>
+                        <i class="fas fa-times"></i>
                       </button>
                     ` : ''}
                   </div>
@@ -3087,6 +3093,18 @@
         });
       };
       
+      // ===== FUNCIONES PARA GESTIÓN MASIVA DE TURNOS =====
+      
+      // Función para seleccionar/deseleccionar todos los turnos
+      window.toggleSelectAll = function() {
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        const appointmentCheckboxes = document.querySelectorAll('.appointment-checkbox');
+        
+        appointmentCheckboxes.forEach(checkbox => {
+          checkbox.checked = selectAllCheckbox.checked;
+        });
+      };
+
       // Función para eliminar reseña
       window.deleteReview = function(reviewId) {
         if (!confirm('¿Estás seguro que quieres eliminar esta reseña? Esta acción no se puede deshacer.')) return;
