@@ -454,46 +454,7 @@
     <!-- Alertas -->
     <div id="alert-container"></div>
 
-    <!-- Estadísticas del Usuario -->
-    <div class="stats-grid" id="user-stats">
-      <div class="stat-card active">
-        <div class="stat-icon">
-          <i class="fas fa-calendar-check"></i>
-        </div>
-        <div class="stat-number" id="activeAppointmentsCount">0</div>
-        <div class="stat-label">Turnos Activos</div>
-      </div>
-      
-      <div class="stat-card completed">
-        <div class="stat-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="stat-number" id="completedAppointmentsCount">0</div>
-        <div class="stat-label">Servicios Completados</div>
-      </div>
-      
-      <div class="stat-card pending">
-        <div class="stat-icon">
-          <i class="fas fa-clock"></i>
-        </div>
-        <div class="stat-number" id="pendingAppointmentsCount">0</div>
-        <div class="stat-label">Pendientes</div>
-      </div>
-      
-      <div class="stat-card cancelled">
-        <div class="stat-icon">
-          <i class="fas fa-times-circle"></i>
-        </div>
-        <div class="stat-number" id="cancelledAppointmentsCount">0</div>
-        <div class="stat-label">Cancelados</div>
-      </div>
-    </div>
 
-    <!-- Acción Rápida -->
-    <a href="turnos.html" class="quick-action">
-      <i class="fas fa-calendar-plus"></i>
-      Agendar Nuevo Turno
-    </a>
 
     <!-- Información del usuario -->
     <div class="dashboard-section" id="user-info-card">
@@ -1147,20 +1108,10 @@
     let currentAppointments = [];
 
     function hideUserSectionsForAdmin() {
-      // Ocultar cards de estadísticas de usuario
-      const userStats = document.getElementById('user-stats');
-      
-      // Ocultar botón de agendar turno
-      const quickAction = document.querySelector('.quick-action');
-      
       // Secciones de usuario que no son relevantes para admin
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
-      
-      // Ocultar estadísticas y acción rápida para admin
-      if (userStats) userStats.style.display = 'none';
-      if (quickAction) quickAction.style.display = 'none';
       
       // Ocultar secciones de turnos de usuario
       if (info) info.style.display = 'none';
@@ -1168,20 +1119,10 @@
       if (historial) historial.style.display = 'none';
     }
     function showUserSectionsForNormal() {
-      // Mostrar cards de estadísticas de usuario
-      const userStats = document.getElementById('user-stats');
-      
-      // Mostrar botón de agendar turno
-      const quickAction = document.querySelector('.quick-action');
-      
       // Secciones de usuario normales
       const info = document.getElementById('user-info-card');
       const activos = document.getElementById('turnos-activos');
       const historial = document.getElementById('appointments-history-section');
-      
-      // Mostrar estadísticas y acción rápida para usuarios normales
-      if (userStats) userStats.style.display = 'block';
-      if (quickAction) quickAction.style.display = 'block';
       
       // Mostrar secciones de turnos de usuario
       if (info) info.style.display = 'block';
@@ -1271,7 +1212,6 @@
             
             displayActiveAppointments(activeAppointments);
             displayHistoryAppointments(historyAppointments);
-            updateUserStats(data.appointments);
           } else {
             document.getElementById('activeAppointmentsList').innerHTML = '<div class="alert alert-warning">No tienes turnos activos.</div>';
             document.getElementById('appointmentsHistoryList').innerHTML = '<div class="alert alert-warning">No tienes servicios completados en tu historial.</div>';
@@ -2639,18 +2579,7 @@
         return emailRegex.test(email);
       }
 
-      // Función para actualizar las estadísticas del usuario
-      function updateUserStats(appointments) {
-        const active = appointments.filter(a => a.status === 'pending' || a.status === 'confirmed').length;
-        const completed = appointments.filter(a => a.status === 'completed').length;
-        const pending = appointments.filter(a => a.status === 'pending').length;
-        const cancelled = appointments.filter(a => a.status === 'cancelled').length;
-        
-        document.getElementById('activeAppointmentsCount').textContent = active;
-        document.getElementById('completedAppointmentsCount').textContent = completed;
-        document.getElementById('pendingAppointmentsCount').textContent = pending;
-        document.getElementById('cancelledAppointmentsCount').textContent = cancelled;
-      }
+
 
       // Función para actualizar la información del usuario en la página
       function updateUserInfoDisplay(user) {
