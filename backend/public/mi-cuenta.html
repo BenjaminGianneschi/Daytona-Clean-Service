@@ -40,6 +40,91 @@
     .wizard-step.pending {
       color: #6c757d;
     }
+
+    /* Estilos para gestión de reseñas de admin */
+    .admin-review-filters {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #444;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 20px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 150px;
+    }
+
+    .filter-group label {
+      color: #fff;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .admin-review-item {
+      border-left: 4px solid #ff3b3f;
+      background: #252525;
+    }
+
+    .admin-review-item .review-client {
+      color: #00d4ff;
+      font-weight: 500;
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+
+    .admin-review-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #444;
+      flex-wrap: wrap;
+    }
+
+    .admin-review-actions .action-btn {
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      min-width: 100px;
+    }
+
+    .action-btn.secondary {
+      background: #6c757d;
+      color: #fff;
+    }
+
+    .action-btn.secondary:hover {
+      background: #5a6268;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-group {
+        min-width: auto;
+      }
+      
+      .admin-review-actions {
+        flex-direction: column;
+      }
+      
+      .admin-review-actions .action-btn {
+        width: 100%;
+      }
+    }
     .wizard-step-number {
       width: 30px;
       height: 30px;
@@ -446,7 +531,7 @@
           Deja tu Reseña
         </h3>
         <div class="section-actions">
-          <button class="action-btn view" onclick="loadUserReviews()">
+          <button class="action-btn view" onclick="isAdmin ? loadAllReviews() : loadUserReviews()">
             <i class="fas fa-sync-alt"></i>
             Refrescar
           </button>
@@ -2762,6 +2847,236 @@
         });
       };
 
+      // ===== FUNCIONES PARA ADMIN - GESTIÓN DE RESEÑAS =====
+      
+      // Configurar sección de reseñas para administradores
+      function setupAdminReviewsSection() {
+        // Cambiar título de la sección
+        document.querySelector('#reviews-section .section-title').innerHTML = `
+          <i class="fas fa-star"></i>
+          Gestión de Reseñas de Clientes
+        `;
+        
+        // Ocultar formulario de creación de reseñas
+        document.querySelector('.review-form-container').style.display = 'none';
+        
+        // Cambiar título de la lista de reseñas
+        document.querySelector('.reviews-title').innerHTML = `
+          <i class="fas fa-comments"></i>
+          Reseñas de Clientes
+        `;
+        
+        // Agregar controles de filtro para admin
+        const reviewContent = document.querySelector('.review-content');
+        const filterControls = document.createElement('div');
+        filterControls.className = 'admin-review-filters';
+        filterControls.innerHTML = `
+          <div class="filter-row">
+            <div class="filter-group">
+              <label for="statusFilterReviews">Estado:</label>
+              <select id="statusFilterReviews" class="form-control">
+                <option value="">Todos</option>
+                <option value="pending">Pendientes</option>
+                <option value="approved">Aprobadas</option>
+                <option value="rejected">Rechazadas</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="serviceFilterReviews">Servicio:</label>
+              <select id="serviceFilterReviews" class="form-control">
+                <option value="">Todos</option>
+                <option value="vehiculos">Vehículos</option>
+                <option value="tapizados">Tapizados</option>
+                <option value="detailing">Detailing</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <button onclick="loadAllReviews()" class="action-btn view">
+                <i class="fas fa-sync-alt"></i> Actualizar
+              </button>
+            </div>
+          </div>
+        `;
+        
+        // Insertar controles antes de la lista de reseñas
+        reviewContent.insertBefore(filterControls, document.querySelector('.user-reviews-container'));
+        
+        // Cargar todas las reseñas
+        loadAllReviews();
+        
+        // Configurar eventos de filtros
+        document.getElementById('statusFilterReviews').addEventListener('change', loadAllReviews);
+        document.getElementById('serviceFilterReviews').addEventListener('change', loadAllReviews);
+      }
+      
+      // Función para cargar todas las reseñas (solo admin)
+      window.loadAllReviews = function() {
+        const statusFilter = document.getElementById('statusFilterReviews')?.value || '';
+        const serviceFilter = document.getElementById('serviceFilterReviews')?.value || '';
+        
+        document.getElementById('userReviewsList').innerHTML = `
+          <div class="loading">
+            <i class="fas fa-spinner fa-spin me-2"></i>Cargando reseñas...
+          </div>
+        `;
+        
+        let url = 'https://daytona-clean-service.onrender.com/api/reviews/admin/all';
+        const params = new URLSearchParams();
+        if (statusFilter) params.append('status', statusFilter);
+        if (serviceFilter) params.append('service', serviceFilter);
+        
+        if (params.toString()) {
+          url += '?' + params.toString();
+        }
+        
+        fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            displayAdminReviews(data.reviews || []);
+          } else {
+            document.getElementById('userReviewsList').innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-comment-slash"></i>
+                <h3>No hay reseñas</h3>
+                <p>No se encontraron reseñas con los filtros seleccionados.</p>
+              </div>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error cargando reseñas:', error);
+          document.getElementById('userReviewsList').innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h3>Error cargando reseñas</h3>
+              <p>No se pudieron cargar las reseñas.</p>
+            </div>`;
+        });
+      };
+      
+      // Función para mostrar reseñas en vista de administrador
+      function displayAdminReviews(reviews) {
+        const reviewsList = document.getElementById('userReviewsList');
+        
+        if (!reviews.length) {
+          reviewsList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-comment-slash"></i>
+              <h3>No hay reseñas</h3>
+              <p>No se encontraron reseñas con los filtros seleccionados.</p>
+            </div>`;
+          return;
+        }
+        
+        reviewsList.innerHTML = reviews.map(review => {
+          const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+          const statusClass = review.status || 'pending';
+          const statusText = review.status === 'approved' ? 'Aprobada' : 
+                           review.status === 'rejected' ? 'Rechazada' : 'Pendiente';
+          
+          const statusColor = review.status === 'approved' ? '#28a745' : 
+                             review.status === 'rejected' ? '#dc3545' : '#ffc107';
+          
+          return `
+            <div class="review-item admin-review-item">
+              <div class="review-header">
+                <div>
+                  <div class="review-title">${review.title}</div>
+                  <div class="review-rating">${stars} (${review.rating}/5)</div>
+                  <div class="review-client">Cliente: ${review.client_name || review.client_email || 'Cliente anónimo'}</div>
+                </div>
+                <div>
+                  <div class="review-date">${new Date(review.created_at).toLocaleDateString('es-AR')}</div>
+                  <div class="review-status ${statusClass}" style="color: ${statusColor}; font-weight: bold;">
+                    ${statusText}
+                  </div>
+                </div>
+              </div>
+              <div class="review-content-text">${review.content}</div>
+              ${review.service_type ? `<div class="review-service">Servicio: ${review.service_type}</div>` : ''}
+              
+              <div class="admin-review-actions">
+                ${review.status === 'pending' ? `
+                  <button onclick="updateReviewStatus(${review.id}, 'approved')" class="action-btn view" style="background: #28a745;">
+                    <i class="fas fa-check"></i> Aprobar
+                  </button>
+                  <button onclick="updateReviewStatus(${review.id}, 'rejected')" class="action-btn cancel" style="background: #dc3545;">
+                    <i class="fas fa-times"></i> Rechazar
+                  </button>
+                ` : `
+                  <button onclick="updateReviewStatus(${review.id}, 'pending')" class="action-btn secondary">
+                    <i class="fas fa-undo"></i> Revertir a Pendiente
+                  </button>
+                `}
+                <button onclick="deleteReview(${review.id})" class="action-btn cancel" style="background: #6c757d;">
+                  <i class="fas fa-trash"></i> Eliminar
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      // Función para actualizar estado de reseña
+      window.updateReviewStatus = function(reviewId, status) {
+        const statusText = status === 'approved' ? 'aprobar' : 
+                          status === 'rejected' ? 'rechazar' : 'revertir';
+        
+        if (!confirm(`¿Estás seguro que quieres ${statusText} esta reseña?`)) return;
+        
+        fetch(`https://daytona-clean-service.onrender.com/api/reviews/admin/${reviewId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert(`Reseña ${statusText}da exitosamente`, 'success');
+            loadAllReviews(); // Recargar la lista
+          } else {
+            showAlert('Error actualizando reseña: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('Error de conexión al actualizar reseña', 'danger');
+        });
+      };
+      
+      // Función para eliminar reseña
+      window.deleteReview = function(reviewId) {
+        if (!confirm('¿Estás seguro que quieres eliminar esta reseña? Esta acción no se puede deshacer.')) return;
+        
+        fetch(`https://daytona-clean-service.onrender.com/api/reviews/admin/${reviewId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Reseña eliminada exitosamente', 'success');
+            loadAllReviews(); // Recargar la lista
+          } else {
+            showAlert('Error eliminando reseña: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('Error de conexión al eliminar reseña', 'danger');
+        });
+      };
+
       // Función para mostrar reseñas del usuario
       function displayUserReviews(reviews) {
         const reviewsList = document.getElementById('userReviewsList');
@@ -2880,8 +3195,8 @@
       if (!isAdmin) {
         loadUserReviews();
       } else {
-        // Ocultar sección de reseñas para administradores
-        document.getElementById('reviews-section').style.display = 'none';
+        // Para admin: ocultar formulario y mostrar gestión de reseñas
+        setupAdminReviewsSection();
       }
     });
 
