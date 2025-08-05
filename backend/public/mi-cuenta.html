@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/components/header.css" />
   <link rel="stylesheet" href="css/admin-panel.css" />
+  <link rel="stylesheet" href="css/client-dashboard.css" />
   <link rel="stylesheet" href="css/components/forms.css">
   
   <style>
@@ -357,24 +358,78 @@
   <!-- HEADER -->
   <div id="header-container"></div>
 
-  <div class="account-container">
-    <div class="account-header" id="account-header">
+  <div class="client-dashboard">
+    <!-- Header del Dashboard -->
+    <div class="dashboard-header" id="account-header">
       <h1><i class="fas fa-user-circle me-2"></i>Mi Cuenta</h1>
       <p>Gestiona tus turnos y tu información personal</p>
     </div>
-    
 
-    
     <!-- Alertas -->
     <div id="alert-container"></div>
-    
+
+    <!-- Estadísticas del Usuario -->
+    <div class="stats-grid" id="user-stats">
+      <div class="stat-card active">
+        <div class="stat-icon">
+          <i class="fas fa-calendar-check"></i>
+        </div>
+        <div class="stat-number" id="activeAppointmentsCount">0</div>
+        <div class="stat-label">Turnos Activos</div>
+      </div>
+      
+      <div class="stat-card completed">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-number" id="completedAppointmentsCount">0</div>
+        <div class="stat-label">Servicios Completados</div>
+      </div>
+      
+      <div class="stat-card pending">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-number" id="pendingAppointmentsCount">0</div>
+        <div class="stat-label">Pendientes</div>
+      </div>
+      
+      <div class="stat-card cancelled">
+        <div class="stat-icon">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-number" id="cancelledAppointmentsCount">0</div>
+        <div class="stat-label">Cancelados</div>
+      </div>
+    </div>
+
+    <!-- Acción Rápida -->
+    <a href="turnos.html" class="quick-action">
+      <i class="fas fa-calendar-plus"></i>
+      Agendar Nuevo Turno
+    </a>
+
     <!-- Información del usuario -->
-    <div class="user-info-card" id="user-info-card">
-      <h3><i class="fas fa-user me-2"></i>Información Personal</h3>
-      <div class="text-end mb-3">
-        <button class="btn btn-outline-primary btn-sm" onclick="openEditProfileModal()">
-          <i class="fas fa-edit me-1"></i>Editar Perfil
-        </button>
+    <div class="dashboard-section" id="user-info-card">
+      <div class="section-header">
+        <h3 class="section-title">
+          <i class="fas fa-user"></i>
+          Información Personal
+        </h3>
+        <div class="section-actions">
+          <button class="action-btn edit" onclick="toggleEditMode()" id="toggleEditBtn">
+            <i class="fas fa-edit"></i>
+            Editar
+          </button>
+          <button class="action-btn view" onclick="saveProfileChanges()" id="saveProfileBtn" style="display: none;">
+            <i class="fas fa-save"></i>
+            Guardar
+          </button>
+          <button class="action-btn cancel" onclick="cancelEditMode()" id="cancelEditBtn" style="display: none;">
+            <i class="fas fa-times"></i>
+            Cancelar
+          </button>
+        </div>
       </div>
       <div class="user-details" id="userDetails">
         <div class="loading">
@@ -382,10 +437,115 @@
         </div>
       </div>
     </div>
+
+    <!-- Sección de Reseñas -->
+    <div class="dashboard-section" id="reviews-section">
+      <div class="section-header">
+        <h3 class="section-title">
+          <i class="fas fa-star"></i>
+          Deja tu Reseña
+        </h3>
+        <div class="section-actions">
+          <button class="action-btn view" onclick="loadUserReviews()">
+            <i class="fas fa-sync-alt"></i>
+            Refrescar
+          </button>
+        </div>
+      </div>
+      <div class="review-content">
+        <div class="review-form-container">
+          <h4 class="review-form-title">
+            <i class="fas fa-comment-dots"></i>
+            ¿Cómo fue tu experiencia con nuestros servicios?
+          </h4>
+          <p class="review-form-subtitle">
+            Tu opinión nos ayuda a mejorar y es muy importante para nosotros.
+          </p>
+          
+          <form id="reviewForm" class="review-form">
+            <div class="rating-container">
+              <label class="rating-label">Calificación:</label>
+              <div class="star-rating">
+                <input type="radio" name="rating" value="5" id="star5">
+                <label for="star5" class="star">★</label>
+                <input type="radio" name="rating" value="4" id="star4">
+                <label for="star4" class="star">★</label>
+                <input type="radio" name="rating" value="3" id="star3">
+                <label for="star3" class="star">★</label>
+                <input type="radio" name="rating" value="2" id="star2">
+                <label for="star2" class="star">★</label>
+                <input type="radio" name="rating" value="1" id="star1">
+                <label for="star1" class="star">★</label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="reviewTitle" class="form-label">
+                <i class="fas fa-heading"></i>
+                Título de tu reseña
+              </label>
+              <input type="text" id="reviewTitle" class="form-control" placeholder="Ej: Excelente servicio de limpieza" maxlength="100">
+            </div>
+            
+            <div class="form-group">
+              <label for="reviewContent" class="form-label">
+                <i class="fas fa-comment"></i>
+                Tu opinión
+              </label>
+              <textarea id="reviewContent" class="form-control" rows="4" placeholder="Cuéntanos sobre tu experiencia, qué te gustó, qué podríamos mejorar..."></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="reviewService" class="form-label">
+                <i class="fas fa-tools"></i>
+                Servicio evaluado (opcional)
+              </label>
+              <select id="reviewService" class="form-control">
+                <option value="">Selecciona un servicio</option>
+                <option value="vehiculos">Lavado de Vehículos</option>
+                <option value="tapizados">Limpieza de Tapizados</option>
+                <option value="detailing">Detailing</option>
+                <option value="general">Servicio General</option>
+              </select>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="action-btn view">
+                <i class="fas fa-paper-plane"></i>
+                Enviar Reseña
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="user-reviews-container">
+          <h4 class="reviews-title">
+            <i class="fas fa-history"></i>
+            Mis Reseñas Anteriores
+          </h4>
+          <div id="userReviewsList">
+            <div class="loading">
+              <i class="fas fa-spinner fa-spin me-2"></i>Cargando reseñas...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- Turnos Activos -->
-    <div class="active-appointments-section" id="turnos-activos">
-      <h3><i class="fas fa-calendar-check me-2"></i>Gestión de Turnos Activos</h3>
+    <div class="dashboard-section" id="turnos-activos">
+      <div class="section-header">
+        <h3 class="section-title">
+          <i class="fas fa-calendar-check"></i>
+          Turnos Activos
+        </h3>
+        <div class="section-actions">
+          <button class="action-btn view" onclick="refreshAppointments()">
+            <i class="fas fa-sync-alt"></i>
+            Refrescar
+          </button>
+        </div>
+      </div>
       <div id="activeAppointmentsList">
         <div class="loading">
           <i class="fas fa-spinner fa-spin me-2"></i>Cargando turnos activos...
@@ -394,8 +554,19 @@
     </div>
 
     <!-- Historial de servicios -->
-    <div class="appointments-history-section" id="appointments-history-section">
-      <h3><i class="fas fa-history me-2"></i>Historial de Servicios</h3>
+    <div class="dashboard-section" id="appointments-history-section">
+      <div class="section-header">
+        <h3 class="section-title">
+          <i class="fas fa-history"></i>
+          Historial de Servicios
+        </h3>
+        <div class="section-actions">
+          <button class="action-btn view" onclick="refreshAppointments()">
+            <i class="fas fa-sync-alt"></i>
+            Refrescar
+          </button>
+        </div>
+      </div>
       <div id="appointmentsHistoryList">
         <div class="loading">
           <i class="fas fa-spinner fa-spin me-2"></i>Cargando historial...
@@ -976,6 +1147,7 @@
             
             displayActiveAppointments(activeAppointments);
             displayHistoryAppointments(historyAppointments);
+            updateUserStats(data.appointments);
           } else {
             document.getElementById('activeAppointmentsList').innerHTML = '<div class="alert alert-warning">No tienes turnos activos.</div>';
             document.getElementById('appointmentsHistoryList').innerHTML = '<div class="alert alert-warning">No tienes servicios completados en tu historial.</div>';
@@ -991,9 +1163,19 @@
       function displayActiveAppointments(appointments) {
         const activeList = document.getElementById('activeAppointmentsList');
         if (!appointments.length) {
-          activeList.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle me-2"></i>No tienes turnos activos en este momento.</div>';
+          activeList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-calendar-times"></i>
+              <h3>No tienes turnos activos</h3>
+              <p>No tienes turnos pendientes o confirmados en este momento.</p>
+              <a href="turnos.html" class="quick-action">
+                <i class="fas fa-calendar-plus"></i>
+                Agendar Nuevo Turno
+              </a>
+            </div>`;
           return;
         }
+        
         activeList.innerHTML = appointments.map(appointment => {
           // Formatear servicios si existen
           let serviciosInfo = '';
@@ -1014,16 +1196,16 @@
           if (dir.includes('Retiro:') && dir.includes('Entrega:')) {
             const match = dir.match(/Retiro:([^|]*)\| Entrega:([^|]*)/);
             if (match) {
-              direccionHtml = `<strong>Retiro:</strong> ${match[1].trim()}<br><strong>Entrega:</strong> ${match[2].trim()}`;
+              direccionHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i><strong>Retiro:</strong> ${match[1].trim()}</div><div class="detail-item"><i class="fas fa-location-arrow"></i><strong>Entrega:</strong> ${match[2].trim()}</div>`;
             } else {
-              direccionHtml = `<strong>Dirección:</strong> ${dir}`;
+              direccionHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i><strong>Dirección:</strong> ${dir}</div>`;
             }
           } else if (dir && dir.toLowerCase().includes('lleva el vehículo')) {
-            direccionHtml = '<strong>Logística:</strong> El cliente lleva el vehículo';
+            direccionHtml = '<div class="detail-item"><i class="fas fa-car"></i><strong>Logística:</strong> El cliente lleva el vehículo</div>';
           } else if (dir && dir.trim() && dir !== 'A confirmar') {
-            direccionHtml = `<strong>Dirección:</strong> ${dir}`;
+            direccionHtml = `<div class="detail-item"><i class="fas fa-map-marker-alt"></i><strong>Dirección:</strong> ${dir}</div>`;
           } else {
-            direccionHtml = '<span style="color: red; font-weight: bold;">¡Error! Dirección obligatoria no especificada. Contactar al administrador.</span>';
+            direccionHtml = '<div class="detail-item" style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i><strong>Error:</strong> Dirección no especificada</div>';
           }
 
           // Formatear total
@@ -1037,62 +1219,61 @@
           }
 
           return `
-          <div class="appointment-card mb-3">
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="mb-2">
-                    <strong><i class="fas fa-calendar-alt me-2" style="color: #00d4ff;"></i>Fecha:</strong> 
+            <div class="appointment-card ${appointment.status}">
+              <div class="appointment-header">
+                <div class="appointment-info">
+                  <div class="appointment-date">
+                    <i class="fas fa-calendar-alt"></i>
                     ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}
-                    <span class="ms-3">
-                      <strong><i class="fas fa-clock me-2" style="color: #00d4ff;"></i>Hora:</strong> 
-                      ${appointment.appointment_time || appointment.start_time || 'No especificada'}
-                    </span>
                   </div>
-                  <div class="mb-2">
-                    <strong><i class="fas fa-tools me-2" style="color: #00d4ff;"></i>Servicios:</strong> 
-                    <span class="text-info">${serviciosInfo}</span>
-                  </div>
-                  <div class="mb-2">
-                    <i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>${direccionHtml}
-                  </div>
-                  <div class="mb-2">
-                    <strong><i class="fas fa-dollar-sign me-2" style="color: #00d4ff;"></i>Total:</strong> 
-                    <span class="text-success fw-bold">${total}</span>
-                  </div>
-            <div>
-                    <strong><i class="fas fa-info-circle me-2" style="color: #00d4ff;"></i>Estado:</strong> 
-                    <span class="badge bg-${getStatusBadge(appointment.status)}">${getStatusText(appointment.status)}</span>
+                  <div class="appointment-time">
+                    <i class="fas fa-clock"></i>
+                    ${appointment.appointment_time || appointment.start_time || 'No especificada'}
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="action-buttons-container">
-                    ${appointment.status === 'pending' || appointment.status === 'confirmed' ? `
-                      <button class="action-btn edit-btn" onclick="openEditModal(${appointment.id})" title="Editar turno">
-                        <i class="fas fa-edit"></i>
-                        <span>Editar</span>
-                      </button>
-                      <button class="action-btn cancel-btn" onclick="cancelAppointment(${appointment.id})" title="Cancelar turno">
-                        <i class="fas fa-times"></i>
-                        <span>Cancelar</span>
-                      </button>
-                    ` : appointment.status === 'cancelled' ? `
-                      <div class="status-badge cancelled">
-                        <i class="fas fa-ban"></i>
-                        <span>Cancelado</span>
-                      </div>
-                    ` : appointment.status === 'completed' ? `
-                      <div class="status-badge completed">
-                        <i class="fas fa-check"></i>
-                        <span>Completado</span>
-                      </div>
-                    ` : `
-                      <div class="status-badge unknown">
-                        <i class="fas fa-question"></i>
-                        <span>${appointment.status}</span>
-                      </div>
-                    `}
-                  </div>
+                <div class="appointment-status ${appointment.status}">
+                  ${getStatusText(appointment.status)}
                 </div>
+              </div>
+              
+              <div class="appointment-details">
+                <div class="detail-item">
+                  <i class="fas fa-tools"></i>
+                  <strong>Servicios:</strong> ${serviciosInfo}
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-dollar-sign"></i>
+                  <strong>Total:</strong> ${total}
+                </div>
+                ${direccionHtml}
+              </div>
+              
+              <div class="appointment-actions">
+                ${appointment.status === 'pending' || appointment.status === 'confirmed' ? `
+                  <button class="action-btn edit" onclick="openEditModal(${appointment.id})" title="Editar turno">
+                    <i class="fas fa-edit"></i>
+                    Editar
+                  </button>
+                  <button class="action-btn cancel" onclick="cancelAppointment(${appointment.id})" title="Cancelar turno">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                  </button>
+                ` : appointment.status === 'cancelled' ? `
+                  <span class="appointment-status cancelled">
+                    <i class="fas fa-ban"></i>
+                    Cancelado
+                  </span>
+                ` : appointment.status === 'completed' ? `
+                  <span class="appointment-status confirmed">
+                    <i class="fas fa-check"></i>
+                    Completado
+                  </span>
+                ` : `
+                  <span class="appointment-status">
+                    <i class="fas fa-question"></i>
+                    ${appointment.status}
+                  </span>
+                `}
               </div>
             </div>
           `;
@@ -1103,7 +1284,16 @@
       function displayHistoryAppointments(appointments) {
         const historyList = document.getElementById('appointmentsHistoryList');
         if (!appointments.length) {
-          historyList.innerHTML = '<div class="alert alert-secondary"><i class="fas fa-info-circle me-2"></i>No tienes servicios completados en tu historial.</div>';
+          historyList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-history"></i>
+              <h3>No hay historial de servicios</h3>
+              <p>Aún no tienes servicios completados en tu historial.</p>
+              <a href="turnos.html" class="quick-action">
+                <i class="fas fa-calendar-plus"></i>
+                Agendar Nuevo Turno
+              </a>
+            </div>`;
           return;
         }
         
@@ -1149,43 +1339,44 @@
           }
 
           return `
-            <div class="appointment-card mb-3 border-success">
-              <div class="row">
-                <div class="col-md-8">
-                                    <div class="mb-2">
-                    <strong><i class="fas fa-calendar-alt me-2" style="color: #00d4ff;"></i>Fecha:</strong> 
+            <div class="appointment-card completed">
+              <div class="appointment-header">
+                <div class="appointment-info">
+                  <div class="appointment-date">
+                    <i class="fas fa-calendar-alt"></i>
                     ${new Date(appointment.appointment_date).toLocaleDateString('es-AR')}
-                    <span class="ms-3">
-                      <strong><i class="fas fa-clock me-2" style="color: #00d4ff;"></i>Hora:</strong> 
-                      ${appointment.appointment_time || appointment.start_time || 'No especificada'}
-                    </span>
                   </div>
-                  <div class="mb-2">
-                    <strong><i class="fas fa-tools me-2" style="color: #00d4ff;"></i>Servicios:</strong> 
-                    <span class="text-info">${serviciosInfo}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong><i class="fas fa-map-marker-alt me-2" style="color: #00d4ff;"></i>Dirección:</strong> 
-                    <span style="color: #fff;">${direccion}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong><i class="fas fa-dollar-sign me-2" style="color: #00d4ff;"></i>Total:</strong> 
-                    <span class="text-success fw-bold">${total}</span>
-            </div>
-            <div>
-                    <strong><i class="fas fa-check-circle me-2" style="color: #00d4ff;"></i>Estado:</strong> 
-                    <span class="badge bg-success">
-                      <i class="fas fa-check me-1"></i>Completado
-                    </span>
-            </div>
-          </div>
-                <div class="col-md-4 text-end">
-                  <div class="d-flex flex-column gap-2">
-                    <span class="badge bg-success">
-                      <i class="fas fa-check me-1"></i>Servicio Realizado
-                    </span>
+                  <div class="appointment-time">
+                    <i class="fas fa-clock"></i>
+                    ${appointment.appointment_time || appointment.start_time || 'No especificada'}
                   </div>
                 </div>
+                <div class="appointment-status confirmed">
+                  <i class="fas fa-check"></i>
+                  Completado
+                </div>
+              </div>
+              
+              <div class="appointment-details">
+                <div class="detail-item">
+                  <i class="fas fa-tools"></i>
+                  <strong>Servicios:</strong> ${serviciosInfo}
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-dollar-sign"></i>
+                  <strong>Total:</strong> ${total}
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <strong>Dirección:</strong> ${direccion}
+                </div>
+              </div>
+              
+              <div class="appointment-actions">
+                <span class="appointment-status confirmed">
+                  <i class="fas fa-check"></i>
+                  Servicio Realizado
+                </span>
               </div>
             </div>
           `;
@@ -1452,6 +1643,7 @@
       // Función para refrescar la lista de turnos
       window.refreshAppointments = function() {
         console.log('🔄 Refrescando lista de turnos...');
+        showAlert('<i class="fas fa-spinner fa-spin me-2"></i>Refrescando datos...', 'info');
         loadAppointments();
       };
       
@@ -2321,30 +2513,375 @@
         return emailRegex.test(email);
       }
 
+      // Función para actualizar las estadísticas del usuario
+      function updateUserStats(appointments) {
+        const active = appointments.filter(a => a.status === 'pending' || a.status === 'confirmed').length;
+        const completed = appointments.filter(a => a.status === 'completed').length;
+        const pending = appointments.filter(a => a.status === 'pending').length;
+        const cancelled = appointments.filter(a => a.status === 'cancelled').length;
+        
+        document.getElementById('activeAppointmentsCount').textContent = active;
+        document.getElementById('completedAppointmentsCount').textContent = completed;
+        document.getElementById('pendingAppointmentsCount').textContent = pending;
+        document.getElementById('cancelledAppointmentsCount').textContent = cancelled;
+      }
+
       // Función para actualizar la información del usuario en la página
       function updateUserInfoDisplay(user) {
         const isAdmin = user.role === 'admin';
         
         document.getElementById('userDetails').innerHTML = `
-          <div class="detail-item">
-            <i class="fas fa-user"></i>
-            <span><strong>Nombre:</strong> ${user.name}</span>
+          <div class="user-detail-item" data-field="name">
+            <div class="user-detail-header">
+              <i class="fas fa-user"></i>
+              Nombre
+            </div>
+            <div class="user-detail-value" id="userNameValue">${user.name}</div>
+            <input type="text" class="user-detail-input" id="userNameInput" value="${user.name}" style="display: none;">
           </div>
-          <div class="detail-item">
-            <i class="fas fa-envelope"></i>
-            <span><strong>Email:</strong> ${user.email}</span>
+          
+          <div class="user-detail-item" data-field="email">
+            <div class="user-detail-header">
+              <i class="fas fa-envelope"></i>
+              Email
+            </div>
+            <div class="user-detail-value" id="userEmailValue">${user.email}</div>
+            <input type="email" class="user-detail-input" id="userEmailInput" value="${user.email}" style="display: none;">
           </div>
-          <div class="detail-item">
-            <i class="fas fa-phone"></i>
-            <span><strong>Teléfono:</strong> ${user.phone}</span>
+          
+          <div class="user-detail-item" data-field="phone">
+            <div class="user-detail-header">
+              <i class="fas fa-phone"></i>
+              Teléfono
+            </div>
+            <div class="user-detail-value" id="userPhoneValue">${user.phone || 'No especificado'}</div>
+            <input type="tel" class="user-detail-input" id="userPhoneInput" value="${user.phone || ''}" style="display: none;">
           </div>
+          
           ${isAdmin ? `
-          <div class="detail-item admin-badge">
-            <i class="fas fa-shield-alt" style="color: #ff6b35;"></i>
-            <span><strong>Rol:</strong> <span class="badge bg-warning">Administrador</span></span>
+          <div class="user-detail-item">
+            <div class="user-detail-header">
+              <i class="fas fa-shield-alt" style="color: #ff6b35;"></i>
+              Rol
+            </div>
+            <div class="user-detail-value">
+              <span class="appointment-status confirmed">Administrador</span>
+            </div>
           </div>
           ` : ''}
         `;
+      }
+
+      // Variables para el modo de edición
+      let isEditMode = false;
+      let originalUserData = {};
+
+      // Función para alternar modo de edición
+      window.toggleEditMode = function() {
+        if (isEditMode) {
+          saveProfileChanges();
+        } else {
+          enterEditMode();
+        }
+      };
+
+      // Función para entrar en modo de edición
+      function enterEditMode() {
+        isEditMode = true;
+        originalUserData = JSON.parse(localStorage.getItem('userData') || '{}');
+        
+        // Mostrar botones de guardar y cancelar
+        document.getElementById('toggleEditBtn').style.display = 'none';
+        document.getElementById('saveProfileBtn').style.display = 'inline-flex';
+        document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+        
+        // Mostrar inputs y ocultar valores
+        const detailItems = document.querySelectorAll('.user-detail-item[data-field]');
+        detailItems.forEach(item => {
+          const field = item.dataset.field;
+          const valueDiv = item.querySelector('.user-detail-value');
+          const input = item.querySelector('.user-detail-input');
+          
+          if (valueDiv && input) {
+            valueDiv.style.display = 'none';
+            input.style.display = 'block';
+            item.classList.add('editing');
+          }
+        });
+      }
+
+      // Función para cancelar edición
+      window.cancelEditMode = function() {
+        isEditMode = false;
+        
+        // Restaurar botones
+        document.getElementById('toggleEditBtn').style.display = 'inline-flex';
+        document.getElementById('saveProfileBtn').style.display = 'none';
+        document.getElementById('cancelEditBtn').style.display = 'none';
+        
+        // Restaurar valores originales
+        const detailItems = document.querySelectorAll('.user-detail-item[data-field]');
+        detailItems.forEach(item => {
+          const field = item.dataset.field;
+          const valueDiv = item.querySelector('.user-detail-value');
+          const input = item.querySelector('.user-detail-input');
+          
+          if (valueDiv && input) {
+            valueDiv.style.display = 'block';
+            input.style.display = 'none';
+            item.classList.remove('editing');
+            
+            // Restaurar valor original
+            const originalValue = originalUserData[field] || '';
+            input.value = originalValue;
+            valueDiv.textContent = originalValue || 'No especificado';
+          }
+        });
+      }
+
+      // Función para guardar cambios del perfil
+      window.saveProfileChanges = function() {
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const newData = {
+          name: document.getElementById('userNameInput').value.trim(),
+          email: document.getElementById('userEmailInput').value.trim(),
+          phone: document.getElementById('userPhoneInput').value.trim()
+        };
+        
+        // Validaciones
+        if (!newData.email) {
+          showAlert('El email es obligatorio', 'danger');
+          return;
+        }
+        
+        if (newData.email && !isValidEmail(newData.email)) {
+          showAlert('Por favor ingresa un email válido', 'danger');
+          return;
+        }
+        
+        // Mostrar loading
+        const saveBtn = document.getElementById('saveProfileBtn');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+        saveBtn.disabled = true;
+        
+        // Enviar actualización
+        fetch('https://daytona-clean-service.onrender.com/api/users/profile', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newData)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Perfil actualizado exitosamente', 'success');
+            
+            // Actualizar datos en localStorage
+            const updatedUserData = { ...userData, ...newData };
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
+            
+            // Salir del modo de edición
+            exitEditMode();
+            
+            // Actualizar la información mostrada
+            updateUserInfoDisplay(updatedUserData);
+          } else {
+            showAlert('Error actualizando perfil: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('Error de conexión al actualizar perfil', 'danger');
+        })
+        .finally(() => {
+          // Restaurar botón
+          saveBtn.innerHTML = originalText;
+          saveBtn.disabled = false;
+        });
+      };
+
+      // Función para salir del modo de edición
+      function exitEditMode() {
+        isEditMode = false;
+        
+        // Restaurar botones
+        document.getElementById('toggleEditBtn').style.display = 'inline-flex';
+        document.getElementById('saveProfileBtn').style.display = 'none';
+        document.getElementById('cancelEditBtn').style.display = 'none';
+        
+        // Ocultar inputs y mostrar valores
+        const detailItems = document.querySelectorAll('.user-detail-item[data-field]');
+        detailItems.forEach(item => {
+          const valueDiv = item.querySelector('.user-detail-value');
+          const input = item.querySelector('.user-detail-input');
+          
+          if (valueDiv && input) {
+            valueDiv.style.display = 'block';
+            input.style.display = 'none';
+            item.classList.remove('editing');
+            
+            // Actualizar valor mostrado
+            valueDiv.textContent = input.value || 'No especificado';
+          }
+        });
+      }
+
+      // ===== FUNCIONES PARA RESEÑAS =====
+      
+      // Función para cargar reseñas del usuario
+      window.loadUserReviews = function() {
+        fetch('https://daytona-clean-service.onrender.com/api/reviews/user', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            displayUserReviews(data.reviews || []);
+          } else {
+            document.getElementById('userReviewsList').innerHTML = `
+              <div class="empty-state">
+                <i class="fas fa-comment-slash"></i>
+                <h3>No tienes reseñas</h3>
+                <p>Aún no has dejado ninguna reseña.</p>
+              </div>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error cargando reseñas:', error);
+          document.getElementById('userReviewsList').innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h3>Error cargando reseñas</h3>
+              <p>No se pudieron cargar tus reseñas.</p>
+            </div>`;
+        });
+      };
+
+      // Función para mostrar reseñas del usuario
+      function displayUserReviews(reviews) {
+        const reviewsList = document.getElementById('userReviewsList');
+        
+        if (!reviews.length) {
+          reviewsList.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-comment-slash"></i>
+              <h3>No tienes reseñas</h3>
+              <p>Aún no has dejado ninguna reseña.</p>
+            </div>`;
+          return;
+        }
+        
+        reviewsList.innerHTML = reviews.map(review => {
+          const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+          const statusClass = review.status || 'pending';
+          const statusText = review.status === 'approved' ? 'Aprobada' : 
+                           review.status === 'rejected' ? 'Rechazada' : 'Pendiente';
+          
+          return `
+            <div class="review-item">
+              <div class="review-header">
+                <div>
+                  <div class="review-title">${review.title}</div>
+                  <div class="review-rating">${stars}</div>
+                </div>
+                <div>
+                  <div class="review-date">${new Date(review.created_at).toLocaleDateString('es-AR')}</div>
+                  <div class="review-status ${statusClass}">${statusText}</div>
+                </div>
+              </div>
+              <div class="review-content-text">${review.content}</div>
+              ${review.service_type ? `<div class="review-service">Servicio: ${review.service_type}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Función para manejar el envío de reseñas
+      document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const rating = document.querySelector('input[name="rating"]:checked');
+        const title = document.getElementById('reviewTitle').value.trim();
+        const content = document.getElementById('reviewContent').value.trim();
+        const service = document.getElementById('reviewService').value;
+        
+        // Validaciones
+        if (!rating) {
+          showAlert('Por favor selecciona una calificación', 'warning');
+          return;
+        }
+        
+        if (!title) {
+          showAlert('Por favor ingresa un título para tu reseña', 'warning');
+          return;
+        }
+        
+        if (!content) {
+          showAlert('Por favor ingresa tu opinión', 'warning');
+          return;
+        }
+        
+        if (content.length < 10) {
+          showAlert('Tu opinión debe tener al menos 10 caracteres', 'warning');
+          return;
+        }
+        
+        // Mostrar loading
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        submitBtn.disabled = true;
+        
+        // Enviar reseña
+        fetch('https://daytona-clean-service.onrender.com/api/reviews', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            rating: parseInt(rating.value),
+            title: title,
+            content: content,
+            service_type: service || null
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            showAlert('Reseña enviada exitosamente. Será revisada por nuestro equipo.', 'success');
+            
+            // Limpiar formulario
+            this.reset();
+            
+            // Recargar reseñas
+            loadUserReviews();
+          } else {
+            showAlert('Error enviando reseña: ' + (data.message || ''), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showAlert('Error de conexión al enviar reseña', 'danger');
+        })
+        .finally(() => {
+          // Restaurar botón
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        });
+      });
+
+      // Cargar reseñas al cargar la página
+      if (!isAdmin) {
+        loadUserReviews();
+      } else {
+        // Ocultar sección de reseñas para administradores
+        document.getElementById('reviews-section').style.display = 'none';
       }
     });
 

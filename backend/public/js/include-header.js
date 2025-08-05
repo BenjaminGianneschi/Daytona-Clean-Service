@@ -72,10 +72,12 @@ function includeHeader() {
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown"
                   style="background-color: #222; border: none; min-width: 200px;">
                   <li><a class="dropdown-item" href="mi-cuenta.html"><i class="fas fa-user me-2"></i>Mi Cuenta</a></li>
-                  <li><a class="dropdown-item" href="mi-cuenta.html#mis-turnos"><i class="fas fa-calendar me-2"></i>Mis Turnos</a></li>
                   <li><a class="dropdown-item" href="notifications.html">
                     <i class="fas fa-bell me-2"></i>Notificaciones
                     <span class="badge bg-danger notification-badge ms-2" style="display: none;">0</span>
+                  </a></li>
+                  <li><a class="dropdown-item" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; margin: 5px 10px; border-radius: 6px;">
+                    <i class="fas fa-calendar-plus me-2"></i>Agendar Turno
                   </a></li>
                   ${isAdmin ? '<li><a class="dropdown-item" href="mi-cuenta.html#gestion-turnos"><i class="fas fa-cogs me-2"></i>Gestión de Turnos</a></li>' : ''}
                   <li><hr class="dropdown-divider" style="border-color: #444;"></li>
@@ -96,15 +98,13 @@ function includeHeader() {
                   <i class="fas fa-user-plus me-1"></i>Registrarse
                 </a>
               </li>
-    `;
-  }
-
-  headerHTML += `
               <li class="nav-item ms-lg-2">
                 <a class="btn" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; border-radius: 8px; padding: 8px 18px; border: none; transition: all 0.3s ease;">
                   <i class="fas fa-calendar-plus me-1"></i>Agendar Turno
                 </a>
               </li>
+    `;
+  }
             </ul>
           </div>
         </div>
