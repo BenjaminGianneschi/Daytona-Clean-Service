@@ -28,7 +28,7 @@
 .client-dashboard {
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
   min-height: 100vh;
-  padding: 5rem 0 2rem 0; /* Más espacio superior para evitar superposición con header fijo */
+  padding: 1rem 0 2rem 0; /* Más espacio superior para evitar superposición con header fijo */
   position: relative;
   overflow-x: hidden;
 }
