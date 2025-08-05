@@ -182,6 +182,21 @@ document.addEventListener('DOMContentLoaded', includeHeader);
 // Estilos para el header
 const headerStyles = `
 <style>
+/* Header fijo para evitar superposición */
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+  width: 100% !important;
+}
+
+/* Espaciado global para body cuando hay header fijo */
+body {
+  padding-top: 80px !important;
+}
+
 /* Efectos hover para los enlaces */
 .navbar-nav .nav-link:hover {
   color: #ff3b3f !important;
