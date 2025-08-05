@@ -1217,6 +1217,10 @@
             // Ocultar encabezado solo para admin
             const header = document.getElementById('account-header');
             if (header) header.style.display = 'none';
+            
+            // Configurar sección de reseñas para admin
+            setupAdminReviewsSection();
+            
             loadAdminFeatures();
           } else {
             document.getElementById('adminPanel').style.display = 'none';
@@ -1224,6 +1228,10 @@
             // Mostrar encabezado para usuario normal
             const header = document.getElementById('account-header');
             if (header) header.style.display = 'block';
+            
+            // Cargar reseñas para usuarios normales
+            loadUserReviews();
+            
             loadAppointments();
           }
         } else {
@@ -3217,13 +3225,7 @@
         });
       });
 
-      // Cargar reseñas al cargar la página
-      if (!isAdmin) {
-        loadUserReviews();
-      } else {
-        // Para admin: ocultar formulario y mostrar gestión de reseñas
-        setupAdminReviewsSection();
-      }
+      // Esta lógica se movió al bloque donde isAdmin está definido
     });
 
     // Scroll automático a #gestion-turnos si está en el hash y el panel admin aparece
