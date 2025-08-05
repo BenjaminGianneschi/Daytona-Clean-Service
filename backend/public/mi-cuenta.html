@@ -1056,9 +1056,23 @@
   <script src="js/mi-cuenta.js"></script>
   <script src="js/include-header.js"></script>
   <script src="js/include-footer.js"></script>
+  
+  <!-- Cargar header inmediatamente -->
+  <script>
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', includeHeader);
+    } else {
+      includeHeader();
+    }
+  </script>
 
   <script>
     let currentAppointments = [];
+
+    // Cargar el header inmediatamente
+    document.addEventListener('DOMContentLoaded', function() {
+      includeHeader();
+    });
 
     function hideUserSectionsForAdmin() {
       const info = document.getElementById('user-info-card');
