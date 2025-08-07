@@ -538,6 +538,10 @@
                         <i class="fas fa-tools"></i>
                         Servicios
                     </button>
+                    <button class="tab-btn" onclick="showTab('como-trabajamos')">
+                        <i class="fas fa-cogs"></i>
+                        ¿Cómo trabajamos?
+                    </button>
                     <button class="tab-btn" onclick="showTab('horarios')">
                         <i class="fas fa-clock"></i>
                         Horarios & Citas
@@ -587,6 +591,115 @@
                             <div class="faq-answer">
                                 <p>Sí, utilizamos productos profesionales de alta calidad que son seguros para personas, mascotas y el medio ambiente. 
                                 Todos nuestros productos están certificados y aprobados para uso profesional.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab ¿Cómo trabajamos? -->
+                    <div id="como-trabajamos" class="tab-pane">
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cuál es el proceso para vehículos?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <h4 style="color: #00d4aa; margin-bottom: 1rem;">Nuestro método profesional para devolverle el brillo a tu auto</h4>
+                                
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">1</span>
+                                        <div>
+                                            <strong style="color: #fff;">Evaluación Inicial</strong><br>
+                                            <span style="color: #ccc;">Inspeccionamos el estado del vehículo, identificamos manchas específicas y determinamos el nivel de suciedad para elegir el tratamiento adecuado.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">2</span>
+                                        <div>
+                                            <strong style="color: #fff;">Limpieza Exterior</strong><br>
+                                            <span style="color: #ccc;">Lavado con shampoo profesional, desengrasado de llantas, limpieza de vidrios y aplicación de protectores UV en plásticos exteriores.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">3</span>
+                                        <div>
+                                            <strong style="color: #fff;">Limpieza Interior</strong><br>
+                                            <span style="color: #ccc;">Aspirado profundo, limpieza de tapizados con extractor, desinfección de superficies y eliminación de olores persistentes.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">4</span>
+                                        <div>
+                                            <strong style="color: #fff;">Control de Calidad</strong><br>
+                                            <span style="color: #ccc;">Revisión exhaustiva junto al cliente, verificación de resultados y aplicación de protectores finales para mantener la limpieza.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 style="color: #00d4aa; margin-bottom: 1rem;">Tecnología y Equipos</h4>
+                                <p style="margin-bottom: 1rem;">Utilizamos equipos profesionales para resultados excepcionales:</p>
+                                <ul>
+                                    <li><strong>Extractor Profesional:</strong> Eliminación profunda de suciedad y manchas de tapizados</li>
+                                    <li><strong>Vapor a Alta Temperatura:</strong> Desinfección y eliminación de bacterias y ácaros</li>
+                                    <li><strong>Productos Premium:</strong> Shampoos y protectores de marcas reconocidas</li>
+                                    <li><strong>Protección UV:</strong> Aplicación de protectores para mantener la limpieza</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question" onclick="toggleFAQ(this)">
+                                <span>¿Cuál es el proceso para tapizados?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <h4 style="color: #00d4aa; margin-bottom: 1rem;">Metodología especializada para sillones, colchones y alfombras</h4>
+                                
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">1</span>
+                                        <div>
+                                            <strong style="color: #fff;">Diagnóstico Detallado</strong><br>
+                                            <span style="color: #ccc;">Analizamos el tipo de tela, identificamos manchas específicas y evaluamos el nivel de deterioro para determinar el tratamiento óptimo.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">2</span>
+                                        <div>
+                                            <strong style="color: #fff;">Preparación y Protección</strong><br>
+                                            <span style="color: #ccc;">Protegemos áreas sensibles, aplicamos pre-tratamientos específicos y preparamos el área de trabajo para evitar daños.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">3</span>
+                                        <div>
+                                            <strong style="color: #fff;">Limpieza Profunda</strong><br>
+                                            <span style="color: #ccc;">Aplicación de productos especializados, extracción con equipos profesionales y desinfección con vapor a alta temperatura.</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: start; margin-bottom: 1rem;">
+                                        <span style="display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; background: #2a2a2a; border: 2px solid #00d4aa; border-radius: 50%; color: white; font-weight: bold; margin-right: 1rem; flex-shrink: 0;">4</span>
+                                        <div>
+                                            <strong style="color: #fff;">Secado y Protección</strong><br>
+                                            <span style="color: #ccc;">Secado controlado, aplicación de protectores anti-manchas y verificación final de resultados con el cliente.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 style="color: #00d4aa; margin-bottom: 1rem;">Especialidades por Material</h4>
+                                <p style="margin-bottom: 1rem;">Tratamientos específicos según el tipo de tapizado:</p>
+                                <ul>
+                                    <li><strong>Sillones y Sofás:</strong> Limpieza profunda de tapizados, eliminación de manchas y protección anti-ácaros</li>
+                                    <li><strong>Colchones:</strong> Desinfección con vapor, eliminación de ácaros y tratamiento anti-alérgico</li>
+                                    <li><strong>Alfombras:</strong> Limpieza profunda con extractor industrial y protección anti-manchas</li>
+                                    <li><strong>Sillas y Muebles:</strong> Limpieza especializada según el material y tipo de uso</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
