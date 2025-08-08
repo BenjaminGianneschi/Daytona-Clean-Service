@@ -38,9 +38,7 @@ function includeHeader() {
                   <li><a class="dropdown-item" href="tapizados.html">Tapizados</a></li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="index.html#ubicacion" style="color: #fff;">Ubicación</a>
-              </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="index.html#contacto" style="color: #fff;">Contacto</a>
               </li>
