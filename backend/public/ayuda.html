@@ -950,6 +950,33 @@
 
         <section id="como-trabajamos-proceso" class="help-section">
             <h2>¿Cómo Realizamos Nuestros Servicios?</h2>
+            <style>
+              /* Stepper profesional */
+              .process-steps { display: flex; flex-wrap: wrap; gap: 16px; }
+              .step-card { 
+                flex: 1 1 260px; 
+                background: linear-gradient(135deg, #232323 0%, #1a1a1a 100%);
+                border: 1px solid #ff3b3f; 
+                border-radius: 12px; 
+                padding: 18px; 
+                color: #fff; 
+                display: flex; 
+                gap: 12px; 
+                align-items: flex-start; 
+                box-shadow: 0 10px 25px rgba(255, 59, 63, 0.08);
+              }
+              .step-badge { 
+                min-width: 36px; height: 36px; border-radius: 50%; 
+                background: linear-gradient(135deg, #ff3b3f, #b31217); 
+                display: flex; align-items: center; justify-content: center; 
+                font-weight: 800; color: #fff; 
+              }
+              .step-card h5 { margin: 0 0 6px 0; font-weight: 700; }
+              .step-card p { margin: 0; color: #cfcfcf; }
+              @media (max-width: 768px) { .process-steps { flex-direction: column; } }
+              /* Ocultar cards legacy de esta sección */
+              #proceso-vehiculos .row.g-4, #proceso-tapizados .row.g-4 { display: none !important; }
+            </style>
             
             <div class="faq-tabs">
                 <div class="tab-buttons">
@@ -966,103 +993,77 @@
                 <div class="tab-content">
                     <!-- Tab Proceso Vehículos -->
                     <div id="proceso-vehiculos" class="tab-pane active">
-                        <div class="help-section" style="background: #1a1a1a; border: none; margin-bottom: 0;">
-                            <div class="text-center mb-5">
-                                <h3 class="text-white fw-bold mb-2" style="font-size: 1.8rem;">Proceso para Servicios de Vehículos</h3>
-                                <p class="text-light" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-                                    Nuestro proceso paso a paso para garantizar la mejor limpieza de tu vehículo.
-                                </p>
+                        <div class="text-center mb-4">
+                          <h3 class="text-white fw-bold mb-2" style="font-size: 1.8rem;">Proceso para Servicios de Vehículos</h3>
+                          <p class="text-light" style="font-size: 1.05rem; max-width: 640px; margin: 0 auto;">Un flujo claro y controlado para resultados consistentes.</p>
+                        </div>
+                        <div class="process-steps">
+                          <div class="step-card">
+                            <div class="step-badge">1</div>
+                            <div>
+                              <h5>Reserva y Confirmación</h5>
+                              <p>Agendamos día y horario, y confirmamos por WhatsApp.</p>
                             </div>
-                            
-                            <div class="row g-4">
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">1</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Reserva tu Turno</h5>
-                                        <p class="text-light">Reserva tu turno y elige horario conveniente para vos.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">2</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Inspección Inicial</h5>
-                                        <p class="text-light">Inspección inicial para evaluar el estado del vehículo completo.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">3</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Limpieza Profunda</h5>
-                                        <p class="text-light">Limpieza profunda con maquinaria y productos especiales.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">4</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Revisión Final</h5>
-                                        <p class="text-light">Revisión final para asegurar tu completa satisfacción.</p>
-                                    </div>
-                                </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">2</div>
+                            <div>
+                              <h5>Inspección Inicial</h5>
+                              <p>Relevamos estado general y definimos el plan de trabajo.</p>
                             </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">3</div>
+                            <div>
+                              <h5>Ejecución Profesional</h5>
+                              <p>Limpieza profunda con equipos y productos premium.</p>
+                            </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">4</div>
+                            <div>
+                              <h5>Control de Calidad</h5>
+                              <p>Entrega y verificación final junto al cliente.</p>
+                            </div>
+                          </div>
                         </div>
                     </div>
 
                     <!-- Tab Proceso Tapizados -->
                     <div id="proceso-tapizados" class="tab-pane">
-                        <div class="help-section" style="background: #1a1a1a; border: none; margin-bottom: 0;">
-                            <div class="text-center mb-5">
-                                <h3 class="text-white fw-bold mb-2" style="font-size: 1.8rem;">Proceso para Servicios de Tapizados</h3>
-                                <p class="text-light" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
-                                    Nuestro proceso especializado para la limpieza de tapizados, sillones, colchones y alfombras.
-                                </p>
+                        <div class="text-center mb-4">
+                          <h3 class="text-white fw-bold mb-2" style="font-size: 1.8rem;">Proceso para Tapizados</h3>
+                          <p class="text-light" style="font-size: 1.05rem; max-width: 640px; margin: 0 auto;">Metodología especializada para sillones, colchones, alfombras y sillas.</p>
+                        </div>
+                        <div class="process-steps">
+                          <div class="step-card">
+                            <div class="step-badge">1</div>
+                            <div>
+                              <h5>Diagnóstico</h5>
+                              <p>Análisis del material, manchas y nivel de suciedad.</p>
                             </div>
-                            
-                            <div class="row g-4">
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">1</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Contacto WhatsApp</h5>
-                                        <p class="text-light">Contactanos vía WhatsApp y solicitá tu presupuesto personalizado.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">2</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Coordinación</h5>
-                                        <p class="text-light">Coordinamos día y hora para tu limpieza a domicilio sin inconvenientes.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">3</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Ejecución</h5>
-                                        <p class="text-light">Ejecutamos la limpieza con maquinaria y productos especializados.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-3 mb-4">
-                                    <div class="bg-dark p-4 rounded-4 h-100 text-center" style="border: 2px solid #ff3b3f;">
-                                        <div class="mb-3">
-                                            <span class="bg-gradient rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px; background: linear-gradient(45deg, #ff3b3f, #e63946); color: white; font-size: 1.5rem; font-weight: bold;">4</span>
-                                        </div>
-                                        <h5 class="text-white fw-bold mb-3">Verificación</h5>
-                                        <p class="text-light">Verificamos juntos la calidad y finalizamos el servicio.</p>
-                                    </div>
-                                </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">2</div>
+                            <div>
+                              <h5>Preparación</h5>
+                              <p>Protección de áreas sensibles y pretratamientos específicos.</p>
                             </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">3</div>
+                            <div>
+                              <h5>Limpieza Profunda</h5>
+                              <p>APC, cepillado mecánico, extracción y vapor a alta temperatura.</p>
+                            </div>
+                          </div>
+                          <div class="step-card">
+                            <div class="step-badge">4</div>
+                            <div>
+                              <h5>Secado y Protección</h5>
+                              <p>Secado controlado y aplicación de protectores anti‑manchas.</p>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>
