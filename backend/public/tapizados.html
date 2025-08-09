@@ -463,11 +463,11 @@
           display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem;
         }
         .maintenance-tabs .tab-btn {
-          background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; color: #fff; border: none !important; padding: 0.8rem 1.2rem; border-radius: var(--border-radius) !important;
-          cursor: pointer; transition: all .25s ease; font-weight: 600; display: flex; align-items: center; gap: .5rem; box-shadow: var(--shadow-primary) !important;
+          background: #2a2a2a !important; color: #fff; border: 2px solid #333 !important; padding: 0.8rem 1.2rem; border-radius: var(--border-radius) !important;
+          cursor: pointer; transition: all .25s ease; font-weight: 600; display: flex; align-items: center; gap: .5rem; box-shadow: none !important;
         }
-        .maintenance-tabs .tab-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-primary) !important; }
-        .maintenance-tabs .tab-btn.active { box-shadow: var(--shadow-primary) !important; filter: brightness(1.05); }
+        .maintenance-tabs .tab-btn:hover { transform: translateY(-2px); border-color: #444 !important; }
+        .maintenance-tabs .tab-btn.active { background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; box-shadow: var(--shadow-primary) !important; filter: none; }
         .maintenance-tabs .tab-content { position: relative; }
         .maintenance-tabs .tab-pane { display: none; }
         .maintenance-tabs .tab-pane.active { display: block; animation: fadeIn .25s ease; }
