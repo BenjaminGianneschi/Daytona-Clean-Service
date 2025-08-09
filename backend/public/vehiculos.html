@@ -305,9 +305,252 @@
         </div>
       </div>
     </section>
+ 
+    <!-- MANTENIMIENTO PREVENTIVO VEHICULOS -->
+    <section id="mantenimiento-preventivo-veh" class="container py-5">
+      <h2 class="text-center text-white fw-bold mb-3">¿Por qué el Mantenimiento Preventivo es tu Mejor Inversión?</h2>
+      <p class="text-center text-light mb-4" style="max-width: 860px; margin: 0 auto; opacity: .9;">
+        Mantener tu vehículo impecable reduce costos a futuro y conserva su valor. Recomendamos planes con limpieza regular y tratamientos específicos
+        que protegen superficies, eliminan ácaros y olores, y prolongan la vida útil de telas, cuero, plásticos y vidrios.
+      </p>
+      <div class="veh-maintenance-tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="showVehMaintenanceTab('mt-basico', event)"><i class="fas fa-water"></i> Básico Exterior</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-completo', event)"><i class="fas fa-broom"></i> Completo Ext + Int</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-detalle-interior', event)"><i class="fas fa-spray-can"></i> Detallado Interior</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-tapizados', event)"><i class="fas fa-chair"></i> Tapizados Profundos</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-cuero-paneles', event)"><i class="fas fa-shield-alt"></i> Cuero y Paneles</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-motor', event)"><i class="fas fa-cogs"></i> Motor</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-vidrios', event)"><i class="fas fa-wind"></i> Vidrios & Sellador</button>
+          <button class="tab-btn" onclick="showVehMaintenanceTab('mt-desinfeccion', event)"><i class="fas fa-virus-slash"></i> Desinfección Total</button>
+        </div>
 
+        <div class="tab-content">
+          <!-- BASICO EXTERIOR -->
+          <div id="mt-basico" class="tab-pane active">
+            <div class="tip-card">
+              <h4 class="mb-3">Lavado Exterior Básico</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Polvo, marcas de agua y velo de suciedad</li>
+                    <li>Aspecto opaco por falta de mantenimiento</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: shampoo neutro, secado y detalles rápidos</li>
+                    <li><strong>Especial</strong>: espuma activa + sellado spray corto plazo para realce y protección ligera</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <!-- COMPLETO EXTERIOR + INTERIOR -->
+          <div id="mt-completo" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Lavado Completo (Exterior + Interior)</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Polvo interior, alfombras sucias y plásticos opacos</li>
+                    <li>Marcas en manijas, consola y zonas de contacto</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: lavado exterior + aspirado, limpieza básica de paneles, cristales</li>
+                    <li><strong>Especial</strong>: detallado ligero de interiores con dressing UV y acabado satinado, desodoriza y renueva</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <!-- DETALLADO INTERIOR -->
+          <div id="mt-detalle-interior" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Detallado Interior</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Manchas, olores persistentes y suciedad en rincones</li>
+                    <li>Plásticos con grasitud y manchas de uso</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: limpieza profunda de plásticos y textiles con APC y vapor focalizado</li>
+                    <li><strong>Especial</strong>: incluye tratamiento antibacterial y neutralización de olores para un interior saludable</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAPIZADOS PROFUNDOS -->
+          <div id="mt-tapizados" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Limpieza Profunda de Tapizados</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Manchas difíciles y olores en telas o asientos</li>
+                    <li>Ácaros por uso intensivo o derrames</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: inyección‑extracción en telas, vapor y desinfección focalizada</li>
+                    <li><strong>Especial</strong>: + <strong>impermeabilización textil</strong> (6 meses) para repeler líquidos y facilitar limpieza futura</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CUERO Y PANELES -->
+          <div id="mt-cuero-paneles" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Cuero y Paneles (Restauración & Protección)</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Cuero reseco, opaco o con micro‑grietas</li>
+                    <li>Paneles y plásticos con decoloración por sol</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: limpieza pH neutro + <strong>hidratación</strong> y acondicionamiento; mejora tacto y elasticidad</li>
+                    <li><strong>Especial</strong>: restauración ligera, sellador UV y protección que prolonga la vida útil y reduce futuros daños</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MOTOR -->
+          <div id="mt-motor" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Limpieza de Motor Segura</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Grasa, polvo y manchas en el vano motor</li>
+                    <li>Imagen descuidada y difícil inspección visual</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: desengrase controlado, cepillos y protección básica en plásticos</li>
+                    <li><strong>Especial</strong>: detallado con vapor, acondicionamiento y protección prolongada</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIDRIOS -->
+          <div id="mt-vidrios" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Cristales Claros y Protección</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Marcas de cal, empañados y visibilidad reducida</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: limpieza y desengrase profesional de cristales</li>
+                    <li><strong>Especial</strong>: pulido leve + <strong>sellador hidrofóbico</strong> (3‑6 meses) para conducción segura bajo lluvia</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DESINFECCION -->
+          <div id="mt-desinfeccion" class="tab-pane">
+            <div class="tip-card">
+              <h4 class="mb-3">Desinfección Total y Control de Olores</h4>
+              <div class="flex-row">
+                <div class="col-half">
+                  <p class="fw-bold">Señales comunes</p>
+                  <ul>
+                    <li>Olores persistentes por humedad, comida o mascotas</li>
+                    <li>Ambiente cargado y alergias</li>
+                  </ul>
+                </div>
+                <div class="col-half">
+                  <p class="fw-bold">Nuestra recomendación</p>
+                  <ul>
+                    <li><strong>Estándar</strong>: limpieza con vapor en superficies de alto contacto</li>
+                    <li><strong>Especial</strong>: tratamiento antibacterial y eliminación de olores para un interior saludable</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <style>
+        .veh-maintenance-tabs { margin-top: 10px; }
+        .veh-maintenance-tabs .tab-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .veh-maintenance-tabs .tab-btn {
+          background: #2a2a2a !important; color: #fff; border: 2px solid #333 !important; padding: 0.8rem 1.2rem; border-radius: var(--border-radius) !important;
+          cursor: pointer; transition: all .25s ease; font-weight: 600; display: flex; align-items: center; gap: .5rem; box-shadow: none !important;
+        }
+        .veh-maintenance-tabs .tab-btn:hover { transform: translateY(-2px); border-color: #444 !important; }
+        .veh-maintenance-tabs .tab-btn.active { background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; box-shadow: var(--shadow-primary) !important; }
+        .veh-maintenance-tabs .tab-content { position: relative; }
+        .veh-maintenance-tabs .tab-pane { display: none; }
+        .veh-maintenance-tabs .tab-pane.active { display: block; animation: vehFadeIn .25s ease; }
+        @keyframes vehFadeIn { from{opacity:0; transform: translateY(8px);} to{opacity:1; transform:none;} }
+
+        /* Cards */
+        .tip-card { background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; color: #fff; border: none !important; border-radius: var(--border-radius) !important; padding: 30px !important; box-shadow: var(--shadow-primary) !important; }
+        .tip-card h4 { color: #fff; font-weight: 700; }
+        .tip-card .flex-row { display: flex; gap: 24px; }
+        .tip-card .col-half { flex: 1 1 0; }
+        .tip-card ul { margin: 0; padding-left: 1.2rem; }
+        .tip-card li { margin-bottom: .4rem; color: #e6e6e6; }
+
+        @media (max-width: 768px) { .tip-card .flex-row { flex-direction: column; } }
+      </style>
+
+      <script>
+        function showVehMaintenanceTab(id, ev){
+          const root = document.querySelector('#mantenimiento-preventivo-veh .veh-maintenance-tabs');
+          const panes = root.querySelectorAll('.tab-pane');
+          const buttons = root.querySelectorAll('.tab-btn');
+          panes.forEach(p => p.classList.remove('active'));
+          buttons.forEach(b => b.classList.remove('active'));
+          document.getElementById(id).classList.add('active');
+          if (ev && ev.currentTarget) ev.currentTarget.classList.add('active');
+        }
+      </script>
+    </section>
+
+    
     <!-- GALERÍA DE VEHÍCULOS -->
     <section id="galeria" class="container mt-5">
       <h2 class="text-center mb-5">Galería de Trabajos</h2>
