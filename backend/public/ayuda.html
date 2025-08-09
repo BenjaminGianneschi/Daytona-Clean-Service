@@ -513,6 +513,24 @@
 
         }
     </style>
+    <style>
+      /* Jerarquía de títulos y separadores */
+      .help-section { padding: 3rem 2rem; margin-bottom: 2.5rem; }
+      .help-section h2 {
+        font-size: 2.2rem !important; font-weight: 800; letter-spacing: .2px;
+        text-align: center; margin-bottom: 1.25rem; color: #fff;
+      }
+      .help-section h2::after {
+        content: ""; display: block; width: 120px; height: 3px; margin: 14px auto 0;
+        background: linear-gradient(90deg, #ff3b3f, rgba(255,59,63,0)); border-radius: 3px;
+      }
+      /* Subtítulos uniformes */
+      .help-section h3 { font-size: 1.35rem; font-weight: 700; }
+      /* Aire visual entre secciones */
+      .help-section + .help-section { margin-top: 2rem; }
+      /* Navegación: ocultar enlace a sección eliminada */
+      .help-nav a[href="#como-reservar"] { display: none; }
+    </style>
 </head>
 <body>
     <div id="header-container"></div>
@@ -531,7 +549,7 @@
         </nav>
 
         <section id="preguntas-frecuentes" class="help-section">
-            <h2>Preguntas Frecuentes</h2>
+            <h2 class="text-center">Preguntas Frecuentes</h2>
             
             <div class="faq-tabs">
                 <div class="tab-buttons">
@@ -851,7 +869,7 @@
         </section>
 
         <section id="como-trabajamos-proceso" class="help-section">
-            <h2>¿Cómo Realizamos Nuestros Servicios?</h2>
+            <h2 class="text-center">¿Cómo Realizamos Nuestros Servicios?</h2>
             <style>
               /* Stepper profesional */
               .process-steps { display: flex; flex-wrap: wrap; gap: 16px; }
@@ -973,7 +991,7 @@
         </section>
 
         <section id="consejos-mantenimiento" class="help-section">
-            <h2>¿Por qué el Mantenimiento Preventivo es tu Mejor Inversión?</h2>
+            <h2 class="text-center">¿Por qué el Mantenimiento Preventivo es tu Mejor Inversión?</h2>
             
 
 
