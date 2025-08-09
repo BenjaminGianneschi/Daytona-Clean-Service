@@ -962,20 +962,15 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px 14px;
+  padding: 8px 0;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
   transition: background 0.2s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  line-height: 1;
+  display: block;
 }
 /* Asegurar que el ícono quede centrado verticalmente */
-.servicio-btn i,
+.servicio-btn i { vertical-align: middle; }
 .servicio-btn svg,
 .servicio-btn .fa,
 .servicio-btn .fas,
