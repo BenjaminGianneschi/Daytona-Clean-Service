@@ -214,7 +214,7 @@
       max-width: 320px !important;
       flex: 0 0 320px !important;
       display: flex !important;
-      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      background: rgba(33, 37, 41, 1) !important;
       border-radius: 15px !important;
       height: 500px !important;
       flex-direction: column !important;
@@ -238,7 +238,7 @@
       display: flex !important;
       flex-direction: column !important;
       padding: 20px !important;
-      background: transparent !important;
+      background: rgba(33, 37, 41, 1) !important;
       height: 300px !important;
       justify-content: space-between !important;
       text-align: center !important;
@@ -473,10 +473,10 @@
     
 
     
-    /* Estilos para botón "Ver Detalles" en cards */
+    /* Estilo fijo para botón "Ver Detalles" en cards */
     .info-btn {
-      background: #2a2a2a !important;
-      border: 2px solid #333 !important;
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      border: none !important;
       color: #ffffff !important;
       transition: all 0.3s ease !important;
       padding: 12px 20px !important;
@@ -490,11 +490,11 @@
       width: 100% !important;
       text-transform: uppercase !important;
       letter-spacing: 0.4px !important;
+      box-shadow: var(--shadow-primary) !important;
     }
     
     .info-btn:hover {
       transform: translateY(-2px) !important;
-      border-color: #444 !important;
     }
     
     .info-btn:active,
