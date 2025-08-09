@@ -397,67 +397,7 @@
   font-size: 0.9rem;
 }
 
-/* ===== TESTIMONIOS ===== */
-.testimonials-section {
-  max-width: 1200px;
-  margin: 0 auto 70px;
-  padding: 0 20px;
-}
-
-.testimonial-elegant-card {
-  background: #232323;
-  border: 2px solid #ff3b3f;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px #0008;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  transition: box-shadow 0.2s, border-color 0.2s;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-.testimonial-elegant-card:hover {
-  box-shadow: 0 0 32px 8px #ff3b3f99, 0 8px 32px #ff3b3f99;
-  border-color: #ff3b3f;
-}
-.testimonial-quote {
-  font-style: italic;
-  color: #e0e0e0;
-  font-size: 1.08rem;
-  margin-bottom: 1.2rem;
-}
-.testimonial-quote:before, .testimonial-quote:after {
-  display: none !important;
-}
-.testimonial-author {
-  color: #ffd700;
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
-  align-self: center;
-  margin-bottom: 0.2rem;
-}
-.testimonial-stars {
-  color: #ffd700;
-  font-size: 1.2rem;
-  margin-top: 0.2rem;
-  align-self: center;
-}
-
-.testimonial-elegant-card i.fa-award {
-  align-self: center;
-  margin-bottom: 0.7rem;
-  margin-top: 0.1rem;
-  font-size: 2rem;
-}
-
-.testimonial-footer {
-  margin-top: auto;
-  text-align: center;
-}
+/* (Se eliminaron estilos de testimonios) */
 
 /* ===== CONTACTO ===== */
 #contacto h2 {
