@@ -975,7 +975,16 @@
   line-height: 1;
 }
 /* Asegurar que el ícono quede centrado verticalmente */
-.servicio-btn i { line-height: 1; display: inline-block; }
+.servicio-btn i,
+.servicio-btn svg,
+.servicio-btn .fa,
+.servicio-btn .fas,
+.servicio-btn .far,
+.servicio-btn .fab {
+  line-height: 1;
+  vertical-align: middle !important;
+  display: inline-block;
+}
 .servicio-btn:hover {
   background: #b31217;
   color: #fff;
