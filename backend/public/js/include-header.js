@@ -11,6 +11,7 @@ function includeHeader() {
   // Usar userData como fallback si userInfo no tiene datos
   const user = userInfo.name ? userInfo : userData;
   const isLoggedIn = token && (user.name || user.email);
+  const isAdmin = user && user.role === 'admin';
 
   let headerHTML = `
     <header>
@@ -43,24 +44,20 @@ function includeHeader() {
                 <a class="nav-link" href="index.html#contacto" style="color: #fff;">Contacto</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a>
+                <a class="nav-link" href="ayuda.html" style="color: #fff;">Ayuda</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="ayuda.html" style="color: #fff;">
-                  <i class="fas fa-question-circle me-1"></i>Ayuda
-                </a>
-              </li>
-              <!-- Separador visual -->
-              <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
   `;
 
   if (isLoggedIn) {
     // Usuario logueado - mostrar menú de usuario
     const userName = user.name || user.email || 'Usuario';
     const userInitials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-    const isAdmin = user.role === 'admin';
+    
     
     headerHTML += `
+              ${isAdmin ? '<li class="nav-item"><a class="nav-link" href="promociones.html" style="color: #fff;">Promociones</a></li>' : ''}
+              <!-- Separador visual -->
+              <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false" style="color: #fff;">
@@ -86,6 +83,8 @@ function includeHeader() {
   } else {
     // Usuario no logueado - mostrar botones de login/register
     headerHTML += `
+              <!-- Separador visual -->
+              <li class="nav-item" style="width: 1px; height: 25px; background: #444; margin: 0 10px; align-self: center;"></li>
               <li class="nav-item">
                 <a class="nav-link" href="login.html" style="color: #fff;">
                   <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
