@@ -473,29 +473,36 @@
     
 
     
-    /* Estilos para el botón de información */
+    /* Estilos para botón "Ver Detalles" en cards */
     .info-btn {
-      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%) !important;
-      border: none !important;
-      color: white !important;
+      background: #2a2a2a !important;
+      border: 2px solid #333 !important;
+      color: #ffffff !important;
       transition: all 0.3s ease !important;
-      padding: 10px 20px !important;
-      border-radius: 8px !important;
-      font-weight: 600 !important;
-      font-size: 0.9rem !important;
+      padding: 12px 20px !important;
+      border-radius: 12px !important;
+      font-weight: 700 !important;
+      font-size: 0.92rem !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 8px !important;
       width: 100% !important;
       text-transform: uppercase !important;
-      letter-spacing: 0.5px !important;
+      letter-spacing: 0.4px !important;
     }
     
     .info-btn:hover {
-      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4) !important;
+      border-color: #444 !important;
+    }
+    
+    .info-btn:active,
+    .info-btn:focus,
+    .info-btn.active {
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      border: none !important;
+      box-shadow: var(--shadow-primary) !important;
     }
 
     .info-btn i {
@@ -653,8 +660,8 @@
       }
 
       .info-btn {
-        padding: 8px 16px !important;
-        font-size: 0.8rem !important;
+        padding: 10px 16px !important;
+        font-size: 0.85rem !important;
         gap: 6px !important;
       }
 
@@ -672,8 +679,8 @@
       }
 
       .info-btn {
-        padding: 6px 14px !important;
-        font-size: 0.75rem !important;
+        padding: 8px 14px !important;
+        font-size: 0.8rem !important;
         gap: 5px !important;
       }
 
@@ -1182,9 +1189,7 @@
                 <h5>Lavado Convencional</h5>
                 <p>Limpieza profesional exterior e interior para todos los tipos de vehículos</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="lavado-convencional">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="lavado-convencional">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1196,9 +1201,7 @@
                 <h5>Limpieza de Motor</h5>
                 <p>Limpieza y mantenimiento del compartimento del motor</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="limpieza-motor">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="limpieza-motor">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1210,9 +1213,7 @@
                 <h5>Limpieza de Tapizado</h5>
                 <p>Limpieza profunda de tapizados y alfombras para todos los tipos de vehículos</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="limpieza-tapizado">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="limpieza-tapizado">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1229,9 +1230,7 @@
                 <h5>Limpieza de Sillón</h5>
                 <p>Limpieza profunda de sillones de 1, 2 o 3 cuerpos con tecnología avanzada</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="sillon">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="sillon">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1243,9 +1242,7 @@
                 <h5>Limpieza de Silla</h5>
                 <p>Limpieza profunda de sillas simples y de comedor con tecnología avanzada</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="silla">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="silla">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1257,9 +1254,7 @@
                 <h5>Limpieza de Colchón</h5>
                 <p>Limpieza profunda y desinfección de colchones de 1 y 2 plazas</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="colchon">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="colchon">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1271,9 +1266,7 @@
                 <h5>Limpieza de Alfombra</h5>
                 <p>Limpieza profunda por metro cuadrado</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="alfombra">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="alfombra">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1285,9 +1278,7 @@
                 <h5>Limpieza de Puff</h5>
                 <p>Limpieza profunda de puffs simples y grandes con tecnología avanzada</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="puff">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="puff">Ver Detalles</button>
                 </div>
               </div>
             </div>
@@ -1299,9 +1290,7 @@
                 <h5>Respaldo de Cama</h5>
                 <p>Limpieza profunda por metro cuadrado</p>
                 <div class="service-options">
-                  <button class="servicio-btn info-btn" data-service="respaldo-cama">
-                    <i class="fas fa-info-circle me-1"></i>Ver Detalles
-                  </button>
+                  <button class="servicio-btn info-btn" data-service="respaldo-cama">Ver Detalles</button>
                 </div>
               </div>
             </div>
