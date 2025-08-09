@@ -804,8 +804,8 @@
 
     /* Estilos para los tabs de mantenimiento preventivo */
     .mantenimiento-tab {
-      background: transparent !important;
-      border: 2px solid #ff3b3f !important;
+      background: #2a2a2a !important;
+      border: 2px solid #333 !important;
       color: #ffffff !important;
       padding: 12px 24px !important;
       border-radius: 25px !important;
@@ -816,24 +816,15 @@
     }
     
     .mantenimiento-tab:hover {
-      background: rgba(255, 59, 63, 0.1) !important;
-      border-color: #ff3b3f !important;
-      color: #ffffff !important;
+      border-color: #444 !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 5px 15px rgba(255, 59, 63, 0.3) !important;
     }
     
     .mantenimiento-tab.active {
-      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%) !important;
-      border-color: #ff3b3f !important;
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      border: none !important;
       color: #ffffff !important;
-      box-shadow: 0 5px 20px rgba(255, 59, 63, 0.4) !important;
-    }
-    
-    .mantenimiento-tab.active:hover {
-      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.5) !important;
+      box-shadow: var(--shadow-primary) !important;
     }
 
     /* Responsive para tabs de mantenimiento */
@@ -863,11 +854,11 @@
     }
 
     .service-filter-btn {
-      background: transparent;
-      border: 2px solid #00d4aa;
+      background: #2a2a2a;
+      border: 2px solid #333;
       color: #ffffff;
-      padding: 14px 28px;
-      border-radius: 50px;
+      padding: 12px 24px;
+      border-radius: 25px;
       font-weight: 600;
       font-size: 1rem;
       cursor: pointer;
@@ -879,31 +870,21 @@
       justify-content: center;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(255, 59, 63, 0.2);
       position: relative;
       overflow: hidden;
     }
 
     .service-filter-btn:hover {
-      background: rgba(255, 59, 63, 0.1);
-      border-color: #ff3b3f;
-      color: #ffffff;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4);
+      transform: translateY(-2px);
+      border-color: #444;
     }
 
     .service-filter-btn.active {
-      background: linear-gradient(135deg, #ff3b3f 0%, #e63946 100%);
-      border-color: #ff3b3f;
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%);
+      border: none;
       color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 59, 63, 0.5);
-    }
-
-    .service-filter-btn.active:hover {
-      background: linear-gradient(135deg, #e63946 0%, #d62b3a 100%);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(255, 59, 63, 0.6);
+      box-shadow: var(--shadow-primary);
+      transform: translateY(-1px);
     }
 
     .service-filter-btn i {
