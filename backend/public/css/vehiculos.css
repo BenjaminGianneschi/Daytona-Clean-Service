@@ -633,19 +633,18 @@
 }
 
 .coverage-item {
-  background: #232323;
+  background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%);
   border-radius: var(--border-radius);
   padding: 20px;
   box-shadow: var(--shadow-primary);
   transition: var(--transition);
   text-align: center;
-  border: 2px solid #ff3b3f;
+  border: none;
 }
 
 .coverage-item:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
-  border-color: #ff1a1d;
 }
 
 /* Estilos específicos para las zonas de cobertura */
@@ -675,9 +674,9 @@
   background: #232323;
   border-radius: var(--border-radius);
   padding: 30px;
-  box-shadow: var(--shadow-primary);
+  box-shadow: inset var(--shadow-primary);
   margin-bottom: 30px;
-  border: 2px solid #ff3b3f;
+  border: none;
 }
 
 /* Estilos específicos para el Radio de Acción */
