@@ -1037,6 +1037,22 @@
       box-shadow: var(--shadow-primary) !important;
       transform: translateY(-1px);
     }
+    
+    /* Contacto: mapa y botón Google Maps */
+    #contacto .contact-map {
+      height: 220px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    #contacto .maps-btn {
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      border: none !important;
+      color: #ffffff !important;
+      box-shadow: var(--shadow-primary) !important;
+    }
+    #contacto .maps-btn:hover {
+      transform: translateY(-1px);
+    }
   </style>
 
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
@@ -1776,7 +1792,7 @@
             <h4 class="text-white fw-bold mb-3">Nuestra Ubicación</h4>
             <p class="text-light mb-3"><i class="fas fa-map-marker-alt me-2" style="color: #00d4aa;"></i><strong>Ituzaingo 1455, Reconquista</strong></p>
             <p class="text-light mb-3">Realizamos los servicios desde nuestra cochera, equipada con toda la tecnología necesaria para brindarte el mejor servicio.</p>
-            <div class="rounded-3 overflow-hidden mt-3" style="height: 200px;">
+            <div class="rounded-3 overflow-hidden contact-map">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3484.3952640295556!2d-59.6396996!3d-29.153022399999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x944ebabc1adfebdd%3A0x29283c3aa9c9352!2sItuzaing%C3%B3%201455%2C%20S3560ECC%20Reconquista%2C%20Santa%20Fe!5e0!3m2!1ses!2sar!4v1751328137846!5m2!1ses!2sar"
                 width="100%" 
@@ -1787,7 +1803,7 @@
                 referrerpolicy="no-referrer-when-downgrade">
               </iframe>
             </div>
-            <a href="https://maps.google.com/?q=Ituzaingo+1455,+Reconquista,+Santa+Fe,+Argentina" target="_blank" class="btn btn-outline-light mt-3" style="border-color: #ff3b3f; color: #ffffff; background-color: transparent !important;">
+            <a href="https://maps.google.com/?q=Ituzaingo+1455,+Reconquista,+Santa+Fe,+Argentina" target="_blank" class="btn btn-outline-light mt-3 maps-btn">
               <i class="fas fa-map-marker-alt me-2"></i>Ver en Google Maps
             </a>
           </div>
