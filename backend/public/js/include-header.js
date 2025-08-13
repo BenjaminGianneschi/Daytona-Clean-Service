@@ -71,7 +71,7 @@ function includeHeader() {
                     <i class="fas fa-bell me-2"></i>Notificaciones
                     <span class="badge bg-danger notification-badge ms-2" style="display: none;">0</span>
                   </a></li>
-                  <li><a class="dropdown-item" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; margin: 5px 10px; border-radius: 6px;">
+                  <li><a class="dropdown-item" href="turnos.html" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; font-weight: 600; margin: 5px 10px; border-radius: 6px; transform: translateY(-1px);">
                     <i class="fas fa-calendar-plus me-2"></i>Agendar Turno
                   </a></li>
                   ${isAdmin ? '<li><a class="dropdown-item" href="mi-cuenta.html#gestion-turnos"><i class="fas fa-cogs me-2"></i>Gestión de Turnos</a></li>' : ''}
@@ -96,7 +96,7 @@ function includeHeader() {
                 </a>
               </li>
               <li class="nav-item ms-lg-2">
-                <a class="btn" href="turnos.html" style="background: linear-gradient(45deg, #ff3b3f, #b31217); color: #fff; font-weight: 600; border-radius: 8px; padding: 8px 18px; border: none; transition: all 0.3s ease;">
+                <a class="btn" href="turnos.html" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; font-weight: 600; border-radius: 8px; padding: 8px 18px; transition: all 0.3s ease; transform: translateY(-1px);">
                   <i class="fas fa-calendar-plus me-1"></i>Agendar Turno
                 </a>
               </li>
