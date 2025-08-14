@@ -1,5 +1,8 @@
 /* ===== ESTILOS ESPECÍFICOS DE TAPIZADOS.HTML ===== */
 
+/* Remover espacio bajo el header fijo para esta página */
+body { padding-top: 0 !important; }
+
 /* ===== HERO SECTION ESPECÍFICO ===== */
 #hero.hero-section {
   position: relative;

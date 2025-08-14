@@ -3,6 +3,9 @@
 /* Importar estilos base */
 @import url('base.css');
 
+/* Remover espacio bajo el header fijo para esta página */
+body { padding-top: 0 !important; }
+
 /* =============================
    HERO SECTION (vehiculos.html)
    ============================= */
