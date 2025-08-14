@@ -189,9 +189,9 @@ header {
   width: 100% !important;
 }
 
-/* Espaciado global para body cuando hay header fijo */
+/* Espaciado global para body cuando hay header fijo (override con --header-offset) */
 body {
-  padding-top: 80px !important;
+  padding-top: var(--header-offset, 80px) !important;
 }
 
 /* Efectos hover para los enlaces */
