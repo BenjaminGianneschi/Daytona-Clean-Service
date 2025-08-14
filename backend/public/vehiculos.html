@@ -124,13 +124,13 @@
           gap: 15px;
           margin-top: 30px;
         ">
-          <a href="#contacto" class="btn btn-primary btn-lg me-3">
+          <a href="#contacto" class="btn btn-primary btn-lg me-3" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; box-shadow: var(--shadow-primary) !important; transform: translateY(-1px);">
             <i class="fas fa-star me-2"></i>Solicitar Servicio
           </a>
-          <a href="promociones.html" class="btn btn-outline-light btn-lg me-3">
+          <a href="promociones.html" class="btn btn-outline-light btn-lg me-3" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; box-shadow: var(--shadow-primary) !important; transform: translateY(-1px);">
             <i class="fas fa-gift me-2"></i>Promociones Especiales
           </a>
-          <a href="#contacto" class="btn btn-outline-light btn-lg">
+          <a href="#contacto" class="btn btn-outline-light btn-lg" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; box-shadow: var(--shadow-primary) !important; transform: translateY(-1px);">
             <i class="fas fa-phone me-2"></i>Consultanos
           </a>
         </div>
@@ -1838,18 +1838,14 @@
         0 0 120px rgba(255, 59, 63, 0.1) !important;
     }
     
-    /* Efectos hover para botones del hero */
-    .hero-buttons .btn-primary:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 0 12px 35px rgba(255, 59, 63, 0.4) !important;
-      background: linear-gradient(45deg, #ff6b6b, #ff3b3f) !important;
-    }
-    
-    .hero-buttons .btn-outline-light:hover {
-      transform: translateY(-3px) !important;
-      background: rgba(255, 255, 255, 0.1) !important;
-      border-color: rgba(255, 255, 255, 1) !important;
-      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2) !important;
+    /* Efectos hover para botones del hero - unificados */
+    .hero-buttons .btn:hover,
+    .hero-buttons .btn:focus {
+      transform: translateY(-2px) !important;
+      box-shadow: var(--shadow-primary) !important;
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      color: #ffffff !important;
+      border: none !important;
     }
 
     @media (min-width: 768px) {
