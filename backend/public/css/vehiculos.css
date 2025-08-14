@@ -1238,7 +1238,6 @@ body { padding-top: 0 !important; }
   right: 0;
   z-index: 1000;
   background-color: #1e1e1e;
-  border-bottom: 2px solid #ff3b3f;
 }
 
 /* Estilos para el dropdown del usuario */
