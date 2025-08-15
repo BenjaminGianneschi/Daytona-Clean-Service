@@ -1147,6 +1147,7 @@
             const preselect = {
               serviceId: currentServiceId,
               serviceName: service?.title || currentServiceId,
+              baseName: (service?.title || currentServiceId).replace(/\s*Especial$/i, '').replace(/\s*-.*$/, ''),
               category: 'tapizados',
               variant: 'standard',
               sizeKey: currentSize || null,

@@ -1247,8 +1247,9 @@
             const time = document.getElementById('modalTime')?.textContent || null;
 
             const preselect = {
-              serviceId: `vehiculo-${Date.now()}`,
+              serviceId: window.currentVehServiceKey || `vehiculo-${Date.now()}`,
               serviceName: title,
+              baseName: title.replace(/\s*Especial$/i, '').replace(/\s*-.*$/, ''),
               category: 'vehicular',
               variant: 'standard',
               sizeKey: null,
@@ -1743,6 +1744,9 @@
 
         // Configurar información básica
         document.getElementById('modalImage').src = service.image;
+
+        // Exponer clave actual del servicio para preselección
+        window.currentVehServiceKey = serviceId;
         
         // Mostrar botones de variantes si hay versión especial
         const variantButtons = document.getElementById('variantButtons');
@@ -1800,6 +1804,8 @@
 
         // Actualizar variante actual
         service.currentVariant = variant;
+        // Guardar también a nivel global para el botón de agendar
+        window.currentVehServiceKey = serviceId;
       }
     }
 

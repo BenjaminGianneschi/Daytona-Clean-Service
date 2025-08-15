@@ -1072,12 +1072,29 @@
           const container = data.category === 'vehicular' ? containers.vehicular : containers.tapizados;
           if (!container) return;
 
-          // Buscar item por nombre (fallback por texto) ya que los IDs aquí vienen de catálogo API
+          // 1) Buscar por ID canónico si está disponible
           const items = Array.from(container.querySelectorAll('.servicio-item'));
-          const match = items.find(el => {
-            const name = el.dataset.name || el.querySelector('.servicio-details h6')?.textContent || '';
-            return name.toLowerCase().includes((data.serviceName || '').toLowerCase());
-          }) || items[0];
+          let match = null;
+          if (data.serviceId) {
+            match = items.find(el => {
+              const elId = el.getAttribute('data-service-id') || el.dataset.serviceId;
+              return elId && String(elId) === String(data.serviceId);
+            }) || null;
+          }
+          // 2) Buscar por nombre normalizado
+          if (!match) {
+            const normalized = (s) => (s || '').toLowerCase().replace(' especial','').replace(/\s+/g,' ').trim();
+            const queryBase = normalized(data.baseName || data.serviceName);
+            const queryFull = normalized(data.serviceName);
+            match = items.find(el => {
+              const name = normalized(el.dataset.name || el.querySelector('.servicio-details h6')?.textContent || '');
+              return name.includes(queryBase);
+            }) || items.find(el => {
+              const name = normalized(el.dataset.name || el.querySelector('.servicio-details h6')?.textContent || '');
+              return name.includes(queryFull);
+            }) || null;
+          }
+          if (!match) match = items[0];
 
           if (match) {
             match.click();
@@ -1096,6 +1113,8 @@
       const element = document.createElement('div');
       element.className = 'servicio-item';
       element.dataset.serviceId = service.id;
+      // Hacer explícito el atributo en el DOM para matching por ID
+      try { element.setAttribute('data-service-id', service.id); } catch(_) {}
       element.dataset.name = service.name;
       element.dataset.price = service.price;
       element.dataset.duration = service.duration;

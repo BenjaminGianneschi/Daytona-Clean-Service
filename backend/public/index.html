@@ -2657,6 +2657,7 @@
           const preselect = {
             serviceId: currentServiceId,
             serviceName: service?.title || currentServiceId,
+            baseName: (service?.title || currentServiceId).replace(/\s*Especial$/i, '').replace(/\s*-.*$/, ''),
             category: service?.sizes ? 'tapizados' : (service?.vehicleTypes ? 'vehicular' : 'tapizados'),
             variant: currentVariant || 'standard',
             sizeKey: currentSize || null,
