@@ -48,14 +48,19 @@ const trackPageView = async (req, res, next) => {
     }
 
     // Obtener o crear session ID
-    let sessionId = req.cookies.analytics_session_id;
+    let sessionId = req.cookies?.analytics_session_id;
     if (!sessionId) {
       sessionId = generateSessionId();
-      res.cookie('analytics_session_id', sessionId, {
-        maxAge: 30 * 60 * 1000, // 30 minutos
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production'
-      });
+      try {
+        res.cookie('analytics_session_id', sessionId, {
+          maxAge: 30 * 60 * 1000, // 30 minutos
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production'
+        });
+      } catch (cookieError) {
+        // Si no se puede setear la cookie, usar session ID temporal
+        console.log('No se pudo setear cookie de analytics, usando session temporal');
+      }
     }
 
     // Detectar información del usuario
@@ -126,7 +131,7 @@ const trackEvent = async (req, res, next) => {
     // Agregar función helper para trackear eventos desde controladores
     req.trackEvent = async (eventType, metadata = {}) => {
       try {
-        let sessionId = req.cookies.analytics_session_id;
+        let sessionId = req.cookies?.analytics_session_id;
         if (!sessionId) {
           sessionId = generateSessionId();
         }
@@ -179,7 +184,7 @@ const trackPageDuration = (req, res, next) => {
     
     // Si la duración es muy corta (< 1 segundo), probablemente es un asset
     if (duration >= 1 && req.method === 'GET') {
-      const sessionId = req.cookies.analytics_session_id;
+      const sessionId = req.cookies?.analytics_session_id;
       if (sessionId) {
         // Actualizar duración de forma asíncrona
         setImmediate(async () => {

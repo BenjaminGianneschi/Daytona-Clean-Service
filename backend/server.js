@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 // Cargar variables de entorno - usar local por defecto, postgres para producción
 const envPath = process.env.NODE_ENV === 'production' ? 'config.env.postgres' : 'config.env.local';
@@ -64,9 +65,10 @@ app.use(session({
   }
 }));
 
-// Middleware para parsear JSON
+// Middleware para parsear JSON y cookies
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
 
 // Middleware de logging
 app.use((req, res, next) => {
