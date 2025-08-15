@@ -506,6 +506,24 @@
       padding: 0 !important;
     }
 
+    /* Botón Agendar dentro del modal */
+    .agendar-btn {
+      background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important;
+      border: none !important;
+      color: #ffffff !important;
+      padding: 12px 20px !important;
+      border-radius: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.4px !important;
+      box-shadow: var(--shadow-primary) !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-transform: uppercase;
+    }
+    .agendar-btn:hover { transform: translateY(-2px); }
+
     /* Estilos para botones de variantes en el modal */
     .variant-buttons {
       display: flex;
@@ -1369,6 +1387,12 @@
           
           <h3>Recomendaciones</h3>
           <p id="modalRecommendations"></p>
+          
+          <div class="d-flex justify-content-center mt-4">
+            <button type="button" id="agendarDesdeModal" class="btn agendar-btn">
+              <i class="fas fa-calendar-check me-2"></i> Agendar Turno
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -2604,6 +2628,38 @@
         updateCarouselButtons();
         console.log('🎠 Carrusel inicializado desde modal listeners');
       }, 100);
+
+      // Listener para botón de agendar desde el modal
+      document.getElementById('agendarDesdeModal')?.addEventListener('click', function() {
+        try {
+          if (!currentServiceId) {
+            // Si no hay servicio activo en modal, no hacemos nada
+            return;
+          }
+          const service = serviciosData[currentServiceId];
+          const preselect = {
+            serviceId: currentServiceId,
+            serviceName: service?.title || currentServiceId,
+            category: service?.sizes ? 'tapizados' : (service?.vehicleTypes ? 'vehicular' : 'tapizados'),
+            variant: currentVariant || 'standard',
+            sizeKey: currentSize || null,
+            sizeLabel: currentSize && service?.sizes ? service.sizes[currentSize]?.name : null,
+            vehicleTypeKey: currentVehicleType || null,
+            vehicleTypeLabel: currentVehicleType && service?.vehicleTypes ? service.vehicleTypes[currentVehicleType]?.name : null,
+            price: document.getElementById('modalPrice')?.textContent || null,
+            time: document.getElementById('modalTime')?.textContent || null,
+            source: 'index:modal'
+          };
+          localStorage.setItem('preBookData', JSON.stringify(preselect));
+
+          // Redirigir preservando posibles UTM
+          const qs = window.location.search || '';
+          window.location.href = `turnos.html#booking${qs}`;
+        } catch (err) {
+          console.error('Error al preparar preselección:', err);
+          window.location.href = 'turnos.html#booking';
+        }
+      });
     });
   </script>
 </body>

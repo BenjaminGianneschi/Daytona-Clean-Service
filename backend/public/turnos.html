@@ -957,6 +957,9 @@
       this.setupEventListeners();
       this.showStep(1);
       this.setMinDate();
+
+      // Intentar aplicar preselección si viene desde index
+      this.applyPreselectionFromStorage();
     }
 
     setMinDate() {
@@ -1039,6 +1042,53 @@
           );
         console.log('🛋️ Servicios de tapizados únicos:', tapizadosServices.length);
         tapizadosServices.forEach(service => this.createServiceElement(service, tapizadosContainer));
+      }
+    }
+
+    // Aplica preselección guardada en localStorage desde index.html
+    applyPreselectionFromStorage() {
+      try {
+        const raw = localStorage.getItem('preBookData');
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        console.log('📦 Preselección recibida:', data);
+
+        // Limpiar storage para evitar reutilización accidental en futuras visitas
+        localStorage.removeItem('preBookData');
+
+        // Seleccionar categoría automáticamente
+        if (data.category === 'vehicular') {
+          this.selectCategory('vehicular');
+        } else {
+          this.selectCategory('tapizados');
+        }
+
+        // Esperar a que la lista de servicios esté renderizada
+        setTimeout(() => {
+          const containers = {
+            vehicular: document.getElementById('lista-servicios-vehicular'),
+            tapizados: document.getElementById('lista-servicios-tapizados')
+          };
+          const container = data.category === 'vehicular' ? containers.vehicular : containers.tapizados;
+          if (!container) return;
+
+          // Buscar item por nombre (fallback por texto) ya que los IDs aquí vienen de catálogo API
+          const items = Array.from(container.querySelectorAll('.servicio-item'));
+          const match = items.find(el => {
+            const name = el.dataset.name || el.querySelector('.servicio-details h6')?.textContent || '';
+            return name.toLowerCase().includes((data.serviceName || '').toLowerCase());
+          }) || items[0];
+
+          if (match) {
+            match.click();
+            this.updateNextButton();
+            // Avanzar al paso 2 automáticamente para acelerar el flujo
+            this.nextStep(); // a 2
+            this.nextStep(); // a 3
+          }
+        }, 400);
+      } catch (e) {
+        console.error('❌ Error aplicando preselección:', e);
       }
     }
 
