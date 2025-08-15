@@ -621,6 +621,12 @@
           
           <h3>Recomendaciones</h3>
           <p id="modalRecommendations"></p>
+
+          <div class="d-flex justify-content-center mt-4">
+            <button type="button" id="agendarDesdeModalVeh" class="btn" style="background: linear-gradient(135deg, #731013 0%, #1a1a1a 100%) !important; border: none !important; color: #ffffff !important; padding: 12px 20px; border-radius: 12px; font-weight: 700; letter-spacing: .4px; box-shadow: var(--shadow-primary); text-transform: uppercase;">
+              <i class="fas fa-calendar-check me-2"></i> Agendar Turno
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -713,7 +719,7 @@
       display: flex !important;
       background: rgba(33, 37, 41, 1) !important;
       border-radius: 15px !important;
-      height: 500px !important;
+      height: 380px !important;
       flex-direction: column !important;
       align-items: stretch !important;
       overflow: hidden !important;
@@ -724,7 +730,7 @@
     
     .carousel-item.servicio-card-custom img {
       width: 100% !important;
-      height: 200px !important;
+      height: 210px !important;
       object-fit: cover !important;
       border-top-left-radius: 16px !important;
       border-top-right-radius: 16px !important;
@@ -734,10 +740,10 @@
       flex: 1 1 auto !important;
       display: flex !important;
       flex-direction: column !important;
-      padding: 22px 22px 20px 22px !important;
+      padding: 16px !important;
       background: rgba(33, 37, 41, 1) !important;
-      height: 300px !important;
-      justify-content: flex-start !important;
+      height: 170px !important;
+      justify-content: space-between !important;
       text-align: center !important;
     }
     
@@ -748,17 +754,7 @@
       text-align: center !important;
     }
     
-    .carousel-item.servicio-card-custom .servicio-card-body p {
-      font-size: 1rem !important;
-      line-height: 1.5 !important;
-      margin-bottom: 20px !important;
-      overflow: hidden !important;
-      display: -webkit-box !important;
-      -webkit-line-clamp: 4 !important;
-      -webkit-box-orient: vertical !important;
-      text-align: center !important;
-      flex-grow: 1 !important;
-    }
+    .carousel-item.servicio-card-custom .servicio-card-body p { display: none !important; }
 
     /* Estilos para las opciones de servicio */
     .service-options {
@@ -1235,6 +1231,43 @@
       
       // Cambiar slide cada 3 segundos
       setInterval(nextSlide, 3000);
+    });
+  </script>
+
+  <!-- Preselección al agendar desde modal (vehículos) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btnVeh = document.getElementById('agendarDesdeModalVeh');
+      if (btnVeh) {
+        btnVeh.addEventListener('click', function(){
+          try {
+            // En este archivo, la lógica usa VehiculosServiceManager; tomamos título/price desde el modal
+            const title = document.getElementById('modalTitle')?.textContent || 'Servicio Vehicular';
+            const price = document.getElementById('modalPrice')?.textContent || null;
+            const time = document.getElementById('modalTime')?.textContent || null;
+
+            const preselect = {
+              serviceId: `vehiculo-${Date.now()}`,
+              serviceName: title,
+              category: 'vehicular',
+              variant: 'standard',
+              sizeKey: null,
+              sizeLabel: null,
+              vehicleTypeKey: null,
+              vehicleTypeLabel: null,
+              price: price,
+              time: time,
+              source: 'vehiculos:modal'
+            };
+            localStorage.setItem('preBookData', JSON.stringify(preselect));
+            const qs = window.location.search || '';
+            window.location.href = `turnos.html#booking${qs}`;
+          } catch (e) {
+            console.error('Preselección vehiculos error:', e);
+            window.location.href = 'turnos.html#booking';
+          }
+        });
+      }
     });
   </script>
 
