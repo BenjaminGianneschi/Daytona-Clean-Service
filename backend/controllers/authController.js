@@ -28,6 +28,15 @@ const login = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
     );
 
+    // Registrar evento de analytics si está disponible el helper
+    if (req.trackEvent) {
+      await req.trackEvent('login', {
+        userId: user.id,
+        userRole: user.role || 'user',
+        isAdmin: (user.role === 'admin')
+      });
+    }
+
     res.json({
       success: true,
       message: 'Login exitoso',
@@ -67,10 +76,21 @@ const register = async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    await query(
-      'INSERT INTO users (name, email, phone, password, role) VALUES ($1, $2, $3, $4, $5)',
+    const result = await query(
+      'INSERT INTO users (name, email, phone, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
       [name, email, phone, passwordHash, 'user']
     );
+
+    const newUserId = result[0].id;
+
+    // Registrar evento de analytics si está disponible el helper
+    if (req.trackEvent) {
+      await req.trackEvent('register', {
+        userId: newUserId,
+        userEmail: email,
+        hasPhone: !!phone
+      });
+    }
 
     res.status(201).json({ success: true, message: 'Usuario registrado exitosamente' });
   } catch (error) {

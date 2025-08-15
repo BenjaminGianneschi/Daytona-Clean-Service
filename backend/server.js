@@ -19,6 +19,10 @@ const userRoutes = require('./routes/users');
 const notificationRoutes = require('./routes/notifications');
 const reviewRoutes = require('./routes/reviews');
 const paymentRoutes = require('./routes/payments');
+const analyticsRoutes = require('./routes/analytics');
+
+// Importar middleware de analytics
+const { trackPageView, trackEvent } = require('./middleware/analytics');
 
 // Importar servicios
 const reminderCron = require('./scripts/reminderCron');
@@ -72,6 +76,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Middleware de analytics (trackear visitas automáticamente)
+app.use(trackEvent);
+app.use(trackPageView);
+
 // -------------------
 // RUTAS DE LA API
 // -------------------
@@ -81,6 +89,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Ruta directa para servicios (para compatibilidad con frontend)
 app.get('/api/services', async (req, res) => {

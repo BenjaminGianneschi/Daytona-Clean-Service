@@ -128,6 +128,17 @@ const createAppointment = async (req, res) => {
       totalAmount: precioFinal
     });
 
+    // Registrar evento de analytics si está disponible el helper
+    if (req.trackEvent) {
+      await req.trackEvent('appointment_create', {
+        appointmentId,
+        service_type,
+        totalAmount: precioFinal,
+        services: services.map(s => s.name).join(', '),
+        isAuthenticated: !!userId
+      });
+    }
+
     res.status(201).json({ 
       success: true, 
       message: 'Turno creado exitosamente',
