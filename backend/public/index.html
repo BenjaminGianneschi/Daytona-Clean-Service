@@ -1064,6 +1064,12 @@
     #contacto .maps-btn:hover {
       transform: translateY(-1px);
     }
+
+    /* Fix de solapamiento header/hero en mobile (sin gap visual) */
+    @media (max-width: 768px) {
+      #hero.hero-section { padding-top: 0 !important; }
+      #hero .hero-content { padding-top: 70px !important; }
+    }
   </style>
 
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
