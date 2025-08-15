@@ -1251,7 +1251,7 @@
               serviceName: title,
               baseName: title.replace(/\s*Especial$/i, '').replace(/\s*-.*$/, ''),
               category: 'vehicular',
-              variant: 'standard',
+              variant: (window.vehiculosManager && window.vehiculosManager.serviciosData && window.vehiculosManager.serviciosData[window.currentVehServiceKey]?.currentVariant) ? window.vehiculosManager.serviciosData[window.currentVehServiceKey].currentVariant : 'standard',
               sizeKey: null,
               sizeLabel: null,
               vehicleTypeKey: null,

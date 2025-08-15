@@ -1102,6 +1102,8 @@
             // Avanzar al paso 2 automáticamente para acelerar el flujo
             this.nextStep(); // a 2
             this.nextStep(); // a 3
+            // Guardar información de variante para referencia futura
+            this.appointmentData.selectedVariant = data.variant || 'standard';
           }
         }, 400);
       } catch (e) {

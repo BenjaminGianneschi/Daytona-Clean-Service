@@ -2659,7 +2659,7 @@
             serviceName: service?.title || currentServiceId,
             baseName: (service?.title || currentServiceId).replace(/\s*Especial$/i, '').replace(/\s*-.*$/, ''),
             category: service?.sizes ? 'tapizados' : (service?.vehicleTypes ? 'vehicular' : 'tapizados'),
-            variant: currentVariant || 'standard',
+            variant: (typeof currentVariant !== 'undefined' ? currentVariant : 'standard'),
             sizeKey: currentSize || null,
             sizeLabel: currentSize && service?.sizes ? service.sizes[currentSize]?.name : null,
             vehicleTypeKey: currentVehicleType || null,
