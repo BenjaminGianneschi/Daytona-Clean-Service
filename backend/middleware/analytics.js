@@ -1,5 +1,6 @@
 const analyticsModel = require('../models/analyticsModel');
 const useragent = require('express-useragent');
+const net = require('net');
 
 // Función para generar session ID único
 function generateSessionId() {
@@ -18,11 +19,27 @@ function getDeviceType(userAgent) {
 
 // Función para obtener IP del cliente
 function getClientIP(req) {
-  return req.headers['x-forwarded-for'] || 
-         req.connection.remoteAddress || 
-         req.socket.remoteAddress ||
-         (req.connection.socket ? req.connection.socket.remoteAddress : null) ||
-         '127.0.0.1';
+  const xff = req.headers['x-forwarded-for'];
+  if (xff) {
+    // Puede venir como "client, proxy1, proxy2" → tomamos la primera IP válida
+    const parts = String(xff).split(',').map(p => p.trim());
+    for (const candidate of parts) {
+      if (net.isIP(candidate)) {
+        return candidate;
+      }
+    }
+  }
+  const candidates = [
+    req.connection && req.connection.remoteAddress,
+    req.socket && req.socket.remoteAddress,
+    req.connection && req.connection.socket && req.connection.socket.remoteAddress
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    if (candidate && net.isIP(candidate)) {
+      return candidate;
+    }
+  }
+  return '127.0.0.1';
 }
 
 // Middleware principal de analytics
@@ -33,9 +50,9 @@ const trackPageView = async (req, res, next) => {
       return next();
     }
 
-    // Excluir assets estáticos (CSS, JS, imágenes, favicon, etc.)
+    // Excluir assets estáticos (CSS, JS, imágenes, favicon, etc.) y todas las rutas de API
     const excludePaths = [
-      '/css/', '/js/', '/img/', '/favicon', '.css', '.js', '.png', '.jpg', 
+      '/api/', '/css/', '/js/', '/img/', '/favicon', '.css', '.js', '.png', '.jpg', 
       '.jpeg', '.gif', '.ico', '.svg', '.woff', '.woff2', '.ttf', '.eot',
       '/api/analytics/', // Evitar loop en endpoints de analytics
       '/api/health',

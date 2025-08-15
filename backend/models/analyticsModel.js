@@ -24,6 +24,11 @@ const analyticsModel = {
         metadata = null
       } = eventData;
 
+      // Sanitizar IP si llega con valores no válidos
+      const ipValue = (typeof ipAddress === 'string' && ipAddress.includes(',')) 
+        ? ipAddress.split(',')[0].trim() 
+        : ipAddress;
+
       const result = await query(
         `INSERT INTO analytics_events 
          (session_id, user_id, event_type, page_url, page_title, referrer_url, 
@@ -32,7 +37,7 @@ const analyticsModel = {
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) 
          RETURNING id`,
         [sessionId, userId, eventType, pageUrl, pageTitle, referrerUrl, 
-         userAgent, ipAddress, country, city, deviceType, browser, os, 
+         userAgent, ipValue, country, city, deviceType, browser, os, 
          screenResolution, language, duration, metadata]
       );
 
